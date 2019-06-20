@@ -8,7 +8,7 @@
 <div id="header" class="header {{ $headerClass }}">
 	<!-- begin navbar-header -->
 	<div class="navbar-header">
-		<a href="{{ url('/') }}" class="navbar-brand"><span class="navbar-logo"></span> SIGEDI </a>
+		<a href="{{ url('/') }}" class="navbar-brand"><span class="navbar-logo"></span> SIDICU </a>
 		@if (!$sidebarHide)
 		<button type="button" class="navbar-toggle" data-click="sidebar-toggled">
 			<span class="icon-bar"></span>

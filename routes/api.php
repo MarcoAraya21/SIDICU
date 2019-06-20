@@ -16,4 +16,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 Route::apiResource('carreras', 'CarreraController');
+Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
+    'plan_estudios' => 'plan_estudio']]);
+

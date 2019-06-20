@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Index from './component/Index'
+import PlanEstudio from './component/plan_estudio/index'
 
 
 class Router extends Component {
@@ -11,6 +12,7 @@ class Router extends Component {
           <div>
               <Switch>
                   <Route exact path='/' component={Index} />
+                  <Route path='/:id' component={PlanEstudio} />
               </Switch>
           </div>
           </BrowserRouter>
