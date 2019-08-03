@@ -34,4 +34,3 @@ class AddForeignKeysUsuariosTable extends Migration
         });
     }
 }
-

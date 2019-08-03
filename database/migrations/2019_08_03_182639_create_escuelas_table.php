@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateNivelCompetenciasTable extends Migration
+class CreateEscuelasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ class CreateNivelCompetenciasTable extends Migration
      */
     public function up()
     {
-        Schema::create('nivel_competencias', function (Blueprint $table) {
+        Schema::create('escuelas', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('descripcion');
-            $table->integer('nivel');
+            $table->string('nombre');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ class CreateNivelCompetenciasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('nivel_competencias');
+        Schema::dropIfExists('escuelas');
     }
 }

@@ -17,14 +17,7 @@ class CreateAsignaturasTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('codigo');
-            $table->tinyInteger('sct_chile');
-            $table->text('descripcion');
-            $table->text('metodologia');
-            $table->text('ambientes');
-            $table->text('perfil_docente');
-            $table->text('perfil_ayudante');
-            $table->unsignedInteger('requisito_id')->nullable();
-            $table->foreign('requisito_id')->references('id')->on('asignaturas');
+            $table->string('descripcion');
             $table->timestamps();
         });
     }

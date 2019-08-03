@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAsignaturaHorasTable extends Migration
+class CreatePlanAsignaturaHorasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,13 @@ class CreateAsignaturaHorasTable extends Migration
      */
     public function up()
     {
-        Schema::create('asignatura_horas', function (Blueprint $table) {
+        Schema::create('plan_asignatura_horas', function (Blueprint $table) {
             $table->increments('id');
+            $table->tinyInteger('cantidad');
+            $table->unsignedInteger('plan_asignatura_id')->nullable(); 
+            $table->foreign('plan_asignatura_id')->references('id')->on('plan_asignaturas');
             $table->unsignedInteger('tipo_hora_id')->nullable(); 
             $table->foreign('tipo_hora_id')->references('id')->on('tipo_horas');
-            $table->unsignedInteger('asignatura_id')->nullable(); 
-            $table->foreign('asignatura_id')->references('id')->on('asignaturas');
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ class CreateAsignaturaHorasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('asignatura_horas');
+        Schema::dropIfExists('plan_asignatura_horas');
     }
 }

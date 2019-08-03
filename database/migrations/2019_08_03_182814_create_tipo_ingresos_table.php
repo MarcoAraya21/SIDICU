@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBibliografiasTable extends Migration
+class CreateTipoIngresosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateBibliografiasTable extends Migration
      */
     public function up()
     {
-        Schema::create('bibliografias', function (Blueprint $table) {
+        Schema::create('tipo_ingresos', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('apellido_autor');
-            $table->string('nombre_autor');
-            $table->date('año');
-            $table->string('titulo');
-            $table->integer('edicion');
-            $table->string('editorial');
+            $table->string('nombre');
             $table->timestamps();
         });
     }
@@ -32,6 +27,6 @@ class CreateBibliografiasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bibliografias');
+        Schema::dropIfExists('tipo_ingresos');
     }
 }

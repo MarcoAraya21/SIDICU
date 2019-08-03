@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTipoHorasTable extends Migration
+class CreateCarrerasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateTipoHorasTable extends Migration
      */
     public function up()
     {
-        Schema::create('tipo_horas', function (Blueprint $table) {
+        Schema::create('carreras', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');         
-            $table->unsignedInteger('padre_id')->nullable();
-            $table->foreign('padre_id')->references('id')->on('tipo_horas');
+            $table->string('nombre');
+            $table->string('cod_demre');
+            $table->string('titulo');
+            $table->text('perfil');
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ class CreateTipoHorasTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tipo_horas');
+        Schema::dropIfExists('carreras');
     }
 }

@@ -30767,6 +30767,7 @@ module.exports = hoistNonReactStatics;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_react_router_dom__ = __webpack_require__(11);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__plan_estudio_index__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__component_utiles_lib__ = __webpack_require__(30);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__component_plan_estudio_holi__ = __webpack_require__(276);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -30776,6 +30777,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -30904,76 +30906,194 @@ var Index = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'div',
-        { className: 'container py-4' },
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'ol',
-          { className: 'breadcrumb pull-right' },
-          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'li',
-            { className: 'breadcrumb-item active' },
-            'Inicio'
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'h1',
-          { className: 'page-header' },
-          'Planes de Estudio'
-        ),
+      return (
+        //     <div class="row">
+        //       <ul class="nav nav-tabs">
+        //         <li class="nav-items">
+        //           <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
+        //             <span class="d-sm-none">Tab 1</span>
+        //             <span class="d-sm-block d-none">Default Tab 1</span>
+        //           </a>      
+        //         </li>
+        //         <li class="nav-items">
+        //           <a href="#default-tab-2" data-toggle="tab" class="nav-link">
+        //             <span class="d-sm-none">Tab 2</span>
+        //             <span class="d-sm-block d-none">Default Tab 2</span>
+        //           </a>
+        //         </li>
+        //         <li class="">
+        //           <a href="#default-tab-3" data-toggle="tab" class="nav-link">
+        //             <span class="d-sm-none">Tab 3</span>
+        //             <span class="d-sm-block d-none">Default Tab 3</span>
+        //           </a>
+        //         </li>
+        //       </ul>
+        //       <div class="tab-content">
+        // 	<div class="tab-pane fade active show" id="default-tab-1">
+        //   <ul class="nav nav-tabs">
+        //         <li class="nav-items">
+        //           <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
+        //             <span class="d-sm-none">Tab 1</span>
+        //             <span class="d-sm-block d-none">Default Tab 1</span>
+        //           </a>      
+        //         </li>
+        //         <li class="nav-items">
+        //           <a href="#default-tab-2" data-toggle="tab" class="nav-link">
+        //             <span class="d-sm-none">Tab 2</span>
+        //             <span class="d-sm-block d-none">Default Tab 2</span>
+        //           </a>
+        //         </li>
+        //         <li class="">
+        //           <a href="#default-tab-3" data-toggle="tab" class="nav-link">
+        //             <span class="d-sm-none">Tab 3</span>
+        //             <span class="d-sm-block d-none">Default Tab 3</span>
+        //           </a>
+        //         </li>
+        //       </ul>
+        //       <div class="tab-content">
+        // 	    <div class="tab-pane fade active show" id="default-tab-1">
+        //       <ul class="nav nav-tabs">
+        //         <li class="nav-items">
+        //           <a href="#default-tab-1" data-toggle="tab" class="nav-link active">
+        //             <span class="d-sm-none">Tab 1</span>
+        //             <span class="d-sm-block d-none">Default Tab 1</span>
+        //           </a>      
+        //         </li>
+        //         <li class="nav-items">
+        //           <a href="#default-tab-2" data-toggle="tab" class="nav-link">
+        //             <span class="d-sm-none">Tab 2</span>
+        //             <span class="d-sm-block d-none">Default Tab 2</span>
+        //           </a>
+        //         </li>
+        //         <li class="">
+        //           <a href="#default-tab-3" data-toggle="tab" class="nav-link">
+        //             <span class="d-sm-none">Tab 3</span>
+        //             <span class="d-sm-block d-none">Default Tab 3</span>
+        //           </a>
+        //         </li>
+        //       </ul>
+        //         </div>
+        //        </div>
+        //        <div class="tab-content">
+        // 	    <div class="tab-pane fade active show" id="default-tab-1"></div>
+        //       <div class="card">
+        // 		<div class="card-header bg-black text-white pointer-cursor" data-toggle="collapse" data-target="#collapseOne">
+        // 			Collapsible Group Item #1
+        // 		</div>
+        // 		<div id="collapseOne" class="collapse show" data-parent="#accordion">
+        // 			<div class="card-body">
+        // 				Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        //         <div class="card">
+        // 		<div class="card-header bg-black text-white pointer-cursor" data-toggle="collapse" data-target="#collapseOne">
+        // 			Collapsible Group Item #1
+        // 		</div>
+        // 		<div id="collapseOne" class="collapse show" data-parent="#accordion">
+        // 			<div class="card-body">
+        // 				Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+        // 			</div>
+        // 		</div>
+        // 	</div>
+        // 			</div>
+        // 		</div>
+        // 	</div>
+        //       </div>
+        //        </div>
+
+
+        // 	</div>
+        // 	<div class="tab-pane fade" id="default-tab-2">
+
+        // 	</div>
+
+        // 	<div class="tab-pane fade" id="default-tab-3">
+        // 		<p>
+        // 			<span class="fa-stack fa-4x pull-left m-r-10">
+        // 				<i class="fa fa-square-o fa-stack-2x"></i>
+        // 				<i class="fab fa-twitter fa-stack-1x"></i>
+        // 			</span>
+        // 			Praesent tincidunt nulla ut elit vestibulum viverra. Sed placerat magna eget eros accumsan elementum. 
+        // 			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam quis lobortis neque. 
+        // 			Maecenas justo odio, bibendum fringilla quam nec, commodo rutrum quam. 
+        // 			Donec cursus erat in lacus congue sodales. Nunc bibendum id augue sit amet placerat. 
+        // 			Quisque et quam id felis tempus volutpat at at diam. Vivamus ac diam turpis.Sed at lacinia augue. 
+        // 			Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla. 
+        // 			Quisque adipiscing dui nec orci fermentum blandit.
+        // 			Sed at lacinia augue. Nulla facilisi. Fusce at erat suscipit, dapibus elit quis, luctus nulla. 
+        // 			Quisque adipiscing dui nec orci fermentum blandit.
+        // 		</p>
+        // 	</div>
+        // </div>
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
           'div',
-          { className: 'panel-body bg-white' },
+          { className: 'container py-4' },
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'ol',
+            { className: 'breadcrumb pull-right' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'li',
+              { className: 'breadcrumb-item active' },
+              'Inicio'
+            )
+          ),
+          __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            'h1',
+            { className: 'page-header' },
+            'Planes de Estudio'
+          ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
-            { className: 'table-responsive' },
+            { className: 'panel-body bg-white' },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-              'table',
-              { className: 'table table-condensed m-b-0 text-inverse' },
+              'div',
+              { className: 'table-responsive' },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'thead',
-                null,
+                'table',
+                { className: 'table table-condensed m-b-0 text-inverse' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                  'tr',
+                  'thead',
                   null,
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
+                    'tr',
                     null,
-                    '#'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'Plan'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'Link'
-                  ),
-                  __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                    'th',
-                    null,
-                    'Borrar'
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'th',
+                      null,
+                      '#'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'th',
+                      null,
+                      'Plan'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'th',
+                      null,
+                      'Link'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                      'th',
+                      null,
+                      'Borrar'
+                    )
                   )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                  'tbody',
+                  null,
+                  this.listPlanEstudio(this.state.plan_estudios)
                 )
-              ),
-              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'tbody',
-                null,
-                this.listPlanEstudio(this.state.plan_estudios)
               )
             )
-          )
-        ),
-        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-          'div',
-          { align: 'right', className: 'mt-2' },
+          ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            'button',
-            { type: 'button', className: 'btn btn-primary', onClick: this.addElemento },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
-            'Agregar Plan'
+            'div',
+            { align: 'right', className: 'mt-2' },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+              'button',
+              { type: 'button', className: 'btn btn-primary', onClick: this.addElemento },
+              __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
+              'Agregar Plan'
+            )
           )
         )
       );
@@ -31910,6 +32030,144 @@ exports.push([module.i, ".notification-container-top-center{position:fixed;z-ind
 
 // exports
 
+
+/***/ }),
+/* 276 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+var holi = function (_Component) {
+    _inherits(holi, _Component);
+
+    function holi(props) {
+        _classCallCheck(this, holi);
+
+        var _this = _possibleConstructorReturn(this, (holi.__proto__ || Object.getPrototypeOf(holi)).call(this, props));
+
+        _this.state = {
+            nombre: 'felipe'
+        };
+        return _this;
+    }
+
+    _createClass(holi, [{
+        key: 'render',
+        value: function render() {
+            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                null,
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { 'class': 'table-responsive bg-white' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'table',
+                        { 'class': 'table m-b-0' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'thead',
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'tr',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'th',
+                                    null,
+                                    '#'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'th',
+                                    null,
+                                    'Username'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'th',
+                                    null,
+                                    'Email Address'
+                                )
+                            )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'tbody',
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'tr',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    '1'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    'Nicky Almera'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    'nicky@hotmail.com'
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'tr',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    '2'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    'Edmund Wong'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    'edmund@yahoo.com'
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'tr',
+                                null,
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    '3'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    'Harvinder Singh'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'td',
+                                    null,
+                                    'harvinder@gmail.com'
+                                )
+                            )
+                        )
+                    )
+                )
+            );
+        }
+    }]);
+
+    return holi;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* unused harmony default export */ var _unused_webpack_default_export = (holi);
 
 /***/ })
 /******/ ]);

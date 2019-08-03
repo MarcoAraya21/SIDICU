@@ -4,12 +4,12 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class TipoAsignatura extends Model
+class TipoIngreso extends Model
 {
     protected $fillable = ['nombre'];
 
-    public function asignaturas()
+    public function plan_estudios()
     {
-        return $this->hasMany('App\Asignatura');
+        return $this->hasMany('App\PlanEstudio');
     }
 }
