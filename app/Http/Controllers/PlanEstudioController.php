@@ -38,8 +38,18 @@ class PlanEstudioController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request);
+        $this->validate($request, [
+            'nombre' => 'required',
+            'observacion' => 'required',
+            'carrera_id' => 'required|numeric|min:1',
+            'tipo_plan_id' => 'required|numeric|min:1',
+            'tipo_ingreso_id' => 'required|numeric|min:1'
+        ]);
+
         $PlanEstudio = PlanEstudio::create($request->all());
         return response()->json($PlanEstudio, 201);
+
     }
 
     /**

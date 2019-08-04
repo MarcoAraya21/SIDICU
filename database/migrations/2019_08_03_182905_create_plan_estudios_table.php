@@ -15,14 +15,14 @@ class CreatePlanEstudiosTable extends Migration
     {
         Schema::create('plan_estudios', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre');
-            $table->string('observacion');
-            $table->text('proposito');
-            $table->text('objetivo');
-            $table->text('requisito_admision');
-            $table->text('mecanismo_retencion');
-            $table->text('requisito_obtencion');
-            $table->text('campo_desarollo');
+            $table->string('nombre')->nullable();
+            $table->string('observacion')->nullable();
+            $table->text('proposito')->nullable();
+            $table->text('objetivo')->nullable();
+            $table->text('requisito_admision')->nullable();
+            $table->text('mecanismo_retencion')->nullable();
+            $table->text('requisito_obtencion')->nullable();
+            $table->text('campo_desarollo')->nullable();
             $table->timestamps();
         });
     }

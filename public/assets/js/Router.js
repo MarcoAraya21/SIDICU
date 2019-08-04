@@ -32203,32 +32203,55 @@ var Index = function (_Component) {
         var _this = _possibleConstructorReturn(this, (Index.__proto__ || Object.getPrototypeOf(Index)).call(this, props));
 
         _this.state = {
-            carreras: []
-        };
-
-        _this.addElemento = _this.addElemento.bind(_this);
-        _this.abortController = new AbortController();
-
-        return _this;
+            carreras: [],
+            plan_estudios: {
+                nombre: "",
+                observacion: "",
+                carrera_id: 0,
+                tipo_plan_id: 0,
+                tipo_ingreso_id: 0
+            }
+        };return _this;
     }
 
     _createClass(Index, [{
-        key: 'addElemento',
-        value: function addElemento() {
-            //e.preventDefault();
+        key: 'handleInput',
+        value: function handleInput(e, atributo) {
+            var plan_estudios2 = this.state.plan_estudios;
+            plan_estudios2[atributo] = e.target.value;
+            this.setState({ plan_estudios: plan_estudios2 });
+        }
+    }, {
+        key: 'handleSubmit',
+        value: function handleSubmit() {
             fetch('/api/plan_estudios/', {
                 method: 'post',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
-                }
+                },
+                body: JSON.stringify(
+                // {
+                //     plan_estudios: this.state.plan_estudios
+                // }
+                this.state.plan_estudios)
             }).then(function (response) {
+                console.log('response', response);
                 if (response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
                 }
+            }).catch(function (error) {
+                console.log(error);
             });
+            // .then( data =>
+            // {
+            //     if(data)
+            //     {
+            //         window.location.href = ("/" + data.id)
+            //     }
+            // })
         }
     }, {
         key: 'componentWillMount',
@@ -32249,6 +32272,8 @@ var Index = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container py-4' },
@@ -32273,96 +32298,117 @@ var Index = function (_Component) {
                         'div',
                         { className: 'col-12' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col mb-2' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'label',
-                                null,
-                                'Nombre del Plan de Estudios'
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control' })
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col mb-2' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'label',
-                                null,
-                                'Observaci\xF3n'
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control' })
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'col row mb-2' },
+                            'form',
+                            { 'data-parsley-validate': 'true' },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
-                                { className: 'col-4' },
+                                { className: 'col mb-2' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'label',
                                     null,
-                                    'Carrera'
+                                    'Nombre del Plan de Estudios'
                                 ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', 'data-parsley-required': 'true',
+                                    value: this.state.plan_estudios.nombre || '',
+                                    onChange: function onChange(e) {
+                                        return _this3.handleInput(e, 'nombre');
+                                    } })
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'col mb-2' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'select',
-                                    { className: 'form-control' },
+                                    'label',
+                                    null,
+                                    'Observaci\xF3n'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text', className: 'form-control', 'data-parsley-required': 'true',
+                                    value: this.state.plan_estudios.observacion || '',
+                                    onChange: function onChange(e) {
+                                        return _this3.handleInput(e, 'observacion');
+                                    } })
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'col row mb-2' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'col-4' },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'option',
-                                        { value: '' },
-                                        'Seleccione una Opci\xF3n'
+                                        'label',
+                                        null,
+                                        'Carrera'
                                     ),
-                                    this.state.carreras.map(function (carrera) {
-                                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'select',
+                                        { defaultValue: "", className: 'form-control', 'data-parsley-required': 'true',
+                                            onChange: function onChange(e) {
+                                                return _this3.handleInput(e, 'carrera_id');
+                                            } },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'option',
-                                            { value: carrera.id, key: carrera.id },
-                                            carrera.nombre
-                                        );
-                                    })
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'col-4' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'label',
-                                    null,
-                                    'Tipo de Plan'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'select',
-                                    { className: 'form-control' },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'option',
-                                        { value: '' },
-                                        'Seleccione una Opci\xF3n'
-                                    ),
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'option',
-                                        { value: '1' },
-                                        'Regular'
+                                            { disabled: true, value: '' },
+                                            'Seleccione una Opci\xF3n'
+                                        ),
+                                        this.state.carreras.map(function (carrera) {
+                                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                                'option',
+                                                { value: carrera.id, key: carrera.id },
+                                                carrera.nombre
+                                            );
+                                        })
                                     )
-                                )
-                            ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                'div',
-                                { className: 'col-4' },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'label',
-                                    null,
-                                    'Tipo de Ingreso'
                                 ),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'select',
-                                    { className: 'form-control' },
+                                    'div',
+                                    { className: 'col-4' },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'option',
-                                        { value: '' },
-                                        'Seleccione una Opci\xF3n'
+                                        'label',
+                                        null,
+                                        'Tipo de Plan'
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                        'option',
-                                        { value: '1' },
-                                        'PSU'
+                                        'select',
+                                        { defaultValue: "", className: 'form-control', 'data-parsley-required': 'true',
+                                            onChange: function onChange(e) {
+                                                return _this3.handleInput(e, 'tipo_plan_id');
+                                            } },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'option',
+                                            { disabled: true, value: '' },
+                                            'Seleccione una Opci\xF3n'
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'option',
+                                            { value: '1' },
+                                            'Regular'
+                                        )
+                                    )
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'col-4' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'label',
+                                        null,
+                                        'Tipo de Ingreso'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'select',
+                                        { defaultValue: "", className: 'form-control', 'data-parsley-required': 'true',
+                                            onChange: function onChange(e) {
+                                                return _this3.handleInput(e, 'tipo_ingreso_id');
+                                            } },
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'option',
+                                            { disabled: true, value: '' },
+                                            'Seleccione una Opci\xF3n'
+                                        ),
+                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'option',
+                                            { value: '1' },
+                                            'PSU'
+                                        )
                                     )
                                 )
                             )
@@ -32374,7 +32420,9 @@ var Index = function (_Component) {
                     { align: 'right', className: 'mt-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', className: 'btn btn-primary', onClick: this.addElemento },
+                        { type: 'button', className: 'btn btn-primary', onClick: function onClick() {
+                                return _this3.handleSubmit();
+                            } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
                         'Crear Plan'
                     )
