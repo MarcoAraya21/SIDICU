@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { validaciones } from './validaciones';
 
 class Index extends Component {
   constructor (props) {
@@ -13,7 +14,8 @@ class Index extends Component {
             carrera_id: 0,
             tipo_plan_id: 0,
             tipo_ingreso_id: 0
-        }
+        },
+        errores: {},
     }}
 
     handleInput(e, atributo)
@@ -25,6 +27,7 @@ class Index extends Component {
 
 
     handleSubmit(){
+        this.setState({errores: validaciones(this.state.plan_estudios)})
         fetch('/api/plan_estudios/',{
             method: 'post',
             headers: {
@@ -50,13 +53,13 @@ class Index extends Component {
         .catch(function(error) {
             console.log(error);
         })
-        // .then( data =>
-        // {
-        //     if(data)
-        //     {
-        //         window.location.href = ("/" + data.id)
-        //     }
-        // })
+        .then( data =>
+        {
+            if(data)
+            {
+                window.location.href = ("/" + data.id)
+            }
+        })
     }
 
 
@@ -84,52 +87,65 @@ class Index extends Component {
                 <h1 className="page-header">Nuevo Plan de Estudios</h1>
                 <div className="panel-body bg-white">
                     <div className="col-12">
-                        <form data-parsley-validate="true">
-                            <div className="col mb-2">
-                                <label>Nombre del Plan de Estudios</label>
-                                <input type="text" className="form-control" data-parsley-required="true"
-                                    value={this.state.plan_estudios.nombre || ''}
-                                    onChange={(e)=>this.handleInput(e, 'nombre')}>
-                                </input>
-                            </div>
-                            <div className="col mb-2">
-                                <label>Observación</label>
-                                <input type="text" className="form-control" data-parsley-required="true"
-                                    value={this.state.plan_estudios.observacion || ''}
-                                    onChange={(e)=>this.handleInput(e, 'observacion')}>
-                                </input>
-                            </div>
-                            <div className="col row mb-2">
-                                <div className="col-4">
-                                    <label>Carrera</label>
-                                    <select defaultValue={""} className="form-control" data-parsley-required="true"
+                        <div className="col mb-2">
+                            <label>Nombre del Plan de Estudios</label>
+                            <input type="text"
+                                className={ "form-control " + (this.state.errores.nombre && 'is-invalid')} 
+                                value={this.state.plan_estudios.nombre || ''}
+                                onChange={(e)=>this.handleInput(e, 'nombre')}>
+                            </input>
+                            {this.state.errores.nombre &&
+                                <div className="invalid-feedback">{this.state.errores.nombre}</div>}
+                        </div>
+                        <div className="col mb-2">
+                            <label>Observación</label>
+                            <input type="text"
+                                className={ "form-control " + (this.state.errores.observacion && 'is-invalid')} 
+                                value={this.state.plan_estudios.observacion || ''}
+                                onChange={(e)=>this.handleInput(e, 'observacion')}>
+                            </input>
+                            {this.state.errores.observacion &&
+                                <div className="invalid-feedback">{this.state.errores.observacion}</div>}
+                        </div>
+                        <div className="col row mb-2">
+                            <div className="col-4">
+                                <label>Carrera</label>
+                                <select defaultValue={""}
+                                    className={ "form-control " + (this.state.errores.carrera_id && 'is-invalid')} 
                                     onChange={(e)=>this.handleInput(e, 'carrera_id')}>
-                                        <option disabled value="">Seleccione una Opción</option>
-                                        {
-                                            this.state.carreras.map(carrera=>
-                                            <option value={carrera.id} key={carrera.id}>{carrera.nombre}</option>
-                                            )
-                                        }
-                                    </select>
-                                </div>
-                                <div className="col-4">
-                                    <label>Tipo de Plan</label>
-                                    <select defaultValue={""} className="form-control" data-parsley-required="true"
-                                    onChange={(e)=>this.handleInput(e, 'tipo_plan_id')}>
-                                        <option disabled value="">Seleccione una Opción</option>
-                                        <option value='1'>Regular</option>
-                                    </select>
-                                </div>
-                                <div className="col-4">
-                                    <label>Tipo de Ingreso</label>
-                                    <select defaultValue={""} className="form-control" data-parsley-required="true"
-                                    onChange={(e)=>this.handleInput(e, 'tipo_ingreso_id')}>
-                                        <option disabled value="">Seleccione una Opción</option>
-                                        <option value='1'>PSU</option>
-                                    </select>
-                                </div>
+                                    <option disabled value="">Seleccione una Opción</option>
+                                    {
+                                        this.state.carreras.map(carrera=>
+                                        <option value={carrera.id} key={carrera.id}>{carrera.nombre}</option>
+                                        )
+                                    }
+                                </select>
+                                {this.state.errores.carrera_id &&
+                                <div className="invalid-feedback">{this.state.errores.carrera_id}</div>}
                             </div>
-                        </form>
+                            <div className="col-4">
+                                <label>Tipo de Plan</label>
+                                <select defaultValue={""}
+                                    className={ "form-control " + (this.state.errores.tipo_plan_id && 'is-invalid')} 
+                                    onChange={(e)=>this.handleInput(e, 'tipo_plan_id')}>
+                                    <option disabled value="">Seleccione una Opción</option>
+                                    <option value='1'>Regular</option>
+                                </select>
+                                {this.state.errores.tipo_plan_id &&
+                                <div className="invalid-feedback">{this.state.errores.tipo_plan_id}</div>}
+                            </div>
+                            <div className="col-4">
+                                <label>Tipo de Ingreso</label>
+                                <select defaultValue={""}
+                                    className={ "form-control " + (this.state.errores.tipo_ingreso_id && 'is-invalid')} 
+                                    onChange={(e)=>this.handleInput(e, 'tipo_ingreso_id')}>
+                                    <option disabled value="">Seleccione una Opción</option>
+                                    <option value='1'>PSU</option>
+                                </select>
+                                {this.state.errores.tipo_ingreso_id &&
+                                <div className="invalid-feedback">{this.state.errores.tipo_ingreso_id}</div>}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div align="right" className="mt-2">
@@ -143,3 +159,5 @@ class Index extends Component {
 }
 
 export default Index;
+
+

@@ -55,6 +55,7 @@
     "eonasdan-bootstrap-datetimepicker": "^4.17.47",
     "flag-icon-css": "^2.9.0",
     "flotjs": "^0.1.3",
+    "formik": "^1.5.8",
     "fs": "0.0.1-security",
     "fullcalendar": "^3.8.2",
     "gritter": "^1.7.4",
