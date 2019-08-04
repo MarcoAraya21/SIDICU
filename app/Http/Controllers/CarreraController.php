@@ -47,8 +47,15 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Carrera $carrera)
+    public function show($id)
     {
+        $carrera = Carrera::
+            with('grado')
+            ->with(['escuela' => function ($query) {
+                $query
+                ->with('facultad');
+            }])
+            ->findOrFail($id);
         return $carrera->toJson();
     }
 
