@@ -47,6 +47,6 @@ class PlanEstudio extends Model
     }
     public function dominios()
     {
-        return $this->belongsTo('App\Dominio');
+        return $this->hasMany('App\Dominio');
     }
 }

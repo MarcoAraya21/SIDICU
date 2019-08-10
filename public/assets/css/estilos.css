@@ -16,6 +16,10 @@
   display: inline-block;
 }
 
+.asdsad {
+  font-weight: bold;
+}
+
 .upload-btn-wrapper input[type=file] {
   font-size: 0;
   position: absolute;

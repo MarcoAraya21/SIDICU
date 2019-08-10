@@ -44,10 +44,14 @@ class PlanEstudioController extends Controller
             'observacion' => 'required',
             'carrera_id' => 'required|numeric|min:1',
             'tipo_plan_id' => 'required|numeric|min:1',
-            'tipo_ingreso_id' => 'required|numeric|min:1'
+            'tipo_ingreso_id' => 'required|numeric|min:1',
+            
         ]);
 
         $PlanEstudio = PlanEstudio::create($request->all());
+        for ($i=0; $i <= 3  ; $i++) {
+            $PlanEstudio->dominios()->create(['plan_estudio_id' => $PlanEstudio->id]);
+        }
         return response()->json($PlanEstudio, 201);
 
     }
@@ -62,6 +66,9 @@ class PlanEstudioController extends Controller
     {
         $PlanEstudio = PlanEstudio::
             with('dominios')
+            ->with('carrera')
+            ->with('tipo_plan')
+            ->with('tipo_ingreso')
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }
@@ -86,6 +93,15 @@ class PlanEstudioController extends Controller
      */
     public function update(Request $request, PlanEstudio $PlanEstudio)
     {
+        $this->validate($request, [
+            'proposito' => 'required',
+            'objetivo' => 'required',
+            'requisito_admision' => 'required',
+            'mecanismo_retencion' => 'required',
+            'requisito_obtencion' => 'required',
+            'campo_desarrollo' => 'required'
+        ]);
+        
         $PlanEstudio = $PlanEstudio->update($request->all());
         return response()->json($PlanEstudio, 201);
     }

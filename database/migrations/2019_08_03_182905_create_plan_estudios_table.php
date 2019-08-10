@@ -22,7 +22,7 @@ class CreatePlanEstudiosTable extends Migration
             $table->text('requisito_admision')->nullable();
             $table->text('mecanismo_retencion')->nullable();
             $table->text('requisito_obtencion')->nullable();
-            $table->text('campo_desarollo')->nullable();
+            $table->text('campo_desarrollo')->nullable();
             $table->timestamps();
         });
     }
