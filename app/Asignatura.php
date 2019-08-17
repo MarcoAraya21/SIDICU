@@ -41,6 +41,18 @@ class Asignatura extends Model
     {
         return $this->hasMany('App\AsignaturaHora');
     }
+    public function evaluaciones()
+    {
+        return $this->hasMany('App\Evaluacion');
+    }
+    public function metodologias()
+    {
+        return $this->hasMany('App\Metodologia');
+    }
+    public function unidades()
+    {
+        return $this->hasMany('App\Unidad');
+    }
 
     //Hacer funcion que retorne el padre
     // public function requisitos()
