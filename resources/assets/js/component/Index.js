@@ -226,11 +226,11 @@ class Index extends Component {
                        </table>
                      </div>
                  </div>
-                 <div align="right" className="mt-2">
+                 {/* <div align="right" className="mt-2">
                    <button type="button" className="btn btn-primary" onClick={this.addElemento}>
                    <i className="fas fa-plus p-r-5" ></i>
                      Agregar Plan</button>
-                 </div>
+                 </div> */}
              </div> 
         );
     }

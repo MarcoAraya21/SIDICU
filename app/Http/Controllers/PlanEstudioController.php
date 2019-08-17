@@ -50,7 +50,7 @@ class PlanEstudioController extends Controller
 
         $PlanEstudio = PlanEstudio::create($request->all());
         for ($i=0; $i <= 3  ; $i++) {
-            $PlanEstudio->dominios()->create(['plan_estudio_id' => $PlanEstudio->id]);
+            $PlanEstudio->dominios()->create([]);
         }
         return response()->json($PlanEstudio, 201);
 
@@ -116,6 +116,8 @@ class PlanEstudioController extends Controller
     public function destroy($id)
     {
         $PlanEstudio = PlanEstudio::find($id);
+        $PlanEstudio->dominios()->delete();
         $PlanEstudio->delete();
     }
+
 }

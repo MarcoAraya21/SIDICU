@@ -80,6 +80,12 @@ export default class show extends Component {
     }
 
     componentWillMount() {
+        this.setState({proposito: this.props.plan_estudios.proposito,
+                        objetivo: this.props.plan_estudios.objetivo,
+                        requisito_admision: this.props.plan_estudios.requisito_admision,
+                        mecanismo_retencion: this.props.plan_estudios.mecanismo_retencion,
+                        requisito_obtencion: this.props.plan_estudios.requisito_obtencion,
+                        campo_desarrollo: this.props.plan_estudios.campo_desarrollo})
     }
     render() {
         return (
@@ -117,7 +123,7 @@ export default class show extends Component {
                          onChange={(e)=>this.handleInput(e, 'proposito')}
                         ></textarea>
                         {this.state.errores.proposito &&
-                                <div className="invalid-feedback">{this.state.errores.proposito}</div>}
+                                <div className="invalid-feedback" align="right">{this.state.errores.proposito}</div>}
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Objetivo</label>
@@ -126,7 +132,7 @@ export default class show extends Component {
                          onChange={(e)=>this.handleInput(e, 'objetivo')}
                         ></textarea>
                         {this.state.errores.objetivo &&
-                                <div className="invalid-feedback">{this.state.errores.objetivo}</div>}
+                                <div className="invalid-feedback" align="right">{this.state.errores.objetivo}</div>}
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Requisito de Admisión</label>
@@ -135,7 +141,7 @@ export default class show extends Component {
                          onChange={(e)=>this.handleInput(e, 'requisito_admision')}
                         ></textarea>
                         {this.state.errores.requisito_admision &&
-                                <div className="invalid-feedback">{this.state.errores.requisito_admision}</div>}
+                                <div className="invalid-feedback" align="right">{this.state.errores.requisito_admision}</div>}
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Mecanismo de Retención</label>
@@ -144,7 +150,7 @@ export default class show extends Component {
                          onChange={(e)=>this.handleInput(e, 'mecanismo_retencion')}
                         ></textarea>
                         {this.state.errores.mecanismo_retencion &&
-                                <div className="invalid-feedback">{this.state.errores.mecanismo_retencion}</div>}
+                                <div className="invalid-feedback" align="right">{this.state.errores.mecanismo_retencion}</div>}
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Requisito de Obtención</label>
@@ -153,7 +159,7 @@ export default class show extends Component {
                          onChange={(e)=>this.handleInput(e, 'requisito_obtencion')}
                         ></textarea>
                         {this.state.errores.requisito_obtencion &&
-                                <div className="invalid-feedback" align="right">{this.state.errores.requisito_obtencion}</div>}
+                                <div className="invalid-feedback" align="right" >{this.state.errores.requisito_obtencion}</div>}
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Campo de Desarrollo</label>
@@ -162,7 +168,7 @@ export default class show extends Component {
                          onChange={(e)=>this.handleInput(e, 'campo_desarrollo')}
                         ></textarea>
                         {this.state.errores.campo_desarrollo &&
-                                <div className="invalid-feedback">{this.state.errores.campo_desarrollo}</div>}
+                                <div className="invalid-feedback" align="right">{this.state.errores.campo_desarrollo}</div>}
                     </div>
                 </div>
                 <div className="col-12 text-right mt-2">

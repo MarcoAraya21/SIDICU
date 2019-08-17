@@ -23,25 +23,33 @@
 // }
 
 //Manipula el estado los inputs, recibe un evento en primer parmatro
-export function handleInput(e, objeto, propiedad) {
-    // console.log( e)
-    var key = ''
-    if(propiedad){
-        key = propiedad
-    }else{
-        key = e.target.getAttribute('name')
-    }
-    if(objeto){
-        var state = Object.assign({}, this.state[objeto]); 
-        state[key] = e.target.value ;
-        this.setState({[objeto]: state });
-    } else{
-        var state = Object.assign({}, this.state); 
-        state[key] = e.target.value;
-        this.setState(state);
-    }
+// export function handleInput(e, objeto, propiedad) {
+//     // console.log( e)
+//     var key = ''
+//     if(propiedad){
+//         key = propiedad
+//     }else{
+//         key = e.target.getAttribute('name')
+//     }
+//     if(objeto){
+//         var state = Object.assign({}, this.state[objeto]); 
+//         state[key] = e.target.value ;
+//         this.setState({[objeto]: state });
+//     } else{
+//         var state = Object.assign({}, this.state); 
+//         state[key] = e.target.value;
+//         this.setState(state);
+//     }
     
-}
+// }
+
+export function handleInput(e, objeto, atributo, id)
+    {
+        let dominio = this.state['plan_estudios'][objeto].find( dominio => dominio.id = id);
+        dominio[atributo] = e.target.value;
+        this.setState({plan_estudios: {...this.state['plan_estudios'],
+                        dominios: {...this.state['plan_estudios'][objeto], dominio}}});
+    }
 
 export function handleInputArrays(e, objeto, propiedad) {
     var state = this.state[objeto]; 

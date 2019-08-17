@@ -11,7 +11,7 @@ export default class index extends Component {
         this.state = {
             dominios: []
         }
-
+        
     }
 
     // codigo para agregar dominios
@@ -23,19 +23,26 @@ export default class index extends Component {
     // }
 
     
+
+    
     render() {
         return (
             <div className="container py-4">
                 <div className="col-12">
                     <legend>Dominios</legend>
-                    {/* {
+                    {
                         this.props.dominios && this.props.dominios.map( (dominio,i) =>
-                        <div key={dominio.id} className="border p-3 mb-3">
+                        <div key={i} className="border p-3 mb-3">
                             <p >Dominio {i+1}</p>
-                            <input type="text" className="form-control" value={this.state.dominio && this.state.dominio[dominio.id].dominio_id}>sdfdsfdsfds</input>
+                            <input type="text"
+                                className="form-control" 
+                                value={dominio.nombre || ''}
+                                onChange={(e)=>this.props.handleInput(e, 'dominios', 'nombre', dominio.id)}>
+                            </input>
                         </div>
                         )
-                    } */}
+                    }
+                    
                 </div>  
             </div>
         );

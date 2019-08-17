@@ -25,7 +25,7 @@ return [
 						'title' => 'Nuevo Plan'
 					],
 					[
-						'url' => '',
+						'url' => '/',
 						'title' => 'Listado'
 					],
 					[

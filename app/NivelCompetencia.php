@@ -17,4 +17,8 @@ class NivelCompetencia extends Model
     {
         return $this->hasMany('App\LogroAprendizajes');
     }
+    public function asignaturas()
+    {
+        return $this->hasMany('App\Asignatura');
+    }
 }

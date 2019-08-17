@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import { handleInput } from '../utiles/lib'
 import Show from './show';
 import Dominios from './dominios';
 
@@ -15,7 +16,7 @@ export default class index extends Component {
             plan_estudios: {}
         }
 
-
+        this.handleInput = handleInput.bind(this);
         //this.renderErrorFor = this.renderErrorFor.bind(this)
     }
 
@@ -65,10 +66,14 @@ export default class index extends Component {
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane fade active show" id="seguimiento-tab-show">
+                                { 
                                 <Show plan_estudios={this.state.plan_estudios} params={this.props.match.params.id}/>
+                                }
                             </div>
                             <div className="tab-pane fade" id="seguimiento-tab-1">
-                                <Dominios dominios={this.state.plan_estudios.dominios}/>
+                                <Dominios dominios={this.state.plan_estudios.dominios}
+                                handleInput = {this.handleInput}
+                                />
                             </div>
                         </div>			
                     </div>
