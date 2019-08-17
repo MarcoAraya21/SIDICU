@@ -49,7 +49,7 @@ class PlanEstudioController extends Controller
         ]);
 
         $PlanEstudio = PlanEstudio::create($request->all());
-        for ($i=0; $i <= 2  ; $i++) {
+        for ($i=0; $i <= 1  ; $i++) {
             $PlanEstudio->dominios()->create(['tipo_dominio_id', 1]);
         }
         $PlanEstudio->dominios()->create(['tipo_dominio_id', 2]);
