@@ -13,8 +13,12 @@ class Index extends Component {
             observacion: "",
             carrera_id: 0,
             tipo_plan_id: 0,
-            tipo_ingreso_id: 0
+            tipo_ingreso_id: 0,
+            uic_id: 0,
+            academico_id: 0,
         },
+        usuarios_UIC: [],
+        usuarios_Academico: [],
         errores: {},
     }}
 
@@ -65,6 +69,7 @@ class Index extends Component {
 
     componentWillMount() {
     this.getCarreras();
+    this.getUsuarios();
     }
 
     getCarreras() {
@@ -73,6 +78,18 @@ class Index extends Component {
         ) =>{
                 this.setState({
                     carreras: response.data
+                })
+            }            
+        );        
+    }
+
+    getUsuarios() {
+        axios.get('/api/usuarios').then((
+            response
+        ) =>{
+                this.setState({
+                    usuarios_UIC: response.data.filter(usuario => usuario.perfil_id == 1),
+                    usuarios_Academico: response.data.filter(usuario => usuario.perfil_id == 2)
                 })
             }            
         );        
@@ -146,6 +163,43 @@ class Index extends Component {
                                 <div className="invalid-feedback">{this.state.errores.tipo_ingreso_id}</div>}
                             </div>
                         </div>
+
+                        {/* aquí estoy dejando el desastre c: */}
+                        <div className="col row mb-2">
+                            <div className="col-6">
+                                <label>Responsable UIC</label>
+                                <select defaultValue={""}
+                                    className={ "form-control " + (this.state.errores.uic_id && 'is-invalid')} 
+                                    onChange={(e)=>this.handleInput(e, 'uic_id')}>
+                                    <option disabled value="">Seleccione una Opción</option>
+                                    {
+                                        this.state.usuarios_UIC.map(usuario=>
+                                        <option value={usuario.id} key={usuario.id}>{usuario.nombre}</option>
+                                        )
+                                    }
+                                </select>
+                                {this.state.errores.uic_id &&
+                                <div className="invalid-feedback">{this.state.errores.uic_id}</div>}
+                            </div>
+                            <div className="col-6">
+                                <label>Coordinador del Cómite</label>
+                                <select defaultValue={""}
+                                    className={ "form-control " + (this.state.errores.academico_id && 'is-invalid')} 
+                                    onChange={(e)=>this.handleInput(e, 'academico_id')}>
+                                    <option disabled value="">Seleccione una Opción</option>
+                                    {
+                                        this.state.usuarios_Academico.map(usuario=>
+                                        <option value={usuario.id} key={usuario.id}>{usuario.nombre}</option>
+                                        )
+                                    }
+                                </select>
+                                {this.state.errores.academico_id &&
+                                <div className="invalid-feedback">{this.state.errores.academico_id}</div>}
+                            </div>
+                        </div>
+                        {/* hasta aquí */}
+
+
                     </div>
                 </div>
                 <div align="right" className="mt-2">

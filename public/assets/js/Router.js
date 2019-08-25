@@ -2048,6 +2048,12 @@ function validaciones(values, show) {
         if (!values.carrera_id) {
             errors.carrera_id = campo_mensaje;
         }
+        if (!values.uic_id) {
+            errors.uic_id = campo_mensaje;
+        }
+        if (!values.academico_id) {
+            errors.academico_id = campo_mensaje;
+        }
         if (!values.tipo_plan_id) {
             errors.tipo_plan_id = campo_mensaje;
         }
@@ -32773,8 +32779,12 @@ var Index = function (_Component) {
                 observacion: "",
                 carrera_id: 0,
                 tipo_plan_id: 0,
-                tipo_ingreso_id: 0
+                tipo_ingreso_id: 0,
+                uic_id: 0,
+                academico_id: 0
             },
+            usuarios_UIC: [],
+            usuarios_Academico: [],
             errores: {}
         };return _this;
     }
@@ -32820,6 +32830,7 @@ var Index = function (_Component) {
         key: 'componentWillMount',
         value: function componentWillMount() {
             this.getCarreras();
+            this.getUsuarios();
         }
     }, {
         key: 'getCarreras',
@@ -32833,9 +32844,25 @@ var Index = function (_Component) {
             });
         }
     }, {
+        key: 'getUsuarios',
+        value: function getUsuarios() {
+            var _this3 = this;
+
+            __WEBPACK_IMPORTED_MODULE_2_axios___default.a.get('/api/usuarios').then(function (response) {
+                _this3.setState({
+                    usuarios_UIC: response.data.filter(function (usuario) {
+                        return usuario.perfil_id == 1;
+                    }),
+                    usuarios_Academico: response.data.filter(function (usuario) {
+                        return usuario.perfil_id == 2;
+                    })
+                });
+            });
+        }
+    }, {
         key: 'render',
         value: function render() {
-            var _this3 = this;
+            var _this4 = this;
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
@@ -32872,7 +32899,7 @@ var Index = function (_Component) {
                                 className: "form-control " + (this.state.errores.nombre && 'is-invalid'),
                                 value: this.state.plan_estudios.nombre || '',
                                 onChange: function onChange(e) {
-                                    return _this3.handleInput(e, 'nombre');
+                                    return _this4.handleInput(e, 'nombre');
                                 } }),
                             this.state.errores.nombre && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
@@ -32892,7 +32919,7 @@ var Index = function (_Component) {
                                 className: "form-control " + (this.state.errores.observacion && 'is-invalid'),
                                 value: this.state.plan_estudios.observacion || '',
                                 onChange: function onChange(e) {
-                                    return _this3.handleInput(e, 'observacion');
+                                    return _this4.handleInput(e, 'observacion');
                                 } }),
                             this.state.errores.observacion && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
@@ -32916,7 +32943,7 @@ var Index = function (_Component) {
                                     { defaultValue: "",
                                         className: "form-control " + (this.state.errores.carrera_id && 'is-invalid'),
                                         onChange: function onChange(e) {
-                                            return _this3.handleInput(e, 'carrera_id');
+                                            return _this4.handleInput(e, 'carrera_id');
                                         } },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'option',
@@ -32950,7 +32977,7 @@ var Index = function (_Component) {
                                     { defaultValue: "",
                                         className: "form-control " + (this.state.errores.tipo_plan_id && 'is-invalid'),
                                         onChange: function onChange(e) {
-                                            return _this3.handleInput(e, 'tipo_plan_id');
+                                            return _this4.handleInput(e, 'tipo_plan_id');
                                         } },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'option',
@@ -32982,7 +33009,7 @@ var Index = function (_Component) {
                                     { defaultValue: "",
                                         className: "form-control " + (this.state.errores.tipo_ingreso_id && 'is-invalid'),
                                         onChange: function onChange(e) {
-                                            return _this3.handleInput(e, 'tipo_ingreso_id');
+                                            return _this4.handleInput(e, 'tipo_ingreso_id');
                                         } },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'option',
@@ -33001,6 +33028,78 @@ var Index = function (_Component) {
                                     this.state.errores.tipo_ingreso_id
                                 )
                             )
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'div',
+                            { className: 'col row mb-2' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'col-6' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'label',
+                                    null,
+                                    'Responsable UIC'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'select',
+                                    { defaultValue: "",
+                                        className: "form-control " + (this.state.errores.uic_id && 'is-invalid'),
+                                        onChange: function onChange(e) {
+                                            return _this4.handleInput(e, 'uic_id');
+                                        } },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'option',
+                                        { disabled: true, value: '' },
+                                        'Seleccione una Opci\xF3n'
+                                    ),
+                                    this.state.usuarios_UIC.map(function (usuario) {
+                                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'option',
+                                            { value: usuario.id, key: usuario.id },
+                                            usuario.nombre
+                                        );
+                                    })
+                                ),
+                                this.state.errores.uic_id && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'invalid-feedback' },
+                                    this.state.errores.uic_id
+                                )
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'col-6' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'label',
+                                    null,
+                                    'Coordinador del C\xF3mite'
+                                ),
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'select',
+                                    { defaultValue: "",
+                                        className: "form-control " + (this.state.errores.academico_id && 'is-invalid'),
+                                        onChange: function onChange(e) {
+                                            return _this4.handleInput(e, 'academico_id');
+                                        } },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'option',
+                                        { disabled: true, value: '' },
+                                        'Seleccione una Opci\xF3n'
+                                    ),
+                                    this.state.usuarios_Academico.map(function (usuario) {
+                                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                            'option',
+                                            { value: usuario.id, key: usuario.id },
+                                            usuario.nombre
+                                        );
+                                    })
+                                ),
+                                this.state.errores.academico_id && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'div',
+                                    { className: 'invalid-feedback' },
+                                    this.state.errores.academico_id
+                                )
+                            )
                         )
                     )
                 ),
@@ -33010,7 +33109,7 @@ var Index = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
                         { type: 'button', className: 'btn btn-primary', onClick: function onClick() {
-                                return _this3.handleSubmit();
+                                return _this4.handleSubmit();
                             } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
                         'Crear Plan'

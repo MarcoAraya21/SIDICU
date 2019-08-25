@@ -49,4 +49,9 @@ class PlanEstudio extends Model
     {
         return $this->hasMany('App\Dominio');
     }
+
+    public function usuarios()
+    {
+        return $this->belongsToMany('App\Usuario','plan_estudio_usuarios','plan_estudio_id','usuario_id');
+    }
 }

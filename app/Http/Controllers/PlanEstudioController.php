@@ -50,9 +50,9 @@ class PlanEstudioController extends Controller
 
         $PlanEstudio = PlanEstudio::create($request->all());
         for ($i=0; $i <= 1  ; $i++) {
-            $PlanEstudio->dominios()->create(['tipo_dominio_id', 1]);
+            $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1]);
         }
-        $PlanEstudio->dominios()->create(['tipo_dominio_id', 2]);
+        $PlanEstudio->dominios()->create(['tipo_dominio_id'=> 2]);
         return response()->json($PlanEstudio, 201);
 
     }
@@ -70,6 +70,7 @@ class PlanEstudioController extends Controller
             ->with('carrera')
             ->with('tipo_plan')
             ->with('tipo_ingreso')
+            ->with('usuarios')
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }
