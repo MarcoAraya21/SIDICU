@@ -22,3 +22,7 @@ Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
     'plan_estudios' => 'plan_estudio']]);
 Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
     'usuarios' => 'usuario']]);
+Route::apiResource('dominios', 'DominioController', ['parameters' => [
+    'dominios' => 'dominio']]);
+Route::apiResource('competencias', 'CompetenciaController', ['parameters' => [
+    'competencias' => 'competencia']]);

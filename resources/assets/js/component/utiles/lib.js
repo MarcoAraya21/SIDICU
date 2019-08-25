@@ -45,24 +45,24 @@
 
 export function handleInput(e, objeto, atributo, id)
     {
-        let dominio = this.state['plan_estudios'][objeto].find( dominio => dominio.id = id);
-        dominio[atributo] = e.target.value;
-        this.setState({plan_estudios: {...this.state['plan_estudios'],
-                        dominios: {...this.state['plan_estudios'][objeto], dominio}}});
+        // let dominio = this.state[objeto].find( dominio => dominio.id = id);
+        // dominio[atributo] = e.target.value;
+        // this.setState({plan_estudios: {...this.state,
+        //                 dominios: {...this.state['plan_estudios'][objeto], dominio}}});
     }
 
-export function handleInputArrays(e, objeto, propiedad) {
-    var state = this.state[objeto]; 
-    if(e.target){
-        state[propiedad] = e.target.value ;
+    export function handleInputArrays(e, objeto, propiedad, indice) {
+        var state = this.state[objeto]; 
+        if(e.target){
+            state.find(dominio => dominio.id == indice)[propiedad] = e.target.value ;
+        }
+        else{
+            state.find(dominio => dominio.id == indice)[propiedad] = e ;
+        }
+        
+        this.setState({[objeto]: state});
+        
     }
-    else{
-        state[propiedad] = e;
-    }
-    
-    this.setState({[objeto]: state});
-    
-}
 
 
 
