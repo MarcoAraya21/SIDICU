@@ -15,7 +15,10 @@ class PlanEstudioController extends Controller
     public function index()
     {
         $PlanEstudio = PlanEstudio::
-        with('dominios')
+        with(['dominios' => function ($query) {
+            $query
+            ->with('competencias');
+        }])
         ->get();
         return $PlanEstudio->toJson();
     }
@@ -50,9 +53,9 @@ class PlanEstudioController extends Controller
 
         $PlanEstudio = PlanEstudio::create($request->all());
         for ($i=0; $i <= 1  ; $i++) {
-            $PlanEstudio->dominios()->create(['tipo_dominio_id', 1]);
+            $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1]);
         }
-        $PlanEstudio->dominios()->create(['tipo_dominio_id', 2]);
+        $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
         return response()->json($PlanEstudio, 201);
 
     }
@@ -66,7 +69,11 @@ class PlanEstudioController extends Controller
     public function show($id)
     {
         $PlanEstudio = PlanEstudio::
-            with('dominios')
+            with(['dominios' => function ($query) {
+                $query
+                ->with('tipo_dominio')
+                ->with('competencias');
+            }])
             ->with('carrera')
             ->with('tipo_plan')
             ->with('tipo_ingreso')
@@ -117,6 +124,11 @@ class PlanEstudioController extends Controller
     public function destroy($id)
     {
         $PlanEstudio = PlanEstudio::find($id);
+        $Dominios = $PlanEstudio->dominios()->get();
+        foreach ($Dominios as $key => $dominio) {
+            $dominio->competencias()->delete();
+        }
+        // $Dominios->delete();
         $PlanEstudio->dominios()->delete();
         $PlanEstudio->delete();
     }

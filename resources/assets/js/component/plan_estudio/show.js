@@ -80,39 +80,41 @@ export default class show extends Component {
     }
 
     componentWillMount() {
-        this.setState({proposito: this.props.plan_estudios.proposito,
-                        objetivo: this.props.plan_estudios.objetivo,
-                        requisito_admision: this.props.plan_estudios.requisito_admision,
-                        mecanismo_retencion: this.props.plan_estudios.mecanismo_retencion,
-                        requisito_obtencion: this.props.plan_estudios.requisito_obtencion,
-                        campo_desarrollo: this.props.plan_estudios.campo_desarrollo})
+        this.setState({proposito: this.props.proposito,
+                        objetivo: this.props.objetivo,
+                        requisito_admision: this.props.requisito_admision,
+                        mecanismo_retencion: this.props.mecanismo_retencion,
+                        requisito_obtencion: this.props.requisito_obtencion,
+                        campo_desarrollo: this.props.campo_desarrollo})
     }
+    
     render() {
         return (
             <div className="container py-4">
+                {console.log(this.state, this.props)}
                 <ReactNotification ref={this.notificationDOMRef}/>
                 <div className="col-12">
                     <legend>Datos Iniciales del Plan</legend>
                     <div className="col row">
                         <p className="col-6">Nombre</p>
-                        <p className="col-6" disabled={true}>{this.props.plan_estudios.nombre}</p>
+                        <p className="col-6" disabled={true}>{this.props.nombre}</p>
                     </div>
                     <div className="col row">
                         <p className="col-6">Observación</p>
-                        <p className="col-6" disabled={true}>{this.props.plan_estudios.observacion}</p>
+                        <p className="col-6" disabled={true}>{this.props.observacion}</p>
                     </div>
                     <div className="col row">
                         <div className="col-4">
                             <p className="mb-1">Carrera</p>
-                            <p>{this.props.plan_estudios.carrera && this.props.plan_estudios.carrera.nombre}</p> 
+                            <p>{this.props.carrera && this.props.carrera.nombre}</p> 
                         </div>
                         <div className="col-4">
                             <p className="mb-1">Tipo de Plan</p>
-                            <p>{this.props.plan_estudios.tipo_plan && this.props.plan_estudios.tipo_plan.nombre}</p> 
+                            <p>{this.props.tipo_plan && this.props.tipo_plan.nombre}</p> 
                         </div>
                         <div className="col-4">
                             <p className="mb-1">Tipo de Ingreso</p>
-                            <p>{this.props.plan_estudios.tipo_ingreso && this.props.plan_estudios.tipo_ingreso.nombre}</p> 
+                            <p>{this.props.tipo_ingreso && this.props.tipo_ingreso.nombre}</p> 
                         </div>
                     </div>
                     <legend>Otros Datos</legend>
