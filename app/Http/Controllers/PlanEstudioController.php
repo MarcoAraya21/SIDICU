@@ -72,7 +72,10 @@ class PlanEstudioController extends Controller
             with(['dominios' => function ($query) {
                 $query
                 ->with('tipo_dominio')
-                ->with('competencias');
+                ->with(['competencias' => function ($query) {
+                    $query
+                    ->with('nivel_competencias');
+                }]);
             }])
             ->with('carrera')
             ->with('tipo_plan')

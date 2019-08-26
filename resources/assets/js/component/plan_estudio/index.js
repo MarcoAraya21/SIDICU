@@ -7,6 +7,7 @@ import { handleInput, handleAddElement, handleInputArrays, borrarElemento } from
 import Show from './show';
 import Dominios from './dominios';
 import Competencias from './dominios/competencias';
+import NivelCompetencias from './dominios/competencias/nivelcompetencias';
 
 
 
@@ -103,6 +104,12 @@ export default class index extends Component {
                                     <span className="d-sm-block d-none">Competencias del Plan</span>
                                 </a>
                             </li>
+                            <li className="nav-items">
+                                <a href="#plan-tab-3" data-toggle="tab" className="nav-link">
+                                    <span className="d-sm-none">Nivel Competencias</span>
+                                    <span className="d-sm-block d-none">Niveles de Competencias del Plan</span>
+                                </a>
+                            </li>
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane fade active show" id="plan-tab-show">
@@ -140,6 +147,11 @@ export default class index extends Component {
                                 handleInputArrays = {this.handleInputArrays}
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}
+                                />
+                            </div>
+                            <div className="tab-pane fade" id="plan-tab-3">
+                                <NivelCompetencias
+                                dominios={this.state.dominios}
                                 />
                             </div>
                         </div>			

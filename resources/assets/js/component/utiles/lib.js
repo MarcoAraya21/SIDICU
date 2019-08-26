@@ -175,11 +175,9 @@ export function borrarElemento(objeto, propiedad){
                     let dominio1 = this.state['dominios'].find(dominio => dominio.competencias.map( competencia =>
                         competencia.id == propiedad)
                     );
-                    let domfiltrado1 = dominio1[objeto].filter(competencia => competencia.id == propiedad);
                     let domfiltrado = dominio1[objeto].filter(competencia => competencia.id != propiedad);
 
-                    // let competencias = dominio1[objeto];
-                    console.log('dominio', domfiltrado, domfiltrado1);
+                    // let competencias = dominiso1[objeto];
                     // let dominios1 = this.state.dominios.map(dominio=>
                     //     dominio.id == elemento.dominio_id ?
                     //         dominio1
