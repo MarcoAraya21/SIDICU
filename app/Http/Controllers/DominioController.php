@@ -39,8 +39,17 @@ class DominioController extends Controller
     public function store(Request $request)
     {
         $Dominio = Dominio::create($request->all());
+        $Dominio = Dominio::with('tipo_dominio')->findOrFail($Dominio->id);
         return response()->json($Dominio, 201);
 
+        // $SolicitudGasto = SolicitudGasto::with(['gasto_conceptos' => function ($query){
+        //     $query 
+        //     ->with(['conformidades' => function ($query) {
+        //         $query
+        //         ->with('contratacion')
+        //         ->with(['ultimo_estado_conformidad' => function ($query) {
+        //             $query
+        //             ->with('estado');
     }
 
     /**

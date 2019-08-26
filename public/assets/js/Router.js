@@ -1048,9 +1048,20 @@ function handleInputArrays(e, objeto, propiedad, indice) {
 }
 
 function handleAddElement(key, elemento) {
-    var state = this.state[key];
-    state.push(elemento);
-    this.setState(_defineProperty({}, key, state));
+    if (key == "competencias") {
+        var dominio1 = this.state['dominios'].find(function (dominio) {
+            return dominio.id == elemento.dominio_id;
+        });
+        dominio1[key].push(elemento);
+        var dominios1 = this.state.dominios.map(function (dominio) {
+            return dominio.id == elemento.dominio_id ? dominio1 : dominio;
+        });
+        this.setState({ dominios: dominios1 });
+    } else {
+        var state = this.state[key];
+        state.push(elemento);
+        this.setState(_defineProperty({}, key, state));
+    }
 }
 
 //Permite manipular el estado cuando son checkbox
@@ -1136,10 +1147,38 @@ function borrarElemento(objeto, propiedad) {
             throw "Error en la llamada Ajax";
         }
     }).then(function () {
-        var newstate = _this.state[objeto].filter(function (el) {
-            return el.id != propiedad;
-        });
-        _this.setState(_defineProperty({}, objeto, newstate));
+        if (objeto == 'competencias') {
+            // let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
+            // this.setState({[objeto]: newstate})
+            var dominio1 = _this.state['dominios'].find(function (dominio) {
+                return dominio.competencias.map(function (competencia) {
+                    return competencia.id == propiedad;
+                });
+            });
+            var domfiltrado1 = dominio1[objeto].filter(function (competencia) {
+                return competencia.id == propiedad;
+            });
+            var domfiltrado = dominio1[objeto].filter(function (competencia) {
+                return competencia.id != propiedad;
+            });
+
+            // let competencias = dominio1[objeto];
+            console.log('dominio', domfiltrado, domfiltrado1);
+            // let dominios1 = this.state.dominios.map(dominio=>
+            //     dominio.id == elemento.dominio_id ?
+            //         dominio1
+            //     :
+            //     dominio);
+            // this.setState({dominios: dominios1})
+        }
+        // else{
+        //     let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
+        //     this.setState({[objeto]: newstate})
+
+        var state = _this.state[key];
+        state.push(elemento);
+        _this.setState(_defineProperty({}, key, state));
+        // }
     });
 }
 
@@ -32346,7 +32385,6 @@ var show = function (_Component) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container py-4' },
-                console.log(this.state, this.props),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_notifications_component___default.a, { ref: this.notificationDOMRef }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
@@ -32687,7 +32725,9 @@ var index = function (_Component) {
                                     handleInputArrays: _this3.props.handleInputArrays,
                                     borrarElemento: _this3.props.borrarElemento });
                             }),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            this.props.dominios.filter(function (dominio) {
+                                return dominio.tipo_dominio_id == 1;
+                            }).length < 4 && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
                                 { align: 'right', className: 'mt-2 mb-1' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -32696,7 +32736,7 @@ var index = function (_Component) {
                                             _this3.addElemento('dominios');
                                         } },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
-                                    'Crear Plan'
+                                    'Crear Dominio'
                                 )
                             )
                         ),
@@ -32836,10 +32876,10 @@ var edit = function (_Component) {
                     { className: 'col-12 text-right mt-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', className: 'btn btn-primary m-b-10', onClick: this.handleSubmit },
+                        { type: 'button', className: 'btn btn-primary', onClick: this.handleSubmit },
                         'Guardar'
                     ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    !this.props.transversal && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
                         { type: 'button', className: 'btn btn-danger p-5 m-l-5',
                             onClick: function onClick() {
@@ -32906,6 +32946,8 @@ var index = function (_Component) {
     _createClass(index, [{
         key: 'render',
         value: function render() {
+            var _this2 = this;
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container py-4' },
@@ -32920,13 +32962,17 @@ var index = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
                         null,
-                        this.props.dominios.map(function (dominio, i) {
+                        this.props.dominios.sort(function (a, b) {
+                            return a.tipo_dominio_id - b.tipo_dominio_id;
+                        }).map(function (dominio, i) {
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_5__utiles_Panel__["a" /* default */],
-                                { key: i, titulo: dominio.nombre || 'Sin Nombre' },
+                                { key: i, titulo: 'Dominio ' + dominio.tipo_dominio.nombre + ': ' + (dominio.nombre || 'Sin Nombre') },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__show__["a" /* default */], {
                                     i: i,
-                                    dominio: dominio })
+                                    dominio: dominio,
+                                    handleAddElement: _this2.props.handleAddElement,
+                                    borrarElemento: _this2.props.borrarElemento })
                             );
                         })
                     )
@@ -33080,7 +33126,7 @@ var show = function (_Component) {
                                 _this3.addElemento('competencias');
                             } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
-                        'Crear Plan'
+                        'Crear Competencia'
                     )
                 )
             );
@@ -33174,10 +33220,41 @@ var edit = function (_Component) {
     }, {
         key: 'render',
         value: function render() {
+            var _this3 = this;
+
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'my-2' },
-                "asd" + this.props.i
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'p',
+                    { className: 'm-0' },
+                    'Ingrese Nombre de la Competencia: ',
+                    this.props.i + 1
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
+                    className: 'form-control',
+                    value: this.props.competencia.nombre || '',
+                    onChange: function onChange(e) {
+                        return _this3.props.handleInputArrays(e, 'competencia', 'nombre', _this3.props.competencia.id);
+                    } }),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'col-12 text-right mt-2' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { type: 'button', className: 'btn btn-primary', onClick: this.handleSubmit },
+                        'Guardar'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'button',
+                        { type: 'button', className: 'btn btn-danger p-5 m-l-5',
+                            onClick: function onClick() {
+                                if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElemento('competencias', _this3.props.competencia.id);
+                            } },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-10' }),
+                        'Eliminar'
+                    )
+                )
             );
         }
     }]);

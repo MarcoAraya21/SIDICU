@@ -44,6 +44,7 @@ export default class show extends Component {
     render() {
         return (
             <div className="border p-3 mb-3">
+                
                 {
                     this.props.dominio.competencias && this.props.dominio.competencias.length > 0 ?
                     this.props.dominio.competencias.map((competencia,i) =>
@@ -58,7 +59,7 @@ export default class show extends Component {
                 }
                 <div align="right" className="mt-2 mb-1">
                     <button type="button" className="btn btn-primary" onClick={()=>{this.addElemento('competencias')}}>      
-                        <i className="fas fa-plus p-r-5" ></i>Crear Plan
+                        <i className="fas fa-plus p-r-5" ></i>Crear Competencia
                     </button>
                 </div> 
             </div>

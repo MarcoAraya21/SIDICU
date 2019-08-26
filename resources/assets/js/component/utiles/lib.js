@@ -67,10 +67,22 @@ export function handleInput(e, objeto, atributo, id)
 
 
 export function handleAddElement(key, elemento) {
+    if(key == "competencias")
+    {
+        let dominio1 = this.state['dominios'].find(dominio => dominio.id == elemento.dominio_id);
+        dominio1[key].push(elemento);
+        let dominios1 = this.state.dominios.map(dominio=>
+            dominio.id == elemento.dominio_id ?
+                dominio1
+            :
+            dominio);
+        this.setState({dominios: dominios1})
+    }
+    else{
     var state = this.state[key];
     state.push(elemento);
     this.setState({[key]: state});
-    
+    }
 }
 
 //Permite manipular el estado cuando son checkbox
@@ -156,8 +168,33 @@ export function borrarElemento(objeto, propiedad){
      })
      .then(
          () =>{
-            let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
-            this.setState({[objeto]: newstate})
+            if(objeto == 'competencias')
+            {
+                // let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
+                // this.setState({[objeto]: newstate})
+                    let dominio1 = this.state['dominios'].find(dominio => dominio.competencias.map( competencia =>
+                        competencia.id == propiedad)
+                    );
+                    let domfiltrado1 = dominio1[objeto].filter(competencia => competencia.id == propiedad);
+                    let domfiltrado = dominio1[objeto].filter(competencia => competencia.id != propiedad);
+
+                    // let competencias = dominio1[objeto];
+                    console.log('dominio', domfiltrado, domfiltrado1);
+                    // let dominios1 = this.state.dominios.map(dominio=>
+                    //     dominio.id == elemento.dominio_id ?
+                    //         dominio1
+                    //     :
+                    //     dominio);
+                    // this.setState({dominios: dominios1})
+            }
+            // else{
+            //     let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
+            //     this.setState({[objeto]: newstate})
+
+                var state = this.state[key];
+                state.push(elemento);
+                this.setState({[key]: state});
+            // }
          }
         )
 
