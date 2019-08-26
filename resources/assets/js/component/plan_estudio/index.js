@@ -27,7 +27,9 @@ export default class index extends Component {
             carrera: {},
             tipo_plan: {},
             tipo_ingreso: {},
-            dominios: []
+            dominios: [],
+            usuarios: [],
+
         }
 
         this.handleInput = handleInput.bind(this);
@@ -60,7 +62,9 @@ export default class index extends Component {
                     carrera: response.data.carrera,
                     tipo_plan: response.data.tipo_plan,
                     tipo_ingreso: response.data.tipo_ingreso,
-                    dominios: response.data.dominios
+                    dominios: response.data.dominios,
+                    usuarios: response.data.plan_estudio_usuarios,
+
 
                 })
                 // console.log(response.data.informe_avance)
@@ -127,6 +131,7 @@ export default class index extends Component {
                                 carrera={this.state.carrera}
                                 tipo_plan={this.state.tipo_plan}
                                 tipo_ingreso={this.state.tipo_ingreso}
+                                usuarios={this.state.usuarios}
                                 params={this.props.match.params.id}/>
                                 }
                             </div>

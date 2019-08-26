@@ -41,7 +41,7 @@ class PlanEstudioController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        //dd($request);
         $this->validate($request, [
             'nombre' => 'required',
             'observacion' => 'required',
@@ -56,6 +56,8 @@ class PlanEstudioController extends Controller
             $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1]);
         }
         $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
+        $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);
+        $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->academico_id,'rol_id' => 2]);
         return response()->json($PlanEstudio, 201);
 
     }
@@ -80,6 +82,10 @@ class PlanEstudioController extends Controller
             ->with('carrera')
             ->with('tipo_plan')
             ->with('tipo_ingreso')
+            ->with(['plan_estudio_usuarios' => function ($query) {
+                $query
+                ->with('usuario');
+            }])
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }

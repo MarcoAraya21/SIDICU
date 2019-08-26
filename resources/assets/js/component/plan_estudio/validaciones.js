@@ -36,6 +36,12 @@ export function validaciones(values, show){
         if (!values.carrera_id) {
             errors.carrera_id = campo_mensaje;
         }
+        if (!values.uic_id) {
+            errors.uic_id = campo_mensaje;
+        }
+        if (!values.academico_id) {
+            errors.academico_id = campo_mensaje;
+        }
         if (!values.tipo_plan_id) {
             errors.tipo_plan_id = campo_mensaje;
         }

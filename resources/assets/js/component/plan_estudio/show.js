@@ -116,6 +116,16 @@ export default class show extends Component {
                             <p>{this.props.tipo_ingreso && this.props.tipo_ingreso.nombre}</p> 
                         </div>
                     </div>
+                    <div className="col row">
+                        <div className="col-6">
+                            <p className="mb-1">Encargado UIC</p>
+                            <p>{this.props.usuarios.find(usuario=>usuario.rol_id == 1).usuario.nombre}</p>
+                        </div>
+                        <div className="col-6">
+                            <p className="mb-1">Coordinador del Cómite</p>
+                            <p>{this.props.usuarios.find(usuario=>usuario.rol_id == 2).usuario.nombre}</p>
+                        </div>
+                    </div>
                     <legend>Otros Datos</legend>
                     <div className="row mb-2">
                         <label className="col-3">Proposito</label>
@@ -179,6 +189,11 @@ export default class show extends Component {
                     <button type="button" className="btn btn-primary m-b-10" onClick={this.handleSubmit}>Guardar</button>
                     }
                 </div>
+
+                <div className="col-12 text-right mt-2">
+                    <button type="button" className="btn btn-primary m-b-10" onClick={this.handleSubmit}>Exportar</button>
+                </div>
+
                 {/* <ReactNotification ref={this.notificationDOMRef}/>
                 <ol className="breadcrumb pull-right">
                     <li className="breadcrumb-item"><Link to="">Inicio</Link></li>
