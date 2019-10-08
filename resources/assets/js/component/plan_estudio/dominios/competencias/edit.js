@@ -25,14 +25,14 @@ export default class edit extends Component {
     handleSubmit(){
         //e.preventDefault();
         this.setState({guardando: true})
-        fetch('/api/dominios/' + this.props.dominio.id, {
+        fetch('/api/competencias/' + this.props.competencia.id, {
             method: 'put',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(
-                this.props.dominio
+                this.props.competencia
             )
         })
         .then(function(response) {
@@ -60,7 +60,7 @@ export default class edit extends Component {
                 <textarea rows="3"
                     className="form-control" 
                     value={this.props.competencia.descripcion || ''}
-                    onChange={(e)=>this.props.handleInputArrays(e, 'competencia', 'descripcion', this.props.competencia.id)}>
+                    onChange={(e)=>this.props.handleInputArrays(e, 'competencias', 'descripcion', this.props.competencia.id)}>
                 </textarea>
                 
                 <div className="col-12 text-right mt-2">

@@ -35,8 +35,6 @@ export default class show extends Component {
          
          })
          .then( data => this.props.handleAddElement(variable, data));
-         
-        
     }
     
 

@@ -25,37 +25,60 @@ export default class index extends Component {
                 <div className="row">
                     <div className="col-lg-12 mx-auto">
                         <ul className="nav nav-tabs">
-                            <li className="nav-items">
-                                <a href="#dominio-tab-show" data-toggle="tab" className="nav-link active">
-                                    <span className="d-sm-none">{this.props.dominios[0] && this.props.dominios[0].nombre}</span>
-                                    <span className="d-sm-block d-none">{this.props.dominios[0] && this.props.dominios[0].nombre}</span>
-                                </a>
-                            </li>
-                            <li className="nav-items">
-                                <a href="#dominio-tab-show" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">{this.props.dominios[1] && this.props.dominios[1].nombre}</span>
-                                    <span className="d-sm-block d-none">{this.props.dominios[1] && this.props.dominios[1].nombre}</span>
-                                </a>
-                            </li>
-                            {/* <li className="nav-items">
-                                <a href="#dominio-tab-1" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">Dominios</span>
-                                    <span className="d-sm-block d-none">Dominios del Plan</span>
-                                </a>
-                            </li>
-                            <li className="nav-items">
-                                <a href="#dominio-tab-2" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">Competencias</span>
-                                    <span className="d-sm-block d-none">Competencias del Plan</span>
-                                </a>
-                            </li> */}
+                            {
+                                this.props.dominios.map((dominio, i) =>
+                                    i == 0 ? 
+                                    <li className="nav-items" key={i}>
+                                        <a href="#dominio-tab-show" data-toggle="tab" className="nav-link active">
+                                            <span className="d-sm-none">{dominio.nombre}</span>
+                                            <span className="d-sm-block d-none">{dominio.nombre}</span>
+                                        </a>
+                                    </li>
+                                    :
+                                    <li className="nav-items" key={i}>
+                                        <a href={"#dominio-tab-"+i} data-toggle="tab" className="nav-link">
+                                            <span className="d-sm-none">{dominio.nombre}</span>
+                                            <span className="d-sm-block d-none">{dominio.nombre}</span>
+                                        </a>
+                                    </li>
+                                    )
+                                /* <li className="nav-items">
+                                    <a href="#dominio-tab-1" data-toggle="tab" className="nav-link">
+                                        <span className="d-sm-none">Dominios</span>
+                                        <span className="d-sm-block d-none">Dominios del Plan</span>
+                                    </a>
+                                </li>
+                                <li className="nav-items">
+                                    <a href="#dominio-tab-2" data-toggle="tab" className="nav-link">
+                                        <span className="d-sm-none">Competencias</span>
+                                        <span className="d-sm-block d-none">Competencias del Plan</span>
+                                    </a>
+                                </li> */   
+                            }
                         </ul>
                         <div className="tab-content">
-                            <div className="tab-pane fade active show" id="dominio-tab-show">
-                                {
-                                <Show dominio={this.props.dominios[0]}/>
-                                }
-                            </div>
+                            {
+                                this.props.dominios.map((dominio, i) =>
+                                    i == 0 ?
+                                    <div className="tab-pane fade active show" id="dominio-tab-show" key={i}>
+                                        {
+                                        <Show dominio={dominio}
+                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleAddElement = {this.props.handleAddElement}
+                                        borrarElemento={this.props.borrarElemento}                                        />
+                                        }
+                                    </div>
+                                    :
+                                    <div className="tab-pane fade" id={"dominio-tab-"+i} key={i}>
+                                        <Show dominio={dominio}
+                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleAddElement = {this.props.handleAddElement}
+                                        borrarElemento={this.props.borrarElemento}  
+                                        />
+                                    </div>
+                                    )
+                            }
+                            
                             {/* <div className="tab-pane fade" id="dominio-tab-1">
                                 <Dominios
                                 id={this.state.id}

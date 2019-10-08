@@ -15,31 +15,7 @@ export default class show extends Component {
         
     }
 
-    // addElemento(variable){
-    //     //e.preventDefault();
-    //     fetch(`/api/${variable}/`, {
-    //         method: 'post',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type':'application/json'
-    //         }
-    //         ,
-    //         body: JSON.stringify(
-    //             {dominio_id:  this.props.dominio.id}
-    //         )
-    //     })
-    //     .then(function(response) {
-    //         if(response.ok) {
-    //             return response.json();
-    //         } else {
-    //             throw "Error en la llamada Ajax";
-    //         }
-         
-    //      })
-    //      .then( data => this.props.handleAddElement(variable, data));
-         
-        
-    // }
+
     
 
     
@@ -50,10 +26,14 @@ export default class show extends Component {
                 <div className="col-12">
                     <legend>Competencias</legend>
                     <React.Fragment>
-                        {this.props.dominio && this.props.dominio.competencias.map((competencia,i) =>
+                        {this.props.dominio &&  this.props.dominio.competencias && this.props.dominio.competencias.map((competencia,i) =>
                             <Panel key = {i} titulo={competencia.descripcion}>
                                 <ShowCompetencias
-                                    competencia={competencia}/>
+                                    competencia={competencia}
+                                    handleInputArrays = {this.props.handleInputArrays}
+                                    handleAddElement = {this.props.handleAddElement}
+                                    borrarElemento={this.props.borrarElemento} 
+                                    />
                             </Panel>
                         )}
                     </React.Fragment>

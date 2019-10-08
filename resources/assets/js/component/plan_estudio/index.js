@@ -45,11 +45,6 @@ export default class index extends Component {
             response // console.log(response.data.tasks)
         ) =>{
                 this.setState({
-                    plan_estudios: response.data
-                })
-
-
-                this.setState({
                     id: response.data.id,
                     nombre: response.data.nombre,
                     observacion: response.data.observacion,
@@ -157,8 +152,15 @@ export default class index extends Component {
                             <div className="tab-pane fade" id="plan-tab-3">
                                 <NivelCompetencias
                                 dominios={this.state.dominios}
+                                handleInputArrays = {this.handleInputArrays}
+                                borrarElemento = {this.borrarElemento}
+                                handleAddElement = {this.handleAddElement}
                                 />
                             </div>
+                            {/* <div className="tab-pane fade" id="plan-tab-4">
+                                <Asignaturas
+                                />
+                            </div> */}
                         </div>			
                     </div>
                </div> 

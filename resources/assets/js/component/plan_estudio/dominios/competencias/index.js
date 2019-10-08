@@ -27,7 +27,9 @@ export default class index extends Component {
                                     i = {i}
                                     dominio = {dominio}
                                     handleAddElement = {this.props.handleAddElement}
-                                    borrarElemento={this.props.borrarElemento}/>
+                                    borrarElemento={this.props.borrarElemento}
+                                    handleInputArrays = {this.props.handleInputArrays}
+                                    />
                             </Panel>
                         )}
                     </React.Fragment>

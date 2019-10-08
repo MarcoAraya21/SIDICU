@@ -52,16 +52,78 @@ export function handleInput(e, objeto, atributo, id)
     }
 
     export function handleInputArrays(e, objeto, propiedad, indice) {
-        var state = this.state[objeto]; 
-        if(e.target){
-            state.find(dominio => dominio.id == indice)[propiedad] = e.target.value ;
+        if(objeto == "competencias")
+        {
+            // const comp_id = this.state.dominios.map(dominio =)
+            // var state = this.state['dominios'].map(dominio =>
+            //         dominio.competencias.find(competencia =>
+            //             competencia.id == indice)
+            //         'competencias', 'descripcion' ,'id'
+            
+                    // if(e.target)
+                    // {
+                    //     dominio.competencias.map(competencia =>
+                    //         {
+                    //             if(competencia.id == indice)
+                    //             {
+                    //                return {...competencia, [propiedad]: e.target.value}
+                    //             }
+                    //             else return competencia
+                    //         }
+                    //     )                        
+                    // }
+                    // else
+                    // {
+                    //     dominio.competencias.map(competencia =>
+                    //         {
+                    //             if(competencia.id == indice)
+                    //             {
+                    //                return {...competencia, [propiedad]: e}
+                    //             }
+                    //             else return competencia
+                    //         }
+                    //     )
+                    // }
+                
+            var dominios = this.state['dominios'].map(dominio =>
+                {return {...dominio, competencias: dominio.competencias.map(competencia =>
+                    {return {...competencia,
+                            descripcion: (competencia.id == indice) ?
+                            (e.target ? e.target.value : e) : competencia.descripcion
+                            }
+                    })
+                }});
+            this.setState({dominios: dominios});
         }
-        else{
-            state.find(dominio => dominio.id == indice)[propiedad] = e ;
-        }
-        
-        this.setState({[objeto]: state});
-        
+        else
+            {
+            if(objeto == "nivel_competencias")
+                {
+                    var dominios = this.state['dominios'].map(dominio =>
+                        {return {...dominio, competencias: dominio.competencias.map(competencia =>
+                            {return {...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia =>
+                                {return {...nivel_competencia,
+                                        descripcion: (nivel_competencia.id == indice) ?
+                                        (e.target ? e.target.value : e) : nivel_competencia.descripcion
+                                    }
+                                })
+                            }})
+                        }});
+                    this.setState({dominios: dominios});
+                }
+            else
+                {
+                    var state = this.state[objeto]; 
+                    if(e.target){
+                        state.find(dominio => dominio.id == indice)[propiedad] = e.target.value ;
+                    }
+                    else{
+                        state.find(dominio => dominio.id == indice)[propiedad] = e ;
+                    }
+                    
+                    this.setState({[objeto]: state});
+                }
+            }
     }
 
 
@@ -78,10 +140,30 @@ export function handleAddElement(key, elemento) {
             dominio);
         this.setState({dominios: dominios1})
     }
-    else{
-    var state = this.state[key];
-    state.push(elemento);
-    this.setState({[key]: state});
+    else
+    {
+        if(key == "nivel_competencias")
+        {
+            let dominios1 = this.state['dominios'].map(dominio =>
+                {return {...dominio, competencias: dominio.competencias.map(competencia =>
+                    {
+                        if(competencia.id == elemento.competencia_id)
+                        {
+                            return {...competencia, nivel_competencias: [...competencia.nivel_competencias, elemento]};
+                        }
+                        else{
+                            return competencia;
+                        }
+                    }
+                )}}
+            )
+            this.setState({dominios: dominios1})
+        }
+        else{
+        var state = this.state[key];
+        state.push(elemento);
+        this.setState({[key]: state});
+        }
     }
 }
 
@@ -170,29 +252,37 @@ export function borrarElemento(objeto, propiedad){
          () =>{
             if(objeto == 'competencias')
             {
-                // let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
-                // this.setState({[objeto]: newstate})
-                    let dominio1 = this.state['dominios'].find(dominio => dominio.competencias.map( competencia =>
-                        competencia.id == propiedad)
-                    );
-                    let domfiltrado = dominio1[objeto].filter(competencia => competencia.id != propiedad);
+                let dominios1 = this.state.dominios.map(dominio=>
+                    {
+                        return {...dominio, competencias: dominio.competencias.filter(competencia =>
+                        competencia.id != propiedad)
+                        }
+                    });
 
-                    // let competencias = dominiso1[objeto];
-                    // let dominios1 = this.state.dominios.map(dominio=>
-                    //     dominio.id == elemento.dominio_id ?
-                    //         dominio1
-                    //     :
-                    //     dominio);
-                    // this.setState({dominios: dominios1})
+                this.setState({dominios: dominios1})
             }
-            // else{
-            //     let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
-            //     this.setState({[objeto]: newstate})
-
-                var state = this.state[key];
-                state.push(elemento);
-                this.setState({[key]: state});
-            // }
+            else
+            {
+                if(objeto == 'nivel_competencias')
+                {
+                    let dominios1 = this.state.dominios.map(dominio =>
+                        {
+                            return {...dominio, competencias: dominio.competencias.map(competencia =>
+                                {
+                                    return {...competencia, nivel_competencias: competencia.nivel_competencias.filter(nivel_competencia =>
+                                        nivel_competencia.id != propiedad)}
+                                }
+                            )}
+                        });
+    
+                    this.setState({dominios: dominios1})
+                }
+                else
+                {
+                    let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
+                    this.setState({[objeto]: newstate})
+                }
+            }
          }
         )
 
