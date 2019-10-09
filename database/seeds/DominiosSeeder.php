@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class TipoDominiosSeeder extends Seeder
+class DominiosSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,9 +11,8 @@ class TipoDominiosSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tipo_dominios')->insert([
-            ['nombre' => 'Especialidad'],
-            ['nombre' => 'Generico']
+        DB::table('dominios')->insert([
+            ['nombre' => 'Generico', 'plan_estudio_id' => null, 'tipo_dominio_id' => 2]
         ]);
     }
 }

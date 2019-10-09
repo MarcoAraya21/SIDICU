@@ -57,7 +57,7 @@ export default class edit extends Component {
     render() {
         return (
             <div className="my-2">
-                <p className="m-0">Ingrese Nombre del Dominio {!this.props.transversal ? this.props.i + 1 : 'Transversal'}:</p>
+                <p className="m-0">Ingrese Nombre del Dominio {!this.props.transversal ? this.props.i + 1 : 'Generico'}:</p>
                 <input type="text"
                     className="form-control" 
                     value={this.props.dominio.nombre || ''}

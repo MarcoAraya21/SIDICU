@@ -64,12 +64,13 @@ export default class index extends Component {
                             }
                             <div align="right" className="mt-2 mb-1">
                                 <button type="button" className="btn btn-primary" onClick={()=>{this.addElemento('dominios')}}>      
-                                    <i className="fas fa-plus p-r-5" ></i>Crear Plan
+                                    <i className="fas fa-plus p-r-5" ></i>Crear Dominio
                                 </button>
                             </div> 
                         </div>
                         
-                        <h4>Transversal</h4>
+                        <h4>Dominio Generico</h4>
+                        {/*
                         <div className="border p-3 mb-3">
                             {
                             this.props.dominios && this.props.dominios.filter(dominio =>
@@ -81,7 +82,7 @@ export default class index extends Component {
                                 borrarElemento={this.props.borrarElemento}/>
                                 )
                             }
-                        </div>
+                        </div>*/}
                     </React.Fragment>
                 </div>  
             </div>

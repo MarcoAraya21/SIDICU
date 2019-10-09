@@ -163,8 +163,6 @@ class Index extends Component {
                                 <div className="invalid-feedback">{this.state.errores.tipo_ingreso_id}</div>}
                             </div>
                         </div>
-
-                        {/* aquí estoy dejando el desastre c: */}
                         <div className="col row mb-2">
                             <div className="col-6">
                                 <label>Responsable UIC</label>
@@ -197,9 +195,6 @@ class Index extends Component {
                                 <div className="invalid-feedback">{this.state.errores.academico_id}</div>}
                             </div>
                         </div>
-                        {/* hasta aquí */}
-
-
                     </div>
                 </div>
                 <div align="right" className="mt-2">

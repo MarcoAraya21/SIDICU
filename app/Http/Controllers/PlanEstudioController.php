@@ -55,7 +55,7 @@ class PlanEstudioController extends Controller
         for ($i=0; $i <= 1  ; $i++) {
             $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1]);
         }
-        $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
+        //$PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->academico_id,'rol_id' => 2]);
         return response()->json($PlanEstudio, 201);

@@ -19,12 +19,21 @@ Route::get('documentos/{media}/{ruta?}/{ruta2?}', 'MediaController@show');
 
 
 Route::get('/login', function () {
-	return view('/pages/login');
+    return view('/pages/login');    
 });
+
+Route::get('/pdf', function () {
+    $pdf = PDF::loadView('/pdf/invoice');
+    //return $pdf->download('invoice.pdf');
+    return $pdf->stream();
+});
+
+Route::get('/pdf_descargar', 'PdfController@pdfview');
 
 Route::get('/{path?}', function () {
     return view('pages/welcome');
 })->where('path', '.*')->where('path', '^((?!assets).)*$');
+
 
 
 

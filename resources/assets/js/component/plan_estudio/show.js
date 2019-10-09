@@ -96,34 +96,34 @@ export default class show extends Component {
                 <div className="col-12">
                     <legend>Datos Iniciales del Plan</legend>
                     <div className="col row">
-                        <p className="col-6">Nombre</p>
+                        <p className="col-6"><b>Nombre</b></p>
                         <p className="col-6" disabled={true}>{this.props.nombre}</p>
                     </div>
                     <div className="col row">
-                        <p className="col-6">Observación</p>
+                        <p className="col-6"><b>Observación</b></p>
                         <p className="col-6" disabled={true}>{this.props.observacion}</p>
                     </div>
                     <div className="col row">
                         <div className="col-4">
-                            <p className="mb-1">Carrera</p>
+                            <p className="mb-1"><b>Carrera</b></p>
                             <p>{this.props.carrera && this.props.carrera.nombre}</p> 
                         </div>
                         <div className="col-4">
-                            <p className="mb-1">Tipo de Plan</p>
+                            <p className="mb-1"><b>Tipo de Plan</b></p>
                             <p>{this.props.tipo_plan && this.props.tipo_plan.nombre}</p> 
                         </div>
                         <div className="col-4">
-                            <p className="mb-1">Tipo de Ingreso</p>
+                            <p className="mb-1"><b>Tipo de Ingreso</b></p>
                             <p>{this.props.tipo_ingreso && this.props.tipo_ingreso.nombre}</p> 
                         </div>
                     </div>
                     <div className="col row">
                         <div className="col-6">
-                            <p className="mb-1">Encargado UIC</p>
+                            <p className="mb-1"><b>Encargado UIC</b></p>
                             <p>{this.props.usuarios.find(usuario=>usuario.rol_id == 1).usuario.nombre}</p>
                         </div>
                         <div className="col-6">
-                            <p className="mb-1">Coordinador del Cómite</p>
+                            <p className="mb-1"><b>Coordinador del Cómite</b></p>
                             <p>{this.props.usuarios.find(usuario=>usuario.rol_id == 2).usuario.nombre}</p>
                         </div>
                     </div>
@@ -191,8 +191,9 @@ export default class show extends Component {
                     }
                 </div>
 
-                <div className="col-12 text-right mt-2">
-                    <button type="button" className="btn btn-primary m-b-10" onClick={this.handleSubmit}>Exportar</button>
+                <div className="col-12 text-right t-2">
+                    {/*<a href= "pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>*/}
+                    <a href= "pdf_descargar" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
                 </div>
 
                 {/* <ReactNotification ref={this.notificationDOMRef}/>

@@ -32372,7 +32372,11 @@ var show = function (_Component) {
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'p',
                             { className: 'col-6' },
-                            'Nombre'
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'b',
+                                null,
+                                'Nombre'
+                            )
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'p',
@@ -32386,7 +32390,11 @@ var show = function (_Component) {
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'p',
                             { className: 'col-6' },
-                            'Observaci\xF3n'
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'b',
+                                null,
+                                'Observaci\xF3n'
+                            )
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'p',
@@ -32403,7 +32411,11 @@ var show = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
                                 { className: 'mb-1' },
-                                'Carrera'
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'b',
+                                    null,
+                                    'Carrera'
+                                )
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
@@ -32417,7 +32429,11 @@ var show = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
                                 { className: 'mb-1' },
-                                'Tipo de Plan'
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'b',
+                                    null,
+                                    'Tipo de Plan'
+                                )
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
@@ -32431,7 +32447,11 @@ var show = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
                                 { className: 'mb-1' },
-                                'Tipo de Ingreso'
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'b',
+                                    null,
+                                    'Tipo de Ingreso'
+                                )
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
@@ -32449,7 +32469,11 @@ var show = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
                                 { className: 'mb-1' },
-                                'Encargado UIC'
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'b',
+                                    null,
+                                    'Encargado UIC'
+                                )
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
@@ -32465,7 +32489,11 @@ var show = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
                                 { className: 'mb-1' },
-                                'Coordinador del C\xF3mite'
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'b',
+                                    null,
+                                    'Coordinador del C\xF3mite'
+                                )
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'p',
@@ -32618,16 +32646,12 @@ var show = function (_Component) {
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'col-12 text-right mt-2' },
-                    this.state.guardando ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'button',
-                        { className: 'btn btn-primary disabled' },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-spinner fa-pulse' }),
-                        ' Exportando'
-                    ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'button',
-                        { type: 'button', className: 'btn btn-primary m-b-10', onClick: this.handleSubmit },
-                        'Exportar'
+                    { className: 'col-12 text-right t-2' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'a',
+                        { href: 'pdf_descargar', download: true, className: 'btn btn-primary' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-download fa-fw' }),
+                        ' Descargar'
                     )
                 )
             );
@@ -32756,27 +32780,14 @@ var index = function (_Component) {
                                             _this3.addElemento('dominios');
                                         } },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
-                                    'Crear Plan'
+                                    'Crear Dominio'
                                 )
                             )
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'h4',
                             null,
-                            'Transversal'
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'div',
-                            { className: 'border p-3 mb-3' },
-                            this.props.dominios && this.props.dominios.filter(function (dominio) {
-                                return dominio.tipo_dominio_id == 2;
-                            }).map(function (dominio, i) {
-                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__edit__["a" /* default */], { key: dominio.id,
-                                    dominio: dominio, i: i,
-                                    transversal: true,
-                                    handleInputArrays: _this3.props.handleInputArrays,
-                                    borrarElemento: _this3.props.borrarElemento });
-                            })
+                            'Dominio Generico'
                         )
                     )
                 )
@@ -32882,7 +32893,7 @@ var edit = function (_Component) {
                     'p',
                     { className: 'm-0' },
                     'Ingrese Nombre del Dominio ',
-                    !this.props.transversal ? this.props.i + 1 : 'Transversal',
+                    !this.props.transversal ? this.props.i + 1 : 'Generico',
                     ':'
                 ),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
