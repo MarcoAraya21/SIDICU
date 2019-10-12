@@ -2,7 +2,7 @@
   "_args": [
     [
       "blueimp-file-upload@9.20.0",
-      "C:\\Users\\UTEM-DIDA\\desktop\\sistema-sigedi"
+      "C:\\Users\\MASTE\\desktop\\sidicu"
     ]
   ],
   "_from": "blueimp-file-upload@9.20.0",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/blueimp-file-upload/-/blueimp-file-upload-9.20.0.tgz",
   "_spec": "9.20.0",
-  "_where": "C:\\Users\\UTEM-DIDA\\desktop\\sistema-sigedi",
+  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
   "author": {
     "name": "Sebastian Tschan",
     "url": "https://blueimp.net"

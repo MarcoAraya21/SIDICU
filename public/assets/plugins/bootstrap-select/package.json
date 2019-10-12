@@ -2,7 +2,7 @@
   "_args": [
     [
       "bootstrap-select@1.12.4",
-      "C:\\Users\\UTEM-DIDA\\desktop\\sistema-sigedi"
+      "C:\\Users\\MASTE\\desktop\\sidicu"
     ]
   ],
   "_from": "bootstrap-select@1.12.4",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/bootstrap-select/-/bootstrap-select-1.12.4.tgz",
   "_spec": "1.12.4",
-  "_where": "C:\\Users\\UTEM-DIDA\\desktop\\sistema-sigedi",
+  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
   "author": {
     "name": "Silvio Moreto",
     "url": "https://github.com/silviomoreto"

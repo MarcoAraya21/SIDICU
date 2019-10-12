@@ -11,11 +11,12 @@ export default class showcompetencias extends Component {
         this.state = {
             open: false
         }
+        this.handleClickOpen = this.handleClickOpen.bind(this);
         
     }
 
-    handleClickOpen(){
-        this.setState({open: true});
+    handleClickOpen(estado){
+        this.setState({open: estado});
       };
 
     addElemento(variable){
@@ -66,11 +67,11 @@ export default class showcompetencias extends Component {
                     <button type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_competencias')}}>      
                         <i className="fas fa-plus p-r-5" ></i>Crear Nivel Competencia
                     </button>
-                    <button type="button" className="btn btn-primary" onClick={()=>{this.handleClickOpen()}}>      
+                    <button type="button" className="btn btn-primary" onClick={()=>{this.handleClickOpen(true)}}>      
                         <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
                     </button>
                 </div>
-                <Logros open={open} setOpen={setOpen}/>
+                {/* <Logros open={this.state.open} setOpen={this.handleClickOpen}/> */}
             </div>
         );
     }
