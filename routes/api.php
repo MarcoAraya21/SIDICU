@@ -26,3 +26,5 @@ Route::apiResource('dominios', 'DominioController', ['parameters' => [
     'dominios' => 'dominio']]);
 Route::apiResource('competencias', 'CompetenciaController', ['parameters' => [
     'competencias' => 'competencia']]);
+Route::apiResource('nivel_competencias', 'NivelCompetenciaController', ['parameters' => [
+    'nivel_competencias' => 'nivel_competencia']]);

@@ -25,14 +25,14 @@ export default class edit extends Component {
     handleSubmit(){
         //e.preventDefault();
         this.setState({guardando: true})
-        fetch('/api/dominios/' + this.props.dominio.id, {
+        fetch('/api/competencias/' + this.props.competencia.id, {
             method: 'put',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(
-                this.props.dominio
+                this.props.competencia
             )
         })
         .then(function(response) {
@@ -56,25 +56,23 @@ export default class edit extends Component {
     render() {
         return (
             <div className="my-2">
-                {"asd" + this.props.i}
-                {/* <p className="m-0">Ingrese Nombre del Dominio {!this.props.transversal ? this.props.i + 1 : 'Transversal'}:</p>
-                <input type="text"
+                <p className="m-0">Ingrese Descripción de la Competencia: {this.props.i + 1}</p>
+                <textarea rows="3"
                     className="form-control" 
-                    value={this.props.dominio.nombre || ''}
-                    onChange={(e)=>this.props.handleInputArrays(e, 'dominios', 'nombre', this.props.dominio.id)}>
-                </input>
+                    value={this.props.competencia.descripcion || ''}
+                    onChange={(e)=>this.props.handleInputArrays(e, 'competencias', 'descripcion', this.props.competencia.id)}>
+                </textarea>
+                
                 <div className="col-12 text-right mt-2">
                     
-                    <button type="button" className="btn btn-primary m-b-10" onClick={this.handleSubmit}>Guardar</button>
-                    
+                    <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
                     <button type="button" className="btn btn-danger p-5 m-l-5"
                     onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElemento('dominios', this.props.dominio.id)}}>
-                      <i className="fas fa-times p-r-10"></i>Eliminar</button>
-                </div> */}
+                    this.props.borrarElemento('competencias', this.props.competencia.id)}}>
+                    <i className="fas fa-times p-r-10"></i>Eliminar</button>
+                    
+                </div>
             </div>
-
-
         );
     }
 }

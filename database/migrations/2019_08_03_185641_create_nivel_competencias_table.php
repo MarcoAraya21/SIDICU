@@ -15,8 +15,8 @@ class CreateNivelCompetenciasTable extends Migration
     {
         Schema::create('nivel_competencias', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('descripcion');
-            $table->tinyInteger('nivel');
+            $table->text('descripcion')->nullable();
+            $table->tinyInteger('nivel')->nullable();
             $table->timestamps();
         });
     }

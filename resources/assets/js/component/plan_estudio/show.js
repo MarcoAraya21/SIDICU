@@ -91,7 +91,6 @@ export default class show extends Component {
     render() {
         return (
             <div className="container py-4">
-                {console.log(this.state, this.props)}
                 <ReactNotification ref={this.notificationDOMRef}/>
                 <div className="col-12">
                     <legend>Datos Iniciales del Plan</legend>

@@ -65,12 +65,13 @@ export default class edit extends Component {
                 </input>
                 <div className="col-12 text-right mt-2">
                     
-                    <button type="button" className="btn btn-primary m-b-10" onClick={this.handleSubmit}>Guardar</button>
-                    
-                    <button type="button" className="btn btn-danger p-5 m-l-5"
-                    onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElemento('dominios', this.props.dominio.id)}}>
-                      <i className="fas fa-times p-r-10"></i>Eliminar</button>
+                    <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
+                    {!this.props.transversal && 
+                        <button type="button" className="btn btn-danger p-5 m-l-5"
+                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
+                        this.props.borrarElemento('dominios', this.props.dominio.id)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>
+                    }
                 </div>
             </div>
 
