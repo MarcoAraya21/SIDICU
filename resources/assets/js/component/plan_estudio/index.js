@@ -41,8 +41,15 @@ export default class index extends Component {
         this.borrarElemento = borrarElemento.bind(this);
         this.handleAddElement = handleAddElement.bind(this);
         //this.renderErrorFor = this.renderErrorFor.bind(this)
+        this.habilitarGeneral = this.habilitarGeneral.bind(this);
+
     }
 
+
+
+    habilitarGeneral(estado){
+        this.setState({habilitado: estado});
+    }
     getPlanEstudio() {
         // console.log(projectId);
         axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
@@ -100,13 +107,13 @@ export default class index extends Component {
                     <div className="col-lg-12 mx-auto">
                         <ul className="nav nav-tabs">
                             <li className="nav-items">
-                                <a href="#plan-tab-show" data-toggle="tab" className={"nav-link active" + (!this.state.habilitado && " disabled")}>
+                                <a href="#plan-tab-show" data-toggle="tab" className="nav-link active">
                                     <span className="d-sm-none">Plan de Estudios</span>
                                     <span className="d-sm-block d-none">Información del Plan de Estudios</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-1" data-toggle="tab" className="nav-link disabled">
+                                <a href="#plan-tab-1" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Dominios</span>
                                     <span className="d-sm-block d-none">Dominios del Plan</span>
                                 </a>
@@ -152,6 +159,7 @@ export default class index extends Component {
                                 handleInputArrays = {this.handleInputArrays}
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}
+                                habilitarGeneral = {this.habilitarGeneral}
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-2">

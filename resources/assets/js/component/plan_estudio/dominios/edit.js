@@ -51,7 +51,9 @@ export default class edit extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {this.setState({guardando: false, deshabilitado: true})});
+        .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
+                        this.props.habilitarGeneral(true)
+        ]});
         //console.log('formulario enviado',this.state);
     }
     
@@ -68,7 +70,7 @@ export default class edit extends Component {
                     onChange={(e)=>this.props.handleInputArrays(e, 'dominios', 'nombre', this.props.dominio.id)}>
                 </input>
                 <div className="col-12 text-right mt-2">
-                    <button type="button" className="btn btn-lime p-5" onClick={this.habilitar}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
                     <button type="button" className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     {!this.props.transversal && 
                         <button type="button" className="btn btn-danger p-5 m-l-5"

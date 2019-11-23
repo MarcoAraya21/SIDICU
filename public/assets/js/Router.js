@@ -8240,10 +8240,17 @@ var index = function (_Component) {
         _this.borrarElemento = __WEBPACK_IMPORTED_MODULE_5__utiles_lib__["a" /* borrarElemento */].bind(_this);
         _this.handleAddElement = __WEBPACK_IMPORTED_MODULE_5__utiles_lib__["b" /* handleAddElement */].bind(_this);
         //this.renderErrorFor = this.renderErrorFor.bind(this)
+        _this.habilitarGeneral = _this.habilitarGeneral.bind(_this);
+
         return _this;
     }
 
     _createClass(index, [{
+        key: 'habilitarGeneral',
+        value: function habilitarGeneral(estado) {
+            this.setState({ habilitado: estado });
+        }
+    }, {
         key: 'getPlanEstudio',
         value: function getPlanEstudio() {
             var _this2 = this;
@@ -8335,7 +8342,7 @@ var index = function (_Component) {
                                 { className: 'nav-items' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'a',
-                                    { href: '#plan-tab-show', 'data-toggle': 'tab', className: "nav-link active" + (!this.state.habilitado && " disabled") },
+                                    { href: '#plan-tab-show', 'data-toggle': 'tab', className: 'nav-link active' },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'span',
                                         { className: 'd-sm-none' },
@@ -8353,7 +8360,7 @@ var index = function (_Component) {
                                 { className: 'nav-items' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'a',
-                                    { href: '#plan-tab-1', 'data-toggle': 'tab', className: 'nav-link disabled' },
+                                    { href: '#plan-tab-1', 'data-toggle': 'tab', className: 'nav-link' },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'span',
                                         { className: 'd-sm-none' },
@@ -8433,7 +8440,8 @@ var index = function (_Component) {
                                     handleInput: this.handleInput,
                                     handleInputArrays: this.handleInputArrays,
                                     borrarElemento: this.borrarElemento,
-                                    handleAddElement: this.handleAddElement
+                                    handleAddElement: this.handleAddElement,
+                                    habilitarGeneral: this.habilitarGeneral
                                 })
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -38496,7 +38504,8 @@ var index = function (_Component) {
                                     dominio: dominio,
                                     i: i,
                                     handleInputArrays: _this3.props.handleInputArrays,
-                                    borrarElemento: _this3.props.borrarElemento });
+                                    borrarElemento: _this3.props.borrarElemento,
+                                    habilitarGeneral: _this3.props.habilitarGeneral });
                             }),
                             this.props.dominios.filter(function (dominio) {
                                 return dominio.tipo_dominio_id == 1;
@@ -38615,7 +38624,7 @@ var edit = function (_Component) {
             }).catch(function (error) {
                 console.log('Hubo un problema con la petición Fetch:' + error.message);
             }).finally(function () {
-                _this2.setState({ guardando: false, deshabilitado: true });
+                [_this2.setState({ guardando: false, deshabilitado: true }), _this2.props.habilitarGeneral(true)];
             });
             //console.log('formulario enviado',this.state);
         }
@@ -38646,7 +38655,9 @@ var edit = function (_Component) {
                     { className: 'col-12 text-right mt-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', className: 'btn btn-lime p-5', onClick: this.habilitar },
+                        { type: 'button', className: 'btn btn-lime p-5', onClick: function onClick() {
+                                return [_this3.habilitar(), _this3.props.habilitarGeneral(false)];
+                            } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-pencil-alt p-r-10' }),
                         'Editar'
                     ),

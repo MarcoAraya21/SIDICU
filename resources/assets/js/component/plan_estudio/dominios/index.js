@@ -59,7 +59,8 @@ export default class index extends Component {
                                 dominio = {dominio}
                                 i={i}
                                 handleInputArrays={this.props.handleInputArrays}
-                                borrarElemento={this.props.borrarElemento}/>
+                                borrarElemento={this.props.borrarElemento}
+                                habilitarGeneral = {this.props.habilitarGeneral} />
                                 )
                             }
                             {this.props.dominios.filter(dominio => dominio.tipo_dominio_id == 1).length < 4 &&
