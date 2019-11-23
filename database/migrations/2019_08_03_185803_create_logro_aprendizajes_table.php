@@ -15,7 +15,7 @@ class CreateLogroAprendizajesTable extends Migration
     {
         Schema::create('logro_aprendizajes', function (Blueprint $table) {
             $table->increments('id');
-            $table->text('descripcion');
+            $table->text('descripcion')->nullable();
             $table->timestamps();
         });
     }

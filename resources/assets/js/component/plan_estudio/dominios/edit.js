@@ -9,9 +9,10 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            deshabilitado: true
         }
         this.handleSubmit = this.handleSubmit.bind(this);
-
+        this.habilitar = this.habilitar.bind(this);
         
     }
 
@@ -22,7 +23,9 @@ export default class edit extends Component {
     //         this.handleAddElement('gasto_conceptos', {presupuesto_item_id: presupuesto.id, monto: 0})
     //     );
     // }
-
+    habilitar(){
+        this.setState({deshabilitado: false});
+    }
     handleSubmit(){
         //e.preventDefault();
         this.setState({guardando: true})
@@ -48,7 +51,7 @@ export default class edit extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {this.setState({guardando: false})});
+        .finally(() => {this.setState({guardando: false, deshabilitado: true})});
         //console.log('formulario enviado',this.state);
     }
     
@@ -59,13 +62,14 @@ export default class edit extends Component {
             <div className="my-2">
                 <p className="m-0">Ingrese Nombre del Dominio {!this.props.transversal ? this.props.i + 1 : 'Generico'}:</p>
                 <input type="text"
+                    disabled={this.state.deshabilitado}
                     className="form-control" 
                     value={this.props.dominio.nombre || ''}
                     onChange={(e)=>this.props.handleInputArrays(e, 'dominios', 'nombre', this.props.dominio.id)}>
                 </input>
                 <div className="col-12 text-right mt-2">
-                    
-                    <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
+                    <button type="button" className="btn btn-lime p-5" onClick={this.habilitar}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     {!this.props.transversal && 
                         <button type="button" className="btn btn-danger p-5 m-l-5"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
