@@ -40900,7 +40900,7 @@ var show = function (_Component) {
                     { className: 'col-12 text-right t-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'a',
-                        { href: 'pdf_descargar{this.props.params.id}', download: true, className: 'btn btn-primary' },
+                        { href: 'pdf_descargar', download: true, className: 'btn btn-primary' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-download fa-fw' }),
                         ' Descargar'
                     )
@@ -41783,14 +41783,15 @@ var showcompetencias = function (_Component) {
         _this.state = {
             open: false
         };
+        _this.handleClickOpen = _this.handleClickOpen.bind(_this);
 
         return _this;
     }
 
     _createClass(showcompetencias, [{
         key: 'handleClickOpen',
-        value: function handleClickOpen() {
-            this.setState({ open: true });
+        value: function handleClickOpen(estado) {
+            this.setState({ open: estado });
         }
     }, {
         key: 'addElemento',
@@ -41849,7 +41850,7 @@ var showcompetencias = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
                         { type: 'button', className: 'btn btn-primary', onClick: function onClick() {
-                                _this3.handleClickOpen();
+                                _this3.handleClickOpen(true);
                             } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
                         'Logros de Aprendizaje'
