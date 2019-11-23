@@ -2,7 +2,7 @@
   "_args": [
     [
       "blueimp-load-image@2.12.2",
-      "C:\\Users\\UTEM-DIDA\\desktop\\sistema-sigedi"
+      "C:\\Users\\Caro\\desktop\\sidicu"
     ]
   ],
   "_from": "blueimp-load-image@2.12.2",
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/blueimp-load-image/-/blueimp-load-image-2.12.2.tgz",
   "_spec": "2.12.2",
-  "_where": "C:\\Users\\UTEM-DIDA\\desktop\\sistema-sigedi",
+  "_where": "C:\\Users\\Caro\\desktop\\sidicu",
   "author": {
     "name": "Sebastian Tschan",
     "url": "https://blueimp.net"

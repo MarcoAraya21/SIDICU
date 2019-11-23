@@ -9,12 +9,25 @@
 			<table style="width:100%;border:1px solid #000">
 				<tr>
 					<td>Nombre</td>
-					<td>Valor</td>
+					<td>{{$nombre}}</td>
 				</tr>
 				<tr>						
 					<td>Código</td>
 					<td>Valor</td>
 				</tr>
+				<tr>						
+					<td>Carrera</td>
+					<td>Valor</td>
+				</tr>
+				<tr>						
+					<td>Tipo de Plan</td>
+					<td>Valor</td>
+				</tr>
+				<tr>						
+					<td>Tipo de Ingreso</td>
+					<td>Valor</td>
+				</tr>
+
 				<tr>
 					<td>Encargado UIC</td>
 					<td>Valor</td>				

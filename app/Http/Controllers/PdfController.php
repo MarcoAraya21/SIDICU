@@ -86,7 +86,7 @@ class PdfController extends Controller
 
 
 
-    public function pdfview()
+    public function pdfview($id)
     {
         
         // Set extra option
@@ -94,6 +94,7 @@ class PdfController extends Controller
         // pass view file
 
         $data = [
+            'nombre' => $var,
             'title' => 'First PDF for Medium',
             'heading' => 'Hello from 99Points.info',
             'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
@@ -102,7 +103,7 @@ class PdfController extends Controller
 
         $pdf = PDF::loadView('pdf.invoice',$data);
         // download pdf
-        return $pdf->download('invoice.pdf');
+        return $pdf->download('datos-iniciales.pdf');
         //return view('invoice');
     }
 

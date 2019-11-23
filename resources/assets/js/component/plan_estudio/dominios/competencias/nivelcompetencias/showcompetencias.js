@@ -70,7 +70,7 @@ export default class showcompetencias extends Component {
                         <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
                     </button>
                 </div>
-                <Logros open={open} setOpen={setOpen}/>
+                {/* <Logros open={open} setOpen={setOpen}/> */}
             </div>
         );
     }
