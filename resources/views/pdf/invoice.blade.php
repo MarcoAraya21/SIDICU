@@ -9,7 +9,7 @@
 			<table style="width:100%;border:1px solid #000">
 				<tr>
 					<td>Nombre</td>
-					<td>{{$nombre}}</td>
+					<td></td>
 				</tr>
 				<tr>						
 					<td>Código</td>
@@ -42,9 +42,9 @@
 	</div>
 
 	<div>
-		<h1>{{ $heading}}</h1>
+		<h1></h1>
 		<div>
-			<p>{{$content}}</p>
+			<p></p>
 		</div>
 	</div>
 

@@ -8473,7 +8473,7 @@ var index = function (_Component) {
                     { className: 'col-12 text-right t-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'a',
-                        { href: 'pdf_descargar', download: true, className: 'btn btn-primary' },
+                        { href: '/pdf', target: '_blank', download: true, className: 'btn btn-primary' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-download fa-fw' }),
                         ' Descargar'
                     )

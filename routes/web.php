@@ -24,8 +24,8 @@ Route::get('/login', function () {
 
 Route::get('/pdf', function () {
     $pdf = PDF::loadView('/pdf/invoice');
-    //return $pdf->download('invoice.pdf');
-    return $pdf->stream();
+    return $pdf->download('invoice.pdf');
+    //return $pdf->stream();
 });
 
 Route::get('/pdf_descargar/{id}', 'PdfController@pdfview');
