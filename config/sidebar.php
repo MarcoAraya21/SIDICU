@@ -45,12 +45,13 @@ return [
 				'icon' => 'fa fa-chart-line',
 				'title' => 'Indicadores',
 				'url' => 'javascript:;',
-				'sub_menu' => [
-					[
-						'url' => '',
-						'title' => 'Postulación'
-					]
-				]
+			],
+
+			[
+				'icon' => 'fa fa-user-md',
+				'title' => 'Administrador',
+				'url' => 'Administrador',
 			]
+			
 		]
 ];

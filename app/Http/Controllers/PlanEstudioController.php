@@ -17,7 +17,13 @@ class PlanEstudioController extends Controller
         $PlanEstudio = PlanEstudio::
         with(['dominios' => function ($query) {
             $query
-            ->with('competencias');
+            ->with(['competencias' => function ($query) {
+                $query
+                ->with(['nivel_competencias' => function ($query) {
+                    $query
+                    ->with('logro_aprendizajes');
+                }]);
+            }]);
         }])
         ->get();
         return $PlanEstudio->toJson();
@@ -55,7 +61,7 @@ class PlanEstudioController extends Controller
         for ($i=0; $i <= 1  ; $i++) {
             $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1]);
         }
-        //$PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
+        $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->academico_id,'rol_id' => 2]);
         return response()->json($PlanEstudio, 201);
@@ -76,7 +82,10 @@ class PlanEstudioController extends Controller
                 ->with('tipo_dominio')
                 ->with(['competencias' => function ($query) {
                     $query
-                    ->with('nivel_competencias');
+                    ->with(['nivel_competencias' => function ($query) {
+                        $query
+                        ->with('logro_aprendizajes');
+                    }]);
                 }]);
             }])
             ->with('carrera')

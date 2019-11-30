@@ -4,20 +4,15 @@ import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import Edit from './edit';
-import Logros from './logros';
 export default class showcompetencias extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            open: false
         }
-        this.handleClickOpen = this.handleClickOpen.bind(this);
-        
     }
 
-    handleClickOpen(estado){
-        this.setState({open: estado});
-      };
+
+
 
     addElemento(variable){
         //e.preventDefault();
@@ -58,7 +53,8 @@ export default class showcompetencias extends Component {
                         nivel_competencia = {nivel_competencia}
                         i={i}
                         handleInputArrays = {this.props.handleInputArrays}
-                        borrarElemento={this.props.borrarElemento}/>
+                        borrarElemento = {this.props.borrarElemento}
+                        handleAddElement = {this.props.handleAddElement}/>
                         )
                     :
                     <p>No posee ninguna competencia</p>
@@ -66,12 +62,8 @@ export default class showcompetencias extends Component {
                 <div align="right" className="mt-2 mb-1">
                     <button type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_competencias')}}>      
                         <i className="fas fa-plus p-r-5" ></i>Crear Nivel Competencia
-                    </button>
-                    <button type="button" className="btn btn-primary" onClick={()=>{this.handleClickOpen(true)}}>      
-                        <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
-                    </button>
+                    </button>                    
                 </div>
-                {/* <Logros open={this.state.open} setOpen={this.handleClickOpen}/> */}
             </div>
         );
     }

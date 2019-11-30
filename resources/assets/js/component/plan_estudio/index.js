@@ -8,6 +8,8 @@ import Show from './show';
 import Dominios from './dominios';
 import Competencias from './dominios/competencias';
 import NivelCompetencias from './dominios/competencias/nivelcompetencias';
+import Dialog from '@material-ui/core/Dialog';
+
 
 
 
@@ -29,7 +31,9 @@ export default class index extends Component {
             tipo_ingreso: {},
             dominios: [],
             usuarios: [],
+            generico: [],
 
+            habilitado: true,
         }
 
         this.handleInput = handleInput.bind(this);
@@ -59,13 +63,22 @@ export default class index extends Component {
                     tipo_ingreso: response.data.tipo_ingreso,
                     dominios: response.data.dominios,
                     usuarios: response.data.plan_estudio_usuarios,
-
-
                 })
                 // console.log(response.data.informe_avance)
             }            
             //console.log(response.data)
-        );        
+        );
+        axios.get(`/api/dominios`).then((
+            response // console.log(response.data.tasks)
+        ) =>{
+            response.data.filter(dominio => !dominio.plan_estudio_id);
+                this.setState({
+                    generico: response[0]
+                })
+                // console.log(response.data.informe_avance)
+            }            
+            //console.log(response.data)
+        );           
     }
 
     componentWillMount() {
@@ -76,6 +89,7 @@ export default class index extends Component {
     render() {
         return (
             <div className="container py-4">
+                                {console.log('asd', this.state)}
                 <ReactNotification ref={this.notificationDOMRef}/>
                 <ol className="breadcrumb pull-right">
                     <li className="breadcrumb-item"><Link to="">Inicio</Link></li>
@@ -86,13 +100,13 @@ export default class index extends Component {
                     <div className="col-lg-12 mx-auto">
                         <ul className="nav nav-tabs">
                             <li className="nav-items">
-                                <a href="#plan-tab-show" data-toggle="tab" className="nav-link active">
+                                <a href="#plan-tab-show" data-toggle="tab" className={"nav-link active" + (!this.state.habilitado && " disabled")}>
                                     <span className="d-sm-none">Plan de Estudios</span>
                                     <span className="d-sm-block d-none">Información del Plan de Estudios</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-1" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-1" data-toggle="tab" className="nav-link disabled">
                                     <span className="d-sm-none">Dominios</span>
                                     <span className="d-sm-block d-none">Dominios del Plan</span>
                                 </a>
@@ -163,7 +177,12 @@ export default class index extends Component {
                             </div> */}
                         </div>			
                     </div>
-               </div> 
+               </div>
+               
+                <div className="col-12 text-right t-2">
+                    {/*<a href= "pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>*/}
+                    <a href= "pdf_descargar" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
+                </div>
             </div>
 
         );

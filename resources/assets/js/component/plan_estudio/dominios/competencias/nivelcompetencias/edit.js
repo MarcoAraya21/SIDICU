@@ -3,15 +3,26 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import Logros from './logrosaprendizajes';
+
 
 export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            open: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOpen = this.handleOpen.bind(this);
+        this.handleClose = this.handleClose.bind(this);
+    }
 
-        
+    handleClose() {
+        this.setState({open: false});
+    }
+
+    handleOpen() {
+        this.setState({open: true});
     }
 
     // codigo para agregar dominios
@@ -69,8 +80,17 @@ export default class edit extends Component {
                     onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
                     this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id)}}>
                     <i className="fas fa-times p-r-10"></i>Eliminar</button>
-                    
+                    <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
+                        <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
+                    </button>
                 </div>
+                <Logros
+                open = {this.state.open}
+                handleClose={this.handleClose}
+                nivel_competencia = {this.props.nivel_competencia} 
+                handleInputArrays = {this.props.handleInputArrays}
+                handleAddElement = {this.props.handleAddElement}
+                />
             </div>
         );
     }

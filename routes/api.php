@@ -28,3 +28,5 @@ Route::apiResource('competencias', 'CompetenciaController', ['parameters' => [
     'competencias' => 'competencia']]);
 Route::apiResource('nivel_competencias', 'NivelCompetenciaController', ['parameters' => [
     'nivel_competencias' => 'nivel_competencia']]);
+Route::apiResource('logro_aprendizajes', 'LogroAprendizajeController', ['parameters' => [
+    'logro_aprendizajes' => 'logro_aprendizaje']]);
