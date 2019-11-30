@@ -54,4 +54,9 @@ class PlanEstudio extends Model
     {
         return $this->belongsToMany('App\Usuario','plan_estudio_usuarios','plan_estudio_id','usuario_id');
     }
+
+    public function plan_estudio_nivel_competencias()
+    {
+        return $this->hasMany('App\PlanEstudioNivelCompetencia');
+    }
 }

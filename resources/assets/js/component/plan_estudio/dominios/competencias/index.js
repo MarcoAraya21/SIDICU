@@ -33,7 +33,23 @@ export default class index extends Component {
                             </Panel>
                         )}
                     </React.Fragment>
-                </div>  
+                </div>
+                {/* <div className="col-12">
+                    <legend>Competencias</legend>
+                    <React.Fragment>
+                        {this.props.dominios.sort((a, b) => a.tipo_dominio_id - b.tipo_dominio_id).map((dominio,i) =>
+                            <Panel key = {i} titulo={'Dominio ' + dominio.tipo_dominio.nombre + ': ' +  (dominio.nombre || 'Sin Nombre')}>
+                                <Show
+                                    i = {i}
+                                    dominio = {dominio}
+                                    handleAddElement = {this.props.handleAddElement}
+                                    borrarElemento={this.props.borrarElemento}
+                                    handleInputArrays = {this.props.handleInputArrays}
+                                    />
+                            </Panel>
+                        )}
+                    </React.Fragment>
+                </div> */}
             </div>
         );
     }

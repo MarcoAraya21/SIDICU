@@ -21,9 +21,4 @@ class Dominio extends Model
     {
         return $this->hasMany('App\Competencia');
     }
-
-    public function dominio_competencias()
-    {
-        return $this->hasMany('App\DominioCompetencia');
-    }
 }

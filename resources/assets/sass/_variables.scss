@@ -6,3 +6,10 @@ $gris_tenue: rgba(251, 254, 249, 1);
 $blanco: rgba(255, 255, 255, 1);
 $verde_aqua: rgba(132, 220, 198, 1);
 $verde_menta: rgba(165, 255, 214, 1);
+
+
+.deshabilitado {
+    pointer-events: none;
+    cursor: not-allowed;
+    border: 1px solid red !important;
+  }
