@@ -60,12 +60,13 @@ export default class index extends Component {
                                 i={i}
                                 handleInputArrays={this.props.handleInputArrays}
                                 borrarElemento={this.props.borrarElemento}
-                                habilitarGeneral = {this.props.habilitarGeneral} />
+                                habilitarGeneral = {this.props.habilitarGeneral}
+                                habilitadogeneral = {this.props.habilitadogeneral} />
                                 )
                             }
                             {this.props.dominios.filter(dominio => dominio.tipo_dominio_id == 1).length < 4 &&
                             <div align="right" className="mt-2 mb-1">
-                                <button type="button" className="btn btn-primary" onClick={()=>{this.addElemento('dominios')}}>      
+                                <button disabled={!this.props.habilitadogeneral}type="button" className="btn btn-primary" onClick={()=>{this.addElemento('dominios')}}>      
                                     <i className="fas fa-plus p-r-5" ></i>Crear Dominio
                                 </button>
                             </div>

@@ -17,9 +17,4 @@ class Competencia extends Model
     {
         return $this->hasMany('App\NivelCompetencia');
     }
-
-    public function dominio_competencias()
-    {
-        return $this->hasMany('App\DominioCompetencia');
-    }
 }

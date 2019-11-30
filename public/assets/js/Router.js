@@ -8232,7 +8232,7 @@ var index = function (_Component) {
             usuarios: [],
             generico: [],
 
-            habilitado: true
+            habilitadogeneral: true
         };
 
         _this.handleInput = __WEBPACK_IMPORTED_MODULE_5__utiles_lib__["c" /* handleInput */].bind(_this);
@@ -8248,7 +8248,7 @@ var index = function (_Component) {
     _createClass(index, [{
         key: 'habilitarGeneral',
         value: function habilitarGeneral(estado) {
-            this.setState({ habilitado: estado });
+            this.setState({ habilitadogeneral: estado });
         }
     }, {
         key: 'getPlanEstudio',
@@ -8302,7 +8302,6 @@ var index = function (_Component) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container py-4' },
-                console.log('asd', this.state),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_notifications_component___default.a, { ref: this.notificationDOMRef }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'ol',
@@ -8336,7 +8335,7 @@ var index = function (_Component) {
                         { className: 'col-lg-12 mx-auto' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'ul',
-                            { className: 'nav nav-tabs' },
+                            { className: "nav nav-tabs " + (!this.state.habilitadogeneral ? "deshabilitado" : "") },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'li',
                                 { className: 'nav-items' },
@@ -8441,7 +8440,8 @@ var index = function (_Component) {
                                     handleInputArrays: this.handleInputArrays,
                                     borrarElemento: this.borrarElemento,
                                     handleAddElement: this.handleAddElement,
-                                    habilitarGeneral: this.habilitarGeneral
+                                    habilitarGeneral: this.habilitarGeneral,
+                                    habilitadogeneral: this.state.habilitadogeneral
                                 })
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -38505,7 +38505,8 @@ var index = function (_Component) {
                                     i: i,
                                     handleInputArrays: _this3.props.handleInputArrays,
                                     borrarElemento: _this3.props.borrarElemento,
-                                    habilitarGeneral: _this3.props.habilitarGeneral });
+                                    habilitarGeneral: _this3.props.habilitarGeneral,
+                                    habilitadogeneral: _this3.props.habilitadogeneral });
                             }),
                             this.props.dominios.filter(function (dominio) {
                                 return dominio.tipo_dominio_id == 1;
@@ -38514,7 +38515,7 @@ var index = function (_Component) {
                                 { align: 'right', className: 'mt-2 mb-1' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'button',
-                                    { type: 'button', className: 'btn btn-primary', onClick: function onClick() {
+                                    { disabled: !this.props.habilitadogeneral, type: 'button', className: 'btn btn-primary', onClick: function onClick() {
                                             _this3.addElemento('dominios');
                                         } },
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
@@ -38635,7 +38636,7 @@ var edit = function (_Component) {
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'my-2' },
+                { className: "my-2 " + (!this.props.habilitadogeneral && this.state.deshabilitado ? "deshabilitado" : "") },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'p',
                     { className: 'm-0' },
@@ -38655,7 +38656,7 @@ var edit = function (_Component) {
                     { className: 'col-12 text-right mt-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', className: 'btn btn-lime p-5', onClick: function onClick() {
+                        { type: 'button', disabled: !this.state.deshabilitado, className: 'btn btn-lime p-5', onClick: function onClick() {
                                 return [_this3.habilitar(), _this3.props.habilitarGeneral(false)];
                             } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-pencil-alt p-r-10' }),
@@ -38663,13 +38664,13 @@ var edit = function (_Component) {
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', className: 'btn btn-primary p-5 m-l-5', onClick: this.handleSubmit },
+                        { type: 'button', disabled: this.state.deshabilitado, className: 'btn btn-primary p-5 m-l-5', onClick: this.handleSubmit },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-save p-r-10' }),
                         'Guardar'
                     ),
                     !this.props.transversal && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', className: 'btn btn-danger p-5 m-l-5',
+                        { type: 'button', disabled: !this.state.deshabilitado, className: 'btn btn-danger p-5 m-l-5',
                             onClick: function onClick() {
                                 if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElemento('dominios', _this3.props.dominio.id);
                             } },

@@ -21,4 +21,9 @@ class NivelCompetencia extends Model
     {
         return $this->hasMany('App\Asignatura');
     }
+
+    public function plan_estudio_nivel_competencias()
+    {
+        return $this->hasMany('App\PlanEstudioNivelCompetencia');
+    }
 }

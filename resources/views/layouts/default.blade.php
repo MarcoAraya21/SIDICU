@@ -25,6 +25,8 @@
 	$contentClass .= (!empty($contentInverseMode)) ? 'content-inverse-mode ' : '';
 @endphp
 <body class="{{ $bodyClass }}">
+<!-- <body class="{{ $bodyClass }}" oncontextmenu="return false" onkeydown="return false"> -->
+
 	@include('includes.component.page-loader')
 	
 	<div id="page-container" class="page-container fade page-sidebar-fixed page-header-fixed {{ $pageContainerClass }}">

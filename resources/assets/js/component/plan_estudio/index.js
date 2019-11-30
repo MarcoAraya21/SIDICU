@@ -33,7 +33,7 @@ export default class index extends Component {
             usuarios: [],
             generico: [],
 
-            habilitado: true,
+            habilitadogeneral: true,
         }
 
         this.handleInput = handleInput.bind(this);
@@ -48,7 +48,7 @@ export default class index extends Component {
 
 
     habilitarGeneral(estado){
-        this.setState({habilitado: estado});
+        this.setState({habilitadogeneral: estado});
     }
     getPlanEstudio() {
         // console.log(projectId);
@@ -96,7 +96,6 @@ export default class index extends Component {
     render() {
         return (
             <div className="container py-4">
-                                {console.log('asd', this.state)}
                 <ReactNotification ref={this.notificationDOMRef}/>
                 <ol className="breadcrumb pull-right">
                     <li className="breadcrumb-item"><Link to="">Inicio</Link></li>
@@ -105,7 +104,7 @@ export default class index extends Component {
                 <h1 className="page-header">Plan {this.props.match.params.id}</h1>
                 <div className="row">
                     <div className="col-lg-12 mx-auto">
-                        <ul className="nav nav-tabs">
+                        <ul className={"nav nav-tabs " + (!this.state.habilitadogeneral ? "deshabilitado" : "")}>
                             <li className="nav-items">
                                 <a href="#plan-tab-show" data-toggle="tab" className="nav-link active">
                                     <span className="d-sm-none">Plan de Estudios</span>
@@ -160,6 +159,7 @@ export default class index extends Component {
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}
                                 habilitarGeneral = {this.habilitarGeneral}
+                                habilitadogeneral = {this.state.habilitadogeneral} 
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-2">

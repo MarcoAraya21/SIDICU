@@ -61,7 +61,7 @@ export default class edit extends Component {
     
     render() {
         return (
-            <div className="my-2">
+            <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
                 <p className="m-0">Ingrese Nombre del Dominio {!this.props.transversal ? this.props.i + 1 : 'Generico'}:</p>
                 <input type="text"
                     disabled={this.state.deshabilitado}
@@ -70,10 +70,10 @@ export default class edit extends Component {
                     onChange={(e)=>this.props.handleInputArrays(e, 'dominios', 'nombre', this.props.dominio.id)}>
                 </input>
                 <div className="col-12 text-right mt-2">
-                    <button type="button" className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     {!this.props.transversal && 
-                        <button type="button" className="btn btn-danger p-5 m-l-5"
+                        <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
                         this.props.borrarElemento('dominios', this.props.dominio.id)}}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
