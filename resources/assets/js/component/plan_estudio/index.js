@@ -187,9 +187,10 @@ export default class index extends Component {
                     </div>
                </div>
                
+               
                 <div className="col-12 text-right t-2">
-                    <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
-                    {/* <a href= "pdfview" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
+                    {/* <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
+                    <a href={`/pdf_descargar/${this.state.id}`} download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
                 </div>
             </div>
 

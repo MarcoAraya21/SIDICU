@@ -28,7 +28,7 @@ Route::get('/pdf', function () {
     //return $pdf->stream();
 });
 
-Route::get('/pdf_descargar/{id}', 'PdfController@pdfview');
+Route::get('pdf_descargar/{id}', 'PdfController@pdfview');
 
 Route::get('/{path?}', function () {
     return view('pages/welcome');
