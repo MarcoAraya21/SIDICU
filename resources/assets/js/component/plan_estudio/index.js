@@ -31,7 +31,7 @@ export default class index extends Component {
             tipo_ingreso: {},
             dominios: [],
             usuarios: [],
-            generico: [],
+            competencias_genericas: [],
 
             habilitadogeneral: true,
         }
@@ -70,22 +70,23 @@ export default class index extends Component {
                     tipo_ingreso: response.data.tipo_ingreso,
                     dominios: response.data.dominios,
                     usuarios: response.data.plan_estudio_usuarios,
+                    competencias_genericas: response.data.competencias_genericas
                 })
                 // console.log(response.data.informe_avance)
             }            
             //console.log(response.data)
         );
-        axios.get(`/api/dominios`).then((
-            response // console.log(response.data.tasks)
-        ) =>{
-            response.data.filter(dominio => !dominio.plan_estudio_id);
-                this.setState({
-                    generico: response[0]
-                })
-                // console.log(response.data.informe_avance)
-            }            
-            //console.log(response.data)
-        );           
+        // axios.get(`/api/dominios`).then((
+        //     response // console.log(response.data.tasks)
+        // ) =>{
+        //     response.data.filter(dominio => !dominio.plan_estudio_id);
+        //         this.setState({
+        //             generico: response[0]
+        //         })
+        //         // console.log(response.data.informe_avance)
+        //     }            
+        //     //console.log(response.data)
+        // );           
     }
 
     componentWillMount() {
@@ -166,6 +167,7 @@ export default class index extends Component {
                                 <Competencias
                                 id={this.state.id}
                                 dominios={this.state.dominios}
+                                competencias_genericas={this.state.competencias_genericas}
                                 handleInputArrays = {this.handleInputArrays}
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}
@@ -174,6 +176,7 @@ export default class index extends Component {
                             <div className="tab-pane fade" id="plan-tab-3">
                                 <NivelCompetencias
                                 dominios={this.state.dominios}
+                                competencias_genericas={this.state.competencias_genericas}
                                 handleInputArrays = {this.handleInputArrays}
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}

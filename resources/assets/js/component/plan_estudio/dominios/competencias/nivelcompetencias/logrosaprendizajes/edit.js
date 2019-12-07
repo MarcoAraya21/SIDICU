@@ -56,21 +56,28 @@ export default class edit extends Component {
     
     render() {
         return (
-            <div className="my-2">
-                <p className="m-0">Ingrese Descripción del Logro de Aprendizaje: {this.props.i + 1}</p>
-                <textarea rows="3"
-                    className="form-control" 
-                    value={this.props.logro_aprendizaje.descripcion || ''}
-                    onChange={(e)=>this.props.handleInputArrays(e, 'logro_aprendizajes', 'descripcion', this.props.logro_aprendizaje.id)}>
-                </textarea>
-                <div className="col-12 text-right mt-2">
-                    
-                    <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
-                    <button type="button" className="btn btn-danger p-5 m-l-5"
-                    onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElemento('logro_aprendizajes', this.props.logro_aprendizaje.id)}}>
-                    <i className="fas fa-times p-r-10"></i>Eliminar</button>
+            !this.props.logro_aprendizaje_generico ?
+                <div className="my-2">
+                    <p className="m-0">Ingrese Descripción del Logro de Aprendizaje: {this.props.i + 1}</p>
+                    <textarea rows="3"
+                        className="form-control" 
+                        value={this.props.logro_aprendizaje.descripcion || ''}
+                        onChange={(e)=>this.props.handleInputArrays(e, 'logro_aprendizajes', 'descripcion', this.props.logro_aprendizaje.id)}>
+                    </textarea>
+                    <div className="col-12 text-right mt-2">
+                        
+                        <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
+                        <button type="button" className="btn btn-danger p-5 m-l-5"
+                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
+                        this.props.borrarElemento('logro_aprendizajes', this.props.logro_aprendizaje.id)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>
+                    </div>
                 </div>
+            :
+            <div className="my-2">
+                <p className="border">
+                    {this.props.logro_aprendizaje_generico.descripcion}
+                </p>
             </div>
         );
     }

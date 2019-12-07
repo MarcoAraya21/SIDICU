@@ -41,8 +41,8 @@ export default class show extends Component {
     
     render() {
         return (
+            !this.props.competencias_genericas ?
             <div className="border p-3 mb-3">
-                
                 {
                     this.props.dominio.competencias && this.props.dominio.competencias.length > 0 ?
                     this.props.dominio.competencias.map((competencia,i) =>
@@ -61,6 +61,13 @@ export default class show extends Component {
                     </button>
                 </div> 
             </div>
+            :
+            this.props.competencias_genericas.map((competencia_generica,i) =>
+            <div key={i} className="border p-3 mb-3">
+                {competencia_generica.descripcion}
+            </div>
+            )
+            
         );
     }
 }

@@ -66,32 +66,48 @@ export default class edit extends Component {
     
     render() {
         return (
-            <div className="my-2">
-                <p className="m-0">Ingrese Descripción del Nivel de Competencia: {this.props.i + 1}</p>
-                <textarea rows="3"
-                    className="form-control" 
-                    value={this.props.nivel_competencia.descripcion || ''}
-                    onChange={(e)=>this.props.handleInputArrays(e, 'nivel_competencias', 'descripcion', this.props.nivel_competencia.id)}>
-                </textarea>
-                <div className="col-12 text-right mt-2">
-                    
-                    <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
-                    <button type="button" className="btn btn-danger p-5 m-l-5"
-                    onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id)}}>
-                    <i className="fas fa-times p-r-10"></i>Eliminar</button>
+            !this.props.nivel_competencia_generica ?
+                <div className="my-2">
+                    <p className="m-0">Ingrese Descripción del Nivel de Competencia: {this.props.i + 1}</p>
+                    <textarea rows="3"
+                        className="form-control" 
+                        value={this.props.nivel_competencia.descripcion || ''}
+                        onChange={(e)=>this.props.handleInputArrays(e, 'nivel_competencias', 'descripcion', this.props.nivel_competencia.id)}>
+                    </textarea>
+                    <div className="col-12 text-right mt-2">
+                        
+                        <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
+                        <button type="button" className="btn btn-danger p-5 m-l-5"
+                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
+                        this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>
+                        <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
+                            <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
+                        </button>
+                    </div>
+                    <Logros
+                    open = {this.state.open}
+                    handleClose={this.handleClose}
+                    nivel_competencia = {this.props.nivel_competencia} 
+                    handleInputArrays = {this.props.handleInputArrays}
+                    handleAddElement = {this.props.handleAddElement}
+                    />
+                </div>
+                :
+                <div className="my-2">
+                    <p className="border">
+                        {this.props.nivel_competencia_generica.descripcion}
+                    </p>
                     <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
                         <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
                     </button>
+                    <Logros
+                    open = {this.state.open}
+                    handleClose={this.handleClose}
+                    nivel_competencia_generica = {this.props.nivel_competencia_generica} 
+                    />
                 </div>
-                <Logros
-                open = {this.state.open}
-                handleClose={this.handleClose}
-                nivel_competencia = {this.props.nivel_competencia} 
-                handleInputArrays = {this.props.handleInputArrays}
-                handleAddElement = {this.props.handleAddElement}
-                />
-            </div>
+                
         );
     }
 }

@@ -33,6 +33,14 @@ export default class index extends Component {
                             </Panel>
                         )}
                     </React.Fragment>
+                    <legend>Competencias Genericas</legend>
+                    <React.Fragment>
+                        <Panel titulo={'Dominio Generico: '}>
+                            <Show
+                                competencias_genericas = {this.props.competencias_genericas}
+                            />  
+                        </Panel>
+                    </React.Fragment>
                 </div>
                 {/* <div className="col-12">
                     <legend>Competencias</legend>

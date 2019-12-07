@@ -16,4 +16,9 @@ class PlanEstudioNivelCompetencia extends Model
     {
         return $this->belongsTo('App\NivelCompetencia');
     }
+
+    public function asignaturas()
+    {
+        return $this->hasMany('App\Asignatura');
+    }
 }

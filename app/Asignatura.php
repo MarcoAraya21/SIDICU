@@ -32,6 +32,10 @@ class Asignatura extends Model
     {
         return $this->belongsTo('App\NivelCompetencia');
     }
+    public function plan_estudio_nivel_competencia()
+    {
+        return $this->belongsTo('App\PlanEstudioNivelCompetencia');
+    }
 
     public function bibliografias()
     {

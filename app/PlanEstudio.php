@@ -8,6 +8,8 @@ class PlanEstudio extends Model
 {
     protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo',
                             'carrera_id', 'tipo_plan_id', 'tipo_ingreso_id', 'padre_id', 'estado_id'];
+    protected $appends = ['competencias_genericas'];
+
 
     public function carrera()
     {
@@ -58,5 +60,34 @@ class PlanEstudio extends Model
     public function plan_estudio_nivel_competencias()
     {
         return $this->hasMany('App\PlanEstudioNivelCompetencia');
+    }
+
+    public function getCompetenciasGenericasAttribute()
+    {
+        $i = 0;
+        $plan_niveles = $this->plan_estudio_nivel_competencias()
+        ->with(['nivel_competencia' => function ($query) {
+            $query
+            ->with(['competencia' => function ($query) {
+                $query
+                ->with(['nivel_competencias' => function ($query) {
+                    $query
+                    ->with('logro_aprendizajes')
+                    ->with('plan_estudio_nivel_competencias');
+                }]);
+            }]);
+        }])->get();
+        
+        foreach ($plan_niveles as $key => $plan_nivel) {
+            $plan_niveles[$i] = $plan_nivel->nivel_competencia->competencia;
+            $i = $i + 1;
+        }
+        return $plan_niveles->unique();
+            // foreach ($plan_niveles as $key => $plan_nivel) {
+            //     if($i == 0){
+            //         return $plan_nivel->nivel_competencia;
+            //     }
+            //     $i = $i + 1;
+            // }
     }
 }

@@ -55,6 +55,12 @@ export default class index extends Component {
                                     </a>
                                 </li> */   
                             }
+                                <li className="nav-items">
+                                    <a href="#dominio-transversal-tab" data-toggle="tab" className="nav-link">
+                                        <span className="d-sm-none">Transversal</span>
+                                        <span className="d-sm-block d-none">Transversal</span>
+                                    </a>
+                                </li>
                         </ul>
                         <div className="tab-content">
                             {
@@ -78,6 +84,10 @@ export default class index extends Component {
                                     </div>
                                     )
                             }
+                                    <div className="tab-pane fade" id={"dominio-transversal-tab"}>
+                                        <Show competencias_genericas={this.props.competencias_genericas}
+                                        />
+                                    </div>
                             
                             {/* <div className="tab-pane fade" id="dominio-tab-1">
                                 <Dominios

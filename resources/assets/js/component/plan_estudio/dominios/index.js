@@ -73,7 +73,7 @@ export default class index extends Component {
                             } 
                         </div>
                         
-                        <h4>Dominio Generico</h4>
+                        {/* <h4>Dominio Generico</h4> */}
                         {/*
                         <div className="border p-3 mb-3">
                             {

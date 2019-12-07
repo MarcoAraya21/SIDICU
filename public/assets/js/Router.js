@@ -8230,7 +8230,7 @@ var index = function (_Component) {
             tipo_ingreso: {},
             dominios: [],
             usuarios: [],
-            generico: [],
+            competencias_genericas: [],
 
             habilitadogeneral: true
         };
@@ -8272,24 +8272,24 @@ var index = function (_Component) {
                     tipo_plan: response.data.tipo_plan,
                     tipo_ingreso: response.data.tipo_ingreso,
                     dominios: response.data.dominios,
-                    usuarios: response.data.plan_estudio_usuarios
+                    usuarios: response.data.plan_estudio_usuarios,
+                    competencias_genericas: response.data.competencias_genericas
                 });
                 // console.log(response.data.informe_avance)
             }
             //console.log(response.data)
             );
-            __WEBPACK_IMPORTED_MODULE_1_axios___default.a.get('/api/dominios').then(function (response // console.log(response.data.tasks)
-            ) {
-                response.data.filter(function (dominio) {
-                    return !dominio.plan_estudio_id;
-                });
-                _this2.setState({
-                    generico: response[0]
-                });
-                // console.log(response.data.informe_avance)
-            }
-            //console.log(response.data)
-            );
+            // axios.get(`/api/dominios`).then((
+            //     response // console.log(response.data.tasks)
+            // ) =>{
+            //     response.data.filter(dominio => !dominio.plan_estudio_id);
+            //         this.setState({
+            //             generico: response[0]
+            //         })
+            //         // console.log(response.data.informe_avance)
+            //     }            
+            //     //console.log(response.data)
+            // );           
         }
     }, {
         key: 'componentWillMount',
@@ -8450,6 +8450,7 @@ var index = function (_Component) {
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__dominios_competencias__["a" /* default */], {
                                     id: this.state.id,
                                     dominios: this.state.dominios,
+                                    competencias_genericas: this.state.competencias_genericas,
                                     handleInputArrays: this.handleInputArrays,
                                     borrarElemento: this.borrarElemento,
                                     handleAddElement: this.handleAddElement
@@ -8460,6 +8461,7 @@ var index = function (_Component) {
                                 { className: 'tab-pane fade', id: 'plan-tab-3' },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__dominios_competencias_nivelcompetencias__["a" /* default */], {
                                     dominios: this.state.dominios,
+                                    competencias_genericas: this.state.competencias_genericas,
                                     handleInputArrays: this.handleInputArrays,
                                     borrarElemento: this.borrarElemento,
                                     handleAddElement: this.handleAddElement
@@ -9136,7 +9138,7 @@ var edit = function (_Component) {
         value: function render() {
             var _this3 = this;
 
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            return !this.props.nivel_competencia_generica ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'my-2' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -9183,6 +9185,27 @@ var edit = function (_Component) {
                     nivel_competencia: this.props.nivel_competencia,
                     handleInputArrays: this.props.handleInputArrays,
                     handleAddElement: this.props.handleAddElement
+                })
+            ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'my-2' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'p',
+                    { className: 'border' },
+                    this.props.nivel_competencia_generica.descripcion
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'button',
+                    { type: 'button', className: 'btn btn-primary', onClick: function onClick() {
+                            _this3.handleOpen();
+                        } },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-plus p-r-5' }),
+                    'Logros de Aprendizaje'
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__logrosaprendizajes__["a" /* default */], {
+                    open: this.state.open,
+                    handleClose: this.handleClose,
+                    nivel_competencia_generica: this.props.nivel_competencia_generica
                 })
             );
         }
@@ -38522,11 +38545,6 @@ var index = function (_Component) {
                                     'Crear Dominio'
                                 )
                             )
-                        ),
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            'h4',
-                            null,
-                            'Dominio Generico'
                         )
                     )
                 )
@@ -38766,6 +38784,22 @@ var index = function (_Component) {
                                 })
                             );
                         })
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'legend',
+                        null,
+                        'Competencias Genericas'
+                    ),
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
+                        null,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            __WEBPACK_IMPORTED_MODULE_5__utiles_Panel__["a" /* default */],
+                            { titulo: 'Dominio Generico: ' },
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__show__["a" /* default */], {
+                                competencias_genericas: this.props.competencias_genericas
+                            })
+                        )
                     )
                 )
             );
@@ -38849,7 +38883,7 @@ var show = function (_Component) {
         value: function render() {
             var _this3 = this;
 
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            return !this.props.competencias_genericas ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'border p-3 mb-3' },
                 this.props.dominio.competencias && this.props.dominio.competencias.length > 0 ? this.props.dominio.competencias.map(function (competencia, i) {
@@ -38875,7 +38909,13 @@ var show = function (_Component) {
                         'Crear Competencia'
                     )
                 )
-            );
+            ) : this.props.competencias_genericas.map(function (competencia_generica, i) {
+                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { key: i, className: 'border p-3 mb-3' },
+                    competencia_generica.descripcion
+                );
+            });
         }
     }]);
 
@@ -39121,7 +39161,25 @@ var index = function (_Component) {
                                     <span className="d-sm-block d-none">Competencias del Plan</span>
                                 </a>
                             </li> */
-
+                            ,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'li',
+                                { className: 'nav-items' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    'a',
+                                    { href: '#dominio-transversal-tab', 'data-toggle': 'tab', className: 'nav-link' },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'span',
+                                        { className: 'd-sm-none' },
+                                        'Transversal'
+                                    ),
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'span',
+                                        { className: 'd-sm-block d-none' },
+                                        'Transversal'
+                                    )
+                                )
+                            )
                         ),
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             'div',
@@ -39143,7 +39201,13 @@ var index = function (_Component) {
                                         borrarElemento: _this2.props.borrarElemento
                                     })
                                 );
-                            })
+                            }),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'tab-pane fade', id: "dominio-transversal-tab" },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__show__["a" /* default */], { competencias_genericas: this.props.competencias_genericas
+                                })
+                            )
                         )
                     )
                 )
@@ -39222,7 +39286,7 @@ var show = function (_Component) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
                         null,
-                        this.props.dominio && this.props.dominio.competencias && this.props.dominio.competencias.map(function (competencia, i) {
+                        !this.props.competencias_genericas ? this.props.dominio && this.props.dominio.competencias && this.props.dominio.competencias.map(function (competencia, i) {
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_7__utiles_Panel__["a" /* default */],
                                 { key: i, titulo: competencia.descripcion },
@@ -39231,6 +39295,14 @@ var show = function (_Component) {
                                     handleInputArrays: _this2.props.handleInputArrays,
                                     handleAddElement: _this2.props.handleAddElement,
                                     borrarElemento: _this2.props.borrarElemento
+                                })
+                            );
+                        }) : this.props.competencias_genericas.map(function (competencia_generica, i) {
+                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_7__utiles_Panel__["a" /* default */],
+                                { key: i, titulo: competencia_generica.sigla + ": " + competencia_generica.descripcion },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__showcompetencias__["a" /* default */], {
+                                    competencia_generica: competencia_generica
                                 })
                             );
                         })
@@ -39328,6 +39400,7 @@ function Logros(_ref) {
     var open = _ref.open,
         handleClose = _ref.handleClose,
         nivel_competencia = _ref.nivel_competencia,
+        nivel_competencia_generica = _ref.nivel_competencia_generica,
         handleInputArrays = _ref.handleInputArrays,
         borrarElemento = _ref.borrarElemento,
         handleAddElement = _ref.handleAddElement;
@@ -39375,14 +39448,14 @@ function Logros(_ref) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_11__material_ui_core_Typography__["a" /* default */],
                         { variant: 'h6', className: classes.title },
-                        nivel_competencia.descripcion || "Sin Nombre"
+                        nivel_competencia ? nivel_competencia.descripcion : nivel_competencia_generica ? nivel_competencia_generica.descripcion : "Sin Nombre"
                     )
                 )
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_17__material_ui_core_DialogContent__["a" /* default */],
                 null,
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                !nivel_competencia_generica ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'border p-3 mb-3' },
                     nivel_competencia.logro_aprendizajes && nivel_competencia.logro_aprendizajes.length > 0 ? nivel_competencia.logro_aprendizajes.map(function (logro_aprendizaje, i) {
@@ -39408,6 +39481,14 @@ function Logros(_ref) {
                             'Crear Logro de Aprendizaje'
                         )
                     )
+                ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'border p-3 mb-3' },
+                    nivel_competencia_generica.logro_aprendizajes.map(function (logro_aprendizaje_generico, i) {
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_14__edit__["a" /* default */], { key: logro_aprendizaje_generico.id,
+                            logro_aprendizaje_generico: logro_aprendizaje_generico,
+                            i: i });
+                    })
                 )
             )
         )
@@ -49746,7 +49827,7 @@ var edit = function (_Component) {
         value: function render() {
             var _this3 = this;
 
-            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+            return !this.props.logro_aprendizaje_generico ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'my-2' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -49778,6 +49859,14 @@ var edit = function (_Component) {
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-10' }),
                         'Eliminar'
                     )
+                )
+            ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                'div',
+                { className: 'my-2' },
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'p',
+                    { className: 'border' },
+                    this.props.logro_aprendizaje_generico.descripcion
                 )
             );
         }
@@ -55668,7 +55757,7 @@ var showcompetencias = function (_Component) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'border p-3 mb-3' },
-                this.props.competencia.nivel_competencias && this.props.competencia.nivel_competencias.length > 0 ? this.props.competencia.nivel_competencias.map(function (nivel_competencia, i) {
+                !this.props.competencia_generica ? this.props.competencia.nivel_competencias && this.props.competencia.nivel_competencias.length > 0 ? this.props.competencia.nivel_competencias.map(function (nivel_competencia, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__edit__["a" /* default */], { key: nivel_competencia.id,
                         nivel_competencia: nivel_competencia,
                         i: i,
@@ -55679,8 +55768,12 @@ var showcompetencias = function (_Component) {
                     'p',
                     null,
                     'No posee ninguna competencia'
-                ),
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                ) : this.props.competencia_generica.nivel_competencias.map(function (nivel_competencia_generica, i) {
+                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__edit__["a" /* default */], { key: nivel_competencia_generica.id,
+                        nivel_competencia_generica: nivel_competencia_generica,
+                        i: i });
+                }),
+                !this.props.competencia_generica && __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { align: 'right', className: 'mt-2 mb-1' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
