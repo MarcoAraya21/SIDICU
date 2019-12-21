@@ -63,7 +63,7 @@ export default class show extends Component {
             </div>
             :
             this.props.competencias_genericas.map((competencia_generica,i) =>
-            <div key={i} className="border p-3 mb-3">
+            <div key={i} className="border px-2 py-1 mb-3">
                 {competencia_generica.descripcion}
             </div>
             )

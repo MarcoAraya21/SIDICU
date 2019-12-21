@@ -38,7 +38,10 @@ class CompetenciaController extends Controller
 
     public function store(Request $request)
     {
+        $request['descripcion'] = 'Sin Nombre';
+
         $Competencia = Competencia::create($request->all());
+        $Competencia = Competencia::with('nivel_competencias')->findOrFail($Competencia->id);
         return response()->json($Competencia, 201);
 
     }

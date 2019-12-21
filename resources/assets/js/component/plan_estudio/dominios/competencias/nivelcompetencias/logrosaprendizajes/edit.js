@@ -75,7 +75,7 @@ export default class edit extends Component {
                 </div>
             :
             <div className="my-2">
-                <p className="border">
+                <p className="px-2 py-1 border">
                     {this.props.logro_aprendizaje_generico.descripcion}
                 </p>
             </div>

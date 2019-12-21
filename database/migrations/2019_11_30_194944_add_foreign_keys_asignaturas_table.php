@@ -24,10 +24,6 @@ class AddForeignKeysAsignaturasTable extends Migration
             $table->foreign('ciclo_id')->references('id')->on('ciclos');
             $table->unsignedInteger('departamento_id')->nullable(); 
             $table->foreign('departamento_id')->references('id')->on('departamentos');
-            $table->unsignedInteger('nivel_competencia_id')->nullable(); 
-            $table->foreign('nivel_competencia_id')->references('id')->on('nivel_competencias');
-            $table->unsignedInteger('plan_estudio_nivel_competencia_id')->nullable(); 
-            $table->foreign('plan_estudio_nivel_competencia_id')->references('id')->on('plan_estudio_nivel_competencias');
         });
     }
 
@@ -44,8 +40,6 @@ class AddForeignKeysAsignaturasTable extends Migration
             $table->dropForeign('asignaturas_regimen_id_foreign');
             $table->dropForeign('asignaturas_ciclo_id_foreign');
             $table->dropForeign('asignaturas_departamento_id_foreign');
-            $table->dropForeign('asignaturas_nivel_competencia_id_foreign');
-            $table->dropForeign('asignaturas_plan_estudio_nivel_competencia_id_foreign');
         });
     }
 }

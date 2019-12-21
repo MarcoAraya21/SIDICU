@@ -24,11 +24,11 @@ Route::get('/login', function () {
 
 Route::get('/pdf', function () {
     $pdf = PDF::loadView('/pdf/invoice');
-    //return $pdf->download('invoice.pdf');
-    return $pdf->stream();
+    return $pdf->download('invoice.pdf');
+    //return $pdf->stream();
 });
 
-Route::get('/pdf_descargar', 'PdfController@pdfview');
+Route::get('pdf_descargar/{id}', 'PdfController@pdfview');
 
 Route::get('/{path?}', function () {
     return view('pages/welcome');

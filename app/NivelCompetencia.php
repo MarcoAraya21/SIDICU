@@ -17,13 +17,14 @@ class NivelCompetencia extends Model
     {
         return $this->hasMany('App\LogroAprendizaje');
     }
-    public function asignaturas()
+
+    public function nivel_competencia_asignaturas()
     {
-        return $this->hasMany('App\Asignatura');
+        return $this->hasMany('App\NivelCompetenciaAsignatura');
     }
 
-    public function plan_estudio_nivel_competencias()
+    public function nivel_genericas()
     {
-        return $this->hasMany('App\PlanEstudioNivelCompetencia');
+        return $this->hasMany('App\NivelGenerica');
     }
 }

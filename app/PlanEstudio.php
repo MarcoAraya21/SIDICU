@@ -8,7 +8,7 @@ class PlanEstudio extends Model
 {
     protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo',
                             'carrera_id', 'tipo_plan_id', 'tipo_ingreso_id', 'padre_id', 'estado_id'];
-    protected $appends = ['competencias_genericas'];
+    protected $appends = ['competencias_genericas','asignaturas'];
 
 
     public function carrera()
@@ -57,15 +57,15 @@ class PlanEstudio extends Model
         return $this->belongsToMany('App\Usuario','plan_estudio_usuarios','plan_estudio_id','usuario_id');
     }
 
-    public function plan_estudio_nivel_competencias()
+    public function nivel_genericas()
     {
-        return $this->hasMany('App\PlanEstudioNivelCompetencia');
+        return $this->hasMany('App\NivelGenerica');
     }
 
     public function getCompetenciasGenericasAttribute()
     {
         $i = 0;
-        $plan_niveles = $this->plan_estudio_nivel_competencias()
+        $plan_niveles = $this->nivel_genericas()
         ->with(['nivel_competencia' => function ($query) {
             $query
             ->with(['competencia' => function ($query) {
@@ -73,7 +73,7 @@ class PlanEstudio extends Model
                 ->with(['nivel_competencias' => function ($query) {
                     $query
                     ->with('logro_aprendizajes')
-                    ->with('plan_estudio_nivel_competencias');
+                    ->with('nivel_genericas');
                 }]);
             }]);
         }])->get();
@@ -83,6 +83,29 @@ class PlanEstudio extends Model
             $i = $i + 1;
         }
         return $plan_niveles->unique();
+            // foreach ($plan_niveles as $key => $plan_nivel) {
+            //     if($i == 0){
+            //         return $plan_nivel->nivel_competencia;
+            //     }
+            //     $i = $i + 1;
+            // }
+    }
+
+    public function getAsignaturasAttribute()
+    {
+        $i = 0;
+        $plan_niveles = $this->nivel_genericas()
+        ->with(['nivel_generica_asignaturas' => function ($query) {
+            $query
+            ->with('asignatura');
+        }])
+        ->get();
+        
+        // foreach ($plan_niveles as $key => $plan_nivel) {
+        //     $plan_niveles[$i] = $plan_nivel->nivel_competencia->competencia;
+        //     $i = $i + 1;
+        // }
+        return $plan_niveles;
             // foreach ($plan_niveles as $key => $plan_nivel) {
             //     if($i == 0){
             //         return $plan_nivel->nivel_competencia;

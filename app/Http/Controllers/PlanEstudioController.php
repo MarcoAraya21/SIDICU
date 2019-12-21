@@ -73,7 +73,7 @@ class PlanEstudioController extends Controller
             {
                 $nivel_competencias = $competencia->nivel_competencias()->get();
                 foreach ($nivel_competencias as $key => $nivel_competencia) {
-                    $PlanEstudio->plan_estudio_nivel_competencias()->create(['nivel_competencia_id' => $nivel_competencia['id']]);
+                    $PlanEstudio->nivel_genericas()->create(['nivel_competencia_id' => $nivel_competencia['id']]);
                 }
             }
             $i = $i + 1;
@@ -109,7 +109,7 @@ class PlanEstudioController extends Controller
                 $query
                 ->with('usuario');
             }])
-            ->with('plan_estudio_nivel_competencias')
+            ->with('nivel_genericas')
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }
@@ -157,12 +157,12 @@ class PlanEstudioController extends Controller
     public function destroy($id)
     {
         $PlanEstudio = PlanEstudio::find($id);
-        $Dominios = $PlanEstudio->dominios()->get();
-        foreach ($Dominios as $key => $dominio) {
-            $dominio->competencias()->delete();
-        }
-        // $Dominios->delete();
-        $PlanEstudio->dominios()->delete();
+        // $Dominios = $PlanEstudio->dominios()->get();
+        // foreach ($Dominios as $key => $dominio) {
+        //     $dominio->competencias()->delete();
+        // }
+        // // $Dominios->delete();
+        // $PlanEstudio->dominios()->delete();
         $PlanEstudio->delete();
     }
 

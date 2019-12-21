@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use PDF;
+use App\PlanEstudio;
 
 class PdfController extends Controller
 {
@@ -86,24 +87,28 @@ class PdfController extends Controller
 
 
 
-    public function pdfview()
+    public function pdfview($id)
     {
-        
         // Set extra option
     	//PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         // pass view file
+        $PlanEstudio = json_decode(app(PlanEstudioController::class)->show($id));
+        // $PlanEstudio = PlanEstudio::
+        // with('carrera')
+        // ->with('tipo_plan')
+        // ->with(['plan_estudio_usuarios' => function ($query){
+        //     $query
+        //     ->with('usuario');
+        // }])
+        // ->with('tipo_ingreso')
+        // ->findOrFail($id);
 
-        $data = [
-            'title' => 'First PDF for Medium',
-            'heading' => 'Hello from 99Points.info',
-            'content' => 'Lorem Ipsum is simply dummy text of the printing and typesetting industry.',
-        ];
 
-
-        $pdf = PDF::loadView('pdf.invoice',$data);
+        $nombre = 'dsadsa';
+        $pdf = PDF::loadView('pdf.invoice',compact('PlanEstudio'));
         // download pdf
-        return $pdf->download('invoice.pdf');
-        //return view('invoice');
+        return $pdf->download('datos-iniciales.pdf');
+        //return $pdf->view('datos-iniciales');
     }
 
 

@@ -15,7 +15,7 @@ class AddForeignKeysNivelCompetenciasTable extends Migration
     {
         Schema::table('nivel_competencias', function (Blueprint $table) {
             $table->unsignedInteger('competencia_id')->nullable(); 
-            $table->foreign('competencia_id')->references('id')->on('competencias');
+            $table->foreign('competencia_id')->references('id')->on('competencias')->onDelete('cascade');
         });
     }
 

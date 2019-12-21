@@ -38,7 +38,9 @@ class NivelCompetenciaController extends Controller
 
     public function store(Request $request)
     {
+        $request['descripcion'] = 'Sin Nombre';
         $NivelCompetencia = NivelCompetencia::create($request->all());
+        $NivelCompetencia = NivelCompetencia::with('logro_aprendizajes')->with('asignaturas')->findOrFail($NivelCompetencia->id);
         return response()->json($NivelCompetencia, 201);
 
     }

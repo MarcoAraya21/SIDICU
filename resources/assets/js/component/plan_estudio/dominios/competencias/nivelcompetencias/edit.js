@@ -4,17 +4,24 @@ import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import Logros from './logrosaprendizajes';
+import Asignatura from './asignaturas';
+
 
 
 export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            open: false
+            open: false,
+            openAsignatura: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleOpenAsignatura = this.handleOpenAsignatura.bind(this);
+        this.handleCloseAsignatura = this.handleCloseAsignatura.bind(this);
+
+
     }
 
     handleClose() {
@@ -23,6 +30,14 @@ export default class edit extends Component {
 
     handleOpen() {
         this.setState({open: true});
+    }
+
+    handleCloseAsignatura() {
+        this.setState({openAsignatura: false});
+    }
+
+    handleOpenAsignatura() {
+        this.setState({openAsignatura: true});
     }
 
     // codigo para agregar dominios
@@ -66,7 +81,9 @@ export default class edit extends Component {
     
     render() {
         return (
-            !this.props.nivel_competencia_generica ?
+            <React.Fragment>
+                {
+                !this.props.nivel_competencia_generica ?
                 <div className="my-2">
                     <p className="m-0">Ingrese Descripción del Nivel de Competencia: {this.props.i + 1}</p>
                     <textarea rows="3"
@@ -84,6 +101,9 @@ export default class edit extends Component {
                         <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
                             <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
                         </button>
+                        <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
+                            <i className="fas fa-plus p-r-5" ></i>Asignatura
+                        </button>
                     </div>
                     <Logros
                     open = {this.state.open}
@@ -95,19 +115,27 @@ export default class edit extends Component {
                 </div>
                 :
                 <div className="my-2">
-                    <p className="border">
+                    <p className="px-2 py-1 border">
                         {this.props.nivel_competencia_generica.descripcion}
                     </p>
-                    <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
-                        <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
-                    </button>
+                    <div className="col-12 text-right mt-2">
+                        <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
+                            <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
+                        </button>
+                    </div>
                     <Logros
                     open = {this.state.open}
                     handleClose={this.handleClose}
                     nivel_competencia_generica = {this.props.nivel_competencia_generica} 
                     />
                 </div>
+                }
+                <Asignatura
+                    openAsignatura = {this.state.openAsignatura}
+                    handleCloseAsignatura={this.handleCloseAsignatura}
+                    />
                 
+            </React.Fragment>  
         );
     }
 }
