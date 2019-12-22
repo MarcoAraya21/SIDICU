@@ -29,13 +29,16 @@ export default class index extends Component {
                                     handleAddElement = {this.props.handleAddElement}
                                     borrarElemento={this.props.borrarElemento}
                                     handleInputArrays = {this.props.handleInputArrays}
+                                    habilitarGeneral = {this.props.habilitarGeneral}
+                                    habilitadogeneral = {this.props.habilitadogeneral}
+                                    addNotification = {this.props.addNotification}
                                     />
                             </Panel>
                         )}
                     </React.Fragment>
                     <legend>Competencias Genericas</legend>
                     <React.Fragment>
-                        <Panel titulo={'Dominio Generico: '}>
+                        <Panel titulo={'Dominio: Generico'}>
                             <Show
                                 competencias_genericas = {this.props.competencias_genericas}
                             />  

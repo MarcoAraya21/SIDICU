@@ -43,9 +43,40 @@ export default class index extends Component {
         //this.renderErrorFor = this.renderErrorFor.bind(this)
         this.habilitarGeneral = this.habilitarGeneral.bind(this);
 
+        this.addNotification = this.addNotification.bind(this);
+        this.addNotificationAlert = this.addNotificationAlert.bind(this);
+
+        this.notificationDOMRef = React.createRef();
+
     }
 
+    addNotification() {
+        this.notificationDOMRef.current.addNotification({
+          title: "Guardado",
+          message: "La Información ha sido almacenada",
+          type: "info",
+          insert: "top",
+          container: "top-right",
+          animationIn: ["animated", "zoomIn"],
+          animationOut: ["animated", "zoomOut"],
+          dismiss: { duration: 3000 },
+          dismissable: { click: true }
+        });
+    }
 
+    addNotificationAlert(mensaje) {
+        this.notificationDOMRef.current.addNotification({ 
+        title: "Error",
+        message: mensaje,
+        type: "danger",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "zoomIn"],
+        animationOut: ["animated", "zoomOut"],
+        dismiss: { duration: 10000 },
+        dismissable: { click: true }
+        });
+    }
 
     habilitarGeneral(estado){
         this.setState({habilitadogeneral: estado});
@@ -148,7 +179,8 @@ export default class index extends Component {
                                 tipo_plan={this.state.tipo_plan}
                                 tipo_ingreso={this.state.tipo_ingreso}
                                 usuarios={this.state.usuarios}
-                                params={this.props.match.params.id}/>
+                                params={this.props.match.params.id}
+                                addNotification = {this.addNotification}/>
                                 }
                             </div>
                             <div className="tab-pane fade" id="plan-tab-1">
@@ -161,6 +193,7 @@ export default class index extends Component {
                                 handleAddElement = {this.handleAddElement}
                                 habilitarGeneral = {this.habilitarGeneral}
                                 habilitadogeneral = {this.state.habilitadogeneral} 
+                                addNotification = {this.addNotification}
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-2">
@@ -171,6 +204,9 @@ export default class index extends Component {
                                 handleInputArrays = {this.handleInputArrays}
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}
+                                habilitarGeneral = {this.habilitarGeneral}
+                                habilitadogeneral = {this.state.habilitadogeneral}
+                                addNotification = {this.addNotification}
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-3">
@@ -180,6 +216,9 @@ export default class index extends Component {
                                 handleInputArrays = {this.handleInputArrays}
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}
+                                habilitarGeneral = {this.habilitarGeneral}
+                                habilitadogeneral = {this.state.habilitadogeneral}
+                                addNotification = {this.addNotification}
                                 />
                             </div>
                             {/* <div className="tab-pane fade" id="plan-tab-4">

@@ -65,17 +65,16 @@ export default class edit extends Component {
                         onChange={(e)=>this.props.handleInputArrays(e, 'logro_aprendizajes', 'descripcion', this.props.logro_aprendizaje.id)}>
                     </textarea>
                     <div className="col-12 text-right mt-2">
-                        
                         <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
                         <button type="button" className="btn btn-danger p-5 m-l-5"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                        this.props.borrarElemento('logro_aprendizajes', this.props.logro_aprendizaje.id)}}>
+                        this.props.borrarElemento('logro_aprendizajes', this.props.logro_aprendizaje.id, this.props.addNotification)}}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
                     </div>
                 </div>
             :
             <div className="my-2">
-                <p className="px-2 py-1 border">
+                <p className="px-2 py-2 border">
                     {this.props.logro_aprendizaje_generico.descripcion}
                 </p>
             </div>

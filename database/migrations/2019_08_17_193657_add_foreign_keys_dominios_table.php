@@ -15,7 +15,7 @@ class AddForeignKeysDominiosTable extends Migration
     {
         Schema::table('dominios', function (Blueprint $table) {
             $table->unsignedInteger('plan_estudio_id')->nullable(); 
-            $table->foreign('plan_estudio_id')->references('id')->on('plan_estudios');
+            $table->foreign('plan_estudio_id')->references('id')->on('plan_estudios')->onDelete('cascade');
             $table->unsignedInteger('tipo_dominio_id')->nullable(); 
             $table->foreign('tipo_dominio_id')->references('id')->on('tipo_dominios');
         });

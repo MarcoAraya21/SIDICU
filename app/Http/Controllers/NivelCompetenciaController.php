@@ -40,7 +40,7 @@ class NivelCompetenciaController extends Controller
     {
         $request['descripcion'] = 'Sin Nombre';
         $NivelCompetencia = NivelCompetencia::create($request->all());
-        $NivelCompetencia = NivelCompetencia::with('logro_aprendizajes')->with('asignaturas')->findOrFail($NivelCompetencia->id);
+        $NivelCompetencia = NivelCompetencia::with('logro_aprendizajes')->with('nivel_competencia_asignaturas')->findOrFail($NivelCompetencia->id);
         return response()->json($NivelCompetencia, 201);
 
     }

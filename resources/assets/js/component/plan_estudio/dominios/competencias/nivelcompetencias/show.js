@@ -35,7 +35,10 @@ export default class show extends Component {
                                         competencia={competencia}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
-                                        borrarElemento={this.props.borrarElemento} 
+                                        borrarElemento={this.props.borrarElemento}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}
                                         />
                                 </Panel>
                             )

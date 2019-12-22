@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
 import {handleInput, handleInput2, handleTiposResultado, handleInputOtros, handleContenido, handleInputArrays, handleAddElement} from '../utiles/lib';
 import { validaciones } from './validaciones';
 
@@ -22,8 +20,7 @@ export default class show extends Component {
         // this.handleInput = handleInput.bind(this);
         // this.handleInputArrays = handleInputArrays.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.addNotification = this.addNotification.bind(this);
-        this.notificationDOMRef = React.createRef();
+        
 
 
         //this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -34,19 +31,6 @@ export default class show extends Component {
         this.setState({[atributo]: e.target.value});
     }
 
-    addNotification() {
-        this.notificationDOMRef.current.addNotification({
-          title: "Guardado",
-          message: "La Información ha sido almacenada",
-          type: "info",
-          insert: "top",
-          container: "top-right",
-          animationIn: ["animated", "zoomIn"],
-          animationOut: ["animated", "zoomOut"],
-          dismiss: { duration: 3000 },
-          dismissable: { click: true }
-        });
-      }
 
 
     handleSubmit(){
@@ -71,7 +55,7 @@ export default class show extends Component {
             }
          
          })
-        .then(data => {this.addNotification()} )
+        .then(data => {this.props.addNotification()} )
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
@@ -91,7 +75,6 @@ export default class show extends Component {
     render() {
         return (
             <div className="container py-4">
-                <ReactNotification ref={this.notificationDOMRef}/>
                 <div className="col-12">
                     <legend>Datos Iniciales del Plan</legend>
                     <div className="col row">

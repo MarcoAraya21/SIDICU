@@ -56,10 +56,13 @@ export default class showcompetencias extends Component {
                             i={i}
                             handleInputArrays = {this.props.handleInputArrays}
                             borrarElemento = {this.props.borrarElemento}
-                            handleAddElement = {this.props.handleAddElement}/>
+                            handleAddElement = {this.props.handleAddElement}
+                            habilitarGeneral = {this.props.habilitarGeneral}
+                            habilitadogeneral = {this.props.habilitadogeneral}
+                            addNotification = {this.props.addNotification}/>
                             )
                         :
-                        <p>No posee ninguna competencia</p>
+                        <p>No posee ningun nivel de competencia</p>
                     :
                     this.props.competencia_generica.nivel_competencias.map((nivel_competencia_generica,i) =>
                             <Edit key={nivel_competencia_generica.id}
@@ -68,13 +71,13 @@ export default class showcompetencias extends Component {
                     )
                 }
                 {
-                    !this.props.competencia_generica
-                    &&
-                    <div align="right" className="mt-2 mb-1">
-                        <button type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_competencias')}}>      
-                            <i className="fas fa-plus p-r-5" ></i>Crear Nivel Competencia
-                        </button>                    
-                    </div>
+                    // !this.props.competencia_generica
+                    // &&
+                    // <div align="right" className="mt-2 mb-1">
+                    //     <button type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_competencias')}}>      
+                    //         <i className="fas fa-plus p-r-5" ></i>Crear Nivel Competencia
+                    //     </button>                    
+                    // </div>
                 }
             </div>
         );

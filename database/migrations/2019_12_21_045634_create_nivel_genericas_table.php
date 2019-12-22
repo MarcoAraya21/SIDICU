@@ -16,7 +16,7 @@ class CreateNivelGenericasTable extends Migration
         Schema::create('nivel_genericas', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('plan_estudio_id')->nullable(); 
-            $table->foreign('plan_estudio_id')->references('id')->on('plan_estudios');
+            $table->foreign('plan_estudio_id')->references('id')->on('plan_estudios')->onDelete('cascade');
             $table->unsignedInteger('nivel_competencia_id')->nullable(); 
             $table->foreign('nivel_competencia_id')->references('id')->on('nivel_competencias');
             $table->timestamps();

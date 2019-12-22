@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
 import { validaciones } from '../validaciones';
 import Edit from './edit';
 import { handleInput } from '../../utiles/lib';
@@ -13,6 +11,8 @@ export default class index extends Component {
         this.state = {
         }
         
+        this.addElemento = this.addElemento.bind(this);
+
     }
 
     addElemento(variable){
@@ -37,7 +37,10 @@ export default class index extends Component {
             }
          
          })
-         .then( data => this.props.handleAddElement(variable, data));
+        .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
+        .catch(function(error) {
+            console.log('Hubo un problema con la petición Fetch:' + error.message);
+        })
          
         
     }
@@ -61,12 +64,13 @@ export default class index extends Component {
                                 handleInputArrays={this.props.handleInputArrays}
                                 borrarElemento={this.props.borrarElemento}
                                 habilitarGeneral = {this.props.habilitarGeneral}
-                                habilitadogeneral = {this.props.habilitadogeneral} />
+                                habilitadogeneral = {this.props.habilitadogeneral}
+                                addNotification = {this.props.addNotification} />
                                 )
                             }
                             {this.props.dominios.filter(dominio => dominio.tipo_dominio_id == 1).length < 4 &&
                             <div align="right" className="mt-2 mb-1">
-                                <button disabled={!this.props.habilitadogeneral}type="button" className="btn btn-primary" onClick={()=>{this.addElemento('dominios')}}>      
+                                <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('dominios')}}>      
                                     <i className="fas fa-plus p-r-5" ></i>Crear Dominio
                                 </button>
                             </div>

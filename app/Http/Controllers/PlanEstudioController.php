@@ -60,7 +60,7 @@ class PlanEstudioController extends Controller
 
         $PlanEstudio = PlanEstudio::create($request->all());
         for ($i=0; $i <= 1  ; $i++) {
-            $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1]);
+            $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1, 'nombre' => 'Sin Nombre']);
         }
         // $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);

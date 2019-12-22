@@ -41,6 +41,9 @@ class CompetenciaController extends Controller
         $request['descripcion'] = 'Sin Nombre';
 
         $Competencia = Competencia::create($request->all());
+        for ($i=1; $i <= 3  ; $i++) {
+            $Competencia->nivel_competencias()->create(['nivel' => $i, 'descripcion' => 'Sin Nombre']);
+        }
         $Competencia = Competencia::with('nivel_competencias')->findOrFail($Competencia->id);
         return response()->json($Competencia, 201);
 
@@ -93,6 +96,13 @@ class CompetenciaController extends Controller
     public function destroy($id)
     {
         $Competencia = Competencia::find($id);
+        // $NivelCompetencias = $Competencia->nivel_competencias()->get();
+        // foreach ($NivelCompetencias as $key => $NivelCompetencia) {
+        //     $NivelCompetencia->nivel_competencias()->delete();
+        // }
+        // $Dominio->competencias()->delete();
+        // $Dominio->delete();
+
         $Competencia->delete();
     }
 

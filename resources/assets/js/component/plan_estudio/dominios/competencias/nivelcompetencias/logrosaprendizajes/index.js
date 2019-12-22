@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Logros({open, handleClose, nivel_competencia, nivel_competencia_generica, handleInputArrays, borrarElemento, handleAddElement}) {
+export default function Logros({open, handleClose, nivel_competencia, nivel_competencia_generica, handleInputArrays, borrarElemento, handleAddElement, addNotification}) {
   const classes = useStyles();
 
   
@@ -73,7 +73,10 @@ export default function Logros({open, handleClose, nivel_competencia, nivel_comp
         }
      
      })
-     .then( data => handleAddElement(variable, data));
+    .then(data => {[handleAddElement(variable, data),addNotification()]} )
+    .catch(function(error) {
+        console.log('Hubo un problema con la petición Fetch:' + error.message);
+    })
      
     
 }
@@ -105,7 +108,8 @@ export default function Logros({open, handleClose, nivel_competencia, nivel_comp
                             logro_aprendizaje = {logro_aprendizaje}
                             i={i}
                             handleInputArrays = {handleInputArrays}
-                            borrarElemento={borrarElemento}/>
+                            borrarElemento={borrarElemento}
+                            addNotification = {addNotification}/>
                             )
                         :
                         <p>No posee ningun logro de aprendizaje</p>
