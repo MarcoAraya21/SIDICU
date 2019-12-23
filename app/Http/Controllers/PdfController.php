@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use PDF;
 use App\PlanEstudio;
+use App\Http\Controllers\PlanEstudioController;
 
 class PdfController extends Controller
 {
@@ -92,23 +93,25 @@ class PdfController extends Controller
         // Set extra option
     	//PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         // pass view file
-
-        $PlanEstudio = PlanEstudio::
-        with('carrera')
-        ->with('tipo_plan')
-        ->with(['plan_estudio_usuarios' => function ($query){
-            $query
-            ->with('usuario');
-        }])
-        ->with('tipo_ingreso')
-        ->findOrFail($id);
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id));
 
 
-        $nombre = 'dsadsa';
+
+        // $PlanEstudio = PlanEstudio::
+        // with('carrera')
+        // ->with('tipo_plan')
+        // ->with(['plan_estudio_usuarios' => function ($query){
+        //     $query
+        //     ->with('usuario');
+        // }])
+        // ->with('tipo_ingreso')
+        // ->findOrFail($id);
+
+
         $pdf = PDF::loadView('pdf.invoice',compact('PlanEstudio'));
         // download pdf
         return $pdf->download('datos-iniciales.pdf');
-        //return $pdf->view('datos-iniciales');
+        //return $pdf->stream('datos-iniciales');
     }
 
 
