@@ -12,7 +12,7 @@ class NivelGenericaAsignatura extends Model
     {
         return $this->belongsTo('App\NivelGenerica');
     }
-
+    
     public function asignatura()
     {
         return $this->belongsTo('App\Asignatura');

@@ -44,7 +44,16 @@ class CompetenciaController extends Controller
         for ($i=1; $i <= 3  ; $i++) {
             $Competencia->nivel_competencias()->create(['nivel' => $i, 'descripcion' => 'Sin Nombre']);
         }
-        $Competencia = Competencia::with('nivel_competencias')->findOrFail($Competencia->id);
+
+        with(['nivel_competencias' => function ($query) {
+            $query
+            ->with('logro_aprendizajes');
+        }]);
+        $Competencia = Competencia::with(['nivel_competencias' => function ($query) {
+            $query
+            ->with('logro_aprendizajes')
+            ->with('nivel_competencia_asignaturas');
+        }])->findOrFail($Competencia->id);
         return response()->json($Competencia, 201);
 
     }
