@@ -19,9 +19,21 @@ class AsignaturaController extends Controller
         return $Asignatura->toJson();
     }
 
-    public function AsignaturaPlan($plan_id)
+    public function planAsignaturas($id)
     {
-        $PlanEstudio = PlanEstudio::all();
-        return $PlanEstudio->toJson();
+        $PlanEstudio = PlanEstudio::find($id)->Asignaturas2();
+        return $PlanEstudio;
+    }
+
+    public function store(Request $request)
+    {
+        // dd($request);
+        // $Asignatura = Asignatura::create($request->all());
+        // for ($i=2; $i <= 5  ; $i++) {
+        //     $Asignatura->asignatura_horas()->create(['tipo_hora_id' => $i]);
+        // }
+        return 201;
+        // return response()->json($Asignatura, 201);
+
     }
 }

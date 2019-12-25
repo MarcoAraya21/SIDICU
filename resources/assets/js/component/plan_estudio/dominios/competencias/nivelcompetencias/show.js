@@ -33,13 +33,14 @@ export default class show extends Component {
                                 <Panel key = {i} titulo={competencia.descripcion}>
                                     <ShowCompetencias
                                         competencia={competencia}
+                                        asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}
-                                        />
+                                    />
                                 </Panel>
                             )
                             :
@@ -47,6 +48,13 @@ export default class show extends Component {
                                 <Panel key = {i} titulo={competencia_generica.sigla + ": " + competencia_generica.descripcion}>
                                     <ShowCompetencias
                                         competencia_generica={competencia_generica}
+                                        asignaturas={this.props.asignaturas}
+                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleAddElement = {this.props.handleAddElement}
+                                        borrarElemento={this.props.borrarElemento}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}
                                     />
                                 </Panel>
                             )

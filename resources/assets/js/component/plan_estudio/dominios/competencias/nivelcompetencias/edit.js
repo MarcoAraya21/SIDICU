@@ -15,7 +15,6 @@ export default class edit extends Component {
             open: false,
             openAsignatura: false,
             deshabilitado: true
-
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
@@ -123,22 +122,29 @@ export default class edit extends Component {
                             <p>No Posee</p>
                             }
                             <div>
-                                <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
                                     <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
                                 </button>
                             </div>
                         </div>
                         <div className="col-6">
                             <strong>Asignaturas</strong>
+                            {this.props.nivel_competencia.nivel_competencia_asignaturas.length > 0 ?
                             <ol>
-                                <li>sdasdsadsa
-                                    <a className="m-l-5" href="" target="_blank">
-                                        <span className="badge badge-info">Ver</span>
-                                    </a>
-                                </li>
+                                {this.props.nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura,i) =>
+                                    <li key={i}>
+                                        {nivel_competencia_asignatura.asignatura.nombre}
+                                        <a className="m-l-5" href="" target="_blank">
+                                            <span className="badge badge-info">Ver</span>
+                                        </a>
+                                    </li>
+                                )}
                             </ol>
+                            :
+                            <p>No Posee</p>
+                            }
                             <div>
-                                <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
                                     <i className="fas fa-plus p-r-5" ></i>Asignatura
                                 </button>
                             </div>
@@ -151,6 +157,20 @@ export default class edit extends Component {
                     handleInputArrays = {this.props.handleInputArrays}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
+                    habilitarGeneral = {this.props.habilitarGeneral}
+                    habilitadogeneral = {this.props.habilitadogeneral}
+                    addNotification = {this.props.addNotification}
+                    />
+                    <Asignatura
+                    openAsignatura = {this.state.openAsignatura}
+                    handleCloseAsignatura={this.handleCloseAsignatura}
+                    nivel_competencia = {this.props.nivel_competencia}
+                    asignaturas={this.props.asignaturas}
+                    handleInputArrays = {this.props.handleInputArrays}
+                    handleAddElement = {this.props.handleAddElement}
+                    borrarElemento = {this.props.borrarElemento}
+                    habilitarGeneral = {this.props.habilitarGeneral}
+                    habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
                     />
                 </div>
@@ -175,31 +195,42 @@ export default class edit extends Component {
                         </div>
                         <div className="col-6">
                             <strong>Asignaturas</strong>
+                            {this.props.nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length > 0 ?
                             <ol>
-                                <li>sdasdsadsa
-                                    <a className="m-l-5" href="" target="_blank">
-                                        <span className="badge badge-info">Ver</span>
-                                    </a>
-                                </li>
+                                {this.props.nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura,i) =>
+                                    <li key={i}>
+                                        {nivel_generica_asignatura.asignatura.nombre}
+                                        <a className="m-l-5" href="" target="_blank">
+                                            <span className="badge badge-info">Ver</span>
+                                        </a>
+                                    </li>
+                                )}
                             </ol>
+                            :
+                            <p>No Posee</p>
+                            }
                             <div>
-                                <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
-                                    <i className="fas fa-plus p-r-5" ></i>Asignaturas
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
+                                    <i className="fas fa-plus p-r-5" ></i>Asignatura
                                 </button>
                             </div>
-                        </div>   
+                        </div>  
                     </div>
-                    <Logros
-                    open = {this.state.open}
-                    handleClose={this.handleClose}
-                    nivel_competencia_generica = {this.props.nivel_competencia_generica} 
+                    <Asignatura
+                    openAsignatura = {this.state.openAsignatura}
+                    handleCloseAsignatura={this.handleCloseAsignatura}
+                    asignaturas={this.props.asignaturas}
+                    nivel_competencia_generica = {this.props.nivel_competencia_generica}
+                    handleInputArrays = {this.props.handleInputArrays}
+                    handleAddElement = {this.props.handleAddElement}
+                    borrarElemento = {this.props.borrarElemento}
+                    habilitarGeneral = {this.props.habilitarGeneral}
+                    habilitadogeneral = {this.props.habilitadogeneral}
+                    addNotification = {this.props.addNotification}
                     />
                 </div>
                 }
-                <Asignatura
-                    openAsignatura = {this.state.openAsignatura}
-                    handleCloseAsignatura={this.handleCloseAsignatura}
-                    />
+                
                 
             </React.Fragment>  
         );

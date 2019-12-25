@@ -30,6 +30,11 @@ Route::apiResource('nivel_competencias', 'NivelCompetenciaController', ['paramet
     'nivel_competencias' => 'nivel_competencia']]);
 Route::apiResource('logro_aprendizajes', 'LogroAprendizajeController', ['parameters' => [
     'logro_aprendizajes' => 'logro_aprendizaje']]);
-
-Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@AsignaturaPlan');
+Route::apiResource('nivel_competencia_asignaturas', 'NivelCompetenciaAsignaturaController', ['parameters' => [
+    'nivel_competencia_asignaturas' => 'nivel_competencia_asignatura']]);
+Route::apiResource('nivel_generica_asignaturas', 'NivelGenericaAsignaturaController', ['parameters' => [
+    'nivel_generica_asignaturas' => 'nivel_generica_asignatura']]);
+Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [
+    'asignaturas' => 'asignatura']]);
+Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
 

@@ -53,6 +53,7 @@ export default class showcompetencias extends Component {
                         this.props.competencia.nivel_competencias.map((nivel_competencia,i) =>
                             <Edit key={nivel_competencia.id}
                             nivel_competencia = {nivel_competencia}
+                            asignaturas={this.props.asignaturas}
                             i={i}
                             handleInputArrays = {this.props.handleInputArrays}
                             borrarElemento = {this.props.borrarElemento}
@@ -67,7 +68,14 @@ export default class showcompetencias extends Component {
                     this.props.competencia_generica.nivel_competencias.map((nivel_competencia_generica,i) =>
                             <Edit key={nivel_competencia_generica.id}
                             nivel_competencia_generica = {nivel_competencia_generica}
-                            i={i}/>
+                            asignaturas={this.props.asignaturas}
+                            i={i}
+                            handleInputArrays = {this.props.handleInputArrays}
+                            borrarElemento = {this.props.borrarElemento}
+                            handleAddElement = {this.props.handleAddElement}
+                            habilitarGeneral = {this.props.habilitarGeneral}
+                            habilitadogeneral = {this.props.habilitadogeneral}
+                            addNotification = {this.props.addNotification}/>
                     )
                 }
                 {

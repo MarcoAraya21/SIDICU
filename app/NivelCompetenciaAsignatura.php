@@ -10,4 +10,9 @@ class NivelCompetenciaAsignatura extends Model
     {
         return $this->belongsTo('App\NivelCompetencia');
     }
+
+    public function asignatura()
+    {
+        return $this->belongsTo('App\Asignatura');
+    }
 }

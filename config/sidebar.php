@@ -38,7 +38,17 @@ return [
 			[
 				'icon' => 'fa fa-hdd',
 				'title' => 'Gestion de Asignaturas',
-				'url' => 'javascript:;'
+				'url' => 'javascript:;',
+				'sub_menu' => [
+					[
+						'url' => '/NewAsignatura',
+						'title' => 'Nuevo Plan'
+					],
+					[
+						'url' => '/ListAsignaturas',
+						'title' => 'Listado'
+					]
+				]
 			],
 
 			[

@@ -73,7 +73,13 @@ class PlanEstudio extends Model
                 ->with(['nivel_competencias' => function ($query) {
                     $query
                     ->with('logro_aprendizajes')
-                    ->with('nivel_genericas');
+                    ->with(['nivel_genericas' => function ($query) {
+                        $query
+                        ->with(['nivel_generica_asignaturas' => function ($query) {
+                            $query
+                            ->with('asignatura');
+                        }]);
+                    }]);
                 }]);
             }]);
         }])->get();
@@ -94,18 +100,105 @@ class PlanEstudio extends Model
     public function getAsignaturasAttribute()
     {
         $i = 0;
-        $plan_niveles = $this->nivel_genericas()
+        $asignaturas_1 = [];
+        $asignaturas_2 = [];
+        $profesionales = $this->dominios()
+        ->with(['competencias' => function ($query) {
+            $query
+            ->with(['nivel_competencias' => function ($query) {
+                $query
+                ->with(['nivel_competencia_asignaturas' => function ($query) {
+                    $query
+                    ->with('asignatura');
+                }]);
+            }]);
+        }])
+        ->get();
+        $genericas = $this->nivel_genericas()
         ->with(['nivel_generica_asignaturas' => function ($query) {
             $query
             ->with('asignatura');
         }])
         ->get();
-        
-        // foreach ($plan_niveles as $key => $plan_nivel) {
-        //     $plan_niveles[$i] = $plan_nivel->nivel_competencia->competencia;
-        //     $i = $i + 1;
-        // }
-        return $plan_niveles;
+        foreach ($profesionales as $key => $profesional) {
+            foreach ($profesional->competencias as $key => $competencia) {
+                foreach ($competencia->nivel_competencias as $key => $nivel_competencia) {
+                    if(sizeof($nivel_competencia->nivel_competencia_asignaturas) > 0)
+                    {
+                        foreach ($nivel_competencia->nivel_competencia_asignaturas as $key => $nivel_competencia_asignatura) {
+                            $asignaturas_1[$i] = $nivel_competencia_asignatura->asignatura;
+                            $i = $i + 1;
+                        }
+                    }
+                }
+            }
+        }
+        $i = 0;
+        foreach ($genericas as $key => $generica) {
+            if(sizeof($generica->nivel_generica_asignaturas) > 0)
+            {
+                foreach ($generica->nivel_generica_asignaturas as $key => $nivel_generica_asignatura) {
+                    $asignaturas_2[$i] = $nivel_generica_asignatura->asignatura;
+                    $i = $i + 1;
+                } 
+            }
+        }
+        return array_unique(array_merge(array_unique($asignaturas_1),array_unique($asignaturas_2)));
+            // foreach ($plan_niveles as $key => $plan_nivel) {
+            //     if($i == 0){
+            //         return $plan_nivel->nivel_competencia;
+            //     }
+            //     $i = $i + 1;
+            // }
+    }
+
+    public function Asignaturas2()
+    {
+        $i = 0;
+        $asignaturas_1 = [];
+        $asignaturas_2 = [];
+        $profesionales = $this->dominios()
+        ->with(['competencias' => function ($query) {
+            $query
+            ->with(['nivel_competencias' => function ($query) {
+                $query
+                ->with(['nivel_competencia_asignaturas' => function ($query) {
+                    $query
+                    ->with('asignatura');
+                }]);
+            }]);
+        }])
+        ->get();
+        $genericas = $this->nivel_genericas()
+        ->with(['nivel_generica_asignaturas' => function ($query) {
+            $query
+            ->with('asignatura');
+        }])
+        ->get();
+        foreach ($profesionales as $key => $profesional) {
+            foreach ($profesional->competencias as $key => $competencia) {
+                foreach ($competencia->nivel_competencias as $key => $nivel_competencia) {
+                    if(sizeof($nivel_competencia->nivel_competencia_asignaturas) > 0)
+                    {
+                        foreach ($nivel_competencia->nivel_competencia_asignaturas as $key => $nivel_competencia_asignatura) {
+                            $asignaturas_1[$i] = $nivel_competencia_asignatura->asignatura;
+                            $i = $i + 1;
+                        }
+                    }
+                }
+            }
+        }
+        $i = 0;
+        foreach ($genericas as $key => $generica) {
+            if(sizeof($generica->nivel_generica_asignaturas) > 0)
+            {
+                foreach ($generica->nivel_generica_asignaturas as $key => $nivel_generica_asignatura) {
+                    $asignaturas_2[$i] = $nivel_generica_asignatura->asignatura;
+                    $i = $i + 1;
+                } 
+            }
+        }
+        return array_unique(array_merge(array_unique($asignaturas_1),array_unique($asignaturas_2)));
             // foreach ($plan_niveles as $key => $plan_nivel) {
             //     if($i == 0){
             //         return $plan_nivel->nivel_competencia;

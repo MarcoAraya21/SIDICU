@@ -98,7 +98,11 @@ class PlanEstudioController extends Controller
                     $query
                     ->with(['nivel_competencias' => function ($query) {
                         $query
-                        ->with('logro_aprendizajes');
+                        ->with('logro_aprendizajes')
+                        ->with(['nivel_competencia_asignaturas' => function ($query) {
+                            $query
+                            ->with('asignatura');
+                        }]);
                     }]);
                 }]);
             }])
@@ -109,7 +113,6 @@ class PlanEstudioController extends Controller
                 $query
                 ->with('usuario');
             }])
-            ->with('nivel_genericas')
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }
