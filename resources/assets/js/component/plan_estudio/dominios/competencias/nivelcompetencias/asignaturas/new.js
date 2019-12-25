@@ -52,6 +52,16 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
     const classes = useStyles();
     const [value, setvalue] = useState('');
     const [suggestions, setsuggestions] = useState([]);
+    const filtrarsugerencias = [];
+    nivel_competencia ?
+        nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
+            filtrarsugerencias[i] = nivel_competencia_asignatura.asignatura
+        )
+        :
+        nivel_competencia_generica &&
+        nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
+            filtrarsugerencias[i] = nivel_generica_asignatura.asignatura
+        );
 
 
     function escapeRegexCharacters(str) {
@@ -93,31 +103,25 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
         let existe = false;
         let idAsignatura = 0;
         let form = {};
-        asignaturas.map(asignatura =>
-            {
-                if(asignatura.nombre == value)
-                {
-                    existe = true;
-                    idAsignatura = asignatura.id;
+        asignaturas.map(asignatura => {
+            if (asignatura.nombre == value) {
+                existe = true;
+                idAsignatura = asignatura.id;
 
-                }
             }
+        }
         )
         let variable = '';
-        if(existe)
-        {
-            if(nivel_competencia)
-            {
+        if (existe) {
+            if (nivel_competencia) {
                 variable = 'nivel_competencia_asignaturas';
                 form = {
                     nivel_competencia_id: nivel_competencia.id,
                     asignatura_id: idAsignatura
                 }
             }
-            else
-            {
-                if(nivel_competencia_generica)
-                {
+            else {
+                if (nivel_competencia_generica) {
                     variable = 'nivel_generica_asignaturas';
                     form = {
                         nivel_generica_id: nivel_competencia_generica.nivel_genericas[0].id,
@@ -126,18 +130,15 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                 }
             }
         }
-        if(!existe)
-        {
+        if (!existe) {
             variable = 'asignaturas';
-            if(nivel_competencia)
-            {
+            if (nivel_competencia) {
                 form = {
                     nivel_competencia_id: nivel_competencia.id,
                     nombre: value
                 }
             }
-            else
-            {
+            else {
                 {
                     variable = 'asignaturas';
                     form = {
@@ -147,10 +148,10 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                 }
             }
         }
-        
+
         console.log(form)
         fetch(`/api/${variable}/`, {
-            
+
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -169,44 +170,33 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                 }
 
             })
-            .then(function(data){
-                if(existe)
-                {
-                    console.log('existe', data);
-                    if(data.nivel_competencia_id)
-                    {
-                        console.log('existe asignatura en nivel competencia', data);
-
+            .then(function (data) {
+                if (existe) {
+                    if (data.nivel_competencia_id) {
+                        handleAddElement(variable, data);
+                        addNotification();
                     }
-                    else
-                    {
-                        if(data.nivel_generica_id)
-                        {
-                            console.log('existe asignatura en nivel generica', data);
-
+                    else {
+                        if (data.nivel_generica_id) {
+                            handleAddElement(variable, data);
+                            addNotification();
                         }
                     }
                 }
-                else
-                {
-                    console.log('no existe', data);
-                    if(data[1].nivel_competencia_id)
-                    {
-                        console.log('no existe asignatura en nivel competencia', data);
-
+                else {
+                    if (data[1].nivel_competencia_id) {
+                        handleAddElement(variable, data);
+                        addNotification();
                     }
-                    else
-                    {
-                        if(data[1].nivel_generica_id)
-                        {
-                            console.log('no existe asignatura en nivel generica', data);
-
+                    else {
+                        if (data[1].nivel_generica_id) {
+                            handleAddElement(variable, data);
+                            addNotification();
                         }
                     }
                 }
             }
-                // data => { [handleAddElement(variable, data), addNotification()] }
-                )
+            )
             .catch(function (error) {
                 console.log('Hubo un problema con la petición Fetch:' + error.message);
             })
@@ -219,6 +209,12 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
 
     return (
         <div>
+            {
+                [console.log('asignaturas', asignaturas),
+                console.log('filtrarsugerencias', filtrarsugerencias),
+                // console.log('sugerencias', sugerencias),
+                console.log('igualdad', asignaturas == filtrarsugerencias )]
+            }
             <Dialog open={openNew} onClose={handleCloseNew} scroll='body' disableEscapeKeyDown>
                 <DialogTitle id="form-dialog-title">Asociar Asignatura</DialogTitle>
                 <DialogContent>
