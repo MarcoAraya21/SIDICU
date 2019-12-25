@@ -24,7 +24,7 @@ export default class index extends Component {
                 <ReactNotification ref={this.notificationDOMRef}/>
                 <div className="row">
                     <div className="col-lg-12 mx-auto">
-                        <ul className="nav nav-tabs">
+                        <ul className={"nav nav-tabs " + (!this.props.habilitadogeneral ? "deshabilitado" : "")}>
                             {
                                 this.props.dominios.map((dominio, i) =>
                                     i == 0 ? 
@@ -55,6 +55,12 @@ export default class index extends Component {
                                     </a>
                                 </li> */   
                             }
+                                <li className="nav-items">
+                                    <a href="#dominio-transversal-tab" data-toggle="tab" className="nav-link">
+                                        <span className="d-sm-none">Transversal</span>
+                                        <span className="d-sm-block d-none">Transversal</span>
+                                    </a>
+                                </li>
                         </ul>
                         <div className="tab-content">
                             {
@@ -65,7 +71,10 @@ export default class index extends Component {
                                         <Show dominio={dominio}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
-                                        borrarElemento={this.props.borrarElemento}                                        />
+                                        borrarElemento={this.props.borrarElemento}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}                                      />
                                         }
                                     </div>
                                     :
@@ -73,11 +82,18 @@ export default class index extends Component {
                                         <Show dominio={dominio}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
-                                        borrarElemento={this.props.borrarElemento}  
+                                        borrarElemento={this.props.borrarElemento}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}
                                         />
                                     </div>
                                     )
                             }
+                                    <div className="tab-pane fade" id={"dominio-transversal-tab"}>
+                                        <Show competencias_genericas={this.props.competencias_genericas}
+                                        />
+                                    </div>
                             
                             {/* <div className="tab-pane fade" id="dominio-tab-1">
                                 <Dominios

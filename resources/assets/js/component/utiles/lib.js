@@ -96,22 +96,40 @@ export function handleInput(e, objeto, atributo, id)
             this.setState({dominios: dominios});
         }
         else
-            {
+        {
             if(objeto == "nivel_competencias")
+            {
+                var dominios = this.state['dominios'].map(dominio =>
+                    {return {...dominio, competencias: dominio.competencias.map(competencia =>
+                        {return {...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia =>
+                            {return {...nivel_competencia,
+                                    descripcion: (nivel_competencia.id == indice) ?
+                                    (e.target ? e.target.value : e) : nivel_competencia.descripcion
+                                }
+                            })
+                        }})
+                    }});
+                this.setState({dominios: dominios});
+            }
+            else
+            {
+                if(objeto == "logro_aprendizajes")
                 {
                     var dominios = this.state['dominios'].map(dominio =>
                         {return {...dominio, competencias: dominio.competencias.map(competencia =>
                             {return {...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia =>
-                                {return {...nivel_competencia,
-                                        descripcion: (nivel_competencia.id == indice) ?
-                                        (e.target ? e.target.value : e) : nivel_competencia.descripcion
-                                    }
-                                })
+                                {return {...nivel_competencia, logro_aprendizajes: nivel_competencia.logro_aprendizajes.map(logro_aprendizaje =>
+                                    {return {...logro_aprendizaje,
+                                        descripcion: (logro_aprendizaje.id == indice) ?
+                                        (e.target ? e.target.value : e) : logro_aprendizaje.descripcion
+                                        }
+                                    })
+                                }})
                             }})
                         }});
                     this.setState({dominios: dominios});
                 }
-            else
+                else
                 {
                     var state = this.state[objeto]; 
                     if(e.target){
@@ -124,6 +142,7 @@ export function handleInput(e, objeto, atributo, id)
                     this.setState({[objeto]: state});
                 }
             }
+        }
     }
 
 
@@ -254,7 +273,7 @@ export function handleInputOtros(e, id, object = 'tipo_resultado_id', key = 'tip
     // console.info(id)
 }
 
-export function borrarElemento(objeto, propiedad){
+export function borrarElemento(objeto, propiedad, addNotification){
     //e.preventDefault();
     fetch(`/api/${objeto}/${propiedad}/`, {
         method: 'delete',
@@ -269,46 +288,65 @@ export function borrarElemento(objeto, propiedad){
         }
      
      })
-     .then(
-         () =>{
-            if(objeto == 'competencias')
+     .then(() =>
             {
-                let dominios1 = this.state.dominios.map(dominio=>
-                    {
-                        return {...dominio, competencias: dominio.competencias.filter(competencia =>
-                        competencia.id != propiedad)
-                        }
-                    });
-
-                this.setState({dominios: dominios1})
-            }
-            else
-            {
-                if(objeto == 'nivel_competencias')
+                if(objeto == 'competencias')
                 {
-                    let dominios1 = this.state.dominios.map(dominio =>
+                    let dominios1 = this.state.dominios.map(dominio=>
                         {
-                            return {...dominio, competencias: dominio.competencias.map(competencia =>
-                                {
-                                    return {...competencia, nivel_competencias: competencia.nivel_competencias.filter(nivel_competencia =>
-                                        nivel_competencia.id != propiedad)}
-                                }
-                            )}
+                            return {...dominio, competencias: dominio.competencias.filter(competencia =>
+                            competencia.id != propiedad)
+                            }
                         });
-    
+
                     this.setState({dominios: dominios1})
                 }
                 else
                 {
-                    let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
-                    this.setState({[objeto]: newstate})
+                    if(objeto == 'nivel_competencias')
+                    {
+                        let dominios1 = this.state.dominios.map(dominio =>
+                            {
+                                return {...dominio, competencias: dominio.competencias.map(competencia =>
+                                    {
+                                        return {...competencia, nivel_competencias: competencia.nivel_competencias.filter(nivel_competencia =>
+                                            nivel_competencia.id != propiedad)}
+                                    }
+                                )}
+                            });
+        
+                        this.setState({dominios: dominios1})
+                    }
+                    else
+                    {
+                        if(objeto == 'logro_aprendizajes')
+                        {
+                            let dominios1 = this.state.dominios.map(dominio =>
+                                {
+                                    return {...dominio, competencias: dominio.competencias.map(competencia =>
+                                        {
+                                            return {...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia =>
+                                                {
+                                                    return {...nivel_competencia, logro_aprendizajes: nivel_competencia.logro_aprendizajes.filter(logro_aprendizaje =>
+                                                        logro_aprendizaje.id != propiedad)}
+                                                }
+                                            )}
+                                        }
+                                    )}
+                                });
+            
+                            this.setState({dominios: dominios1})
+                        }
+                        else
+                        {
+                            let newstate = this.state[objeto].filter((el)=> el.id != propiedad)
+                            this.setState({[objeto]: newstate})
+                        }
+                    }
                 }
             }
-         }
         )
-
-     
-    
+    .finally(() => {addNotification()});
 }
 
 

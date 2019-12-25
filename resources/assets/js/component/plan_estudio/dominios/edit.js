@@ -26,6 +26,7 @@ export default class edit extends Component {
     habilitar(){
         this.setState({deshabilitado: false});
     }
+    
     handleSubmit(){
         //e.preventDefault();
         this.setState({guardando: true})

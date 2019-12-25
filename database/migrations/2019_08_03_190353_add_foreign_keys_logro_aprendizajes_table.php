@@ -15,7 +15,7 @@ class AddForeignKeysLogroAprendizajesTable extends Migration
     {
         Schema::table('logro_aprendizajes', function (Blueprint $table) {
             $table->unsignedInteger('nivel_competencia_id')->nullable(); 
-            $table->foreign('nivel_competencia_id')->references('id')->on('nivel_competencias');
+            $table->foreign('nivel_competencia_id')->references('id')->on('nivel_competencias')->onDelete('cascade');
         });
     }
 

@@ -26,16 +26,31 @@ export default class show extends Component {
                 <div className="col-12">
                     <legend>Competencias</legend>
                     <React.Fragment>
-                        {this.props.dominio &&  this.props.dominio.competencias && this.props.dominio.competencias.map((competencia,i) =>
-                            <Panel key = {i} titulo={competencia.descripcion}>
-                                <ShowCompetencias
-                                    competencia={competencia}
-                                    handleInputArrays = {this.props.handleInputArrays}
-                                    handleAddElement = {this.props.handleAddElement}
-                                    borrarElemento={this.props.borrarElemento} 
+                        {
+                            !this.props.competencias_genericas
+                            ?
+                            this.props.dominio &&  this.props.dominio.competencias && this.props.dominio.competencias.map((competencia,i) =>
+                                <Panel key = {i} titulo={competencia.descripcion}>
+                                    <ShowCompetencias
+                                        competencia={competencia}
+                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleAddElement = {this.props.handleAddElement}
+                                        borrarElemento={this.props.borrarElemento}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}
+                                        />
+                                </Panel>
+                            )
+                            :
+                            this.props.competencias_genericas.map((competencia_generica,i) =>
+                                <Panel key = {i} titulo={competencia_generica.sigla + ": " + competencia_generica.descripcion}>
+                                    <ShowCompetencias
+                                        competencia_generica={competencia_generica}
                                     />
-                            </Panel>
-                        )}
+                                </Panel>
+                            )
+                        }
                     </React.Fragment>
                 </div>  
             </div>

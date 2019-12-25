@@ -4,17 +4,32 @@ import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import Logros from './logrosaprendizajes';
+import Asignatura from './asignaturas';
+
 
 
 export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            open: false
+            open: false,
+            openAsignatura: false,
+            deshabilitado: true
+
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
         this.handleClose = this.handleClose.bind(this);
+        this.handleOpenAsignatura = this.handleOpenAsignatura.bind(this);
+        this.handleCloseAsignatura = this.handleCloseAsignatura.bind(this);
+        this.habilitar = this.habilitar.bind(this);
+
+
+
+    }
+
+    habilitar(){
+        this.setState({deshabilitado: false});
     }
 
     handleClose() {
@@ -23,6 +38,14 @@ export default class edit extends Component {
 
     handleOpen() {
         this.setState({open: true});
+    }
+
+    handleCloseAsignatura() {
+        this.setState({openAsignatura: false});
+    }
+
+    handleOpenAsignatura() {
+        this.setState({openAsignatura: true});
     }
 
     // codigo para agregar dominios
@@ -58,7 +81,9 @@ export default class edit extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {this.setState({guardando: false})});
+        .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
+            this.props.habilitarGeneral(true)
+        ]});
         //console.log('formulario enviado',this.state);
     }
     
@@ -66,32 +91,117 @@ export default class edit extends Component {
     
     render() {
         return (
-            <div className="my-2">
-                <p className="m-0">Ingrese Descripción del Nivel de Competencia: {this.props.i + 1}</p>
-                <textarea rows="3"
-                    className="form-control" 
-                    value={this.props.nivel_competencia.descripcion || ''}
-                    onChange={(e)=>this.props.handleInputArrays(e, 'nivel_competencias', 'descripcion', this.props.nivel_competencia.id)}>
-                </textarea>
-                <div className="col-12 text-right mt-2">
-                    
-                    <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
-                    <button type="button" className="btn btn-danger p-5 m-l-5"
-                    onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id)}}>
-                    <i className="fas fa-times p-r-10"></i>Eliminar</button>
-                    <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
-                        <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
-                    </button>
+            <React.Fragment>
+                {
+                !this.props.nivel_competencia_generica ?
+                <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
+                    <p className="m-0">Ingrese Descripción del Nivel {this.props.nivel_competencia.nivel}:</p>
+                    <textarea rows="3"
+                        disabled={this.state.deshabilitado}
+                        className="form-control" 
+                        value={this.props.nivel_competencia.descripcion || ''}
+                        onChange={(e)=>this.props.handleInputArrays(e, 'nivel_competencias', 'descripcion', this.props.nivel_competencia.id)}>
+                    </textarea>
+                    <div className="col-12 text-right mt-2">
+                        <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                        <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                        <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
+                        this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>         
+                    </div>
+                    <div className="col-12 row">
+                        <div className="col-6">
+                            <strong>Logros de Aprendizaje</strong>
+                            {this.props.nivel_competencia.logro_aprendizajes.length > 0 ?
+                            <ol>
+                                {this.props.nivel_competencia.logro_aprendizajes.map((logro_aprendizaje,i) =>
+                                    <li key={i}>{logro_aprendizaje.descripcion}</li>
+                                )}
+                            </ol>
+                            :
+                            <p>No Posee</p>
+                            }
+                            <div>
+                                <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
+                                    <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
+                                </button>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <strong>Asignaturas</strong>
+                            <ol>
+                                <li>sdasdsadsa
+                                    <a className="m-l-5" href="" target="_blank">
+                                        <span className="badge badge-info">Ver</span>
+                                    </a>
+                                </li>
+                            </ol>
+                            <div>
+                                <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
+                                    <i className="fas fa-plus p-r-5" ></i>Asignatura
+                                </button>
+                            </div>
+                        </div>   
+                    </div>
+                    <Logros
+                    open = {this.state.open}
+                    handleClose={this.handleClose}
+                    nivel_competencia = {this.props.nivel_competencia} 
+                    handleInputArrays = {this.props.handleInputArrays}
+                    handleAddElement = {this.props.handleAddElement}
+                    borrarElemento = {this.props.borrarElemento}
+                    addNotification = {this.props.addNotification}
+                    />
                 </div>
-                <Logros
-                open = {this.state.open}
-                handleClose={this.handleClose}
-                nivel_competencia = {this.props.nivel_competencia} 
-                handleInputArrays = {this.props.handleInputArrays}
-                handleAddElement = {this.props.handleAddElement}
-                />
-            </div>
+                :
+                <div className="my-2">
+                    <p className="m-0">Descripción del Nivel {this.props.nivel_competencia_generica.nivel}:</p>
+                    <p className="px-2 py-2 border">
+                        {this.props.nivel_competencia_generica.descripcion}
+                    </p>
+                    <div className="col-12 row">
+                        <div className="col-6">
+                            <strong>Logros de Aprendizaje</strong>
+                            {this.props.nivel_competencia_generica.logro_aprendizajes.length > 0 ?
+                            <ol>
+                                {this.props.nivel_competencia_generica.logro_aprendizajes.map((logro_aprendizaje,i) =>
+                                    <li key={i}>{logro_aprendizaje.descripcion}</li>
+                                )}
+                            </ol>
+                            :
+                            <p>No Posee</p>
+                            }
+                        </div>
+                        <div className="col-6">
+                            <strong>Asignaturas</strong>
+                            <ol>
+                                <li>sdasdsadsa
+                                    <a className="m-l-5" href="" target="_blank">
+                                        <span className="badge badge-info">Ver</span>
+                                    </a>
+                                </li>
+                            </ol>
+                            <div>
+                                <button type="button" className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
+                                    <i className="fas fa-plus p-r-5" ></i>Asignaturas
+                                </button>
+                            </div>
+                        </div>   
+                    </div>
+                    <Logros
+                    open = {this.state.open}
+                    handleClose={this.handleClose}
+                    nivel_competencia_generica = {this.props.nivel_competencia_generica} 
+                    />
+                </div>
+                }
+                <Asignatura
+                    openAsignatura = {this.state.openAsignatura}
+                    handleCloseAsignatura={this.handleCloseAsignatura}
+                    />
+                
+            </React.Fragment>  
         );
     }
 }

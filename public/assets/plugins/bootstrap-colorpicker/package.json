@@ -2,7 +2,7 @@
   "_args": [
     [
       "bootstrap-colorpicker@2.5.2",
-      "C:\\Users\\Caro\\desktop\\sidicu"
+      "C:\\Users\\MASTE\\desktop\\sidicu"
     ]
   ],
   "_from": "bootstrap-colorpicker@2.5.2",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/bootstrap-colorpicker/-/bootstrap-colorpicker-2.5.2.tgz",
   "_spec": "2.5.2",
-  "_where": "C:\\Users\\Caro\\desktop\\sidicu",
+  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
   "author": {
     "name": "Javier Aguilar"
   },

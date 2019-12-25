@@ -38,8 +38,9 @@ class DominioController extends Controller
 
     public function store(Request $request)
     {
+        $request['nombre'] = 'Sin Nombre';
         $Dominio = Dominio::create($request->all());
-        $Dominio = Dominio::with('tipo_dominio')->findOrFail($Dominio->id);
+        $Dominio = Dominio::with('tipo_dominio')->with('competencias')->findOrFail($Dominio->id);
         return response()->json($Dominio, 201);
 
         // $SolicitudGasto = SolicitudGasto::with(['gasto_conceptos' => function ($query){
@@ -99,6 +100,10 @@ class DominioController extends Controller
     public function destroy($id)
     {
         $Dominio = Dominio::find($id);
+        // $Competencias = $Dominio->competencias()->get();
+        // foreach ($Competencias as $key => $Competencia) {
+        //     $Competencia->nivel_competencias()->delete();
+        // }
         $Dominio->competencias()->delete();
         $Dominio->delete();
     }

@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Logros({open, handleClose, nivel_competencia, handleInputArrays, borrarElemento, handleAddElement}) {
+export default function Logros({open, handleClose, nivel_competencia, nivel_competencia_generica, handleInputArrays, borrarElemento, handleAddElement, addNotification}) {
   const classes = useStyles();
 
   
@@ -73,7 +73,10 @@ export default function Logros({open, handleClose, nivel_competencia, handleInpu
         }
      
      })
-     .then( data => handleAddElement(variable, data));
+    .then(data => {[handleAddElement(variable, data),addNotification()]} )
+    .catch(function(error) {
+        console.log('Hubo un problema con la petición Fetch:' + error.message);
+    })
      
     
 }
@@ -87,12 +90,16 @@ export default function Logros({open, handleClose, nivel_competencia, handleInpu
                 <CloseIcon />
                 </IconButton>
                 <Typography variant="h6" className={classes.title}>
-                {nivel_competencia.descripcion || "Sin Nombre"}
+                {nivel_competencia ? nivel_competencia.descripcion
+                : nivel_competencia_generica ? nivel_competencia_generica.descripcion
+                : "Sin Nombre"}
                 </Typography>
                 
             </Toolbar>
             </AppBar>
             <DialogContent>
+              {!nivel_competencia_generica
+              ?
                 <div className="border p-3 mb-3">
                     {
                         nivel_competencia.logro_aprendizajes && nivel_competencia.logro_aprendizajes.length > 0 ?
@@ -101,7 +108,8 @@ export default function Logros({open, handleClose, nivel_competencia, handleInpu
                             logro_aprendizaje = {logro_aprendizaje}
                             i={i}
                             handleInputArrays = {handleInputArrays}
-                            borrarElemento={borrarElemento}/>
+                            borrarElemento={borrarElemento}
+                            addNotification = {addNotification}/>
                             )
                         :
                         <p>No posee ningun logro de aprendizaje</p>
@@ -112,6 +120,17 @@ export default function Logros({open, handleClose, nivel_competencia, handleInpu
                             </button>                    
                         </div>
                 </div>
+                :
+                <div className="border p-3 mb-3">
+                    {
+                        nivel_competencia_generica.logro_aprendizajes.map((logro_aprendizaje_generico,i) =>
+                            <Edit key={logro_aprendizaje_generico.id}
+                            logro_aprendizaje_generico = {logro_aprendizaje_generico}
+                            i={i}/>
+                            )
+                    }
+                </div>
+              }
             </DialogContent>
         </Dialog>
     </div>

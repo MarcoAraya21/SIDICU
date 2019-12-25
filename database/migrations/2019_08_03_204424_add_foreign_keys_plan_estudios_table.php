@@ -21,7 +21,7 @@ class AddForeignKeysPlanEstudiosTable extends Migration
             $table->unsignedInteger('tipo_ingreso_id')->nullable(); 
             $table->foreign('tipo_ingreso_id')->references('id')->on('tipo_ingresos');
             $table->unsignedInteger('padre_id')->nullable(); 
-            $table->foreign('padre_id')->references('id')->on('plan_estudios');
+            $table->foreign('padre_id')->references('id')->on('plan_estudios')->onDelete('cascade');
             $table->unsignedInteger('estado_id')->nullable(); 
             $table->foreign('estado_id')->references('id')->on('estados');
         });

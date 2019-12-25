@@ -28,10 +28,6 @@ class Asignatura extends Model
     {
         return $this->belongsTo('App\Departamento');
     }
-    public function nivel_competencia()
-    {
-        return $this->belongsTo('App\NivelCompetencia');
-    }
 
     public function bibliografias()
     {
@@ -52,6 +48,16 @@ class Asignatura extends Model
     public function unidades()
     {
         return $this->hasMany('App\Unidad');
+    }
+
+    public function nivel_competencia_asignaturas()
+    {
+        return $this->hasMany('App\NivelCompetenciaAsignatura');
+    }
+
+    public function nivel_competencia_generica_asignaturas()
+    {
+        return $this->hasMany('App\NivelCompetenciaGenericaAsignatura');
     }
 
     //Hacer funcion que retorne el padre

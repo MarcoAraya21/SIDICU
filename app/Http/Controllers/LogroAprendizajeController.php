@@ -38,6 +38,7 @@ class LogroAprendizajeController extends Controller
 
     public function store(Request $request)
     {
+        $request['descripcion'] = 'Sin Nombre';
         $LogroAprendizaje = LogroAprendizaje::create($request->all());
         return response()->json($LogroAprendizaje, 201);
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\PlanEstudio;
+use App\Competencia;
 
 class PlanEstudioController extends Controller
 {
@@ -47,7 +48,7 @@ class PlanEstudioController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request);
+        
         $this->validate($request, [
             'nombre' => 'required',
             'observacion' => 'required',
@@ -59,11 +60,24 @@ class PlanEstudioController extends Controller
 
         $PlanEstudio = PlanEstudio::create($request->all());
         for ($i=0; $i <= 1  ; $i++) {
-            $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1]);
+            $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1, 'nombre' => 'Sin Nombre']);
         }
         // $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->academico_id,'rol_id' => 2]);
+
+        $competencias = Competencia::where('dominio_id', 1)->get();
+        $i = 0;
+        foreach ($competencias as $key => $competencia) {
+            if($i < 4)
+            {
+                $nivel_competencias = $competencia->nivel_competencias()->get();
+                foreach ($nivel_competencias as $key => $nivel_competencia) {
+                    $PlanEstudio->nivel_genericas()->create(['nivel_competencia_id' => $nivel_competencia['id']]);
+                }
+            }
+            $i = $i + 1;
+        }
         return response()->json($PlanEstudio, 201);
 
     }
@@ -95,6 +109,7 @@ class PlanEstudioController extends Controller
                 $query
                 ->with('usuario');
             }])
+            ->with('nivel_genericas')
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }
@@ -142,12 +157,12 @@ class PlanEstudioController extends Controller
     public function destroy($id)
     {
         $PlanEstudio = PlanEstudio::find($id);
-        $Dominios = $PlanEstudio->dominios()->get();
-        foreach ($Dominios as $key => $dominio) {
-            $dominio->competencias()->delete();
-        }
-        // $Dominios->delete();
-        $PlanEstudio->dominios()->delete();
+        // $Dominios = $PlanEstudio->dominios()->get();
+        // foreach ($Dominios as $key => $dominio) {
+        //     $dominio->competencias()->delete();
+        // }
+        // // $Dominios->delete();
+        // $PlanEstudio->dominios()->delete();
         $PlanEstudio->delete();
     }
 

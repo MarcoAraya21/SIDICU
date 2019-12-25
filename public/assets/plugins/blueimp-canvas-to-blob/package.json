@@ -2,7 +2,7 @@
   "_args": [
     [
       "blueimp-canvas-to-blob@3.5.0",
-      "C:\\Users\\Caro\\desktop\\sidicu"
+      "C:\\Users\\MASTE\\desktop\\sidicu"
     ]
   ],
   "_from": "blueimp-canvas-to-blob@3.5.0",
@@ -27,7 +27,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/blueimp-canvas-to-blob/-/blueimp-canvas-to-blob-3.5.0.tgz",
   "_spec": "3.5.0",
-  "_where": "C:\\Users\\Caro\\desktop\\sidicu",
+  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
   "author": {
     "name": "Sebastian Tschan",
     "url": "https://blueimp.net"
