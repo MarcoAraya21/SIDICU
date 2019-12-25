@@ -9,11 +9,16 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            deshabilitado: true
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.habilitar = this.habilitar.bind(this);
 
     }
 
+    habilitar(){
+        this.setState({deshabilitado: false});
+    }
 
     // codigo para agregar dominios
     // componentWillMount(){
@@ -48,7 +53,9 @@ export default class edit extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {this.setState({guardando: false})});
+        .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
+            this.props.habilitarGeneral(true)
+        ]});
         //console.log('formulario enviado',this.state);
     }
     
@@ -56,27 +63,21 @@ export default class edit extends Component {
     
     render() {
         return (
-            !this.props.logro_aprendizaje_generico ?
-                <div className="my-2">
-                    <p className="m-0">Ingrese Descripción del Logro de Aprendizaje: {this.props.i + 1}</p>
-                    <textarea rows="3"
-                        className="form-control" 
-                        value={this.props.logro_aprendizaje.descripcion || ''}
-                        onChange={(e)=>this.props.handleInputArrays(e, 'logro_aprendizajes', 'descripcion', this.props.logro_aprendizaje.id)}>
-                    </textarea>
-                    <div className="col-12 text-right mt-2">
-                        <button type="button" className="btn btn-primary" onClick={this.handleSubmit}>Guardar</button>
-                        <button type="button" className="btn btn-danger p-5 m-l-5"
-                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                        this.props.borrarElemento('logro_aprendizajes', this.props.logro_aprendizaje.id, this.props.addNotification)}}>
-                        <i className="fas fa-times p-r-10"></i>Eliminar</button>
-                    </div>
+            <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
+                <p className="m-0">Ingrese Descripción del Logro de Aprendizaje: {this.props.i + 1}</p>
+                <textarea rows="3"
+                    className="form-control" 
+                    value={this.props.logro_aprendizaje.descripcion || ''}
+                    onChange={(e)=>this.props.handleInputArrays(e, 'logro_aprendizajes', 'descripcion', this.props.logro_aprendizaje.id)}>
+                </textarea>
+                <div className="col-12 text-right mt-2">
+                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                    onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
+                    this.props.borrarElemento('logro_aprendizajes', this.props.logro_aprendizaje.id, this.props.addNotification)}}>
+                    <i className="fas fa-times p-r-10"></i>Eliminar</button>
                 </div>
-            :
-            <div className="my-2">
-                <p className="px-2 py-2 border">
-                    {this.props.logro_aprendizaje_generico.descripcion}
-                </p>
             </div>
         );
     }

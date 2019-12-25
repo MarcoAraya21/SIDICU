@@ -8,7 +8,7 @@ import Show from './show';
 import Dominios from './dominios';
 import Competencias from './dominios/competencias';
 import NivelCompetencias from './dominios/competencias/nivelcompetencias';
-import Dialog from '@material-ui/core/Dialog';
+import Asignaturas from './asignaturas';
 
 
 
@@ -32,7 +32,7 @@ export default class index extends Component {
             dominios: [],
             usuarios: [],
             competencias_genericas: [],
-
+            asignaturas: [],
             habilitadogeneral: true,
         }
 
@@ -101,7 +101,8 @@ export default class index extends Component {
                     tipo_ingreso: response.data.tipo_ingreso,
                     dominios: response.data.dominios,
                     usuarios: response.data.plan_estudio_usuarios,
-                    competencias_genericas: response.data.competencias_genericas
+                    competencias_genericas: response.data.competencias_genericas,
+                    asignaturas: response.data.asignaturas
                 })
                 // console.log(response.data.informe_avance)
             }            
@@ -161,6 +162,12 @@ export default class index extends Component {
                                     <span className="d-sm-block d-none">Niveles de Competencias del Plan</span>
                                 </a>
                             </li>
+                            <li className="nav-items">
+                                <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
+                                    <span className="d-sm-none">Asignaturas</span>
+                                    <span className="d-sm-block d-none">Asignaturas del Plan</span>
+                                </a>
+                            </li>
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane fade active show" id="plan-tab-show">
@@ -213,6 +220,7 @@ export default class index extends Component {
                                 <NivelCompetencias
                                 dominios={this.state.dominios}
                                 competencias_genericas={this.state.competencias_genericas}
+                                asignaturas= {this.state.asignaturas}
                                 handleInputArrays = {this.handleInputArrays}
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}
@@ -221,10 +229,11 @@ export default class index extends Component {
                                 addNotification = {this.addNotification}
                                 />
                             </div>
-                            {/* <div className="tab-pane fade" id="plan-tab-4">
+                            <div className="tab-pane fade" id="plan-tab-4">
                                 <Asignaturas
+                                asignaturas= {this.state.asignaturas}
                                 />
-                            </div> */}
+                            </div>
                         </div>			
                     </div>
                </div>

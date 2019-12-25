@@ -48,91 +48,76 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Logros({open, handleClose, nivel_competencia, nivel_competencia_generica, handleInputArrays, borrarElemento, handleAddElement, addNotification}) {
+export default function Logros({ open, handleClose, nivel_competencia, nivel_competencia_generica, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification }) {
   const classes = useStyles();
 
-  
-  function addElemento(variable){
+
+  function addElemento(variable) {
     //e.preventDefault();
     fetch(`/api/${variable}/`, {
-        method: 'post',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type':'application/json'
-        }
-        ,
-        body: JSON.stringify(
-            {nivel_competencia_id: nivel_competencia.id}
-        )
+      method: 'post',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+      ,
+      body: JSON.stringify(
+        { nivel_competencia_id: nivel_competencia.id }
+      )
     })
-    .then(function(response) {
-        if(response.ok) {
-            return response.json();
+      .then(function (response) {
+        if (response.ok) {
+          return response.json();
         } else {
-            throw "Error en la llamada Ajax";
+          throw "Error en la llamada Ajax";
         }
-     
-     })
-    .then(data => {[handleAddElement(variable, data),addNotification()]} )
-    .catch(function(error) {
+
+      })
+      .then(data => { [handleAddElement(variable, data), addNotification()] })
+      .catch(function (error) {
         console.log('Hubo un problema con la petición Fetch:' + error.message);
-    })
-     
-    
-}
+      })
+  }
 
   return (
     <div>
-        <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-            <AppBar className={classes.appBar}>
-            <Toolbar>
-                <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
-                <CloseIcon />
-                </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                {nivel_competencia ? nivel_competencia.descripcion
-                : nivel_competencia_generica ? nivel_competencia_generica.descripcion
-                : "Sin Nombre"}
-                </Typography>
-                
-            </Toolbar>
-            </AppBar>
-            <DialogContent>
-              {!nivel_competencia_generica
-              ?
-                <div className="border p-3 mb-3">
-                    {
-                        nivel_competencia.logro_aprendizajes && nivel_competencia.logro_aprendizajes.length > 0 ?
-                        nivel_competencia.logro_aprendizajes.map((logro_aprendizaje,i) =>
-                            <Edit key={logro_aprendizaje.id}
-                            logro_aprendizaje = {logro_aprendizaje}
-                            i={i}
-                            handleInputArrays = {handleInputArrays}
-                            borrarElemento={borrarElemento}
-                            addNotification = {addNotification}/>
-                            )
-                        :
-                        <p>No posee ningun logro de aprendizaje</p>
-                    }
-                        <div align="right" className="mt-2 mb-1">
-                            <button type="button" className="btn btn-primary" onClick={()=>{addElemento('logro_aprendizajes')}}>      
-                                <i className="fas fa-plus p-r-5" ></i>Crear Logro de Aprendizaje
-                            </button>                    
-                        </div>
-                </div>
+      <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition} disableEscapeKeyDown>
+        <AppBar className={classes.appBar}>
+          <Toolbar className={(!habilitadogeneral ? "deshabilitado" : "")}>
+            <IconButton edge="start" color="inherit" onClick={handleClose} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              {nivel_competencia && nivel_competencia.descripcion || "Sin Nombre"}
+            </Typography>
+
+          </Toolbar>
+        </AppBar>
+        <DialogContent>
+          <div className="border p-3 mb-3">
+            {
+              nivel_competencia.logro_aprendizajes && nivel_competencia.logro_aprendizajes.length > 0 ?
+                nivel_competencia.logro_aprendizajes.map((logro_aprendizaje, i) =>
+                  <Edit key={logro_aprendizaje.id}
+                    logro_aprendizaje={logro_aprendizaje}
+                    i={i}
+                    handleInputArrays={handleInputArrays}
+                    borrarElemento={borrarElemento}
+                    habilitarGeneral={habilitarGeneral}
+                    habilitadogeneral={habilitadogeneral}
+                    addNotification={addNotification} />
+                )
                 :
-                <div className="border p-3 mb-3">
-                    {
-                        nivel_competencia_generica.logro_aprendizajes.map((logro_aprendizaje_generico,i) =>
-                            <Edit key={logro_aprendizaje_generico.id}
-                            logro_aprendizaje_generico = {logro_aprendizaje_generico}
-                            i={i}/>
-                            )
-                    }
-                </div>
-              }
-            </DialogContent>
-        </Dialog>
+                <p>No posee ningun logro de aprendizaje</p>
+            }
+            <div align="right" className="mt-2 mb-1">
+              <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('logro_aprendizajes') }}>
+                <i className="fas fa-plus p-r-5" ></i>Crear Logro de Aprendizaje
+              </button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

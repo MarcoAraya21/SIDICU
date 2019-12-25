@@ -55,9 +55,9 @@ class Asignatura extends Model
         return $this->hasMany('App\NivelCompetenciaAsignatura');
     }
 
-    public function nivel_competencia_generica_asignaturas()
+    public function nivel_generica_asignaturas()
     {
-        return $this->hasMany('App\NivelCompetenciaGenericaAsignatura');
+        return $this->hasMany('App\NivelGenericaAsignatura');
     }
 
     //Hacer funcion que retorne el padre

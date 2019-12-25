@@ -68,7 +68,9 @@ export default class index extends Component {
                                     i == 0 ?
                                     <div className="tab-pane fade active show" id="dominio-tab-show" key={i}>
                                         {
-                                        <Show dominio={dominio}
+                                        <Show
+                                        dominio={dominio}
+                                        asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}
@@ -79,7 +81,9 @@ export default class index extends Component {
                                     </div>
                                     :
                                     <div className="tab-pane fade" id={"dominio-tab-"+i} key={i}>
-                                        <Show dominio={dominio}
+                                        <Show
+                                        dominio={dominio}
+                                        asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}
@@ -91,7 +95,15 @@ export default class index extends Component {
                                     )
                             }
                                     <div className="tab-pane fade" id={"dominio-transversal-tab"}>
-                                        <Show competencias_genericas={this.props.competencias_genericas}
+                                        <Show
+                                        competencias_genericas={this.props.competencias_genericas}
+                                        asignaturas={this.props.asignaturas}
+                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleAddElement = {this.props.handleAddElement}
+                                        borrarElemento={this.props.borrarElemento}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}
                                         />
                                     </div>
                             

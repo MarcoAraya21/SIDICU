@@ -24,5 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CompetenciasSeeder::class);
         $this->call(NivelCompetenciasSeeder::class);
         $this->call(LogroAprendizajesSeeder::class);
+        $this->call(TipoHorasSeeder::class);
+
     }
 }

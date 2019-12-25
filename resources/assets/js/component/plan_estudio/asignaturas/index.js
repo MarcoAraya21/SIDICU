@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios';
+import Panel from '../../utiles/Panel'
+import Show from './show'
 
 export default class index extends Component {
     constructor (props) {
@@ -17,7 +18,11 @@ export default class index extends Component {
                 <div className="col-12">
                     <legend>Asignaturas</legend>
                     <React.Fragment>
-
+                        {this.props.asignaturas.map((asignatura,i) =>
+                            <Panel key = {i} titulo={asignatura.nombre}>
+                                <Show />
+                            </Panel>
+                        )}
                     </React.Fragment>
                 </div>  
             </div>

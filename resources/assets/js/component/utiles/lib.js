@@ -199,9 +199,30 @@ export function handleAddElement(key, elemento) {
                 this.setState({dominios: dominios1})
             }
             else{
-                var state = this.state[key];
-                state.push(elemento);
-                this.setState({[key]: state});
+                if(key == "nivel_competencia_asignaturas")
+                {
+                    let dominios1 = this.state['dominios'].map(dominio =>
+                        {return {...dominio, competencias: dominio.competencias.map(competencia =>
+                            { return {...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia =>
+                                {
+                                    if(nivel_competencia.id == elemento.nivel_competencia_id)
+                                    {
+                                        return{...nivel_competencia, nivel_competencia_asignaturas: [...nivel_competencia.nivel_competencia_asignaturas, elemento]};
+                                    }
+                                    else{
+                                        return nivel_competencia;
+                                    }
+                                }
+                            )}}
+                        )}}
+                    )
+                    this.setState({dominios: dominios1})
+                }
+                else{
+                    var state = this.state[key];
+                    state.push(elemento);
+                    this.setState({[key]: state});
+                } 
             } 
         }
     }

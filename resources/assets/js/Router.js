@@ -5,6 +5,8 @@ import Index from './component/Index'
 import PlanEstudio from './component/plan_estudio/index'
 import Index2 from './component/plan_estudio/index2'
 import Admin from './component/admin/index'
+// import IndexAsignaturas from './component/asignaturas/index'
+
 
 
 const Router = () => {
@@ -12,11 +14,12 @@ const Router = () => {
         <BrowserRouter>
             <div>
                 <Switch>
-                    <Route path='/Administrador' component={Admin} /> 
-                        <Route path='/NewPlan' component={Index2} />
-                        <Route path='/:id' component={PlanEstudio} />
-                        <Route exact path='/' component={Index} />
-                    </Switch>
+                    <Route path='/Administrador' component={Admin} />
+                    {/* <Route path='/ListAsignaturas' component={IndexAsignaturas} /> */}
+                    <Route path='/NewPlan' component={Index2} />
+                    <Route path='/:id' component={PlanEstudio} />
+                    <Route exact path='/' component={Index} />
+                </Switch>
             </div>
         </BrowserRouter>
       )
