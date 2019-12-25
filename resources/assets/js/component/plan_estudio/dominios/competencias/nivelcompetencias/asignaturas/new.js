@@ -172,11 +172,37 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
             .then(function(data){
                 if(existe)
                 {
-                    console.log('existe asignatura');
+                    console.log('existe', data);
+                    if(data.nivel_competencia_id)
+                    {
+                        console.log('existe asignatura en nivel competencia', data);
+
+                    }
+                    else
+                    {
+                        if(data.nivel_generica_id)
+                        {
+                            console.log('existe asignatura en nivel generica', data);
+
+                        }
+                    }
                 }
                 else
                 {
-                    console.log('no existe asignatura');
+                    console.log('no existe', data);
+                    if(data[1].nivel_competencia_id)
+                    {
+                        console.log('no existe asignatura en nivel competencia', data);
+
+                    }
+                    else
+                    {
+                        if(data[1].nivel_generica_id)
+                        {
+                            console.log('no existe asignatura en nivel generica', data);
+
+                        }
+                    }
                 }
             }
                 // data => { [handleAddElement(variable, data), addNotification()] }

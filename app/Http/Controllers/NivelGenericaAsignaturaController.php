@@ -44,9 +44,14 @@ class NivelGenericaAsignaturaController extends Controller
         //     'provider_id' => $provider,
         //     'barcode' => $barcode,
         // ]);
+        $NivelGenericaAsignatura = NivelGenericaAsignatura::firstOrCreate([
+            'nivel_generica_id' => $request->nivel_generica_id,
+            'asignatura_id' => $request->asignatura_id,
+        ]);
+        return response()->json($NivelGenericaAsignatura, 201);
         // $NivelGenericaAsignatura = NivelGenericaAsignatura::create($request->all());
         // $NivelGenericaAsignatura = NivelGenericaAsignatura::with('logro_aprendizajes')->with('nivel_Generica_NivelGenericaAsignaturas')->findOrFail($NivelGenericaAsignatura->id);
-        return 201;
+        // return 201;
         // return response()->json($NivelGenericaAsignatura, 201);
 
     }

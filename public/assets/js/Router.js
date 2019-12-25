@@ -4411,9 +4411,24 @@ function handleAddElement(key, elemento) {
                 });
                 this.setState({ dominios: _dominios2 });
             } else {
-                var state = this.state[key];
-                state.push(elemento);
-                this.setState(_defineProperty({}, key, state));
+                if (key == "nivel_competencia_asignaturas") {
+                    var _dominios3 = this.state['dominios'].map(function (dominio) {
+                        return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
+                                return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.map(function (nivel_competencia) {
+                                        if (nivel_competencia.id == elemento.nivel_competencia_id) {
+                                            return _extends({}, nivel_competencia, { nivel_competencia_asignaturas: [].concat(_toConsumableArray(nivel_competencia.nivel_competencia_asignaturas), [elemento]) });
+                                        } else {
+                                            return nivel_competencia;
+                                        }
+                                    }) });
+                            }) });
+                    });
+                    this.setState({ dominios: _dominios3 });
+                } else {
+                    var state = this.state[key];
+                    state.push(elemento);
+                    this.setState(_defineProperty({}, key, state));
+                }
             }
         }
     }
@@ -4513,7 +4528,7 @@ function borrarElemento(objeto, propiedad, addNotification) {
             _this.setState({ dominios: dominios1 });
         } else {
             if (objeto == 'nivel_competencias') {
-                var _dominios3 = _this.state.dominios.map(function (dominio) {
+                var _dominios4 = _this.state.dominios.map(function (dominio) {
                     return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
                             return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.filter(function (nivel_competencia) {
                                     return nivel_competencia.id != propiedad;
@@ -4521,10 +4536,10 @@ function borrarElemento(objeto, propiedad, addNotification) {
                         }) });
                 });
 
-                _this.setState({ dominios: _dominios3 });
+                _this.setState({ dominios: _dominios4 });
             } else {
                 if (objeto == 'logro_aprendizajes') {
-                    var _dominios4 = _this.state.dominios.map(function (dominio) {
+                    var _dominios5 = _this.state.dominios.map(function (dominio) {
                         return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
                                 return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.map(function (nivel_competencia) {
                                         return _extends({}, nivel_competencia, { logro_aprendizajes: nivel_competencia.logro_aprendizajes.filter(function (logro_aprendizaje) {
@@ -4534,7 +4549,7 @@ function borrarElemento(objeto, propiedad, addNotification) {
                             }) });
                     });
 
-                    _this.setState({ dominios: _dominios4 });
+                    _this.setState({ dominios: _dominios5 });
                 } else {
                     var newstate = _this.state[objeto].filter(function (el) {
                         return el.id != propiedad;
@@ -56583,9 +56598,23 @@ function NewAsignatura(_ref) {
             }
         }).then(function (data) {
             if (existe) {
-                console.log('existe asignatura');
+                console.log('existe', data);
+                if (data.nivel_competencia_id) {
+                    console.log('existe asignatura en nivel competencia', data);
+                } else {
+                    if (data.nivel_generica_id) {
+                        console.log('existe asignatura en nivel generica', data);
+                    }
+                }
             } else {
-                console.log('no existe asignatura');
+                console.log('no existe', data);
+                if (data[1].nivel_competencia_id) {
+                    console.log('no existe asignatura en nivel competencia', data);
+                } else {
+                    if (data[1].nivel_generica_id) {
+                        console.log('no existe asignatura en nivel generica', data);
+                    }
+                }
             }
         }
         // data => { [handleAddElement(variable, data), addNotification()] }

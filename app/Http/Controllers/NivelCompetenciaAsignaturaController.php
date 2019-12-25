@@ -44,7 +44,11 @@ class NivelCompetenciaAsignaturaController extends Controller
         //     'provider_id' => $provider,
         //     'barcode' => $barcode,
         // ]);
-        return 201;
+        $NivelCompetenciaAsignatura = NivelCompetenciaAsignatura::firstOrCreate([
+            'nivel_competencia_id' => $request->nivel_competencia_id,
+            'asignatura_id' => $request->asignatura_id,
+        ]);
+        return response()->json($NivelCompetenciaAsignatura, 201);
 
         // $NivelCompetenciaAsignatura = NivelCompetenciaAsignatura::create($request->all());
         // $NivelCompetenciaAsignatura = NivelCompetenciaAsignatura::with('logro_aprendizajes')->with('nivel_competencia_NivelCompetenciaAsignaturas')->findOrFail($NivelCompetenciaAsignatura->id);
