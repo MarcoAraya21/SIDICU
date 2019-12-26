@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Asignatura;
 use App\PlanEstudio;
+use app\NivelCompetenciaAsignatura;
+use app\NivelGenericaAsignatura;
 
 class AsignaturaController extends Controller
 {
@@ -38,15 +40,14 @@ class AsignaturaController extends Controller
         if($request->nivel_competencia_id)
         {
             $Asignatura->nivel_competencia_asignaturas()->create(['nivel_competencia_id' => $request->nivel_competencia_id]);
-            $tipo_competencia = array('nivel_competencia_id' => $request->nivel_competencia_id);
+            $tipo_competencia = NivelCompetenciaAsignatura::where('nivel_competencia_id',$request->nivel_competencia_id)->where('asignatura_id',$Asignatura->id)->first();
         }
         else
         {
             if($request->nivel_generica_id)
             {
                 $Asignatura->nivel_generica_asignaturas()->create(['nivel_generica_id' => $request->nivel_generica_id]);
-                $tipo_competencia = array('nivel_generica_id' => $request->nivel_generica_id);
-
+                $tipo_competencia = NivelGenericaAsignatura::where('nivel_generica_id',$request->nivel_generica_id)->where('asignatura_id',$Asignatura->id)->first();
             }
         }
         // dd($request);
@@ -55,7 +56,7 @@ class AsignaturaController extends Controller
         //     $Asignatura->asignatura_horas()->create(['tipo_hora_id' => $i]);
         // }
         // return 201;  
-        
+        $Asignatura = $Asignatura->fresh();
         return response()->json([$Asignatura, $tipo_competencia], 201);
 
     }
