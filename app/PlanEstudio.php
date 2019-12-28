@@ -62,6 +62,11 @@ class PlanEstudio extends Model
         return $this->hasMany('App\NivelGenerica');
     }
 
+    public function niveles()
+    {
+        return $this->hasMany('App\Nivel');
+    }
+
     public function getCompetenciasGenericasAttribute()
     {
         $i = 0;

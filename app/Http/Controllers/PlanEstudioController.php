@@ -65,6 +65,7 @@ class PlanEstudioController extends Controller
         // $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->academico_id,'rol_id' => 2]);
+        $PlanEstudio->niveles()->create(['nombre'=> 'Nivel 1']);
 
         $competencias = Competencia::where('dominio_id', 1)->get();
         $i = 0;
