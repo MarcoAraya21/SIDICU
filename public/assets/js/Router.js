@@ -4423,18 +4423,34 @@ function handleAddElement(key, elemento) {
                                         } else {
                                             return nivel_competencia;
                                         }
-                                    }) });
-                            }) });
+                                    })
+                                });
+                            })
+                        });
                     });
                     this.setState({ dominios: _dominios3 });
+                    var newElement = { asignatura_id: elemento.asignatura_id,
+                        created_at: elemento.created_at,
+                        id: elemento.id,
+                        nivel_competencia_id: elemento.nivel_competencia_id,
+                        updated_at: elemento.updated_at };
+                    var asignaturas = this.state.asignaturas.map(function (asignatura) {
+                        if (asignatura.id == elemento.asignatura_id) {
+                            return _extends({}, asignatura, { nivel_competencia_asignaturas: [].concat(_toConsumableArray(asignatura.nivel_competencia_asignaturas), [newElement]) });
+                        } else {
+                            return asignatura;
+                        }
+                    });
+                    this.setState({ asignaturas: asignaturas });
                 } else {
                     if (key == "nivel_generica_asignaturas") {
-                        var _dominios4 = this.state['competencias_genericas'].map(function (competencias_generica) {
+                        var competencias_genericas = this.state['competencias_genericas'].map(function (competencias_generica) {
                             return _extends({}, competencias_generica, { nivel_competencias: competencias_generica.nivel_competencias.map(function (nivel_competencia) {
                                     if (nivel_competencia.nivel_genericas[0].id == elemento.nivel_generica_id) {
                                         return _extends({}, nivel_competencia, {
                                             nivel_genericas: [_extends({}, nivel_competencia.nivel_genericas[0], {
-                                                nivel_generica_asignaturas: [].concat(_toConsumableArray(nivel_competencia.nivel_genericas[0].nivel_generica_asignaturas), [elemento]) })]
+                                                nivel_generica_asignaturas: [].concat(_toConsumableArray(nivel_competencia.nivel_genericas[0].nivel_generica_asignaturas), [elemento])
+                                            })]
                                         });
                                     } else {
                                         return nivel_competencia;
@@ -4442,13 +4458,27 @@ function handleAddElement(key, elemento) {
                                 })
                             });
                         });
-                        this.setState({ competencias_genericas: _dominios4 });
+                        this.setState({ competencias_genericas: competencias_genericas });
+
+                        var _newElement = { asignatura_id: elemento.asignatura_id,
+                            created_at: elemento.created_at,
+                            id: elemento.id,
+                            nivel_generica_id: elemento.nivel_generica_id,
+                            updated_at: elemento.updated_at };
+                        var _asignaturas = this.state.asignaturas.map(function (asignatura) {
+                            if (asignatura.id == elemento.asignatura_id) {
+                                return _extends({}, asignatura, { nivel_generica_asignaturas: [].concat(_toConsumableArray(asignatura.nivel_generica_asignaturas), [_newElement]) });
+                            } else {
+                                return asignatura;
+                            }
+                        });
+                        this.setState({ asignaturas: _asignaturas });
                     } else {
                         if (key == "asignaturas") {
-                            var asignaturas = [].concat(_toConsumableArray(this.state.asignaturas), [elemento[0]]);
-                            this.setState({ asignaturas: asignaturas });
+                            var _asignaturas2 = [].concat(_toConsumableArray(this.state.asignaturas), [elemento[0]]);
+                            this.setState({ asignaturas: _asignaturas2 });
                             if (elemento[1].nivel_competencia_id) {
-                                var _dominios5 = this.state['dominios'].map(function (dominio) {
+                                var _dominios4 = this.state['dominios'].map(function (dominio) {
                                     return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
                                             return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.map(function (nivel_competencia) {
                                                     if (nivel_competencia.id == elemento[1].nivel_competencia_id) {
@@ -4456,19 +4486,22 @@ function handleAddElement(key, elemento) {
                                                     } else {
                                                         return nivel_competencia;
                                                     }
-                                                }) });
-                                        }) });
+                                                })
+                                            });
+                                        })
+                                    });
                                 });
-                                console.log('dominio', _dominios5);
-                                this.setState({ dominios: _dominios5 });
+                                console.log('dominio', _dominios4);
+                                this.setState({ dominios: _dominios4 });
                             } else {
                                 if (elemento[1].nivel_generica_id) {
-                                    var _dominios6 = this.state['competencias_genericas'].map(function (competencias_generica) {
+                                    var _dominios5 = this.state['competencias_genericas'].map(function (competencias_generica) {
                                         return _extends({}, competencias_generica, { nivel_competencias: competencias_generica.nivel_competencias.map(function (nivel_competencia) {
                                                 if (nivel_competencia.nivel_genericas[0].id == elemento[1].nivel_generica_id) {
                                                     return _extends({}, nivel_competencia, {
                                                         nivel_genericas: [_extends({}, nivel_competencia.nivel_genericas[0], {
-                                                            nivel_generica_asignaturas: [].concat(_toConsumableArray(nivel_competencia.nivel_genericas[0].nivel_generica_asignaturas), [_extends({}, elemento[1], { asignatura: elemento[0] })]) })]
+                                                            nivel_generica_asignaturas: [].concat(_toConsumableArray(nivel_competencia.nivel_genericas[0].nivel_generica_asignaturas), [_extends({}, elemento[1], { asignatura: elemento[0] })])
+                                                        })]
                                                     });
                                                 } else {
                                                     return nivel_competencia;
@@ -4476,7 +4509,7 @@ function handleAddElement(key, elemento) {
                                             })
                                         });
                                     });
-                                    this.setState({ competencias_genericas: _dominios6 });
+                                    this.setState({ competencias_genericas: _dominios5 });
                                 }
                             }
                         } else {
@@ -4585,7 +4618,7 @@ function borrarElemento(objeto, propiedad, addNotification) {
             _this.setState({ dominios: dominios1 });
         } else {
             if (objeto == 'nivel_competencias') {
-                var _dominios7 = _this.state.dominios.map(function (dominio) {
+                var _dominios6 = _this.state.dominios.map(function (dominio) {
                     return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
                             return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.filter(function (nivel_competencia) {
                                     return nivel_competencia.id != propiedad;
@@ -4595,10 +4628,10 @@ function borrarElemento(objeto, propiedad, addNotification) {
                     });
                 });
 
-                _this.setState({ dominios: _dominios7 });
+                _this.setState({ dominios: _dominios6 });
             } else {
                 if (objeto == 'logro_aprendizajes') {
-                    var _dominios8 = _this.state.dominios.map(function (dominio) {
+                    var _dominios7 = _this.state.dominios.map(function (dominio) {
                         return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
                                 return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.map(function (nivel_competencia) {
                                         return _extends({}, nivel_competencia, { logro_aprendizajes: nivel_competencia.logro_aprendizajes.filter(function (logro_aprendizaje) {
@@ -4611,12 +4644,98 @@ function borrarElemento(objeto, propiedad, addNotification) {
                         });
                     });
 
-                    _this.setState({ dominios: _dominios8 });
+                    _this.setState({ dominios: _dominios7 });
                 } else {
-                    var newstate = _this.state[objeto].filter(function (el) {
-                        return el.id != propiedad;
-                    });
-                    _this.setState(_defineProperty({}, objeto, newstate));
+                    if (objeto == 'nivel_competencia_asignaturas') {
+                        var _dominios8 = _this.state.dominios.map(function (dominio) {
+                            return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
+                                    return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.map(function (nivel_competencia) {
+                                            return _extends({}, nivel_competencia, { nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.filter(function (nivel_competencia_asignatura) {
+                                                    return nivel_competencia_asignatura.id != propiedad;
+                                                })
+                                            });
+                                        })
+                                    });
+                                })
+                            });
+                        });
+                        _this.setState({ dominios: _dominios8 });
+
+                        var asignaturas = _this.state.asignaturas.map(function (asignatura) {
+                            return _extends({}, asignatura, { nivel_competencia_asignaturas: asignatura.nivel_competencia_asignaturas.filter(function (nivel_competencia_asignatura) {
+                                    return nivel_competencia_asignatura.id != propiedad;
+                                })
+                            });
+                        });
+
+                        _this.setState({ asignaturas: asignaturas });
+                    } else {
+                        if (objeto == 'nivel_generica_asignaturas') {
+                            var competencias_genericas = _this.state.competencias_genericas.map(function (competencias_generica) {
+                                return _extends({}, competencias_generica, { nivel_competencias: competencias_generica.nivel_competencias.map(function (nivel_competencia) {
+                                        return _extends({}, nivel_competencia, { nivel_genericas: nivel_competencia.nivel_genericas.map(function (nivel_generica) {
+                                                return _extends({}, nivel_generica, { nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.filter(function (nivel_generica_asignatura) {
+                                                        return nivel_generica_asignatura.id != propiedad;
+                                                    })
+                                                });
+                                            })
+                                        });
+                                    })
+                                });
+                            });
+                            _this.setState({ competencias_genericas: competencias_genericas });
+
+                            var _asignaturas3 = _this.state.asignaturas.map(function (asignatura) {
+                                return _extends({}, asignatura, { nivel_generica_asignaturas: asignatura.nivel_generica_asignaturas.filter(function (nivel_generica_asignatura) {
+                                        return nivel_generica_asignatura.id != propiedad;
+                                    })
+                                });
+                            });
+
+                            _this.setState({ asignaturas: _asignaturas3 });
+                        } else {
+                            if (objeto == 'asignaturas') {
+                                var _dominios9 = _this.state.dominios.map(function (dominio) {
+                                    return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
+                                            return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.map(function (nivel_competencia) {
+                                                    return _extends({}, nivel_competencia, { nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.filter(function (nivel_competencia_asignatura) {
+                                                            return nivel_competencia_asignatura.asignatura.id != propiedad;
+                                                        })
+                                                    });
+                                                })
+                                            });
+                                        })
+                                    });
+                                });
+                                _this.setState({ dominios: _dominios9 });
+
+                                var _competencias_genericas = _this.state.competencias_genericas.map(function (competencias_generica) {
+                                    return _extends({}, competencias_generica, { nivel_competencias: competencias_generica.nivel_competencias.map(function (nivel_competencia) {
+                                            return _extends({}, nivel_competencia, { nivel_genericas: nivel_competencia.nivel_genericas.map(function (nivel_generica) {
+                                                    return _extends({}, nivel_generica, { nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.filter(function (nivel_generica_asignatura) {
+                                                            return nivel_generica_asignatura.asignatura.id != propiedad;
+                                                        })
+                                                    });
+                                                })
+                                            });
+                                        })
+                                    });
+                                });
+                                _this.setState({ competencias_genericas: _competencias_genericas });
+
+                                var _asignaturas4 = _this.state.asignaturas.filter(function (asignatura) {
+                                    return asignatura.id != propiedad;
+                                });
+
+                                _this.setState({ asignaturas: _asignaturas4 });
+                            } else {
+                                var newstate = _this.state[objeto].filter(function (el) {
+                                    return el.id != propiedad;
+                                });
+                                _this.setState(_defineProperty({}, objeto, newstate));
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -5551,7 +5670,7 @@ function Panel(props) {
     var border = props.border ? 'border' : '';
     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
-        { className: 'panel panel-primary ' + border, 'data-sortable-id': 'form-stuff-1' },
+        { className: 'panel panel-primary ' + border },
         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
             { className: 'panel-heading' },
@@ -9627,7 +9746,7 @@ var edit = function (_Component) {
                             'button',
                             { type: 'button', disabled: !this.state.deshabilitado, className: 'btn btn-danger p-5 m-l-5',
                                 onClick: function onClick() {
-                                    if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElemento('nivel_competencias', _this3.props.nivel_competencia.id);
+                                    if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElemento('nivel_competencias', _this3.props.nivel_competencia.id, _this3.props.addNotification);
                                 } },
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-10' }),
                             'Eliminar'
@@ -39302,7 +39421,7 @@ var edit = function (_Component) {
                         'button',
                         { type: 'button', disabled: !this.state.deshabilitado, className: 'btn btn-danger p-5 m-l-5',
                             onClick: function onClick() {
-                                if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElemento('dominios', _this3.props.dominio.id);
+                                if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElemento('dominios', _this3.props.dominio.id, _this3.props.addNotification);
                             } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-10' }),
                         'Eliminar'
@@ -39372,48 +39491,60 @@ var index = function (_Component) {
                 { className: 'container py-4' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'col-12' },
+                    { className: 'border p-3 mb-3' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'legend',
-                        null,
-                        'Competencias'
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
-                        null,
-                        this.props.dominios.sort(function (a, b) {
-                            return a.tipo_dominio_id - b.tipo_dominio_id;
-                        }).map(function (dominio, i) {
-                            return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                __WEBPACK_IMPORTED_MODULE_5__utiles_Panel__["a" /* default */],
-                                { key: i, titulo: 'Dominio ' + dominio.tipo_dominio.nombre + ': ' + (dominio.nombre || 'Sin Nombre') },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__show__["a" /* default */], {
-                                    i: i,
-                                    dominio: dominio,
-                                    handleAddElement: _this2.props.handleAddElement,
-                                    borrarElemento: _this2.props.borrarElemento,
-                                    handleInputArrays: _this2.props.handleInputArrays,
-                                    habilitarGeneral: _this2.props.habilitarGeneral,
-                                    habilitadogeneral: _this2.props.habilitadogeneral,
-                                    addNotification: _this2.props.addNotification
-                                })
-                            );
-                        })
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        'legend',
-                        null,
-                        'Competencias Genericas'
-                    ),
-                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
-                        null,
+                        'div',
+                        { className: 'col ui-sortable-disabled' },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            __WEBPACK_IMPORTED_MODULE_5__utiles_Panel__["a" /* default */],
-                            { titulo: 'Dominio: Generico' },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__show__["a" /* default */], {
-                                competencias_genericas: this.props.competencias_genericas
+                            'legend',
+                            null,
+                            'Competencias'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
+                            null,
+                            this.props.dominios.sort(function (a, b) {
+                                return a.tipo_dominio_id - b.tipo_dominio_id;
+                            }).map(function (dominio, i) {
+                                return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                    __WEBPACK_IMPORTED_MODULE_5__utiles_Panel__["a" /* default */],
+                                    { key: 'dominio-' + dominio.id, titulo: 'Dominio ' + dominio.tipo_dominio.nombre + ': ' + (dominio.nombre || 'Sin Nombre') },
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__show__["a" /* default */], {
+                                        i: i,
+                                        dominio: dominio,
+                                        handleAddElement: _this2.props.handleAddElement,
+                                        borrarElemento: _this2.props.borrarElemento,
+                                        handleInputArrays: _this2.props.handleInputArrays,
+                                        habilitarGeneral: _this2.props.habilitarGeneral,
+                                        habilitadogeneral: _this2.props.habilitadogeneral,
+                                        addNotification: _this2.props.addNotification
+                                    })
+                                );
                             })
+                        )
+                    )
+                ),
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                    'div',
+                    { className: 'border p-3 mb-3' },
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        { className: 'col ui-sortable-disabled' },
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'legend',
+                            null,
+                            'Competencias Genericas'
+                        ),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                __WEBPACK_IMPORTED_MODULE_5__utiles_Panel__["a" /* default */],
+                                { key: 'dominio-generico', titulo: 'Dominio: Generico' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__show__["a" /* default */], {
+                                    competencias_genericas: this.props.competencias_genericas
+                                })
+                            )
                         )
                     )
                 )
@@ -39674,7 +39805,7 @@ var edit = function (_Component) {
                         'button',
                         { type: 'button', disabled: !this.state.deshabilitado, className: 'btn btn-danger p-5 m-l-5',
                             onClick: function onClick() {
-                                if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElemento('competencias', _this3.props.competencia.id);
+                                if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElemento('competencias', _this3.props.competencia.id, _this3.props.addNotification);
                             } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-10' }),
                         'Eliminar'
@@ -39699,11 +39830,7 @@ var edit = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_axios___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_axios__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_react_router_dom__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_notifications_component__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_react_notifications_component___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3_react_notifications_component__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_notifications_component_dist_theme_css__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_react_notifications_component_dist_theme_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_react_notifications_component_dist_theme_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__show__ = __webpack_require__(375);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__show__ = __webpack_require__(375);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -39711,8 +39838,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
 
 
 
@@ -39741,7 +39866,6 @@ var index = function (_Component) {
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: 'container py-4' },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3_react_notifications_component___default.a, { ref: this.notificationDOMRef }),
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'row' },
@@ -39827,7 +39951,7 @@ var index = function (_Component) {
                                 return i == 0 ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',
                                     { className: 'tab-pane fade active show', id: 'dominio-tab-show', key: i },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__show__["a" /* default */], {
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__show__["a" /* default */], {
                                         dominio: dominio,
                                         asignaturas: _this2.props.asignaturas,
                                         handleInputArrays: _this2.props.handleInputArrays,
@@ -39839,7 +39963,7 @@ var index = function (_Component) {
                                 ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'div',
                                     { className: 'tab-pane fade', id: "dominio-tab-" + i, key: i },
-                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__show__["a" /* default */], {
+                                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__show__["a" /* default */], {
                                         dominio: dominio,
                                         asignaturas: _this2.props.asignaturas,
                                         handleInputArrays: _this2.props.handleInputArrays,
@@ -39854,7 +39978,7 @@ var index = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'div',
                                 { className: 'tab-pane fade', id: "dominio-transversal-tab" },
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__show__["a" /* default */], {
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__show__["a" /* default */], {
                                     competencias_genericas: this.props.competencias_genericas,
                                     asignaturas: this.props.asignaturas,
                                     handleInputArrays: this.props.handleInputArrays,
@@ -39934,7 +40058,7 @@ var show = function (_Component) {
                 { className: 'border p-3 mb-3' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'col-12' },
+                    { className: 'col ui-sortable-disabled' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'legend',
                         null,
@@ -39946,7 +40070,7 @@ var show = function (_Component) {
                         !this.props.competencias_genericas ? this.props.dominio && this.props.dominio.competencias && this.props.dominio.competencias.map(function (competencia, i) {
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_7__utiles_Panel__["a" /* default */],
-                                { key: i, titulo: competencia.descripcion },
+                                { key: 'competencia-' + competencia.id, titulo: competencia.descripcion },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__showcompetencias__["a" /* default */], {
                                     competencia: competencia,
                                     asignaturas: _this2.props.asignaturas,
@@ -39961,7 +40085,7 @@ var show = function (_Component) {
                         }) : this.props.competencias_genericas.map(function (competencia_generica, i) {
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_7__utiles_Panel__["a" /* default */],
-                                { key: i, titulo: competencia_generica.sigla + ": " + competencia_generica.descripcion },
+                                { key: 'competencia-generica-' + competencia_generica.id, titulo: competencia_generica.sigla + ": " + competencia_generica.descripcion },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__showcompetencias__["a" /* default */], {
                                     competencia_generica: competencia_generica,
                                     asignaturas: _this2.props.asignaturas,
@@ -56344,10 +56468,22 @@ function Asignatura(_ref) {
                       { className: 'mt-2 mb-1' },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', disabled: !habilitadogeneral, className: 'btn btn-danger', onClick: function onClick() {
-                            addElemento('asignaturas');
+                        { type: 'button', disabled: !habilitadogeneral, className: 'btn btn-danger',
+                          onClick: function onClick() {
+                            if (window.confirm('¿Estas Seguro?')) {
+                              var asignaturaAsociada = asignaturas.find(function (asignatura) {
+                                return asignatura.id == nivel_competencia_asignatura.asignatura.id;
+                              });
+                              if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length > 1) {
+                                borrarElemento('nivel_competencia_asignaturas', nivel_competencia_asignatura.id, addNotification);
+                              } else {
+                                if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length == 1) {
+                                  if (window.confirm('Si elimina esta asociación, tambien se eliminara la asignatura \n ¿Estas Seguro?')) borrarElemento('asignaturas', asignaturaAsociada.id, addNotification);
+                                }
+                              }
+                            }
                           } },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-5' }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-10' }),
                         'Eliminar Asociaci\xF3n'
                       )
                     )
@@ -56407,10 +56543,22 @@ function Asignatura(_ref) {
                       { className: 'mt-2 mb-1' },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', disabled: !habilitadogeneral, className: 'btn btn-danger', onClick: function onClick() {
-                            addElemento('asignaturas');
+                        { type: 'button', disabled: !habilitadogeneral, className: 'btn btn-danger',
+                          onClick: function onClick() {
+                            if (window.confirm('¿Estas Seguro?')) {
+                              var asignaturaAsociada = asignaturas.find(function (asignatura) {
+                                return asignatura.id == nivel_generica_asignatura.asignatura.id;
+                              });
+                              if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length > 1) {
+                                borrarElemento('nivel_generica_asignaturas', nivel_generica_asignatura.id, addNotification);
+                              } else {
+                                if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length == 1) {
+                                  if (window.confirm('Si elimina esta asociación, tambien se eliminara la asignatura \n ¿Estas Seguro?')) borrarElemento('asignaturas', asignaturaAsociada.id, addNotification);
+                                }
+                              }
+                            }
                           } },
-                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-5' }),
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-times p-r-10' }),
                         'Eliminar Asociaci\xF3n'
                       )
                     )
@@ -56687,20 +56835,28 @@ function NewAsignatura(_ref) {
                 if (data.nivel_competencia_id) {
                     handleAddElement(variable, data);
                     addNotification();
+                    handleCloseNew();
+                    setvalue("");
                 } else {
                     if (data.nivel_generica_id) {
                         handleAddElement(variable, data);
                         addNotification();
+                        handleCloseNew();
+                        setvalue("");
                     }
                 }
             } else {
                 if (data[1].nivel_competencia_id) {
                     handleAddElement(variable, data);
                     addNotification();
+                    handleCloseNew();
+                    setvalue("");
                 } else {
                     if (data[1].nivel_generica_id) {
                         handleAddElement(variable, data);
                         addNotification();
+                        handleCloseNew();
+                        setvalue("");
                     }
                 }
             }
@@ -56750,7 +56906,7 @@ function NewAsignatura(_ref) {
                     { onClick: handleCloseNew, color: 'primary' },
                     'Cancel'
                 ),
-                existeasoc ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                existeasoc || value == "" ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_3__material_ui_core_Button__["a" /* default */],
                     { disabled: true, onClick: function onClick() {
                             return addElemento();
@@ -58872,7 +59028,7 @@ var index = function (_Component) {
                 { className: 'container py-4' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
-                    { className: 'col-12' },
+                    { className: 'col ui-sortable-disabled' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'legend',
                         null,
@@ -58884,7 +59040,7 @@ var index = function (_Component) {
                         this.props.asignaturas.map(function (asignatura, i) {
                             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 __WEBPACK_IMPORTED_MODULE_1__utiles_Panel__["a" /* default */],
-                                { key: i, titulo: asignatura.nombre },
+                                { key: 'asignatura-' + asignatura.id, titulo: asignatura.nombre },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_2__show__["a" /* default */], null)
                             );
                         })

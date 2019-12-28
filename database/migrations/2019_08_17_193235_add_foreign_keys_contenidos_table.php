@@ -15,7 +15,7 @@ class AddForeignKeysContenidosTable extends Migration
     {
         Schema::table('contenidos', function (Blueprint $table) {
             $table->unsignedInteger('unidad_id')->nullable(); 
-            $table->foreign('unidad_id')->references('id')->on('unidades');
+            $table->foreign('unidad_id')->references('id')->on('unidades')->onDelete('cascade');
         });
     }
 

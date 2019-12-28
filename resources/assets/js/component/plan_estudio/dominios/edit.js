@@ -76,7 +76,7 @@ export default class edit extends Component {
                     {!this.props.transversal && 
                         <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                        this.props.borrarElemento('dominios', this.props.dominio.id)}}>
+                        this.props.borrarElemento('dominios', this.props.dominio.id, this.props.addNotification)}}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
                     }
                 </div>

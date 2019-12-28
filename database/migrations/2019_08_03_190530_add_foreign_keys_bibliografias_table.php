@@ -17,7 +17,7 @@ class AddForeignKeysBibliografiasTable extends Migration
             $table->unsignedInteger('tipo_bibliografia_id')->nullable(); 
             $table->foreign('tipo_bibliografia_id')->references('id')->on('tipo_bibliografias');
             $table->unsignedInteger('asignatura_id')->nullable(); 
-            $table->foreign('asignatura_id')->references('id')->on('asignaturas');
+            $table->foreign('asignatura_id')->references('id')->on('asignaturas')->onDelete('cascade');
         });
     }
 

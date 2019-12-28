@@ -17,6 +17,7 @@ class AsignaturaController extends Controller
      */
     public function index()
     {
+        
         $Asignatura = Asignatura::all();
         return $Asignatura->toJson();
     }
@@ -55,9 +56,19 @@ class AsignaturaController extends Controller
         // for ($i=2; $i <= 5  ; $i++) {
         //     $Asignatura->asignatura_horas()->create(['tipo_hora_id' => $i]);
         // }
-        // return 201;  
-        $Asignatura = $Asignatura->fresh();
+        // return 201;
+        // $Asignatura = $Asignatura
+        // $Asignatura = $Asignatura->refresh();
+        $Asignatura = Asignatura::with('nivel_competencia_asignaturas')
+            ->with('nivel_generica_asignaturas')
+        ->findOrFail($Asignatura->id);
         return response()->json([$Asignatura, $tipo_competencia], 201);
 
+    }
+
+    public function destroy($id)
+    {
+        $Asignatura = Asignatura::find($id);
+        $Asignatura->delete();
     }
 }

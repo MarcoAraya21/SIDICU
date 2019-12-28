@@ -109,7 +109,11 @@ class PlanEstudio extends Model
                 $query
                 ->with(['nivel_competencia_asignaturas' => function ($query) {
                     $query
-                    ->with('asignatura');
+                    ->with(['asignatura' => function ($query) {
+                        $query
+                        ->with('nivel_competencia_asignaturas')
+                        ->with('nivel_generica_asignaturas');
+                    }]);
                 }]);
             }]);
         }])
@@ -117,7 +121,11 @@ class PlanEstudio extends Model
         $genericas = $this->nivel_genericas()
         ->with(['nivel_generica_asignaturas' => function ($query) {
             $query
-            ->with('asignatura');
+            ->with(['asignatura' => function ($query) {
+                $query
+                ->with('nivel_competencia_asignaturas')
+                ->with('nivel_generica_asignaturas');
+            }]);
         }])
         ->get();
         foreach ($profesionales as $key => $profesional) {
@@ -165,7 +173,11 @@ class PlanEstudio extends Model
                 $query
                 ->with(['nivel_competencia_asignaturas' => function ($query) {
                     $query
-                    ->with('asignatura');
+                    ->with(['asignatura' => function ($query) {
+                        $query
+                        ->with('nivel_competencia_asignaturas')
+                        ->with('nivel_generica_asignaturas');
+                    }]);
                 }]);
             }]);
         }])
@@ -173,7 +185,11 @@ class PlanEstudio extends Model
         $genericas = $this->nivel_genericas()
         ->with(['nivel_generica_asignaturas' => function ($query) {
             $query
-            ->with('asignatura');
+            ->with(['asignatura' => function ($query) {
+                $query
+                ->with('nivel_competencia_asignaturas')
+                ->with('nivel_generica_asignaturas');
+            }]);
         }])
         ->get();
         foreach ($profesionales as $key => $profesional) {

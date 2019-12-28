@@ -15,11 +15,11 @@ export default class index extends Component {
     render() {
         return (
             <div className="container py-4">
-                <div className="col-12">
+                <div className="col ui-sortable-disabled">
                     <legend>Asignaturas</legend>
                     <React.Fragment>
                         {this.props.asignaturas.map((asignatura,i) =>
-                            <Panel key = {i} titulo={asignatura.nombre}>
+                            <Panel key = {'asignatura-' + asignatura.id} titulo={asignatura.nombre}>
                                 <Show />
                             </Panel>
                         )}

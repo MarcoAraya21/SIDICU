@@ -183,11 +183,15 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                     if (data.nivel_competencia_id) {
                         handleAddElement(variable, data);
                         addNotification();
+                        handleCloseNew();
+                        setvalue("");
                     }
                     else {
                         if (data.nivel_generica_id) {
                             handleAddElement(variable, data);
                             addNotification();
+                            handleCloseNew();
+                            setvalue("");
                         }
                     }
                 }
@@ -195,11 +199,15 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                     if (data[1].nivel_competencia_id) {
                         handleAddElement(variable, data);
                         addNotification();
+                        handleCloseNew();
+                        setvalue("");
                     }
                     else {
                         if (data[1].nivel_generica_id) {
                             handleAddElement(variable, data);
                             addNotification();
+                            handleCloseNew();
+                            setvalue("");
                         }
                     }
                 }
@@ -237,7 +245,7 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                         Cancel
                     </Button>
                     {
-                        existeasoc ?
+                        existeasoc || value == "" ?
                         <Button disabled onClick={() => addElemento()} color="primary">
                             Asociar
                         </Button>

@@ -17,7 +17,12 @@ class CreateAsignaturasTable extends Migration
             $table->increments('id');
             $table->string('nombre');
             $table->string('codigo');
-            $table->string('descripcion');
+            $table->text('descripcion')->nullable();
+            $table->text('relacion_egreso')->nullable();
+            $table->text('metodologias')->nullable();
+            $table->text('ambientes')->nullable();
+            $table->text('perfil_docente')->nullable();
+            $table->text('perfil_ayudante')->nullable();
             $table->timestamps();
         });
     }

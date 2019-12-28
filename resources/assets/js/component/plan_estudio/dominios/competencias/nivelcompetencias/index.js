@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
 // import { handleInput, handleAddElement, handleInputArrays, borrarElemento } from '../utiles/lib'
 import Show from './show';
 
@@ -21,7 +19,6 @@ export default class index extends Component {
     render() {
         return (
             <div className="container py-4">
-                <ReactNotification ref={this.notificationDOMRef}/>
                 <div className="row">
                     <div className="col-lg-12 mx-auto">
                         <ul className={"nav nav-tabs " + (!this.props.habilitadogeneral ? "deshabilitado" : "")}>

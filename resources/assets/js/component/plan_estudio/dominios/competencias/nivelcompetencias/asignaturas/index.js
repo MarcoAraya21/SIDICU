@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -48,10 +48,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Asignatura({openAsignatura, handleCloseAsignatura, nivel_competencia, nivel_competencia_generica, asignaturas, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification}) {
+export default function Asignatura({ openAsignatura, handleCloseAsignatura, nivel_competencia, nivel_competencia_generica, asignaturas, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification }) {
   const classes = useStyles();
   const [openNew, setOpenNew] = useState(false);
-    
+
   function handleCloseNew() {
     setOpenNew(false);
   }
@@ -59,117 +59,154 @@ export default function Asignatura({openAsignatura, handleCloseAsignatura, nivel
   function handleOpenNew() {
     setOpenNew(true);
   }
-  
+
+
   return (
     <div>
-        <Dialog fullScreen open={openAsignatura} onClose={handleCloseAsignatura} TransitionComponent={Transition} disableEscapeKeyDown>
-            <AppBar className={classes.appBar}>
-            <Toolbar className={(!habilitadogeneral ? "deshabilitado" : "")}>
-                <IconButton edge="start" color="inherit" onClick={handleCloseAsignatura} aria-label="close">
-                <CloseIcon />
-                </IconButton>
-                <Typography variant="h6" className={classes.title}>
-                  {nivel_competencia ? nivel_competencia.descripcion
-                  : nivel_competencia_generica ? nivel_competencia_generica.descripcion
+      <Dialog fullScreen open={openAsignatura} onClose={handleCloseAsignatura} TransitionComponent={Transition} disableEscapeKeyDown>
+        <AppBar className={classes.appBar}>
+          <Toolbar className={(!habilitadogeneral ? "deshabilitado" : "")}>
+            <IconButton edge="start" color="inherit" onClick={handleCloseAsignatura} aria-label="close">
+              <CloseIcon />
+            </IconButton>
+            <Typography variant="h6" className={classes.title}>
+              {nivel_competencia ? nivel_competencia.descripcion
+                : nivel_competencia_generica ? nivel_competencia_generica.descripcion
                   : "Sin Nombre"}
-                </Typography>
-                
-            </Toolbar>
-            </AppBar>
-            <DialogContent>
-            {!nivel_competencia_generica
-              ?
-                <React.Fragment>
-                  <div className="border p-3 mb-3">
-                      {
-                          nivel_competencia.nivel_competencia_asignaturas && nivel_competencia.nivel_competencia_asignaturas.length > 0 ?
-                          <List>
-                            {nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura,i) =>
-                            <React.Fragment key={i}>
-                              <ListItem button>
-                                <ListItemText primary={nivel_competencia_asignatura.asignatura.nombre} />
-                                <div className="mt-2 mb-1">
-                                  <button type="button" disabled={!habilitadogeneral} className="btn btn-danger" onClick={()=>{addElemento('asignaturas')}}>      
-                                        <i className="fas fa-times p-r-5" ></i>Eliminar Asociación
-                                    </button>                    
-                                </div>
-                              </ListItem>
-                              {nivel_competencia.nivel_competencia_asignaturas[nivel_competencia.nivel_competencia_asignaturas.length - 1] != nivel_competencia_asignatura &&
-                              <Divider />
-                              }
-                            </React.Fragment>
-                            )}
-                          </List>
-                          :
-                          <p>No posee ninguna asignatura asociada</p>
-                      }
-                  </div>
-                  <div align="right" className="mt-2 mb-1">
-                    <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={()=>{handleOpenNew()}}>      
-                        <i className="fas fa-plus p-r-5" ></i>Asociar Asignatura
-                    </button>                    
-                  </div>
-                  <NewAsignatura
-                    openNew = {openNew}
-                    handleCloseNew={handleCloseNew}
-                    nivel_competencia = {nivel_competencia}
-                    asignaturas={asignaturas}
-                    handleInputArrays = {handleInputArrays}
-                    handleAddElement = {handleAddElement}
-                    borrarElemento = {borrarElemento}
-                    habilitarGeneral = {habilitarGeneral}
-                    habilitadogeneral = {habilitadogeneral}
-                    addNotification = {addNotification}
-                   />
-                </React.Fragment>
-              :
-                <React.Fragment>
-                  <div className="border p-3 mb-3">
-                      {
-                          nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas &&
-                          nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length > 0 ?
-                          <List>
-                            {nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura,i) =>
-                            <React.Fragment key={i}>
-                              <ListItem button>
-                                <ListItemText primary={nivel_generica_asignatura.asignatura.nombre} />
-                                <div className="mt-2 mb-1">
-                                  <button type="button" disabled={!habilitadogeneral} className="btn btn-danger" onClick={()=>{addElemento('asignaturas')}}>      
-                                        <i className="fas fa-times p-r-5" ></i>Eliminar Asociación
-                                    </button>                    
-                                </div>
-                              </ListItem>
-                              {nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas[nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length - 1] != nivel_generica_asignatura &&
-                              <Divider />
-                              }
-                            </React.Fragment>
-                            )}
-                          </List>
-                          :
-                          <p>No posee ninguna asignatura asociada</p>
-                      }
-                  </div>
-                  <div align="right" className="mt-2 mb-1">
-                    <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={()=>{handleOpenNew()}}>      
-                        <i className="fas fa-plus p-r-5" ></i>Asociar Asignatura
-                    </button>                    
-                  </div>
-                  <NewAsignatura
-                    openNew = {openNew}
-                    handleCloseNew={handleCloseNew}
-                    nivel_competencia_generica = {nivel_competencia_generica}
-                    asignaturas={asignaturas}
-                    handleInputArrays = {handleInputArrays}
-                    handleAddElement = {handleAddElement}
-                    borrarElemento = {borrarElemento}
-                    habilitarGeneral = {habilitarGeneral}
-                    habilitadogeneral = {habilitadogeneral}
-                    addNotification = {addNotification}
-                   />
-                </React.Fragment>
-              }
-            </DialogContent>
-        </Dialog>
+            </Typography>
+
+          </Toolbar>
+        </AppBar>
+        <DialogContent>
+          {!nivel_competencia_generica
+            ?
+            <React.Fragment>
+              <div className="border p-3 mb-3">
+                {
+                  nivel_competencia.nivel_competencia_asignaturas && nivel_competencia.nivel_competencia_asignaturas.length > 0 ?
+                    <List>
+                      {nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
+                        <React.Fragment key={i}>
+                          <ListItem button>
+                            <ListItemText primary={nivel_competencia_asignatura.asignatura.nombre} />
+                            <div className="mt-2 mb-1">
+                              <button type="button" disabled={!habilitadogeneral} className="btn btn-danger"
+                                onClick={() => {
+                                  if (window.confirm('¿Estas Seguro?'))
+                                  {
+                                    let asignaturaAsociada = asignaturas.find(asignatura => asignatura.id == nivel_competencia_asignatura.asignatura.id)
+                                    if(asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length > 1)
+                                    {
+                                      borrarElemento('nivel_competencia_asignaturas', nivel_competencia_asignatura.id, addNotification)
+                                    }
+                                    else
+                                    {
+                                      if(asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length == 1)
+                                      {
+                                        if(window.confirm('Si elimina esta asociación, tambien se eliminara la asignatura \n ¿Estas Seguro?'))
+                                        borrarElemento('asignaturas', asignaturaAsociada.id, addNotification)
+                                      }
+                                    }
+                                  }
+                                }}>
+                                <i className="fas fa-times p-r-10" ></i>Eliminar Asociación
+                              </button>
+                            </div>
+                          </ListItem>
+                          {nivel_competencia.nivel_competencia_asignaturas[nivel_competencia.nivel_competencia_asignaturas.length - 1] != nivel_competencia_asignatura &&
+                            <Divider />
+                          }
+                        </React.Fragment>
+                      )}
+                    </List>
+                    :
+                    <p>No posee ninguna asignatura asociada</p>
+                }
+              </div>
+              <div align="right" className="mt-2 mb-1">
+                <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { handleOpenNew() }}>
+                  <i className="fas fa-plus p-r-5" ></i>Asociar Asignatura
+                    </button>
+              </div>
+              <NewAsignatura
+                openNew={openNew}
+                handleCloseNew={handleCloseNew}
+                nivel_competencia={nivel_competencia}
+                asignaturas={asignaturas}
+                handleInputArrays={handleInputArrays}
+                handleAddElement={handleAddElement}
+                borrarElemento={borrarElemento}
+                habilitarGeneral={habilitarGeneral}
+                habilitadogeneral={habilitadogeneral}
+                addNotification={addNotification}
+              />
+            </React.Fragment>
+            :
+            <React.Fragment>
+              <div className="border p-3 mb-3">
+                {
+                  nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas &&
+                    nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length > 0 ?
+                    <List>
+                      {nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
+                        <React.Fragment key={i}>
+                          <ListItem button>
+                            <ListItemText primary={nivel_generica_asignatura.asignatura.nombre} />
+                            <div className="mt-2 mb-1">
+                              <button type="button" disabled={!habilitadogeneral} className="btn btn-danger"
+                                onClick={() => {
+                                  if (window.confirm('¿Estas Seguro?'))
+                                  {
+                                    let asignaturaAsociada = asignaturas.find(asignatura => asignatura.id == nivel_generica_asignatura.asignatura.id)
+                                    if(asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length > 1)
+                                    {
+                                      borrarElemento('nivel_generica_asignaturas', nivel_generica_asignatura.id, addNotification)
+                                    }
+                                    else
+                                    {
+                                      if(asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length == 1)
+                                      {
+                                        if(window.confirm('Si elimina esta asociación, tambien se eliminara la asignatura \n ¿Estas Seguro?'))
+                                        borrarElemento('asignaturas', asignaturaAsociada.id, addNotification)
+                                      }
+                                    }
+                                  }
+                                }}>
+                                <i className="fas fa-times p-r-10" ></i>Eliminar Asociación
+                              </button>
+                            </div>
+                          </ListItem>
+                          {nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas[nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length - 1] != nivel_generica_asignatura &&
+                            <Divider />
+                          }
+                        </React.Fragment>
+                      )}
+                    </List>
+                    :
+                    <p>No posee ninguna asignatura asociada</p>
+                }
+              </div>
+              <div align="right" className="mt-2 mb-1">
+                <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { handleOpenNew() }}>
+                  <i className="fas fa-plus p-r-5" ></i>Asociar Asignatura
+                    </button>
+              </div>
+              <NewAsignatura
+                openNew={openNew}
+                handleCloseNew={handleCloseNew}
+                nivel_competencia_generica={nivel_competencia_generica}
+                asignaturas={asignaturas}
+                handleInputArrays={handleInputArrays}
+                handleAddElement={handleAddElement}
+                borrarElemento={borrarElemento}
+                habilitarGeneral={habilitarGeneral}
+                habilitadogeneral={habilitadogeneral}
+                addNotification={addNotification}
+              />
+            </React.Fragment>
+          }
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

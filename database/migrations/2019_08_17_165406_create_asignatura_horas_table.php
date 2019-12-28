@@ -15,10 +15,9 @@ class CreateAsignaturaHorasTable extends Migration
     {
         Schema::create('asignatura_horas', function (Blueprint $table) {
             $table->increments('id');
-
             $table->tinyInteger('cantidad');
             $table->unsignedInteger('asignatura_id')->nullable(); 
-            $table->foreign('asignatura_id')->references('id')->on('asignaturas');
+            $table->foreign('asignatura_id')->references('id')->on('asignaturas')->onDelete('cascade');
             $table->unsignedInteger('tipo_hora_id')->nullable(); 
             $table->foreign('tipo_hora_id')->references('id')->on('tipo_horas');
             
