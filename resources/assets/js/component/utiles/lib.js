@@ -52,37 +52,6 @@ export function handleInput(e, objeto, atributo, id) {
 
 export function handleInputArrays(e, objeto, propiedad, indice) {
     if (objeto == "competencias") {
-        // const comp_id = this.state.dominios.map(dominio =)
-        // var state = this.state['dominios'].map(dominio =>
-        //         dominio.competencias.find(competencia =>
-        //             competencia.id == indice)
-        //         'competencias', 'descripcion' ,'id'
-
-        // if(e.target)
-        // {
-        //     dominio.competencias.map(competencia =>
-        //         {
-        //             if(competencia.id == indice)
-        //             {
-        //                return {...competencia, [propiedad]: e.target.value}
-        //             }
-        //             else return competencia
-        //         }
-        //     )                        
-        // }
-        // else
-        // {
-        //     dominio.competencias.map(competencia =>
-        //         {
-        //             if(competencia.id == indice)
-        //             {
-        //                return {...competencia, [propiedad]: e}
-        //             }
-        //             else return competencia
-        //         }
-        //     )
-        // }
-
         var dominios = this.state['dominios'].map(dominio => {
             return {
                 ...dominio, competencias: dominio.competencias.map(competencia => {
@@ -139,18 +108,52 @@ export function handleInputArrays(e, objeto, propiedad, indice) {
                 this.setState({ dominios: dominios });
             }
             else {
-                var state = this.state[objeto];
-                if (e.target) {
-                    state.find(dominio => dominio.id == indice)[propiedad] = e.target.value;
+                if (objeto == "asignaturas") {
+                    var state = this.state[objeto];
+                    if (e.target) {
+                        state.find(asignatura => asignatura.id == indice)[propiedad] = e.target.value;
+                    }
+                    else {
+                        state.find(asignatura => asignatura.id == indice)[propiedad] = e;
+                    }
+    
+                    this.setState({ [objeto]: state });
                 }
                 else {
-                    state.find(dominio => dominio.id == indice)[propiedad] = e;
+                    var state = this.state[objeto];
+                    if (e.target) {
+                        state.find(dominio => dominio.id == indice)[propiedad] = e.target.value;
+                    }
+                    else {
+                        state.find(dominio => dominio.id == indice)[propiedad] = e;
+                    }
+    
+                    this.setState({ [objeto]: state });
                 }
-
-                this.setState({ [objeto]: state });
             }
         }
     }
+}
+
+export function handleInputArraysAsignatura(e, objeto, propiedad, indice, idAsignatura) {
+        var asignaturas = this.state['asignaturas'].map(asignatura => {
+            if(asignatura.id == idAsignatura ) {
+                return {
+                    ...asignatura, [objeto]: asignatura[objeto].map(objetoSingle => {
+                        return {
+                            ...objetoSingle,
+                        [propiedad]: (objetoSingle.id == indice) ?
+                            (e.target ? e.target.value : e) : objetoSingle[propiedad]
+                        }     
+                    })
+                }
+            }
+            else
+            {
+                return asignatura;
+            }
+        });
+        this.setState({ asignaturas: asignaturas });    
 }
 
 
@@ -233,6 +236,7 @@ export function handleAddElement(key, elemento) {
                                 created_at: elemento.created_at,
                                 id: elemento.id,
                                 nivel_competencia_id: elemento.nivel_competencia_id,
+                                nivel_competencia: elemento.nivel_competencia,
                                 updated_at: elemento.updated_at};
                     let asignaturas = this.state.asignaturas.map(asignatura => {
                         if (asignatura.id == elemento.asignatura_id) {
@@ -273,6 +277,7 @@ export function handleAddElement(key, elemento) {
                             created_at: elemento.created_at,
                             id: elemento.id,
                             nivel_generica_id: elemento.nivel_generica_id,
+                            nivel_generica: elemento.nivel_generica,
                             updated_at: elemento.updated_at};
                         let asignaturas = this.state.asignaturas.map(asignatura => {
                             if (asignatura.id == elemento.asignatura_id) {
@@ -350,6 +355,20 @@ export function handleAddElement(key, elemento) {
     }
 }
 
+export function handleAddElementAsignatura(key, elemento, idAsignatura) {
+    let asignaturas = this.state.asignaturas.map(asignatura => {
+        if(asignatura.id == idAsignatura ) {
+            return {
+                ...asignatura, [key]: [...asignatura[key], elemento]
+            }
+        }
+        else
+        {
+            return asignatura;
+        }
+    });
+        this.setState({ asignaturas: asignaturas });    
+}
 //Permite manipular el estado cuando son checkbox
 export function handleTiposResultado(e) {
     let valor = e.target.value;

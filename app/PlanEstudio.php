@@ -116,8 +116,43 @@ class PlanEstudio extends Model
                     $query
                     ->with(['asignatura' => function ($query) {
                         $query
-                        ->with('nivel_competencia_asignaturas')
-                        ->with('nivel_generica_asignaturas');
+                        ->with(['nivel_competencia_asignaturas' => function ($query) {
+                            $query
+                            ->with('nivel_competencia');
+                        }])
+                        ->with(['nivel_generica_asignaturas' => function ($query) {
+                            $query
+                            ->with(['nivel_generica' => function ($query) {
+                                $query
+                                ->with('nivel_competencia');
+                            }]);
+                        }])
+                        ->with('tipo_asignatura')
+                        ->with('modalidad')
+                        ->with('regimen')
+                        ->with('ciclo')
+                        ->with('departamento')
+                        ->with('nivel')
+                        ->with(['bibliografias' => function ($query) {
+                            $query
+                            ->with('tipo_bibliografia');
+                        }])
+                        ->with(['unidades' => function ($query) {
+                            $query
+                            ->with('contenidos');
+                        }])
+                        ->with(['asignatura_horas' => function ($query) {
+                            $query
+                            ->with('tipo_hora');
+                        }])
+                        ->with(['requisitos' => function ($query) {
+                            $query
+                            ->with('tipo_hora');
+                        }])
+                        ->with(['asignatura_metodologias' => function ($query) {
+                            $query
+                            ->with('metodologia');
+                        }]);
                     }]);
                 }]);
             }]);
@@ -128,8 +163,43 @@ class PlanEstudio extends Model
             $query
             ->with(['asignatura' => function ($query) {
                 $query
-                ->with('nivel_competencia_asignaturas')
-                ->with('nivel_generica_asignaturas');
+                ->with(['nivel_competencia_asignaturas' => function ($query) {
+                    $query
+                    ->with('nivel_competencia');
+                }])
+                ->with(['nivel_generica_asignaturas' => function ($query) {
+                    $query
+                    ->with(['nivel_generica' => function ($query) {
+                        $query
+                        ->with('nivel_competencia');
+                    }]);
+                }])
+                ->with('tipo_asignatura')
+                ->with('modalidad')
+                ->with('regimen')
+                ->with('ciclo')
+                ->with('departamento')
+                ->with('nivel')
+                ->with(['bibliografias' => function ($query) {
+                    $query
+                    ->with('tipo_bibliografia');
+                }])
+                ->with(['unidades' => function ($query) {
+                    $query
+                    ->with('contenidos');
+                }])
+                ->with(['asignatura_horas' => function ($query) {
+                    $query
+                    ->with('tipo_hora');
+                }])
+                ->with(['requisitos' => function ($query) {
+                    $query
+                    ->with('tipo_hora');
+                }])
+                ->with(['asignatura_metodologias' => function ($query) {
+                    $query
+                    ->with('metodologia');
+                }]);
             }]);
         }])
         ->get();

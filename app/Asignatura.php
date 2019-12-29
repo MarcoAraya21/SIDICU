@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Asignatura extends Model
 {
-    protected $fillable = ['nombre', 'codigo', 'descripcion', 'relacion_egreso', 'metodologias', 'ambientes', 'perfil_docente', 'perfil_ayudante', 'tipo_asignatura_id', 'modalidad_id', 'regimen_id', 'ciclo_id', 'requisito_id', 'departamento_id', 'nivel_id'];
+    protected $fillable = ['nombre', 'codigo', 'descripcion', 'relacion_egreso', 'ambientes', 'perfil_docente', 'perfil_ayudante', 'tipo_asignatura_id', 'modalidad_id', 'regimen_id', 'ciclo_id', 'requisito_id', 'departamento_id', 'nivel_id'];
 
     public function tipo_asignatura()
     {
@@ -61,9 +61,8 @@ class Asignatura extends Model
         return $this->hasMany('App\AsignaturaMetodologia');
     }
 
-    //Hacer funcion que retorne el padre
-    // public function requisitos()
-    // {
-    //     return $this->hasMany('App\RequisitoPlanAsignatura');
-    // }
+    public function requisitos()
+    {
+        return $this->hasMany('App\RequisitoAsignatura');
+    }
 }

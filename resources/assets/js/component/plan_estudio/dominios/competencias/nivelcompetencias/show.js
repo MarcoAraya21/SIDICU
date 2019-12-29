@@ -1,9 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import Edit from './edit';
 import ShowCompetencias from './showcompetencias';
 import Panel from '../../../../utiles/Panel';
 
@@ -22,7 +17,6 @@ export default class show extends Component {
     render() {
         return (
             <div className="border p-3 mb-3">
-                
                 <div className="col ui-sortable-disabled">
                     <legend>Competencias</legend>
                     <React.Fragment>

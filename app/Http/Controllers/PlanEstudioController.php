@@ -114,6 +114,7 @@ class PlanEstudioController extends Controller
                 $query
                 ->with('usuario');
             }])
+            ->with('niveles')
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }

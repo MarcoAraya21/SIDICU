@@ -1,7 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-// import { handleInput, handleAddElement, handleInputArrays, borrarElemento } from '../utiles/lib'
 import Show from './show';
 
 
@@ -132,7 +129,6 @@ export default class index extends Component {
                     </div>
                </div> 
             </div>
-
         );
     }
 }

@@ -9,13 +9,13 @@ class RequisitoAsignatura extends Model
     protected $fillable = ['asignatura_id', 'requisito_id'];
 
     //verificar
-    // public function plan_asignatura()
+    // public function asignatura()
     // {
     //     return $this->belongsTo('App\Asignatura');
     // }
     //verificar
-    // public function requisito()
-    // {
-    //     return $this->belongsTo('App\Asignatura');
-    // }
+    public function requisito()
+    {
+        return $this->belongsTo('App\Asignatura');
+    }
 }

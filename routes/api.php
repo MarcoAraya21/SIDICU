@@ -36,5 +36,8 @@ Route::apiResource('nivel_generica_asignaturas', 'NivelGenericaAsignaturaControl
     'nivel_generica_asignaturas' => 'nivel_generica_asignatura']]);
 Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [
     'asignaturas' => 'asignatura']]);
+Route::resource('asignatura_horas', 'AsignaturaHoraController', ['only' => ['update']]);
+Route::resource('bibliografias', 'BibliografiaController', ['only' => ['store', 'update', 'destroy']]);
+
 Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
 

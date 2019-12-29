@@ -18,7 +18,7 @@ class CreateNivelGenericaAsignaturasTable extends Migration
             $table->unsignedInteger('nivel_generica_id')->nullable(); 
             $table->foreign('nivel_generica_id')->references('id')->on('nivel_genericas');
             $table->unsignedInteger('asignatura_id')->nullable(); 
-            $table->foreign('asignatura_id')->references('id')->on('asignaturas');
+            $table->foreign('asignatura_id')->references('id')->on('asignaturas')->onDelete('cascade');
             $table->timestamps();
         });
     }

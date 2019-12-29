@@ -25,6 +25,13 @@ class DatabaseSeeder extends Seeder
         $this->call(NivelCompetenciasSeeder::class);
         $this->call(LogroAprendizajesSeeder::class);
         $this->call(TipoHorasSeeder::class);
+        $this->call(MetodologiasSeeder::class);
+        $this->call(TipoAsignaturasSeeder::class);
+        $this->call(RegimenesSeeder::class);
+        $this->call(ModalidadesSeeder::class);
+        $this->call(CiclosSeeder::class);
+        $this->call(DepartamentosSeeder::class);
+
 
     }
 }

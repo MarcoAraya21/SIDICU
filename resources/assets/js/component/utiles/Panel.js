@@ -1,6 +1,8 @@
 import React from 'react'
 export default function Panel(props) {
     const border = props.border ? 'border' : ''
+    const collapse = props.collapse ? 'collapse' : ''
+    console.log(collapse)
     return(
         <div className={`panel panel-primary ${border}`}>
             <div className="panel-heading">
@@ -10,7 +12,7 @@ export default function Panel(props) {
                 </div>
                 <h4 className="panel-title">{props.titulo}</h4>
             </div>
-            <div className="panel-body">
+            <div className={`panel-body ${collapse}`}>
                 {props.children}
             </div>
         </div>

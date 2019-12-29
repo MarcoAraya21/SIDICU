@@ -34,9 +34,13 @@ class AsignaturaController extends Controller
         {
             $request->nombre = 'Sin Nombre';
         }
-        $Asignatura = Asignatura::create(['nombre' => $request->nombre]);
-        for ($i=2; $i <= 5  ; $i++) {
-            $Asignatura->asignatura_horas()->create(['tipo_hora_id' => $i]);
+        if(!$request->nivel_id)
+        {
+            $request->nivel_id = 1;
+        }
+        $Asignatura = Asignatura::create(['nombre' => $request->nombre, 'nivel_id' => $request->nivel_id]);
+        for ($i=1; $i <= 4  ; $i++) {
+            $Asignatura->asignatura_horas()->create(['tipo_hora_id' => $i, 'cantidad' => 0]);
         }
         if($request->nivel_competencia_id)
         {
@@ -59,8 +63,43 @@ class AsignaturaController extends Controller
         // return 201;
         // $Asignatura = $Asignatura
         // $Asignatura = $Asignatura->refresh();
-        $Asignatura = Asignatura::with('nivel_competencia_asignaturas')
-            ->with('nivel_generica_asignaturas')
+        $Asignatura = Asignatura::with(['nivel_competencia_asignaturas' => function ($query) {
+            $query
+            ->with('nivel_competencia');
+        }])
+        ->with(['nivel_generica_asignaturas' => function ($query) {
+            $query
+            ->with(['nivel_generica' => function ($query) {
+                $query
+                ->with('nivel_competencia');
+            }]);
+        }])
+        ->with('tipo_asignatura')
+        ->with('modalidad')
+        ->with('regimen')
+        ->with('ciclo')
+        ->with('departamento')
+        ->with('nivel')
+        ->with(['bibliografias' => function ($query) {
+            $query
+            ->with('tipo_bibliografia');
+        }])
+        ->with(['unidades' => function ($query) {
+            $query
+            ->with('contenidos');
+        }])
+        ->with(['asignatura_horas' => function ($query) {
+            $query
+            ->with('tipo_hora');
+        }])
+        ->with(['requisitos' => function ($query) {
+            $query
+            ->with('tipo_hora');
+        }])
+        ->with(['asignatura_metodologias' => function ($query) {
+            $query
+            ->with('metodologia');
+        }])
         ->findOrFail($Asignatura->id);
         return response()->json([$Asignatura, $tipo_competencia], 201);
 

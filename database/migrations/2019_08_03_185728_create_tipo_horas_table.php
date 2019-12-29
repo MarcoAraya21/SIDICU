@@ -16,8 +16,6 @@ class CreateTipoHorasTable extends Migration
         Schema::create('tipo_horas', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre');
-            $table->unsignedInteger('padre_id')->nullable();
-            $table->foreign('padre_id')->references('id')->on('tipo_horas');
             $table->timestamps();
         });
     }

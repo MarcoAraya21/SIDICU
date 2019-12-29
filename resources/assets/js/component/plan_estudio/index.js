@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { handleInput, handleAddElement, handleInputArrays, borrarElemento } from '../utiles/lib'
+import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento } from '../utiles/lib'
 import Show from './show';
 import Dominios from './dominios';
 import Competencias from './dominios/competencias';
@@ -33,13 +33,16 @@ export default class index extends Component {
             usuarios: [],
             competencias_genericas: [],
             asignaturas: [],
+            niveles: [],
             habilitadogeneral: true,
         }
 
         this.handleInput = handleInput.bind(this);
         this.handleInputArrays = handleInputArrays.bind(this);
+        this.handleInputArraysAsignatura = handleInputArraysAsignatura.bind(this);
         this.borrarElemento = borrarElemento.bind(this);
         this.handleAddElement = handleAddElement.bind(this);
+        this.handleAddElementAsignatura = handleAddElementAsignatura.bind(this);
         //this.renderErrorFor = this.renderErrorFor.bind(this)
         this.habilitarGeneral = this.habilitarGeneral.bind(this);
 
@@ -102,7 +105,8 @@ export default class index extends Component {
                     dominios: response.data.dominios,
                     usuarios: response.data.plan_estudio_usuarios,
                     competencias_genericas: response.data.competencias_genericas,
-                    asignaturas: response.data.asignaturas
+                    asignaturas: response.data.asignaturas,
+                    niveles: response.data.niveles
                 })
                 // console.log(response.data.informe_avance)
             }            
@@ -218,9 +222,9 @@ export default class index extends Component {
                             </div>
                             <div className="tab-pane fade" id="plan-tab-3">
                                 <NivelCompetencias
-                                dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}
-                                asignaturas= {this.state.asignaturas}
+                                dominios = {this.state.dominios}
+                                competencias_genericas = {this.state.competencias_genericas}
+                                asignaturas = {this.state.asignaturas}
                                 handleInputArrays = {this.handleInputArrays}
                                 borrarElemento = {this.borrarElemento}
                                 handleAddElement = {this.handleAddElement}
@@ -231,7 +235,15 @@ export default class index extends Component {
                             </div>
                             <div className="tab-pane fade" id="plan-tab-4">
                                 <Asignaturas
-                                asignaturas= {this.state.asignaturas}
+                                asignaturas = {this.state.asignaturas}
+                                niveles = {this.state.niveles}
+                                handleInputArrays = {this.handleInputArrays}
+                                handleInputArraysAsignatura = {this.handleInputArraysAsignatura}
+                                handleAddElementAsignatura = {this.handleAddElementAsignatura}
+                                borrarElemento = {this.borrarElemento}
+                                habilitarGeneral = {this.habilitarGeneral}
+                                habilitadogeneral = {this.state.habilitadogeneral}
+                                addNotification = {this.addNotification}
                                 />
                             </div>
                         </div>			
