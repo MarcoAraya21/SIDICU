@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Requisitos from './requisitos/index'
 import Horas from './horas/index'
 import Bibliografias from './bibliografias/index'
 
@@ -6,12 +7,14 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            open: false,
+            openRequisitos: false,
             openHoras: false,
             openBibliografias: false,
             deshabilitado: true
         }
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOpenRequisitos = this.handleOpenRequisitos.bind(this);
+        this.handleCloseRequisitos = this.handleCloseRequisitos.bind(this);
         this.handleOpenHoras = this.handleOpenHoras.bind(this);
         this.handleCloseHoras = this.handleCloseHoras.bind(this);
         this.handleOpenBibliografias = this.handleOpenBibliografias.bind(this);
@@ -26,21 +29,27 @@ export default class edit extends Component {
         this.setState({deshabilitado: false});
     }
 
-    handleCloseHoras() {
-        this.setState({openHoras: false});
+    handleOpenRequisitos() {
+        this.setState({openRequisitos: true});
+    }
+    handleCloseRequisitos() {
+        this.setState({openRequisitos: false});
     }
 
     handleOpenHoras() {
         this.setState({openHoras: true});
     }
-
-    handleCloseBibliografias() {
-        this.setState({openBibliografias: false});
+    handleCloseHoras() {
+        this.setState({openHoras: false});
     }
 
     handleOpenBibliografias() {
         this.setState({openBibliografias: true});
     }
+    handleCloseBibliografias() {
+        this.setState({openBibliografias: false});
+    }
+    
     
     handleSubmit(){
         //e.preventDefault();
@@ -78,7 +87,31 @@ export default class edit extends Component {
     render() {
         var aulas = this.props.asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora.nombre != 'Extra Aula');
         var extra_aulas = this.props.asignatura.asignatura_horas.find(asignatura_hora => asignatura_hora.tipo_hora.nombre == 'Extra Aula');
-
+        if(this.props.asignatura.nivel.nombre == "Nivel 1")
+        {
+            var nivel1 = true;
+        }
+        else
+        {
+            var requisitoNiveles = [];
+            if(this.props.asignatura.requisitos.length > 0)
+            {
+                this.props.niveles.slice(0,-1).map((nivel,i) => {
+                    if(this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length ==
+                        this.props.asignaturas.filter(asignatura2 => asignatura2.nivel.nombre == nivel.nombre).length)
+                        {
+                            requisitoNiveles[i] = {'nombre': nivel.nombre}
+                        }
+                    else
+                    {
+                        if(this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0)
+                        {
+                            requisitoNiveles[i] = {'nombre': nivel.nombre, 'requisitos':this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre)}
+                        }
+                    }
+                })
+            }
+        }
         return (
             <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
                 <div className="col-12 mb-2">
@@ -89,14 +122,7 @@ export default class edit extends Component {
                             </input>
                         </div>
                         <div className="col-6">
-                            <label>Codigo</label>
-                            <input type="text" className="form-control"
-                                value={this.props.asignatura.codigo || ''}
-                                onChange={(e)=>this.props.handleInputArrays(e, 'asignaturas', 'codigo', this.props.asignatura.id)}>
-                            </input>
-                        </div>
-                        <div className="col-4">
-                            <label>Tipo de Nivel</label>
+                            <label>Nivel</label>
                             <select defaultValue={""}
                                 className="form-control " 
                                 onChange={(e)=>this.props.handleInputArrays(e, 'asignaturas', 'nivel_id', this.props.asignatura.id)}>
@@ -104,10 +130,17 @@ export default class edit extends Component {
                                 <option value='1'>Nivel 1</option>
                                 <option value='2'>Nivel 2</option>
                             </select>
-                        </div>
+                        </div>                        
                     </div>
                     <div className="col row mb-2">
-                        <div className="col-4">
+                        <div className="col-6">
+                            <label>Codigo</label>
+                            <input type="text" className="form-control"
+                                value={this.props.asignatura.codigo || ''}
+                                onChange={(e)=>this.props.handleInputArrays(e, 'asignaturas', 'codigo', this.props.asignatura.id)}>
+                            </input>
+                        </div>
+                        <div className="col-6">
                             <label>Tipo de Asignatura</label>
                             <select defaultValue={""}
                                 className="form-control " 
@@ -117,7 +150,44 @@ export default class edit extends Component {
                                 <option value='2'>Opcional</option>
                             </select>
                         </div>
-                        <div className="col-4">
+                    </div>
+                    <div className="col row mb-2">
+                        <div className="col-6">
+                            <label>Requisitos:</label>
+                            <ul>
+                            {
+                                nivel1 ?
+                                    <li>Ingreso</li>
+                                :
+                                    requisitoNiveles.map((requisitoNivel,i) =>
+                                        <li key={i}>
+                                            {
+                                                requisitoNivel.requisitos ?
+                                                    [requisitoNivel.nombre+':',
+                                                    <ol key={i}>
+                                                        {requisitoNivel.requisitos.map((requisito,i) =>
+                                                        <li key={i}>{requisito.requisito.nombre}</li>
+                                                        )}
+                                                    </ol> 
+                                                    ]
+                                                :
+                                                    requisitoNivel.nombre+ ' Completo'
+                                            }
+                                        </li>
+                                    )               
+                            }
+                            </ul>
+                        </div>
+                        {!nivel1 &&
+                            <div className="col-6 text-right mt-2">
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpenRequisitos()}}>      
+                                    <i className="fas fa-plus p-r-5" ></i>Ver Requisitos
+                                </button>
+                            </div>
+                        }
+                    </div>
+                    <div className="col row mb-2">
+                        <div className="col-6">
                             <label>Regimen</label>
                             <select defaultValue={""}
                                 className="form-control " 
@@ -126,7 +196,7 @@ export default class edit extends Component {
                                 <option value='1'>Semestral</option>
                             </select>
                         </div>
-                        <div className="col-4">
+                        <div className="col-6">
                             <label>Modalidad</label>
                             <select defaultValue={""}
                                 className="form-control " 
@@ -345,10 +415,26 @@ export default class edit extends Component {
                     this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification)}}>
                     <i className="fas fa-times p-r-10"></i>Eliminar</button>         
                 </div>
+                <Requisitos
+                openRequisitos = {this.state.openRequisitos}
+                handleCloseRequisitos={this.handleCloseRequisitos}
+                requisitos = {this.props.asignatura.requisitos}
+                opcionRequisitos={this.props.asignaturas.filter(asignatura =>
+                    asignatura.nivel.nombre.substr(-1) < this.props.asignatura.nivel.nombre.substr(-1))}
+                asignaturaId = {this.props.asignatura.id}
+                asignaturaNombre = {this.props.asignatura.nombre}
+                handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
+                borrarElementoAsignatura = {this.props.borrarElementoAsignatura}
+                habilitarGeneral = {this.props.habilitarGeneral}
+                habilitadogeneral = {this.props.habilitadogeneral}
+                addNotification = {this.props.addNotification}
+                />
                 <Horas
                 openHoras = {this.state.openHoras}
                 handleCloseHoras={this.handleCloseHoras}
-                asignatura = {this.props.asignatura} 
+                asignatura_horas = {this.props.asignatura.asignatura_horas}
+                asignaturaId = {this.props.asignatura.id}
+                asignaturaNombre = {this.props.asignatura.nombre}
                 handleInputArrays = {this.props.handleInputArrays}
                 handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                 habilitarGeneral = {this.props.habilitarGeneral}
@@ -358,11 +444,13 @@ export default class edit extends Component {
                 <Bibliografias
                 openBibliografias = {this.state.openBibliografias}
                 handleCloseBibliografias={this.handleCloseBibliografias}
-                asignatura = {this.props.asignatura} 
+                bibliografias = {this.props.asignatura.bibliografias}
+                asignaturaId = {this.props.asignatura.id}
+                asignaturaNombre = {this.props.asignatura.nombre}
                 handleInputArrays = {this.props.handleInputArrays}
                 handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                 handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
-                borrarElemento = {this.props.borrarElemento}
+                borrarElementoAsignatura = {this.props.borrarElementoAsignatura}
                 habilitarGeneral = {this.props.habilitarGeneral}
                 habilitadogeneral = {this.props.habilitadogeneral}
                 addNotification = {this.props.addNotification}

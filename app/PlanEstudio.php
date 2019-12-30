@@ -147,7 +147,10 @@ class PlanEstudio extends Model
                         }])
                         ->with(['requisitos' => function ($query) {
                             $query
-                            ->with('tipo_hora');
+                            ->with(['requisito' => function ($query) {
+                                $query
+                                ->with('nivel');
+                            }]);
                         }])
                         ->with(['asignatura_metodologias' => function ($query) {
                             $query
@@ -194,7 +197,10 @@ class PlanEstudio extends Model
                 }])
                 ->with(['requisitos' => function ($query) {
                     $query
-                    ->with('tipo_hora');
+                    ->with(['requisito' => function ($query) {
+                        $query
+                        ->with('nivel');
+                    }]);
                 }])
                 ->with(['asignatura_metodologias' => function ($query) {
                     $query

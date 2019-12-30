@@ -612,6 +612,40 @@ export function borrarElemento(objeto, propiedad, addNotification) {
         .finally(() => { addNotification() });
 }
 
+export function borrarElementoAsignatura(objeto, propiedad, addNotification, idAsignatura) {
+    //e.preventDefault();
+    fetch(`/api/${objeto}/${propiedad}/`, {
+        method: 'delete',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(function (response) {
+            if (!response.ok) {
+                throw "Error en la llamada Ajax";
+            }
+
+        })
+        .then(() => {
+            let asignaturas = this.state.asignaturas.map( asignatura =>
+                {
+                    if(asignatura.id == idAsignatura ) {
+                        return {
+                            ...asignatura, [objeto]: asignatura[objeto].filter( objetoSingle => 
+                                objetoSingle.id != propiedad
+                            )
+                        }
+                    }
+                    else
+                    {
+                        return asignatura;
+                    }
+                })
+            this.setState({ asignaturas: asignaturas })
+        })
+        .finally(() => { addNotification() });
+}
 
 export const CONF_DATATABLE = {
     buttons: ['copy', 'csv', 'excel'],

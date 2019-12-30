@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento } from '../utiles/lib'
+import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
 import Show from './show';
 import Dominios from './dominios';
 import Competencias from './dominios/competencias';
@@ -41,6 +41,7 @@ export default class index extends Component {
         this.handleInputArrays = handleInputArrays.bind(this);
         this.handleInputArraysAsignatura = handleInputArraysAsignatura.bind(this);
         this.borrarElemento = borrarElemento.bind(this);
+        this.borrarElementoAsignatura = borrarElementoAsignatura.bind(this);
         this.handleAddElement = handleAddElement.bind(this);
         this.handleAddElementAsignatura = handleAddElementAsignatura.bind(this);
         //this.renderErrorFor = this.renderErrorFor.bind(this)
@@ -240,7 +241,7 @@ export default class index extends Component {
                                 handleInputArrays = {this.handleInputArrays}
                                 handleInputArraysAsignatura = {this.handleInputArraysAsignatura}
                                 handleAddElementAsignatura = {this.handleAddElementAsignatura}
-                                borrarElemento = {this.borrarElemento}
+                                borrarElementoAsignatura = {this.borrarElementoAsignatura}
                                 habilitarGeneral = {this.habilitarGeneral}
                                 habilitadogeneral = {this.state.habilitadogeneral}
                                 addNotification = {this.addNotification}

@@ -49,7 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function bibliografias({ openBibliografias, handleCloseBibliografias, asignatura, handleInputArrays, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElemento, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function bibliografias({ openBibliografias, handleCloseBibliografias, bibliografias, asignaturaId, asignaturaNombre, handleInputArrays, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
     const classes = useStyles();
     function addElemento(variable) {
         //e.preventDefault();
@@ -61,7 +61,7 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
             }
             ,
             body: JSON.stringify(
-                { asignatura_id: asignatura.id }
+                { asignatura_id: asignaturaId }
             )
         })
             .then(function (response) {
@@ -72,12 +72,13 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                 }
 
             })
-            .then(data => { [handleAddElementAsignatura(variable, data, asignatura.id), addNotification()] })
+            .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification()] })
             .catch(function (error) {
                 console.log('Hubo un problema con la petición Fetch:' + error.message);
             })
     }
-
+    const basica = bibliografias.filter(bibliografia => bibliografia.tipo_bibliografia_id == 1);
+    const complementaria = bibliografias.filter(bibliografia => bibliografia.tipo_bibliografia_id == 2);
     return (
         <div>
             <Dialog fullScreen open={openBibliografias} onClose={handleCloseBibliografias} TransitionComponent={Transition} disableEscapeKeyDown>
@@ -87,31 +88,52 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                             <CloseIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            {asignatura && asignatura.nombre || "Sin Nombre"}
+                            {asignaturaNombre || "Sin Nombre"}
                         </Typography>
 
                     </Toolbar>
                 </AppBar>
                 <DialogContent>
                     <div className="border p-3 mb-3">
-                        {   asignatura.bibliografias.length > 0 ?
-                                asignatura.bibliografias.map((bibliografia, i) =>
-                                    <Panel key={'bibliografia' + bibliografia.id} titulo={bibliografia.titulo || 'Sin Nombre'} collapse={true}>
-                                        <Edit key={bibliografia.id}
-                                            bibliografia={bibliografia}
-                                            asignaturaId={asignatura.id}
-                                            i={i}
-                                            handleInputArrays={handleInputArrays}
-                                            handleInputArraysAsignatura={handleInputArraysAsignatura}
-                                            borrarElemento={borrarElemento}
-                                            habilitarGeneral={habilitarGeneral}
-                                            habilitadogeneral={habilitadogeneral}
-                                            addNotification={addNotification} />
-                                    </Panel>
-                                )
+                        <legend>Básica</legend>
+                        {
+                            basica.length > 0 ?
+                                basica.map(bibliografia =>
+                                <Panel key={'bibliografia' + bibliografia.id} titulo={bibliografia.titulo || 'Sin Nombre'} collapse={true}>
+                                    <Edit key={bibliografia.id}
+                                        bibliografia={bibliografia}
+                                        asignaturaId={asignaturaId}
+                                        handleInputArrays={handleInputArrays}
+                                        handleInputArraysAsignatura={handleInputArraysAsignatura}
+                                        borrarElementoAsignatura={borrarElementoAsignatura}
+                                        habilitarGeneral={habilitarGeneral}
+                                        habilitadogeneral={habilitadogeneral}
+                                        addNotification={addNotification} />
+                                </Panel>
+                                )   
                             :
-                                'No posee ninguna bibliografia'
+                                'No posee Bibliografia Basica'
                         }
+                        <legend>Complementaria</legend>
+                        {
+                            complementaria.length > 0 ?
+                                complementaria.map(bibliografia =>
+                                <Panel key={'bibliografia' + bibliografia.id} titulo={bibliografia.titulo || 'Sin Nombre'} collapse={true}>
+                                    <Edit key={bibliografia.id}
+                                        bibliografia={bibliografia}
+                                        asignaturaId={asignaturaId}
+                                        handleInputArrays={handleInputArrays}
+                                        handleInputArraysAsignatura={handleInputArraysAsignatura}
+                                        borrarElementoAsignatura={borrarElementoAsignatura}
+                                        habilitarGeneral={habilitarGeneral}
+                                        habilitadogeneral={habilitadogeneral}
+                                        addNotification={addNotification} />
+                                </Panel>
+                                )   
+                            :
+                                'No posee Bibliografia Basica'
+                        }     
+                                    
                         <div align="right" className="mt-2 mb-1">
                             <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('bibliografias') }}>
                                 <i className="fas fa-plus p-r-5" ></i>Crear Bibliografia

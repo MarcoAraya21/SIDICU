@@ -37,7 +37,8 @@ class BibliografiaController extends Controller
     public function store(Request $request)
     {
         $request['titulo'] = 'Sin Nombre';
-        $Bibliografia = Bibliografia::create($request->all());
+        $request['tipo_bibliografia_id'] = 1;
+        $Bibliografia = Bibliografia::firstOrCreate($request->all());
         $Bibliografia = Bibliografia::with('tipo_bibliografia')->findOrFail($Bibliografia->id);
         return response()->json($Bibliografia, 201);
     }

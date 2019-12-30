@@ -38,6 +38,6 @@ Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [
     'asignaturas' => 'asignatura']]);
 Route::resource('asignatura_horas', 'AsignaturaHoraController', ['only' => ['update']]);
 Route::resource('bibliografias', 'BibliografiaController', ['only' => ['store', 'update', 'destroy']]);
-
+Route::resource('requisitos', 'RequisitoController', ['only' => ['store', 'destroy']]);
 Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
 

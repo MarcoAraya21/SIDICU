@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Horas({ openHoras, handleCloseHoras, asignatura, handleInputArrays,handleInputArraysAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, asignaturaId, asignaturaNombre, handleInputArrays,handleInputArraysAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
   const classes = useStyles();
 
   return (
@@ -60,7 +60,7 @@ export default function Horas({ openHoras, handleCloseHoras, asignatura, handleI
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              {asignatura && asignatura.nombre || "Sin Nombre"}
+              {asignaturaNombre || "Sin Nombre"}
             </Typography>
 
           </Toolbar>
@@ -68,10 +68,10 @@ export default function Horas({ openHoras, handleCloseHoras, asignatura, handleI
         <DialogContent>
           <div className="border p-3 mb-3">
             {
-                asignatura.asignatura_horas.map((asignatura_hora, i) =>
+                asignatura_horas.map((asignatura_hora, i) =>
                   <Edit key={asignatura_hora.id}
                     asignatura_hora={asignatura_hora}
-                    asignaturaId={asignatura.id}
+                    asignaturaId={asignaturaId}
                     i={i}
                     handleInputArrays={handleInputArrays}
                     handleInputArraysAsignatura= {handleInputArraysAsignatura}

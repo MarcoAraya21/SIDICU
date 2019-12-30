@@ -44,18 +44,20 @@ export default class show extends Component {
         return (
             <div className="border p-3 mb-3">
                 <div className="col ui-sortable-disabled">
-                    <legend>Asignaturas del {this.props.nivel.nombre}</legend>
+                    <legend>Asignaturas del {this.props.nivelAsignatura.nombre}</legend>
                     {
                         this.props.asignaturas && 
-                        this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivel.id).length > 0 ?
-                            this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivel.id).map( asignatura =>
+                        this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0 ?
+                            this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).map( asignatura =>
                                 <Panel key = {'asignatura-' + asignatura.id} titulo={asignatura.nombre} collapse={true}>
                                     <Edit
                                         asignatura={asignatura}
+                                        asignaturas={this.props.asignaturas}
+                                        niveles={this.props.niveles}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                                         handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
-                                        borrarElemento={this.props.borrarElemento}
+                                        borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}

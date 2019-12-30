@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
         $this->call(ModalidadesSeeder::class);
         $this->call(CiclosSeeder::class);
         $this->call(DepartamentosSeeder::class);
-
+        $this->call(TipoBibliografiasSeeder::class);
 
     }
 }

@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Asignatura({ openAsignatura, handleCloseAsignatura, nivel_competencia, nivel_competencia_generica, asignaturas, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Asignatura({ openAsignatura, handleCloseAsignatura, nivel_competencia, nivel_competencia_generica, asignaturas, borrarElemento, handleAddElement, habilitadogeneral, addNotification }) {
   const classes = useStyles();
   const [openNew, setOpenNew] = useState(false);
 
@@ -133,11 +133,7 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
                 handleCloseNew={handleCloseNew}
                 nivel_competencia={nivel_competencia}
                 asignaturas={asignaturas}
-                handleInputArrays={handleInputArrays}
                 handleAddElement={handleAddElement}
-                borrarElemento={borrarElemento}
-                habilitarGeneral={habilitarGeneral}
-                habilitadogeneral={habilitadogeneral}
                 addNotification={addNotification}
               />
             </React.Fragment>
@@ -196,11 +192,7 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
                 handleCloseNew={handleCloseNew}
                 nivel_competencia_generica={nivel_competencia_generica}
                 asignaturas={asignaturas}
-                handleInputArrays={handleInputArrays}
                 handleAddElement={handleAddElement}
-                borrarElemento={borrarElemento}
-                habilitarGeneral={habilitarGeneral}
-                habilitadogeneral={habilitadogeneral}
                 addNotification={addNotification}
               />
             </React.Fragment>

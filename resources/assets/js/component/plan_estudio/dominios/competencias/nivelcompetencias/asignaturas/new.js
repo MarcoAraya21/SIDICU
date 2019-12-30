@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, handleInputArrays, handleAddElement, borrarElemento, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, handleAddElement, addNotification }) {
     const classes = useStyles();
     const [value, setvalue] = useState('');
     const [suggestions, setsuggestions] = useState([]);

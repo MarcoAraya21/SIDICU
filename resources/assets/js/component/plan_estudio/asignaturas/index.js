@@ -38,17 +38,18 @@ export default class index extends Component {
                         </ul>
                         <div className="tab-content">
                             {
-                                this.props.niveles.map((nivel, i) =>
+                                this.props.niveles.map((nivelAsignatura, i) =>
                                     i == 0 ?
                                     <div className="tab-pane fade active show" id="nivel-tab-show" key={i}>
                                         {
                                         <Show
-                                        nivel={nivel}
+                                        nivelAsignatura={nivelAsignatura}
+                                        niveles={this.props.niveles}
                                         asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                                         handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
-                                        borrarElemento={this.props.borrarElemento}
+                                        borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}                                      />
@@ -57,12 +58,13 @@ export default class index extends Component {
                                     :
                                     <div className="tab-pane fade" id={"nivel-tab-"+i} key={i}>
                                         <Show
-                                        nivel={nivel}
+                                        nivelAsignatura={nivelAsignatura}
+                                        niveles={this.props.niveles}
                                         asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                                         handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
-                                        borrarElemento={this.props.borrarElemento}
+                                        borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}

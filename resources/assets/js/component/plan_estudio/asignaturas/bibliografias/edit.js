@@ -19,14 +19,14 @@ export default class edit extends Component {
     handleSubmit(){
         //e.preventDefault();
         this.setState({guardando: true})
-        fetch('/api/asignatura_horas/' + this.props.asignatura_hora.id, {
+        fetch('/api/bibliografias/' + this.props.bibliografia.id, {
             method: 'put',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(
-                this.props.asignatura_hora
+                this.props.bibliografia
             )
         })
         .then(function(response) {
@@ -60,15 +60,81 @@ export default class edit extends Component {
                     value={this.props.asignatura_hora.cantidad || 0}
                     onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'asignatura_horas', 'cantidad', this.props.asignatura_hora.id, this.props.asignaturaId)}>
                          
-                </input>
+                </input> */}
+                <div className="col-12">
+                    <div className="col row mb-2">
+                        <div className="col-6">
+                            <label>Titulo</label>
+                            <input type="text"
+                                className="form-control " 
+                                value={this.props.bibliografia.titulo || ''}
+                                onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'bibliografias', 'titulo', this.props.bibliografia.id, this.props.asignaturaId)}>
+                            </input>
+                        </div>
+                        <div className="col-6">
+                            <label>Tipo de bibliografia</label>
+                            <select defaultValue={this.props.bibliografia.tipo_bibliografia_id}
+                                className="form-control " 
+                                onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'bibliografias', 'tipo_bibliografia_id', this.props.bibliografia.id, this.props.asignaturaId)}>
+                                <option disabled value="">Seleccione una Opción</option>
+                                <option value='1'>Básica</option>
+                                <option value='2'>Complementaria</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col row mb-2">
+                        <div className="col-6">
+                            <label>Nombre del Autor</label>
+                            <input type="text"
+                                className="form-control " 
+                                value={this.props.bibliografia.nombre_autor || ''}
+                                onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'bibliografias', 'nombre_autor', this.props.bibliografia.id, this.props.asignaturaId)}>
+                            </input>
+                        </div>
+                        <div className="col-6">
+                            <label>Apellido del Autor</label>
+                            <input type="text"
+                                className="form-control "
+                                value={this.props.bibliografia.apellido_autor || ''}
+                                onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'bibliografias', 'apellido_autor', this.props.bibliografia.id, this.props.asignaturaId)}>
+                            </input>
+                        </div>
+                    </div>
+                    <div className="col row mb-2">
+                        <div className="col-4">
+                            <label>Año</label>
+                            <input type="text"
+                                className="form-control "
+                                value={this.props.bibliografia.año || ''}
+                                onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'bibliografias', 'año', this.props.bibliografia.id, this.props.asignaturaId)}>
+                            </input>
+                        </div>
+                        <div className="col-4">
+                            <label>Editorial</label>
+                            <input type="text"
+                                className="form-control "
+                                value={this.props.bibliografia.editorial || ''}
+                                onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'bibliografias', 'editorial', this.props.bibliografia.id, this.props.asignaturaId)}>
+                            </input>
+                        </div>
+                        <div className="col-4">
+                            <label>Pais</label>
+                            <input type="text"
+                                className="form-control "
+                                value={this.props.bibliografia.pais || ''}
+                                onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'bibliografias', 'pais', this.props.bibliografia.id, this.props.asignaturaId)}>
+                            </input>
+                        </div>
+                    </div>
+                </div>
                 <div className="col-12 text-right mt-2">
                     <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
                     <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                     onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElemento('logro_aprendizajes', this.props.logro_aprendizaje.id, this.props.addNotification)}}>
+                    this.props.borrarElementoAsignatura('bibliografias', this.props.bibliografia.id, this.props.addNotification, this.props.asignaturaId)}}>
                     <i className="fas fa-times p-r-10"></i>Eliminar</button>
-                </div> */}
+                </div>
             </div>
         );
     }
