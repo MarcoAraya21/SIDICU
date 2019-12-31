@@ -102,7 +102,8 @@ class PlanEstudioController extends Controller
                         ->with('logro_aprendizajes')
                         ->with(['nivel_competencia_asignaturas' => function ($query) {
                             $query
-                            ->with('asignatura');
+                            ->with('asignatura')
+                            ->with('competencia_evaluaciones');
                         }]);
                     }]);
                 }]);

@@ -51,7 +51,7 @@ class NivelGenericaAsignaturaController extends Controller
         $NivelGenericaAsignatura = NivelGenericaAsignatura::with('asignatura')->with(['nivel_generica' => function ($query) {
             $query
             ->with('nivel_competencia');
-        }])->findOrFail($NivelGenericaAsignatura->id);
+        }])->with('generica_evaluaciones')->findOrFail($NivelGenericaAsignatura->id);
 
         return response()->json($NivelGenericaAsignatura, 201);
         // $NivelGenericaAsignatura = NivelGenericaAsignatura::create($request->all());

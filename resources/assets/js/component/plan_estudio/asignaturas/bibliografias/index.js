@@ -137,7 +137,7 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                         <div align="right" className="mt-2 mb-1">
                             <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('bibliografias') }}>
                                 <i className="fas fa-plus p-r-5" ></i>Crear Bibliografia
-              </button>
+                            </button>
                         </div>
                     </div>
                 </DialogContent>

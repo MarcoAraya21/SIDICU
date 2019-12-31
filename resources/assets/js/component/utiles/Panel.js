@@ -2,7 +2,6 @@ import React from 'react'
 export default function Panel(props) {
     const border = props.border ? 'border' : ''
     const collapse = props.collapse ? 'collapse' : ''
-    console.log(collapse)
     return(
         <div className={`panel panel-primary ${border}`}>
             <div className="panel-heading">

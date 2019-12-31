@@ -82,7 +82,8 @@ class PlanEstudio extends Model
                         $query
                         ->with(['nivel_generica_asignaturas' => function ($query) {
                             $query
-                            ->with('asignatura');
+                            ->with('asignatura')
+                            ->with('generica_evaluaciones');
                         }]);
                     }]);
                 }]);

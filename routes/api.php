@@ -39,5 +39,8 @@ Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [
 Route::resource('asignatura_horas', 'AsignaturaHoraController', ['only' => ['update']]);
 Route::resource('bibliografias', 'BibliografiaController', ['only' => ['store', 'update', 'destroy']]);
 Route::resource('requisitos', 'RequisitoController', ['only' => ['store', 'destroy']]);
+Route::resource('competencia_evaluaciones', 'CompetenciaEvaluacionController', ['only' => ['store', 'update', 'destroy']]);
+Route::resource('generica_evaluaciones', 'GenericaEvaluacionController', ['only' => ['store', 'update', 'destroy']]);
+
 Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
 

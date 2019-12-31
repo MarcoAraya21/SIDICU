@@ -48,7 +48,7 @@ class NivelCompetenciaAsignaturaController extends Controller
             'nivel_competencia_id' => $request->nivel_competencia_id,
             'asignatura_id' => $request->asignatura_id,
         ]);
-        $NivelCompetenciaAsignatura = NivelCompetenciaAsignatura::with('asignatura')->with('nivel_competencia')->findOrFail($NivelCompetenciaAsignatura->id);
+        $NivelCompetenciaAsignatura = NivelCompetenciaAsignatura::with('asignatura')->with('nivel_competencia')->with('competencia_evaluaciones')->findOrFail($NivelCompetenciaAsignatura->id);
 
         return response()->json($NivelCompetenciaAsignatura, 201);
 

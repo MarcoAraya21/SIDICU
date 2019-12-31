@@ -166,8 +166,10 @@ export default class edit extends Component {
                     handleCloseAsignatura={this.handleCloseAsignatura}
                     nivel_competencia = {this.props.nivel_competencia}
                     asignaturas={this.props.asignaturas}
+                    handleInputArrays = {this.props.handleInputArrays}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
+                    habilitarGeneral = {this.props.habilitarGeneral}
                     habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
                     />
@@ -219,8 +221,10 @@ export default class edit extends Component {
                     handleCloseAsignatura={this.handleCloseAsignatura}
                     nivel_competencia_generica = {this.props.nivel_competencia_generica}
                     asignaturas={this.props.asignaturas}
+                    handleInputArrays = {this.props.handleInputArrays}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
+                    habilitarGeneral = {this.props.habilitarGeneral}
                     habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
                     />
