@@ -110,6 +110,7 @@ export function handleInputArrays(e, objeto, propiedad, indice) {
             else {
                 if (objeto == "asignaturas") {
                     var state = this.state[objeto];
+                    console.log('e', e);
                     if (e.target) {
                         state.find(asignatura => asignatura.id == indice)[propiedad] = e.target.value;
                     }
@@ -120,15 +121,73 @@ export function handleInputArrays(e, objeto, propiedad, indice) {
                     this.setState({ [objeto]: state });
                 }
                 else {
-                    var state = this.state[objeto];
-                    if (e.target) {
-                        state.find(dominio => dominio.id == indice)[propiedad] = e.target.value;
+                    if (objeto == "competencia_evaluaciones") {
+                        var dominios = this.state['dominios'].map(dominio => {
+                            return {
+                                ...dominio, competencias: dominio.competencias.map(competencia => {
+                                    return {
+                                        ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
+                                            return {
+                                                ...nivel_competencia, nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.map(nivel_competencia_asignatura => {
+                                                    return {
+                                                        ...nivel_competencia_asignatura, competencia_evaluaciones: nivel_competencia_asignatura.competencia_evaluaciones.map(competencia_evaluacion => {
+                                                            return {
+                                                                ...competencia_evaluacion,
+                                                                descripcion: (competencia_evaluacion.id == indice) ?
+                                                                    (e.target ? e.target.value : e) : competencia_evaluacion.descripcion
+                                                            }
+                                                        })
+                                                    }
+
+                                                })
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                        });
+                        this.setState({ dominios: dominios });
                     }
                     else {
-                        state.find(dominio => dominio.id == indice)[propiedad] = e;
-                    }
+                        if (objeto == "generica_evaluaciones") {
+                            var competencias_genericas = this.state['competencias_genericas'].map(competencias_generica => {
+                                return {
+                                    ...competencias_generica, nivel_competencias: competencias_generica.nivel_competencias.map(nivel_competencia => {
+                                        return {
+                                            ...nivel_competencia, nivel_genericas: nivel_competencia.nivel_genericas.map(nivel_generica => {
+                                                return {
+                                                    ...nivel_generica, nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.map(nivel_generica_asignaturas => {
+                                                        return {
+                                                            ...nivel_generica_asignaturas, generica_evaluaciones: nivel_generica_asignaturas.generica_evaluaciones.map(generica_evaluacion => {
+                                                                return {
+                                                                    ...generica_evaluacion,
+                                                                    descripcion: (generica_evaluacion.id == indice) ?
+                                                                        (e.target ? e.target.value : e) : generica_evaluacion.descripcion
+                                                                }
+                                                            })
+                                                        }
 
-                    this.setState({ [objeto]: state });
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    })
+                                }
+                            });
+                            this.setState({ competencias_genericas: competencias_genericas });
+                        }
+                        else {
+                            var state = this.state[objeto];
+                            if (e.target) {
+                                state.find(dominio => dominio.id == indice)[propiedad] = e.target.value;
+                            }
+                            else {
+                                state.find(dominio => dominio.id == indice)[propiedad] = e;
+                            }
+
+                            this.setState({ [objeto]: state });
+                        }
+                    }
                 }
             }
         }
@@ -316,7 +375,6 @@ export function handleAddElement(key, elemento) {
                                     }
                                 }
                                 )
-                                console.log('dominio', dominios1);
                                 this.setState({ dominios: dominios1 })
                             }
                             else {
@@ -399,9 +457,16 @@ export function handleAddElement(key, elemento) {
                                     this.setState({ competencias_genericas: competencias_genericas })
                                 }
                                 else {
-                                    var state = this.state[key];
-                                    state.push(elemento);
-                                    this.setState({ [key]: state });
+                                    if (key == "niveles") {
+                                        var niveles = this.state["niveles"];
+                                        niveles.push(elemento);
+                                        this.setState({ [key]: niveles });
+                                    }
+                                    else {
+                                        var state = this.state[key];
+                                        state.push(elemento);
+                                        this.setState({ [key]: state });
+                                    }
                                 }
                             }
                         }
@@ -655,8 +720,57 @@ export function borrarElemento(objeto, propiedad, addNotification) {
 
                                 }
                                 else {
-                                    let newstate = this.state[objeto].filter((el) => el.id != propiedad)
-                                    this.setState({ [objeto]: newstate })
+                                    if (objeto == 'competencia_evaluaciones') {
+                                        let dominios1 = this.state.dominios.map(dominio => {
+                                            return {
+                                                ...dominio, competencias: dominio.competencias.map(competencia => {
+                                                    return {
+                                                        ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
+                                                            return {
+                                                                ...nivel_competencia, nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.map(nivel_competencia_asignatura => {
+                                                                    return {
+                                                                        ...nivel_competencia_asignatura, competencia_evaluaciones: nivel_competencia_asignatura.competencia_evaluaciones.filter(competencia_evaluacion =>
+                                                                            competencia_evaluacion.id != propiedad)
+                                                                    }
+                                                                })
+                                                            }
+                                                        }
+                                                        )
+                                                    }
+                                                }
+                                                )
+                                            }
+                                        });
+
+                                        this.setState({ dominios: dominios1 })
+                                    }
+                                    else {
+                                        if (objeto == 'generica_evaluaciones') {
+                                            let competencias_genericas = this.state.competencias_genericas.map(competencias_generica => {
+                                                return {
+                                                    ...competencias_generica, nivel_competencias: competencias_generica.nivel_competencias.map(nivel_competencia => {
+                                                        return {
+                                                            ...nivel_competencia, nivel_genericas: nivel_competencia.nivel_genericas.map(nivel_generica => {
+                                                                return {
+                                                                    ...nivel_generica, nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.map(nivel_generica_asignatura => {
+                                                                        return {
+                                                                            ...nivel_generica_asignatura, generica_evaluaciones: nivel_generica_asignatura.generica_evaluaciones.filter(generica_evaluacion =>
+                                                                                generica_evaluacion.id != propiedad)
+                                                                        }
+                                                                    })
+                                                                }
+                                                            })
+                                                        }
+                                                    })
+                                                }
+                                            });
+                                            this.setState({ competencias_genericas: competencias_genericas })
+                                        }
+                                        else {
+                                            let newstate = this.state[objeto].filter((el) => el.id != propiedad)
+                                            this.setState({ [objeto]: newstate })
+                                        }
+                                    }
                                 }
                             }
                         }

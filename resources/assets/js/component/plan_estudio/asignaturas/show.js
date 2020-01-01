@@ -56,6 +56,7 @@ export default class show extends Component {
                                         niveles={this.props.niveles}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                        handleAddElement = {this.props.handleAddElement}
                                         handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
                                         borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                         habilitarGeneral = {this.props.habilitarGeneral}

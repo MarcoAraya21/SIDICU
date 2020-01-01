@@ -240,6 +240,7 @@ export default class index extends Component {
                                 niveles = {this.state.niveles}
                                 handleInputArrays = {this.handleInputArrays}
                                 handleInputArraysAsignatura = {this.handleInputArraysAsignatura}
+                                handleAddElement = {this.handleAddElement}
                                 handleAddElementAsignatura = {this.handleAddElementAsignatura}
                                 borrarElementoAsignatura = {this.borrarElementoAsignatura}
                                 habilitarGeneral = {this.habilitarGeneral}

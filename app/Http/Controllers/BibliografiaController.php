@@ -38,7 +38,7 @@ class BibliografiaController extends Controller
     {
         $request['titulo'] = 'Sin Nombre';
         $request['tipo_bibliografia_id'] = 1;
-        $Bibliografia = Bibliografia::firstOrCreate($request->all());
+        $Bibliografia = Bibliografia::create($request->all());
         $Bibliografia = Bibliografia::with('tipo_bibliografia')->findOrFail($Bibliografia->id);
         return response()->json($Bibliografia, 201);
     }

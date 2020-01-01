@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Asignatura;
 use App\PlanEstudio;
-use app\NivelCompetenciaAsignatura;
-use app\NivelGenericaAsignatura;
+use App\NivelCompetencia;
+use App\NivelCompetenciaAsignatura;
+use App\NivelGenericaAsignatura;
 
 class AsignaturaController extends Controller
 {
@@ -30,13 +31,24 @@ class AsignaturaController extends Controller
 
     public function store(Request $request)
     {
+        $nivel1id = NivelCompetencia::with(['competencia' => function ($query) {
+            $query
+            ->with(['dominio' => function ($query) {
+                $query
+                ->with(['plan_estudio' => function ($query) {
+                    $query
+                    ->with('niveles');
+                }]);
+            }]);
+        }])->find($request->nivel_competencia_id)->competencia->dominio->plan_estudio->niveles[0]->id;
+
         if(!$request->nombre)
         {
             $request->nombre = 'Sin Nombre';
         }
         if(!$request->nivel_id)
         {
-            $request->nivel_id = 1;
+            $request->nivel_id = $nivel1id;
         }
         $Asignatura = Asignatura::create(['nombre' => $request->nombre, 'nivel_id' => $request->nivel_id]);
         for ($i=1; $i <= 4  ; $i++) {
@@ -103,6 +115,12 @@ class AsignaturaController extends Controller
         ->findOrFail($Asignatura->id);
         return response()->json([$Asignatura, $tipo_competencia], 201);
 
+    }
+
+    public function update(Request $request, Asignatura $Asignatura)
+    {
+        $Asignatura = $Asignatura->update($request->all());
+        return response()->json($Asignatura, 201);
     }
 
     public function destroy($id)

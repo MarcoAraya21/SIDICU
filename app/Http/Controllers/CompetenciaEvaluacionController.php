@@ -71,6 +71,7 @@ class CompetenciaEvaluacionController extends Controller
      */
     public function update(Request $request, CompetenciaEvaluacion $CompetenciaEvaluacion)
     {
+
         $CompetenciaEvaluacion = $CompetenciaEvaluacion->update($request->all());
         return response()->json($CompetenciaEvaluacion, 201);
     }

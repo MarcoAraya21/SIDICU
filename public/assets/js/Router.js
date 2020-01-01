@@ -4580,6 +4580,7 @@ function handleInputArrays(e, objeto, propiedad, indice) {
             } else {
                 if (objeto == "asignaturas") {
                     var state = this.state[objeto];
+                    console.log('e', e);
                     if (e.target) {
                         state.find(function (asignatura) {
                             return asignatura.id == indice;
@@ -4592,18 +4593,60 @@ function handleInputArrays(e, objeto, propiedad, indice) {
 
                     this.setState(_defineProperty({}, objeto, state));
                 } else {
-                    var state = this.state[objeto];
-                    if (e.target) {
-                        state.find(function (dominio) {
-                            return dominio.id == indice;
-                        })[propiedad] = e.target.value;
+                    if (objeto == "competencia_evaluaciones") {
+                        var dominios = this.state['dominios'].map(function (dominio) {
+                            return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
+                                    return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.map(function (nivel_competencia) {
+                                            return _extends({}, nivel_competencia, { nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.map(function (nivel_competencia_asignatura) {
+                                                    return _extends({}, nivel_competencia_asignatura, { competencia_evaluaciones: nivel_competencia_asignatura.competencia_evaluaciones.map(function (competencia_evaluacion) {
+                                                            return _extends({}, competencia_evaluacion, {
+                                                                descripcion: competencia_evaluacion.id == indice ? e.target ? e.target.value : e : competencia_evaluacion.descripcion
+                                                            });
+                                                        })
+                                                    });
+                                                })
+                                            });
+                                        })
+                                    });
+                                })
+                            });
+                        });
+                        this.setState({ dominios: dominios });
                     } else {
-                        state.find(function (dominio) {
-                            return dominio.id == indice;
-                        })[propiedad] = e;
-                    }
+                        if (objeto == "generica_evaluaciones") {
+                            var competencias_genericas = this.state['competencias_genericas'].map(function (competencias_generica) {
+                                return _extends({}, competencias_generica, { nivel_competencias: competencias_generica.nivel_competencias.map(function (nivel_competencia) {
+                                        return _extends({}, nivel_competencia, { nivel_genericas: nivel_competencia.nivel_genericas.map(function (nivel_generica) {
+                                                return _extends({}, nivel_generica, { nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.map(function (nivel_generica_asignaturas) {
+                                                        return _extends({}, nivel_generica_asignaturas, { generica_evaluaciones: nivel_generica_asignaturas.generica_evaluaciones.map(function (generica_evaluacion) {
+                                                                return _extends({}, generica_evaluacion, {
+                                                                    descripcion: generica_evaluacion.id == indice ? e.target ? e.target.value : e : generica_evaluacion.descripcion
+                                                                });
+                                                            })
+                                                        });
+                                                    })
+                                                });
+                                            })
+                                        });
+                                    })
+                                });
+                            });
+                            this.setState({ competencias_genericas: competencias_genericas });
+                        } else {
+                            var state = this.state[objeto];
+                            if (e.target) {
+                                state.find(function (dominio) {
+                                    return dominio.id == indice;
+                                })[propiedad] = e.target.value;
+                            } else {
+                                state.find(function (dominio) {
+                                    return dominio.id == indice;
+                                })[propiedad] = e;
+                            }
 
-                    this.setState(_defineProperty({}, objeto, state));
+                            this.setState(_defineProperty({}, objeto, state));
+                        }
+                    }
                 }
             }
         }
@@ -4746,7 +4789,6 @@ function handleAddElement(key, elemento) {
                                         })
                                     });
                                 });
-                                console.log('dominio', _dominios4);
                                 this.setState({ dominios: _dominios4 });
                             } else {
                                 if (elemento[1].nivel_generica_id) {
@@ -4808,9 +4850,15 @@ function handleAddElement(key, elemento) {
                                     });
                                     this.setState({ competencias_genericas: _competencias_genericas });
                                 } else {
-                                    var state = this.state[key];
-                                    state.push(elemento);
-                                    this.setState(_defineProperty({}, key, state));
+                                    if (key == "niveles") {
+                                        var niveles = this.state["niveles"];
+                                        niveles.push(elemento);
+                                        this.setState(_defineProperty({}, key, niveles));
+                                    } else {
+                                        var state = this.state[key];
+                                        state.push(elemento);
+                                        this.setState(_defineProperty({}, key, state));
+                                    }
                                 }
                             }
                         }
@@ -5036,10 +5084,49 @@ function borrarElemento(objeto, propiedad, addNotification) {
 
                                 _this.setState({ asignaturas: _asignaturas4 });
                             } else {
-                                var newstate = _this.state[objeto].filter(function (el) {
-                                    return el.id != propiedad;
-                                });
-                                _this.setState(_defineProperty({}, objeto, newstate));
+                                if (objeto == 'competencia_evaluaciones') {
+                                    var _dominios10 = _this.state.dominios.map(function (dominio) {
+                                        return _extends({}, dominio, { competencias: dominio.competencias.map(function (competencia) {
+                                                return _extends({}, competencia, { nivel_competencias: competencia.nivel_competencias.map(function (nivel_competencia) {
+                                                        return _extends({}, nivel_competencia, { nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.map(function (nivel_competencia_asignatura) {
+                                                                return _extends({}, nivel_competencia_asignatura, { competencia_evaluaciones: nivel_competencia_asignatura.competencia_evaluaciones.filter(function (competencia_evaluacion) {
+                                                                        return competencia_evaluacion.id != propiedad;
+                                                                    })
+                                                                });
+                                                            })
+                                                        });
+                                                    })
+                                                });
+                                            })
+                                        });
+                                    });
+
+                                    _this.setState({ dominios: _dominios10 });
+                                } else {
+                                    if (objeto == 'generica_evaluaciones') {
+                                        var _competencias_genericas3 = _this.state.competencias_genericas.map(function (competencias_generica) {
+                                            return _extends({}, competencias_generica, { nivel_competencias: competencias_generica.nivel_competencias.map(function (nivel_competencia) {
+                                                    return _extends({}, nivel_competencia, { nivel_genericas: nivel_competencia.nivel_genericas.map(function (nivel_generica) {
+                                                            return _extends({}, nivel_generica, { nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.map(function (nivel_generica_asignatura) {
+                                                                    return _extends({}, nivel_generica_asignatura, { generica_evaluaciones: nivel_generica_asignatura.generica_evaluaciones.filter(function (generica_evaluacion) {
+                                                                            return generica_evaluacion.id != propiedad;
+                                                                        })
+                                                                    });
+                                                                })
+                                                            });
+                                                        })
+                                                    });
+                                                })
+                                            });
+                                        });
+                                        _this.setState({ competencias_genericas: _competencias_genericas3 });
+                                    } else {
+                                        var newstate = _this.state[objeto].filter(function (el) {
+                                            return el.id != propiedad;
+                                        });
+                                        _this.setState(_defineProperty({}, objeto, newstate));
+                                    }
+                                }
                             }
                         }
                     }
@@ -9178,6 +9265,7 @@ var index = function (_Component) {
                                     niveles: this.state.niveles,
                                     handleInputArrays: this.handleInputArrays,
                                     handleInputArraysAsignatura: this.handleInputArraysAsignatura,
+                                    handleAddElement: this.handleAddElement,
                                     handleAddElementAsignatura: this.handleAddElementAsignatura,
                                     borrarElementoAsignatura: this.borrarElementoAsignatura,
                                     habilitarGeneral: this.habilitarGeneral,
@@ -56878,6 +56966,7 @@ var edit = function (_Component) {
                                             'div',
                                             { className: 'col-6' },
                                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
+                                                disabled: _this4.state.deshabilitado,
                                                 className: 'form-control',
                                                 value: competencia_evaluacion.descripcion || '',
                                                 onChange: function onChange(e) {
@@ -59407,12 +59496,12 @@ var index = function (_Component) {
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'span',
                                             { className: 'd-sm-none' },
-                                            nivel.nombre
+                                            "Nivel " + nivel.nombre
                                         ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'span',
                                             { className: 'd-sm-block d-none' },
-                                            nivel.nombre
+                                            "Nivel " + nivel.nombre
                                         )
                                     )
                                 ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -59424,12 +59513,12 @@ var index = function (_Component) {
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'span',
                                             { className: 'd-sm-none' },
-                                            nivel.nombre
+                                            "Nivel " + nivel.nombre
                                         ),
                                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'span',
                                             { className: 'd-sm-block d-none' },
-                                            nivel.nombre
+                                            "Nivel " + nivel.nombre
                                         )
                                     )
                                 );
@@ -59448,6 +59537,7 @@ var index = function (_Component) {
                                         asignaturas: _this2.props.asignaturas,
                                         handleInputArrays: _this2.props.handleInputArrays,
                                         handleInputArraysAsignatura: _this2.props.handleInputArraysAsignatura,
+                                        handleAddElement: _this2.props.handleAddElement,
                                         handleAddElementAsignatura: _this2.props.handleAddElementAsignatura,
                                         borrarElementoAsignatura: _this2.props.borrarElementoAsignatura,
                                         habilitarGeneral: _this2.props.habilitarGeneral,
@@ -59462,6 +59552,7 @@ var index = function (_Component) {
                                         asignaturas: _this2.props.asignaturas,
                                         handleInputArrays: _this2.props.handleInputArrays,
                                         handleInputArraysAsignatura: _this2.props.handleInputArraysAsignatura,
+                                        handleAddElement: _this2.props.handleAddElement,
                                         handleAddElementAsignatura: _this2.props.handleAddElementAsignatura,
                                         borrarElementoAsignatura: _this2.props.borrarElementoAsignatura,
                                         habilitarGeneral: _this2.props.habilitarGeneral,
@@ -59575,6 +59666,7 @@ var show = function (_Component) {
                                 niveles: _this2.props.niveles,
                                 handleInputArrays: _this2.props.handleInputArrays,
                                 handleInputArraysAsignatura: _this2.props.handleInputArraysAsignatura,
+                                handleAddElement: _this2.props.handleAddElement,
                                 handleAddElementAsignatura: _this2.props.handleAddElementAsignatura,
                                 borrarElementoAsignatura: _this2.props.borrarElementoAsignatura,
                                 habilitarGeneral: _this2.props.habilitarGeneral,
@@ -59603,6 +59695,8 @@ var show = function (_Component) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__requisitos_index__ = __webpack_require__(532);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__horas_index__ = __webpack_require__(533);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__bibliografias_index__ = __webpack_require__(535);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59625,6 +59719,7 @@ var edit = function (_Component) {
         var _this = _possibleConstructorReturn(this, (edit.__proto__ || Object.getPrototypeOf(edit)).call(this, props));
 
         _this.state = {
+            nivel: _this.props.asignatura.nivel_id,
             openRequisitos: false,
             openHoras: false,
             openBibliografias: false,
@@ -59684,27 +59779,74 @@ var edit = function (_Component) {
 
             //e.preventDefault();
             this.setState({ guardando: true });
-            fetch('/api/asignaturas/' + this.props.asignatura.id, {
-                method: 'put',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(this.props.asignatura)
-            }).then(function (response) {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw "Error en la llamada Ajax";
-                }
-            }).then(function (data) {
-                _this2.props.addNotification();
-            }).catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            }).finally(function () {
-                [_this2.setState({ guardando: false, deshabilitado: true }), _this2.props.habilitarGeneral(true)];
-            });
-            //console.log('formulario enviado',this.state);
+            if (!this.props.niveles.some(function (nivel) {
+                return nivel.id == _this2.state.nivel;
+            })) {
+                fetch('/api/niveles/', {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+
+                    body: JSON.stringify({
+                        plan_estudio_id: this.props.niveles[0].plan_estudio_id,
+                        nombre: this.state.nivel
+                    })
+                }).then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw "Error en la llamada Ajax";
+                    }
+                }).then(function (data) {
+                    [_this2.props.handleAddElement('niveles', data), _this2.props.addNotification()];
+                }).catch(function (error) {
+                    console.log('Hubo un problema con la petición Fetch:' + error.message);
+                }).then(fetch('/api/asignaturas/' + this.props.asignatura.id, {
+                    method: 'put',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(_extends({}, this.props.asignatura, { nivel_id: this.state.nivel
+                    }))
+                }).then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw "Error en la llamada Ajax";
+                    }
+                }).then(function (data) {
+                    [_this2.props.handleInputArrays(_this2.state.nivel, 'asignaturas', 'nivel_id', _this2.props.asignatura.id), _this2.props.addNotification()];
+                }).catch(function (error) {
+                    console.log('Hubo un problema con la petición Fetch:' + error.message);
+                })).finally(function () {
+                    [_this2.setState({ guardando: false, deshabilitado: true }), _this2.props.habilitarGeneral(true)];
+                });
+            } else {
+                fetch('/api/asignaturas/' + this.props.asignatura.id, {
+                    method: 'put',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(_extends({}, this.props.asignatura, { nivel_id: this.state.nivel
+                    }))
+                }).then(function (response) {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw "Error en la llamada Ajax";
+                    }
+                }).then(function (data) {
+                    [_this2.props.handleInputArrays(_this2.state.nivel, 'asignaturas', 'nivel_id', _this2.props.asignatura.id), _this2.props.addNotification()];
+                }).catch(function (error) {
+                    console.log('Hubo un problema con la petición Fetch:' + error.message);
+                }).finally(function () {
+                    [_this2.setState({ guardando: false, deshabilitado: true }), _this2.props.habilitarGeneral(true)];
+                });
+            }
         }
     }, {
         key: 'render',
@@ -59717,7 +59859,7 @@ var edit = function (_Component) {
             var extra_aulas = this.props.asignatura.asignatura_horas.find(function (asignatura_hora) {
                 return asignatura_hora.tipo_hora.nombre == 'Extra Aula';
             });
-            if (this.props.asignatura.nivel.nombre == "Nivel 1") {
+            if (this.props.asignatura.nivel.nombre == 1) {
                 var nivel1 = true;
             } else {
                 var requisitoNiveles = [];
@@ -59741,6 +59883,9 @@ var edit = function (_Component) {
                     });
                 }
             }
+            // var opcionNiveles = this.state.asignaturas.filter(asignatura =>
+            //     asignatura.requisito.some
+            //     );
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
                 { className: "my-2 " + (!this.props.habilitadogeneral && this.state.deshabilitado ? "deshabilitado" : "") },
@@ -59770,25 +59915,28 @@ var edit = function (_Component) {
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'select',
-                                { defaultValue: "",
+                                { defaultValue: this.props.asignatura.nivel.id,
                                     className: 'form-control ',
                                     onChange: function onChange(e) {
-                                        return _this3.props.handleInputArrays(e, 'asignaturas', 'nivel_id', _this3.props.asignatura.id);
+                                        return _this3.setState({ nivel: Number(e.target.value) });
                                     } },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'option',
                                     { disabled: true, value: '' },
                                     'Seleccione una Opci\xF3n'
                                 ),
+                                this.props.niveles.map(function (nivel, i) {
+                                    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        'option',
+                                        { key: i, value: nivel.id },
+                                        'Nivel ',
+                                        nivel.nombre
+                                    );
+                                }),
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'option',
-                                    { value: '1' },
-                                    'Nivel 1'
-                                ),
-                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                    'option',
-                                    { value: '2' },
-                                    'Nivel 2'
+                                    { value: this.props.niveles[this.props.niveles.length - 1].id + 1 },
+                                    "Nivel " + (this.props.niveles[this.props.niveles.length - 1].nombre + 1)
                                 )
                             )
                         )
@@ -59865,7 +60013,7 @@ var edit = function (_Component) {
                                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'li',
                                         { key: i },
-                                        requisitoNivel.requisitos ? [requisitoNivel.nombre + ':', __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                        requisitoNivel.requisitos ? ["Nivel " + requisitoNivel.nombre + ':', __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                             'ol',
                                             { key: i },
                                             requisitoNivel.requisitos.map(function (requisito, i) {
@@ -59875,7 +60023,7 @@ var edit = function (_Component) {
                                                     requisito.requisito.nombre
                                                 );
                                             })
-                                        )] : requisitoNivel.nombre + ' Completo'
+                                        )] : "Nivel " + requisitoNivel.nombre + ' Completo'
                                     );
                                 })
                             )
@@ -60492,7 +60640,7 @@ var edit = function (_Component) {
                     handleCloseRequisitos: this.handleCloseRequisitos,
                     requisitos: this.props.asignatura.requisitos,
                     opcionRequisitos: this.props.asignaturas.filter(function (asignatura) {
-                        return asignatura.nivel.nombre.substr(-1) < _this3.props.asignatura.nivel.nombre.substr(-1);
+                        return asignatura.nivel.nombre < _this3.props.asignatura.nivel.nombre;
                     }),
                     asignaturaId: this.props.asignatura.id,
                     asignaturaNombre: this.props.asignatura.nombre,
@@ -60710,8 +60858,7 @@ function requisitos(_ref) {
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         __WEBPACK_IMPORTED_MODULE_11__material_ui_core_Typography__["a" /* default */],
                         { variant: 'h6', className: classes.title },
-                        asignaturaNombre || "Sin Nombre",
-                        console.log('addrequisito', addrequisito)
+                        asignaturaNombre || "Sin Nombre"
                     )
                 )
             ),

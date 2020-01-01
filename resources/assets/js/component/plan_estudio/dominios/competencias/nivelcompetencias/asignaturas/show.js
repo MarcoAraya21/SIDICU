@@ -107,6 +107,7 @@ export default class edit extends Component {
                                                         <div className="row">
                                                             <div className="col-6">
                                                                 <input type="text"
+                                                                    disabled={this.state.deshabilitado}
                                                                     className="form-control"
                                                                     value={competencia_evaluacion.descripcion || ''}
                                                                     onChange={(e) => this.props.handleInputArrays(e, 'competencia_evaluaciones', 'descripcion', competencia_evaluacion.id)}>

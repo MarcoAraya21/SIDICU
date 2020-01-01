@@ -110,9 +110,7 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
                             {asignaturaNombre || "Sin Nombre"}
-                            {console.log('addrequisito', addrequisito)}
                         </Typography>
-
                     </Toolbar>
                 </AppBar>
                 <DialogContent>

@@ -22,15 +22,15 @@ export default class index extends Component {
                                     i == 0 ? 
                                     <li className="nav-items" key={i}>
                                         <a href="#nivel-tab-show" data-toggle="tab" className="nav-link active">
-                                            <span className="d-sm-none">{nivel.nombre}</span>
-                                            <span className="d-sm-block d-none">{nivel.nombre}</span>
+                                            <span className="d-sm-none">{"Nivel " + nivel.nombre}</span>
+                                            <span className="d-sm-block d-none">{"Nivel " + nivel.nombre}</span>
                                         </a>
                                     </li>
                                     :
                                     <li className="nav-items" key={i}>
                                         <a href={"#nivel-tab-"+i} data-toggle="tab" className="nav-link">
-                                            <span className="d-sm-none">{nivel.nombre}</span>
-                                            <span className="d-sm-block d-none">{nivel.nombre}</span>
+                                            <span className="d-sm-none">{"Nivel " + nivel.nombre}</span>
+                                            <span className="d-sm-block d-none">{"Nivel " + nivel.nombre}</span>
                                         </a>
                                     </li>
                                 )
@@ -48,6 +48,7 @@ export default class index extends Component {
                                         asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                        handleAddElement = {this.props.handleAddElement}
                                         handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
                                         borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                         habilitarGeneral = {this.props.habilitarGeneral}
@@ -63,6 +64,7 @@ export default class index extends Component {
                                         asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                        handleAddElement = {this.props.handleAddElement}
                                         handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
                                         borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                         habilitarGeneral = {this.props.habilitarGeneral}
