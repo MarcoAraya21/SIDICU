@@ -110,14 +110,16 @@ export function handleInputArrays(e, objeto, propiedad, indice) {
             else {
                 if (objeto == "asignaturas") {
                     var state = this.state[objeto];
-                    console.log('e', e);
                     if (e.target) {
                         state.find(asignatura => asignatura.id == indice)[propiedad] = e.target.value;
                     }
                     else {
                         state.find(asignatura => asignatura.id == indice)[propiedad] = e;
                     }
-
+                    if(propiedad == "nivel_id")
+                    {
+                        state.find(asignatura => asignatura.id == indice)['nivel'] = this.state.niveles.find(nivel => nivel.id == ((e.target && e.target.value) || e))
+                    }
                     this.setState({ [objeto]: state });
                 }
                 else {
@@ -202,7 +204,8 @@ export function handleInputArraysAsignatura(e, objeto, propiedad, indice, idAsig
                     return {
                         ...objetoSingle,
                         [propiedad]: (objetoSingle.id == indice) ?
-                            (e.target ? e.target.value : e) : objetoSingle[propiedad]
+                            (e.target ? (propiedad == "cantidad" ? Number(e.target.value) : e.target.value) : e)
+                            : objetoSingle[propiedad]
                     }
                 })
             }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
-import Requisitos from './requisitos/index'
 import Horas from './horas/index'
+import Requisitos from './requisitos/index'
+import Metodologias from './metodologias/index'
 import Bibliografias from './bibliografias/index'
 
 export default class edit extends Component {
@@ -8,16 +9,19 @@ export default class edit extends Component {
         super(props)
         this.state = {
             nivel: this.props.asignatura.nivel_id,
-            openRequisitos: false,
             openHoras: false,
+            openRequisitos: false,
+            openMetodologias: false,
             openBibliografias: false,
             deshabilitado: true
         }
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleOpenRequisitos = this.handleOpenRequisitos.bind(this);
-        this.handleCloseRequisitos = this.handleCloseRequisitos.bind(this);
         this.handleOpenHoras = this.handleOpenHoras.bind(this);
         this.handleCloseHoras = this.handleCloseHoras.bind(this);
+        this.handleOpenRequisitos = this.handleOpenRequisitos.bind(this);
+        this.handleCloseRequisitos = this.handleCloseRequisitos.bind(this);
+        this.handleOpenMetodologias = this.handleOpenMetodologias.bind(this);
+        this.handleCloseMetodologias = this.handleCloseMetodologias.bind(this);
         this.handleOpenBibliografias = this.handleOpenBibliografias.bind(this);
         this.handleCloseBibliografias = this.handleCloseBibliografias.bind(this);
         this.habilitar = this.habilitar.bind(this);
@@ -30,6 +34,13 @@ export default class edit extends Component {
         this.setState({ deshabilitado: false });
     }
 
+    handleOpenHoras() {
+        this.setState({ openHoras: true });
+    }
+    handleCloseHoras() {
+        this.setState({ openHoras: false });
+    }
+
     handleOpenRequisitos() {
         this.setState({ openRequisitos: true });
     }
@@ -37,11 +48,11 @@ export default class edit extends Component {
         this.setState({ openRequisitos: false });
     }
 
-    handleOpenHoras() {
-        this.setState({ openHoras: true });
+    handleOpenMetodologias() {
+        this.setState({ openMetodologias: true });
     }
-    handleCloseHoras() {
-        this.setState({ openHoras: false });
+    handleCloseMetodologias() {
+        this.setState({ openMetodologias: false });
     }
 
     handleOpenBibliografias() {
@@ -78,7 +89,12 @@ export default class edit extends Component {
                     }
 
                 })
-                .then(data => { [this.props.handleAddElement('niveles', data), this.props.addNotification()] })
+                .then(data => {
+                    [
+                        alert('se ha creado el nivel ' + this.state.nivel),
+                        this.props.handleAddElement('niveles', data),
+                    ]
+                })
                 .catch(function (error) {
                     console.log('Hubo un problema con la petición Fetch:' + error.message);
                 })
@@ -103,18 +119,20 @@ export default class edit extends Component {
                             }
 
                         })
-                        .then(data => {[this.props.handleInputArrays(this.state.nivel, 'asignaturas', 'nivel_id', this.props.asignatura.id),
-                            this.props.addNotification()]})
+                        .then(data => {
+                            [
+                                this.setState({ guardando: false, deshabilitado: true }),
+                                this.props.habilitarGeneral(true),
+                                this.state.nivel != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel),
+                                this.props.handleInputArrays(this.state.nivel, 'asignaturas', 'nivel_id', this.props.asignatura.id),
+                                this.props.addNotification()
+                            ]
+                        })
                         .catch(function (error) {
                             console.log('Hubo un problema con la petición Fetch:' + error.message);
                         })
-                
+
                 )
-                .finally(() => {
-                    [this.setState({ guardando: false, deshabilitado: true }),
-                    this.props.habilitarGeneral(true)
-                    ]
-                });
 
         }
         else {
@@ -138,16 +156,18 @@ export default class edit extends Component {
                     }
 
                 })
-                .then(data => {[this.props.handleInputArrays(this.state.nivel, 'asignaturas', 'nivel_id', this.props.asignatura.id),
-                this.props.addNotification()]})
+                .then(data => {
+                    [
+                        this.setState({ guardando: false, deshabilitado: true }),
+                        this.props.habilitarGeneral(true),
+                        this.state.nivel != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel),
+                        this.props.handleInputArrays(this.state.nivel, 'asignaturas', 'nivel_id', this.props.asignatura.id),
+                        this.props.addNotification()
+                    ]
+                })
                 .catch(function (error) {
                     console.log('Hubo un problema con la petición Fetch:' + error.message);
                 })
-                .finally(() => {
-                    [this.setState({ guardando: false, deshabilitado: true }),
-                    this.props.habilitarGeneral(true)
-                    ]
-                });
         }
 
     }
@@ -162,48 +182,75 @@ export default class edit extends Component {
         }
         else {
             var requisitoNiveles = [];
+            // if (this.props.asignatura.requisitos.length > 0) {
+            //     this.props.niveles.slice(0, -1).map((nivel, i) => {
+            //         if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length ==
+            //             this.props.asignaturas.filter(asignatura2 => asignatura2.nivel.nombre == nivel.nombre).length) {
+            //             requisitoNiveles[i] = { 'nombre': nivel.nombre }
+            //         }
+            //         else {
+            //             if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
+            //                 requisitoNiveles[i] = { 'nombre': nivel.nombre, 'requisitos': this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre) }
+            //             }
+            //         }
+            //     })
+            // }
             if (this.props.asignatura.requisitos.length > 0) {
-                this.props.niveles.slice(0, -1).map((nivel, i) => {
-                    if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length ==
-                        this.props.asignaturas.filter(asignatura2 => asignatura2.nivel.nombre == nivel.nombre).length) {
-                        requisitoNiveles[i] = { 'nombre': nivel.nombre }
-                    }
-                    else {
-                        if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
-                            requisitoNiveles[i] = { 'nombre': nivel.nombre, 'requisitos': this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre) }
+                this.props.niveles.filter(nivel => nivel.nombre < this.props.asignatura.nivel.nombre).map((nivel, i) => {
+                    if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
+                        if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length ==
+                            this.props.asignaturas.filter(asignatura2 => asignatura2.nivel.nombre == nivel.nombre).length) {
+                            requisitoNiveles[i] = { 'nombre': nivel.nombre }
+                        }
+                        else {
+                            if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
+                                requisitoNiveles[i] = { 'nombre': nivel.nombre, 'requisitos': this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre) }
+                            }
                         }
                     }
+
                 })
             }
         }
-        // var opcionNiveles = this.state.asignaturas.filter(asignatura =>
-        //     asignatura.requisito.some
-        //     );
+        var requisitoSuperior = this.props.asignaturas.filter(asignatura =>
+            asignatura.requisitos.some(requisito =>
+                requisito.requisito.id == this.props.asignatura.id
+            )
+        ).sort((a, b) => a.nivel.nombre - b.nivel.nombre)[0] || null;
+        var requisitoSuperior = requisitoSuperior && requisitoSuperior.nivel.nombre;
+
+        var requisitoInferior = this.props.asignatura.requisitos.sort((a, b) =>
+            b.requisito.nivel.nombre - a.requisito.nivel.nombre)[0] || null;
+        var requisitoInferior = requisitoInferior && requisitoInferior.requisito.nivel.nombre;
+
+        var requisitosAsignatura = this.props.niveles.filter(nivel => (requisitoSuperior ? (nivel.nombre < requisitoSuperior) : !requisitoSuperior) &&
+            (requisitoInferior ? (nivel.nombre > requisitoInferior) : !requisitoInferior) &&
+            (nivel.nombre != this.props.asignatura.nivel.nombre)
+        )
+
+        if (!requisitoSuperior) {
+            requisitosAsignatura = requisitosAsignatura.concat({ 'id': this.props.niveles[this.props.niveles.length - 1].id + 1, 'nombre': this.props.niveles[this.props.niveles.length - 1].nombre + 1 });
+        }
         return (
             <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
                 <div className="col-12 mb-2">
                     <div className="col row mb-2">
                         <div className="col-6">
                             <label>Nombre</label>
-                            <input disabled type="text" className="form-control">
+                            <input disabled type="text" className="form-control" placeholder={this.props.asignatura.nombre}>
                             </input>
                         </div>
                         <div className="col-6">
-                            <label>Nivel</label>
-                            <select defaultValue={this.props.asignatura.nivel.id}
+                            <label>Cambiar Nivel</label>
+                            <select disabled={requisitosAsignatura.length == 0} defaultValue={""}
                                 className="form-control "
                                 onChange={(e) => this.setState({ nivel: Number(e.target.value) })}>
                                 <option disabled value="">Seleccione una Opción</option>
                                 {
-                                    this.props.niveles.map((nivel, i) =>
-                                        <option key={i} value={nivel.id}>Nivel {nivel.nombre}</option>
+                                    requisitosAsignatura.map((requisitoAsignatura, i) =>
+                                        <option key={i} value={requisitoAsignatura.id}>Nivel {requisitoAsignatura.nombre}</option>
                                     )
                                 }
-                                <option value={this.props.niveles[this.props.niveles.length - 1].id + 1}>
-                                    {
-                                        "Nivel " + (this.props.niveles[this.props.niveles.length - 1].nombre + 1)
-                                    }
-                                </option>
                             </select>
                         </div>
                     </div>
@@ -263,13 +310,13 @@ export default class edit extends Component {
                     </div>
                     <div className="col row mb-2">
                         <div className="col-6">
-                            <label>Regimen</label>
-                            <select defaultValue={""}
-                                className="form-control "
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'regimen_id', this.props.asignatura.id)}>
-                                <option disabled value="">Seleccione una Opción</option>
-                                <option value='1'>Semestral</option>
-                            </select>
+                            <label>SCT</label>
+                            <input disabled type="number" className="form-control"
+                                placeholder={(aulas.reduce((previous, current) => {
+                                    return Number(previous) + Number(current.cantidad);
+                                }, 0) +
+                                    extra_aulas.cantidad) / 2}>
+                            </input>
                         </div>
                         <div className="col-6">
                             <label>Modalidad</label>
@@ -278,6 +325,37 @@ export default class edit extends Component {
                                 onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'modalidad_id', this.props.asignatura.id)}>
                                 <option disabled value="">Seleccione una Opción</option>
                                 <option value='1'>Presencial</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col row mb-2">
+                        <div className="col-6">
+                            <strong>Horas</strong>
+                            <ol>
+                                <li>
+                                    Aula: {aulas.reduce((previous, current) => {
+                                        return Number(previous) + Number(current.cantidad);
+                                    }, 0)}
+                                    <ul>
+                                        {aulas.map(aula =>
+                                            <li key={aula.id}>{aula.tipo_hora.nombre}: {aula.cantidad}</li>)}
+                                    </ul>
+                                </li>
+                                <li>{extra_aulas.tipo_hora.nombre}: {extra_aulas.cantidad}</li>
+                            </ol>
+                            <div>
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenHoras() }}>
+                                    <i className="fas fa-plus p-r-5" ></i>Modificar Horas
+                                </button>
+                            </div>
+                        </div>
+                        <div className="col-6">
+                            <label>Regimen</label>
+                            <select defaultValue={""}
+                                className="form-control "
+                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'regimen_id', this.props.asignatura.id)}>
+                                <option disabled value="">Seleccione una Opción</option>
+                                <option value='1'>Semestral</option>
                             </select>
                         </div>
                     </div>
@@ -364,121 +442,103 @@ export default class edit extends Component {
                             onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'perfil_ayudante', this.props.asignatura.id)}>
                         </textarea>
                     </div>
-                </div>
-                <div className="col-12 mb-2 row">
-                    <div className="col-4">
-                        <label>Requisito</label>
-                        PENDIENTE
-                    </div>
-                </div>
-                <div className="col-12 mb-2 row">
-                    <div className="col-4">
-                        <strong>Horas</strong>
-                        <ol>
-                            <li>
-                                Aula: {aulas.reduce((previous, current) => {
-                                    return Number(previous) + Number(current.cantidad);
-                                }, 0)}
-                                <ul>
-                                    {aulas.map(aula =>
-                                        <li key={aula.id}>{aula.tipo_hora.nombre}: {aula.cantidad}</li>)}
-                                </ul>
-                            </li>
-                            <li>{extra_aulas.tipo_hora.nombre}: {extra_aulas.cantidad}</li>
-                        </ol>
-                        <div>
-                            <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenHoras() }}>
-                                <i className="fas fa-plus p-r-5" ></i>Modificar Horas
-                            </button>
+                    <div className="col row mb-2">
+                        <div className="col-6">
+                            <strong>Niveles de Competencias</strong>
+                            {this.props.asignatura.nivel_competencia_asignaturas.length > 0 ?
+                                <ol>
+                                    {this.props.asignatura.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
+                                        <li key={i}>{nivel_competencia_asignatura.nivel_competencia.descripcion}
+                                            <a className="m-l-5" href="" target="_blank">
+                                                <span className="badge badge-info">Ver</span>
+                                            </a>
+                                        </li>
+                                    )}
+                                </ol>
+                                :
+                                <p>No Posee</p>
+                            }
+                        </div>
+                        <div className="col-6">
+                            <strong>Niveles de Competencias Genericas</strong>
+                            {this.props.asignatura.nivel_generica_asignaturas.length > 0 ?
+                                <ol>
+                                    {this.props.asignatura.nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
+                                        <li key={i}>{nivel_generica_asignatura.nivel_generica.nivel_competencia.descripcion}
+                                            <a className="m-l-5" href="" target="_blank">
+                                                <span className="badge badge-info">Ver</span>
+                                            </a>
+                                        </li>
+                                    )}
+                                </ol>
+                                :
+                                <p>No Posee</p>
+                            }
                         </div>
                     </div>
-                    <div className="col-4">
-                        <strong>Unidades</strong>
-                        {this.props.asignatura.unidades.length > 0 ?
-                            <ol>
-                                {this.props.asignatura.unidades.map((unidad, i) =>
-                                    <li key={i}>{unidad.nombre}
-                                        <a className="m-l-5" href="" target="_blank">
-                                            <span className="badge badge-info">Ver</span>
-                                        </a>
-                                    </li>
-                                )}
-                            </ol>
-                            :
-                            <p>No Posee</p>
-                        }
-                        <div>
-                            <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary">
-                                <i className="fas fa-plus p-r-5" ></i>Unidades
-                            </button>
+                    <div className="col row mb-2">
+                        <div className="col-4">
+                            <strong>Unidades</strong>
+                            {this.props.asignatura.unidades.length > 0 ?
+                                <ol>
+                                    {this.props.asignatura.unidades.map((unidad, i) =>
+                                        <li key={i}>{unidad.nombre}
+                                            <a className="m-l-5" href="" target="_blank">
+                                                <span className="badge badge-info">Ver</span>
+                                            </a>
+                                        </li>
+                                    )}
+                                </ol>
+                                :
+                                <p>No Posee</p>
+                            }
+                            <div>
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary">
+                                    <i className="fas fa-plus p-r-5" ></i>Unidades
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div className="col-4">
-                        <strong>Bibliografias</strong>
-                        {this.props.asignatura.bibliografias.length > 0 ?
-                            <ol>
-                                {this.props.asignatura.bibliografias.map((bibliografia, i) =>
-                                    <li key={i}>{bibliografia.titulo}
-                                        <a className="m-l-5" href="" target="_blank">
-                                            <span className="badge badge-info">Ver</span>
-                                        </a>
-                                    </li>
-                                )}
-                            </ol>
-                            :
-                            <p>No Posee</p>
-                        }
-                        <div>
-                            <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenBibliografias() }}>
-                                <i className="fas fa-plus p-r-5" ></i>Bibliografias
-                            </button>
+                        <div className="col-4">
+                            <strong>Metodología</strong>
+                            {this.props.asignatura.asignatura_metodologias.length > 0 ?
+                                <ol>
+                                    {this.props.asignatura.asignatura_metodologias.map((asignatura_metodologia, i) =>
+                                        <li key={i}>{asignatura_metodologia.metodologia.nombre}
+                                            <a className="m-l-5" href="" target="_blank">
+                                                <span className="badge badge-info">Ver</span>
+                                            </a>
+                                        </li>
+                                    )}
+                                </ol>
+                                :
+                                <p>No Posee</p>
+                            }
+                            <div>
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenMetodologias() }}>
+                                    <i className="fas fa-plus p-r-5" ></i>Metodologias
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <div className="col-12 row">
-                    Dentro se encuentra <p style={{ textDecoration: 'line-through' }}>
-                        la Metodología de enseñanza y aprendizaje</p>
-                    Evaluaciones
-                    <div className="col-6">
-                        <strong>Niveles de Competencias</strong>
-                        {this.props.asignatura.nivel_competencia_asignaturas.length > 0 ?
-                            <ol>
-                                {this.props.asignatura.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
-                                    <li key={i}>{nivel_competencia_asignatura.nivel_competencia.descripcion}
-                                        <a className="m-l-5" href="" target="_blank">
-                                            <span className="badge badge-info">Ver</span>
-                                        </a>
-                                    </li>
-                                )}
-                            </ol>
-                            :
-                            <p>No Posee</p>
-                        }
-                        <div>
-                            <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary">
-                                <i className="fas fa-plus p-r-5" ></i>Niveles de Competencias
-                            </button>
-                        </div>
-                    </div>
-                    <div className="col-6">
-                        <strong>Niveles de Competencias Genericas</strong>
-                        {this.props.asignatura.nivel_generica_asignaturas.length > 0 ?
-                            <ol>
-                                {this.props.asignatura.nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
-                                    <li key={i}>{nivel_generica_asignatura.nivel_generica.nivel_competencia.descripcion}
-                                        <a className="m-l-5" href="" target="_blank">
-                                            <span className="badge badge-info">Ver</span>
-                                        </a>
-                                    </li>
-                                )}
-                            </ol>
-                            :
-                            <p>No Posee</p>
-                        }
-                        <div>
-                            <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary">
-                                <i className="fas fa-plus p-r-5" ></i>Niveles de Competencias Genericas
-                            </button>
+                        <div className="col-4">
+                            <strong>Bibliografias</strong>
+                            {this.props.asignatura.bibliografias.length > 0 ?
+                                <ol>
+                                    {this.props.asignatura.bibliografias.map((bibliografia, i) =>
+                                        <li key={i}>{bibliografia.titulo}
+                                            <a className="m-l-5" href="" target="_blank">
+                                                <span className="badge badge-info">Ver</span>
+                                            </a>
+                                        </li>
+                                    )}
+                                </ol>
+                                :
+                                <p>No Posee</p>
+                            }
+                            <div>
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenBibliografias() }}>
+                                    <i className="fas fa-plus p-r-5" ></i>Bibliografias
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -492,6 +552,18 @@ export default class edit extends Component {
                         }}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
                 </div>
+                <Horas
+                    openHoras={this.state.openHoras}
+                    handleCloseHoras={this.handleCloseHoras}
+                    asignatura_horas={this.props.asignatura.asignatura_horas}
+                    asignaturaId={this.props.asignatura.id}
+                    asignaturaNombre={this.props.asignatura.nombre}
+                    handleInputArrays={this.props.handleInputArrays}
+                    handleInputArraysAsignatura={this.props.handleInputArraysAsignatura}
+                    habilitarGeneral={this.props.habilitarGeneral}
+                    habilitadogeneral={this.props.habilitadogeneral}
+                    addNotification={this.props.addNotification}
+                />
                 <Requisitos
                     openRequisitos={this.state.openRequisitos}
                     handleCloseRequisitos={this.handleCloseRequisitos}
@@ -506,14 +578,14 @@ export default class edit extends Component {
                     habilitadogeneral={this.props.habilitadogeneral}
                     addNotification={this.props.addNotification}
                 />
-                <Horas
-                    openHoras={this.state.openHoras}
-                    handleCloseHoras={this.handleCloseHoras}
-                    asignatura_horas={this.props.asignatura.asignatura_horas}
+                <Metodologias
+                    openMetodologias={this.state.openMetodologias}
+                    handleCloseMetodologias={this.handleCloseMetodologias}
+                    asignatura_metodologias={this.props.asignatura.asignatura_metodologias}
                     asignaturaId={this.props.asignatura.id}
                     asignaturaNombre={this.props.asignatura.nombre}
-                    handleInputArrays={this.props.handleInputArrays}
-                    handleInputArraysAsignatura={this.props.handleInputArraysAsignatura}
+                    handleAddElementAsignatura={this.props.handleAddElementAsignatura}
+                    borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                     habilitarGeneral={this.props.habilitarGeneral}
                     habilitadogeneral={this.props.habilitadogeneral}
                     addNotification={this.props.addNotification}

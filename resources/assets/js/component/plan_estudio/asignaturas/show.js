@@ -44,7 +44,7 @@ export default class show extends Component {
         return (
             <div className="border p-3 mb-3">
                 <div className="col ui-sortable-disabled">
-                    <legend>Asignaturas del {this.props.nivelAsignatura.nombre}</legend>
+                    <legend>Asignaturas del Nivel {this.props.nivelAsignatura.nombre}</legend>
                     {
                         this.props.asignaturas && 
                         this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0 ?

@@ -57,6 +57,7 @@ export default class edit extends Component {
                     disabled={this.state.deshabilitado}
                     className="form-control"
                     pattern="[0-9]*"
+                    max="50"
                     value={this.props.asignatura_hora.cantidad || 0}
                     onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'asignatura_horas', 'cantidad', this.props.asignatura_hora.id, this.props.asignaturaId)}>
                          
