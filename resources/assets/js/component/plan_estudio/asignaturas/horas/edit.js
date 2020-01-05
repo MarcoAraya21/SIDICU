@@ -60,7 +60,6 @@ export default class edit extends Component {
                     max="50"
                     value={this.props.asignatura_hora.cantidad || 0}
                     onChange={(e)=>this.props.handleInputArraysAsignatura(e, 'asignatura_horas', 'cantidad', this.props.asignatura_hora.id, this.props.asignaturaId)}>
-                         
                 </input>
                 <div className="col-12 text-right mt-2">
                     <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>

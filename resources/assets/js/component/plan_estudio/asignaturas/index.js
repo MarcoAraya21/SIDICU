@@ -48,6 +48,7 @@ export default class index extends Component {
                                         asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                        borrarElemento = {this.props.borrarElemento}
                                         handleAddElement = {this.props.handleAddElement}
                                         handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
                                         borrarElementoAsignatura={this.props.borrarElementoAsignatura}
@@ -64,12 +65,14 @@ export default class index extends Component {
                                         asignaturas={this.props.asignaturas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                        borrarElemento = {this.props.borrarElemento}
                                         handleAddElement = {this.props.handleAddElement}
                                         handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
                                         borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}
+                                        ultimoNivel={nivelAsignatura.id == this.props.niveles[this.props.niveles.length - 1].id}
                                         />
                                     </div>
                                 )

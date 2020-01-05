@@ -119,6 +119,25 @@ export function handleInputArrays(e, objeto, propiedad, indice) {
                     if(propiedad == "nivel_id")
                     {
                         state.find(asignatura => asignatura.id == indice)['nivel'] = this.state.niveles.find(nivel => nivel.id == ((e.target && e.target.value) || e))
+                        state = state.map(asignatura => {
+                            if(asignatura.requisitos.some(requisito => requisito.requisito_id == state.find(asignatura => asignatura.id == indice).id))
+                            {   
+                                return {...asignatura, requisitos: asignatura.requisitos.map(requisito => {
+                                    if(requisito.requisito_id == state.find(asignatura => asignatura.id == indice).id)
+                                    {
+                                        return {...requisito, requisito: state.find(asignatura => asignatura.id == indice)};
+                                    }
+                                    else
+                                    {
+                                        return requisito;
+                                    }
+                                })}
+                            }
+                            else
+                            {
+                                return asignatura;
+                            }
+                        })
                     }
                     this.setState({ [objeto]: state });
                 }
@@ -197,23 +216,50 @@ export function handleInputArrays(e, objeto, propiedad, indice) {
 }
 
 export function handleInputArraysAsignatura(e, objeto, propiedad, indice, idAsignatura) {
-    var asignaturas = this.state['asignaturas'].map(asignatura => {
-        if (asignatura.id == idAsignatura) {
-            return {
-                ...asignatura, [objeto]: asignatura[objeto].map(objetoSingle => {
-                    return {
-                        ...objetoSingle,
-                        [propiedad]: (objetoSingle.id == indice) ?
-                            (e.target ? (propiedad == "cantidad" ? Number(e.target.value) : e.target.value) : e)
-                            : objetoSingle[propiedad]
-                    }
-                })
+    if(objeto == "contenidos")
+    {
+        var asignaturas = this.state.asignaturas.map(asignatura => {
+            if (asignatura.id == idAsignatura) {
+                return {
+                    ...asignatura, unidades: asignatura.unidades.map(unidad => {
+                        return {
+                            ...unidad, contenidos: unidad.contenidos.map(contenido => {
+                                return {
+                                    ...contenido,
+                                    [propiedad]: (contenido.id == indice) ?
+                                        (e.target ? e.target.value : e)
+                                        : contenido[propiedad]
+                                }
+                            })
+                        }
+                    })
+                }
             }
-        }
-        else {
-            return asignatura;
-        }
-    });
+            else {
+                return asignatura;
+            }
+        });
+    }
+    else
+    {
+        var asignaturas = this.state['asignaturas'].map(asignatura => {
+            if (asignatura.id == idAsignatura) {
+                return {
+                    ...asignatura, [objeto]: asignatura[objeto].map(objetoSingle => {
+                        return {
+                            ...objetoSingle,
+                            [propiedad]: (objetoSingle.id == indice) ?
+                                (e.target ? (propiedad == "cantidad" ? Number(e.target.value) : e.target.value) : e)
+                                : objetoSingle[propiedad]
+                        }
+                    })
+                }
+            }
+            else {
+                return asignatura;
+            }
+        });
+    }
     this.setState({ asignaturas: asignaturas });
 }
 
@@ -481,16 +527,41 @@ export function handleAddElement(key, elemento) {
 }
 
 export function handleAddElementAsignatura(key, elemento, idAsignatura) {
-    let asignaturas = this.state.asignaturas.map(asignatura => {
-        if (asignatura.id == idAsignatura) {
-            return {
-                ...asignatura, [key]: [...asignatura[key], elemento]
+    if(key == "contenidos")
+    {
+        var asignaturas = this.state.asignaturas.map(asignatura => {
+            if (asignatura.id == idAsignatura) {
+                return {
+                    ...asignatura, unidades: asignatura.unidades.map(unidad => {
+                        if(unidad.id == elemento.unidad_id)
+                        {
+                            return {...unidad, contenidos: [...unidad.contenidos, elemento]};
+                        }
+                        else
+                        {
+                            return unidad;
+                        }
+                    })
+                }
             }
-        }
-        else {
-            return asignatura;
-        }
-    });
+            else {
+                return asignatura;
+            }
+        });
+    }
+    else
+    {
+        var asignaturas = this.state.asignaturas.map(asignatura => {
+            if (asignatura.id == idAsignatura) {
+                return {
+                    ...asignatura, [key]: [...asignatura[key], elemento]
+                }
+            }
+            else {
+                return asignatura;
+            }
+        });
+    }
     this.setState({ asignaturas: asignaturas });
 }
 //Permite manipular el estado cuando son checkbox
@@ -770,8 +841,17 @@ export function borrarElemento(objeto, propiedad, addNotification) {
                                             this.setState({ competencias_genericas: competencias_genericas })
                                         }
                                         else {
-                                            let newstate = this.state[objeto].filter((el) => el.id != propiedad)
-                                            this.setState({ [objeto]: newstate })
+                                            if (objeto == 'niveles') {
+                                                let niveles = this.state.niveles.filter(nivel => 
+                                                    nivel.id != propiedad
+                                                );
+                                
+                                                this.setState({ niveles: niveles })
+                                            }
+                                            else {
+                                                let newstate = this.state[objeto].filter((el) => el.id != propiedad)
+                                                this.setState({ [objeto]: newstate })
+                                            }
                                         }
                                     }
                                 }
@@ -801,18 +881,39 @@ export function borrarElementoAsignatura(objeto, propiedad, addNotification, idA
 
         })
         .then(() => {
-            let asignaturas = this.state.asignaturas.map(asignatura => {
-                if (asignatura.id == idAsignatura) {
-                    return {
-                        ...asignatura, [objeto]: asignatura[objeto].filter(objetoSingle =>
-                            objetoSingle.id != propiedad
-                        )
+            if(objeto == "contenidos")
+            {
+                var asignaturas = this.state.asignaturas.map(asignatura => {
+                    if (asignatura.id == idAsignatura) {
+                        return {
+                            ...asignatura, unidades: asignatura.unidades.map(unidad => {
+                                return {...unidad, contenidos: unidad.contenidos.filter(contenido => 
+                                    contenido.id != propiedad
+                                    )};
+                                // return {...unidad, contenidos: [...unidad.contenidos, elemento]};
+                            })
+                        }
                     }
-                }
-                else {
-                    return asignatura;
-                }
-            })
+                    else {
+                        return asignatura;
+                    }
+                });
+            }
+            else
+            {
+                var asignaturas = this.state.asignaturas.map(asignatura => {
+                    if (asignatura.id == idAsignatura) {
+                        return {
+                            ...asignatura, [objeto]: asignatura[objeto].filter(objetoSingle =>
+                                objetoSingle.id != propiedad
+                            )
+                        }
+                    }
+                    else {
+                        return asignatura;
+                    }
+                })
+            }     
             this.setState({ asignaturas: asignaturas })
         })
         .finally(() => { addNotification() });

@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, asignaturaId, asignaturaNombre, handleInputArrays,handleInputArraysAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
   const classes = useStyles();
 
   return (
@@ -73,7 +73,6 @@ export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, a
                     asignatura_hora={asignatura_hora}
                     asignaturaId={asignaturaId}
                     i={i}
-                    handleInputArrays={handleInputArrays}
                     handleInputArraysAsignatura= {handleInputArraysAsignatura}
                     habilitarGeneral={habilitarGeneral}
                     habilitadogeneral={habilitadogeneral}

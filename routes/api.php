@@ -50,5 +50,10 @@ Route::resource('niveles', 'NivelController', ['only' => ['store', 'destroy']]);
 Route::resource('metodologias', 'MetodologiaController', ['only' => ['index']]);
 Route::resource('asignatura_metodologias', 'AsignaturaMetodologiaController', ['only' => ['store', 'destroy']]);
 
+
+Route::apiResource('unidades', 'UnidadController', ['parameters' => [
+    'unidades' => 'unidad']]);
+Route::apiResource('contenidos', 'ContenidoController', ['parameters' => [
+    'contenidos' => 'contenido']]);
 Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
 

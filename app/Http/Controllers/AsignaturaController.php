@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Asignatura;
 use App\PlanEstudio;
 use App\NivelCompetencia;
+use App\NivelGenerica;
 use App\NivelCompetenciaAsignatura;
 use App\NivelGenericaAsignatura;
 
@@ -31,25 +32,40 @@ class AsignaturaController extends Controller
 
     public function store(Request $request)
     {
-        $nivel1id = NivelCompetencia::with(['competencia' => function ($query) {
-            $query
-            ->with(['dominio' => function ($query) {
+        if($request->nivel_competencia_id)
+        {
+            $nivel1id = NivelCompetencia::with(['competencia' => function ($query) {
                 $query
-                ->with(['plan_estudio' => function ($query) {
+                ->with(['dominio' => function ($query) {
+                    $query
+                    ->with(['plan_estudio' => function ($query) {
+                        $query
+                        ->with('niveles');
+                    }]);
+                }]);
+            }])->find($request->nivel_competencia_id)->competencia->dominio->plan_estudio->niveles[0]->id;
+        }
+        else
+        {
+            if($request->nivel_generica_id)
+            {
+                $nivel1id = NivelGenerica::with(['plan_estudio' => function ($query) {
                     $query
                     ->with('niveles');
-                }]);
-            }]);
-        }])->find($request->nivel_competencia_id)->competencia->dominio->plan_estudio->niveles[0]->id;
+                }])->find($request->nivel_generica_id)->plan_estudio->niveles[0]->id;
+            }
+        }
 
         if(!$request->nombre)
         {
             $request->nombre = 'Sin Nombre';
         }
+
         if(!$request->nivel_id)
         {
             $request->nivel_id = $nivel1id;
         }
+        
         $Asignatura = Asignatura::create(['nombre' => $request->nombre, 'nivel_id' => $request->nivel_id]);
         for ($i=1; $i <= 4  ; $i++) {
             $Asignatura->asignatura_horas()->create(['tipo_hora_id' => $i, 'cantidad' => 0]);
@@ -64,7 +80,7 @@ class AsignaturaController extends Controller
             if($request->nivel_generica_id)
             {
                 $Asignatura->nivel_generica_asignaturas()->create(['nivel_generica_id' => $request->nivel_generica_id]);
-                $tipo_competencia = NivelGenericaAsignatura::where('nivel_generica_id',$request->nivel_generica_id)->where('asignatura_id',$Asignatura->id)->with('generica_evaluaciones')->first();
+                $tipo_competencia = NivelGenericaAsignatura::where('nivel_generica_id',$request->nivel_generica_id)->where('asignatura_id',$Asignatura->id)->with('generica_evaluaciones')->first();                
             }
         }
         // dd($request);

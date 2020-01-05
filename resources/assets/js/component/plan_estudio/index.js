@@ -241,6 +241,7 @@ export default class index extends Component {
                                 handleInputArrays = {this.handleInputArrays}
                                 handleInputArraysAsignatura = {this.handleInputArraysAsignatura}
                                 handleAddElement = {this.handleAddElement}
+                                borrarElemento = {this.borrarElemento}
                                 handleAddElementAsignatura = {this.handleAddElementAsignatura}
                                 borrarElementoAsignatura = {this.borrarElementoAsignatura}
                                 habilitarGeneral = {this.habilitarGeneral}

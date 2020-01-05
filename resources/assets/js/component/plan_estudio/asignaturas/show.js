@@ -68,7 +68,18 @@ export default class show extends Component {
                         :
                             'No existen asignaturas en este nivel'
                     }
-                </div>  
+                </div>
+                {
+                    this.props.ultimoNivel &&
+                    <div className="col-12 text-right mt-2">
+                        <button type="button" disabled={!this.state.deshabilitado && this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0} className="btn btn-danger p-5 m-l-5"
+                            onClick={() => {
+                                if (window.confirm('¿Estas Seguro?'))
+                                    this.props.borrarElemento('niveles', this.props.nivelAsignatura.id, this.props.addNotification)
+                            }}>
+                            <i className="fas fa-times p-r-10"></i>Eliminar Nivel</button>
+                    </div>
+                }
             </div>     
         );
     }

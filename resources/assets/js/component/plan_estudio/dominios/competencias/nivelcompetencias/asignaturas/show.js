@@ -98,12 +98,11 @@ export default class edit extends Component {
                             <div className="col-12">
                                 <label>Procedimientos y/o Herramientas de Evaluación:</label>
                                 {
-                                    [console.log('dddda', this.props.nivel_competencia_asignatura),
                                     this.props.nivel_competencia_asignatura.competencia_evaluaciones.length > 0 ?
                                         <ol>
                                             {
-                                                this.props.nivel_competencia_asignatura.competencia_evaluaciones.map(competencia_evaluacion =>
-                                                    <li>
+                                                this.props.nivel_competencia_asignatura.competencia_evaluaciones.map((competencia_evaluacion,i) =>
+                                                    <li key={i}>
                                                         <div className="row">
                                                             <div className="col-6">
                                                                 <input type="text"
@@ -129,7 +128,7 @@ export default class edit extends Component {
                                             }
                                         </ol>
                                         :
-                                        ' Sin Evaluaciones']
+                                        ' Sin Evaluaciones'
                                 }
                             </div>
                             <div className="col-12 text-right">
@@ -141,7 +140,6 @@ export default class edit extends Component {
                                         let requisitos = this.props.asignaturas.filter(asignatura => asignatura.requisitos.some(requisito =>
                                             requisito.requisito.id == this.props.nivel_competencia_asignatura.asignatura_id
                                         ))
-                                        console.log('requisitos', requisitos);
                                         if(requisitos.length > 0 )
                                         {
                                             let texto = "";
@@ -181,8 +179,8 @@ export default class edit extends Component {
                                     this.props.nivel_generica_asignatura.generica_evaluaciones.length > 0 ?
                                         <ol>
                                             {
-                                                this.props.nivel_generica_asignatura.generica_evaluaciones.map(generica_evaluacion =>
-                                                    <li>
+                                                this.props.nivel_generica_asignatura.generica_evaluaciones.map((generica_evaluacion,i) =>
+                                                    <li key={i}>
                                                         <div className="row">
                                                             <div className="col-6">
                                                                 <input type="text"
@@ -219,7 +217,6 @@ export default class edit extends Component {
                                         let requisitos = this.props.asignaturas.filter(asignatura => asignatura.requisitos.some(requisito =>
                                                 requisito.requisito.id == this.props.nivel_generica_asignatura.asignatura_id
                                             ))
-                                            console.log('requisitos', requisitos);
                                         // if(this.props.asignaturas.)
                                         if (window.confirm('¿Estas Seguro?')) {
                                             let asignaturaAsociada = this.props.asignaturas.find(asignatura => asignatura.id == this.props.nivel_generica_asignatura.asignatura.id)

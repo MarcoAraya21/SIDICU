@@ -153,15 +153,10 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                                 <div className="col row p-0">
                                     <div className="col-6 p-0">
                                         <select
-                                            className="form-control "
+                                            value={addrequisito}
+                                            className="form-control"
                                             onChange={(e)=> setaddrequisito(e.target.value)}>
-                                                {
-                                                    addrequisito == "" ?
-                                                    <option value="" selected>Seleccione una Opción</option>
-                                                    :
-                                                    <option value="">Seleccione una Opción</option>
-                                                }
-                                            
+                                            <option value="">Seleccione una Opción</option>
                                             {
                                                 requisitoNivelesSelect.map((requisitoNivelSelect,i) =>
                                                     <optgroup key={i} label={requisitoNivelSelect.nombre}>

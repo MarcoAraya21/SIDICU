@@ -95,7 +95,6 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
     ))
     return (
         <div>
-            {console.log('metodologias', metodologiasSelect)}
             <Dialog fullScreen open={openMetodologias} onClose={handleCloseMetodologias} TransitionComponent={Transition} onEnter={() => getMetodologias()}disableEscapeKeyDown>
                 <AppBar className={classes.appBar}>
                     <Toolbar className={(!habilitadogeneral ? "deshabilitado" : "")}>
@@ -124,7 +123,7 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
                                                         borrarElementoAsignatura('asignatura_metodologias', asignatura_metodologia.id, addNotification, asignaturaId)   
                                                     }
                                                     }}>
-                                                    <i className="fas fa-times p-r-10" ></i>Eliminar Requisito
+                                                    <i className="fas fa-times p-r-10" ></i>Eliminar Metodología
                                                 </button>
                                             </div>
                                         </ListItem >
@@ -138,14 +137,10 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
                                 <div className="col row p-0">
                                     <div className="col-6 p-0">
                                         <select
-                                            className="form-control "
+                                            value={addmetodologia}
+                                            className="form-control"
                                             onChange={(e)=> setaddmetodologia(e.target.value)}>
-                                                {
-                                                    addmetodologia == "" ?
-                                                    <option value="" selected>Seleccione una Opción</option>
-                                                    :
-                                                    <option value="">Seleccione una Opción</option>
-                                                }
+                                            <option value="">Seleccione una Opción</option>
                                             
                                             {
                                                 metodologiasSelect.map((opcionMetodologia,i) =>
@@ -154,16 +149,13 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
                                             }
                                         </select>
                                     </div>
-                                    {
-                                        <div className="col-6 p-0">
-                                            <div align="right">
-                                                <button type="button" disabled={!habilitadogeneral || addmetodologia == ""} className="btn btn-primary" onClick={() => { addElemento('asignatura_metodologias') }}>
-                                                    <i className="fas fa-plus p-r-5" ></i>Crear Requisito
-                                                </button>
-                                            </div>
+                                    <div className="col-6 p-0">
+                                        <div align="right">
+                                            <button type="button" disabled={!habilitadogeneral || addmetodologia == ""} className="btn btn-primary" onClick={() => { addElemento('asignatura_metodologias') }}>
+                                                <i className="fas fa-plus p-r-5" ></i>Crear Metodología
+                                            </button>
                                         </div>
-                                    }
-                                    
+                                    </div>
                                 </div>
                             </ListItem >
                         </List>

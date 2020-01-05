@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Horas from './horas/index'
 import Requisitos from './requisitos/index'
+import Unidades from './unidades/index'
 import Metodologias from './metodologias/index'
 import Bibliografias from './bibliografias/index'
 
@@ -8,9 +9,10 @@ export default class edit extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            nivel: this.props.asignatura.nivel_id,
+            nivel: {id:this.props.asignatura.nivel_id, nombre: this.props.asignatura.nivel.nombre},
             openHoras: false,
             openRequisitos: false,
+            openUnidades: false,
             openMetodologias: false,
             openBibliografias: false,
             deshabilitado: true
@@ -20,6 +22,8 @@ export default class edit extends Component {
         this.handleCloseHoras = this.handleCloseHoras.bind(this);
         this.handleOpenRequisitos = this.handleOpenRequisitos.bind(this);
         this.handleCloseRequisitos = this.handleCloseRequisitos.bind(this);
+        this.handleOpenUnidades = this.handleOpenUnidades.bind(this);
+        this.handleCloseUnidades = this.handleCloseUnidades.bind(this);
         this.handleOpenMetodologias = this.handleOpenMetodologias.bind(this);
         this.handleCloseMetodologias = this.handleCloseMetodologias.bind(this);
         this.handleOpenBibliografias = this.handleOpenBibliografias.bind(this);
@@ -48,6 +52,13 @@ export default class edit extends Component {
         this.setState({ openRequisitos: false });
     }
 
+    handleOpenUnidades() {
+        this.setState({ openUnidades: true });
+    }
+    handleCloseUnidades() {
+        this.setState({ openUnidades: false });
+    }
+
     handleOpenMetodologias() {
         this.setState({ openMetodologias: true });
     }
@@ -66,7 +77,7 @@ export default class edit extends Component {
     handleSubmit() {
         //e.preventDefault();
         this.setState({ guardando: true })
-        if (!this.props.niveles.some(nivel => nivel.id == this.state.nivel)) {
+        if (!this.props.niveles.some(nivel => nivel.id == this.state.nivel.id)) {
             fetch('/api/niveles/', {
                 method: 'post',
                 headers: {
@@ -77,7 +88,7 @@ export default class edit extends Component {
                 body: JSON.stringify(
                     {
                         plan_estudio_id: this.props.niveles[0].plan_estudio_id,
-                        nombre: (this.state.nivel)
+                        nombre: (this.state.nivel.nombre)
                     }
                 )
             })
@@ -91,14 +102,16 @@ export default class edit extends Component {
                 })
                 .then(data => {
                     [
-                        alert('se ha creado el nivel ' + this.state.nivel),
+                        this.setState({ nivel: {id: data.id, nombre: data.nombre} }),
+                        alert('se ha creado el nivel ' + this.state.nivel.nombre),
                         this.props.handleAddElement('niveles', data),
                     ]
+                    return data;
                 })
                 .catch(function (error) {
                     console.log('Hubo un problema con la petición Fetch:' + error.message);
                 })
-                .then(
+                .then(data => {
                     fetch('/api/asignaturas/' + this.props.asignatura.id, {
                         method: 'put',
                         headers: {
@@ -107,7 +120,7 @@ export default class edit extends Component {
                         },
                         body: JSON.stringify(
                             {
-                                ...this.props.asignatura, nivel_id: this.state.nivel
+                                ...this.props.asignatura, nivel_id: data.id
                             }
                         )
                     })
@@ -123,8 +136,8 @@ export default class edit extends Component {
                             [
                                 this.setState({ guardando: false, deshabilitado: true }),
                                 this.props.habilitarGeneral(true),
-                                this.state.nivel != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel),
-                                this.props.handleInputArrays(this.state.nivel, 'asignaturas', 'nivel_id', this.props.asignatura.id),
+                                this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
+                                this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
                                 this.props.addNotification()
                             ]
                         })
@@ -132,7 +145,7 @@ export default class edit extends Component {
                             console.log('Hubo un problema con la petición Fetch:' + error.message);
                         })
 
-                )
+                    })
 
         }
         else {
@@ -144,7 +157,7 @@ export default class edit extends Component {
                 },
                 body: JSON.stringify(
                     {
-                        ...this.props.asignatura, nivel_id: this.state.nivel
+                        ...this.props.asignatura, nivel_id: this.state.nivel.id
                     }
                 )
             })
@@ -160,8 +173,8 @@ export default class edit extends Component {
                     [
                         this.setState({ guardando: false, deshabilitado: true }),
                         this.props.habilitarGeneral(true),
-                        this.state.nivel != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel),
-                        this.props.handleInputArrays(this.state.nivel, 'asignaturas', 'nivel_id', this.props.asignatura.id),
+                        this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
+                        this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
                         this.props.addNotification()
                     ]
                 })
@@ -227,7 +240,7 @@ export default class edit extends Component {
             (requisitoInferior ? (nivel.nombre > requisitoInferior) : !requisitoInferior) &&
             (nivel.nombre != this.props.asignatura.nivel.nombre)
         )
-
+        
         if (!requisitoSuperior) {
             requisitosAsignatura = requisitosAsignatura.concat({ 'id': this.props.niveles[this.props.niveles.length - 1].id + 1, 'nombre': this.props.niveles[this.props.niveles.length - 1].nombre + 1 });
         }
@@ -244,7 +257,7 @@ export default class edit extends Component {
                             <label>Cambiar Nivel</label>
                             <select disabled={requisitosAsignatura.length == 0} defaultValue={""}
                                 className="form-control "
-                                onChange={(e) => this.setState({ nivel: Number(e.target.value) })}>
+                                onChange={(e) => this.setState({ nivel: {id: Number(e.target.value), nombre: Number(e.target.options[e.target.selectedIndex].text.slice(5)) }})}>
                                 <option disabled value="">Seleccione una Opción</option>
                                 {
                                     requisitosAsignatura.map((requisitoAsignatura, i) =>
@@ -414,8 +427,7 @@ export default class edit extends Component {
                     </div>
                     <div className="col mb-2">
                         <label>Relación con el perfil de egreso</label>
-                        <textarea disabled className="form-control" rows="3">
-                            Rellenar Texto
+                        <textarea value={'Rellenar Texto'} disabled className="form-control" rows="3">
                         </textarea>
                     </div>
                     <div className="col mb-2">
@@ -493,7 +505,7 @@ export default class edit extends Component {
                                 <p>No Posee</p>
                             }
                             <div>
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary">
+                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenUnidades() }}>
                                     <i className="fas fa-plus p-r-5" ></i>Unidades
                                 </button>
                             </div>
@@ -572,6 +584,22 @@ export default class edit extends Component {
                         asignatura.nivel.nombre < this.props.asignatura.nivel.nombre)}
                     asignaturaId={this.props.asignatura.id}
                     asignaturaNombre={this.props.asignatura.nombre}
+                    handleAddElementAsignatura={this.props.handleAddElementAsignatura}
+                    borrarElementoAsignatura={this.props.borrarElementoAsignatura}
+                    habilitarGeneral={this.props.habilitarGeneral}
+                    habilitadogeneral={this.props.habilitadogeneral}
+                    addNotification={this.props.addNotification}
+                />
+                <Unidades
+                    openUnidades={this.state.openUnidades}
+                    handleCloseUnidades={this.handleCloseUnidades}
+                    unidades={this.props.asignatura.unidades}
+                    horas={{aula: aulas.reduce((previous, current) => {
+                        return Number(previous) + Number(current.cantidad);
+                    }, 0)*18,extra_aula: extra_aulas.cantidad *18}}
+                    asignaturaId={this.props.asignatura.id}
+                    asignaturaNombre={this.props.asignatura.nombre}
+                    handleInputArraysAsignatura={this.props.handleInputArraysAsignatura}
                     handleAddElementAsignatura={this.props.handleAddElementAsignatura}
                     borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                     habilitarGeneral={this.props.habilitarGeneral}
