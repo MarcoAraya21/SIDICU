@@ -8,7 +8,7 @@ class PlanEstudio extends Model
 {
     protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo',
                             'carrera_id', 'tipo_plan_id', 'tipo_ingreso_id', 'padre_id', 'estado_id'];
-    protected $appends = ['competencias_genericas','asignaturas'];
+    protected $appends = ['competencias_genericas','asignaturas','sct_totales'];
 
 
     public function carrera()
@@ -298,6 +298,26 @@ class PlanEstudio extends Model
             }
         }
         return array_values(array_unique(array_merge($asignaturas_1,$asignaturas_2)));
+        // return array_unique(array_merge(array_unique($asignaturas_1),array_unique($asignaturas_2)));
+            // foreach ($plan_niveles as $key => $plan_nivel) {
+            //     if($i == 0){
+            //         return $plan_nivel->nivel_competencia;
+            //     }
+            //     $i = $i + 1;
+            // }
+    }
+
+    public function getSctTotalesAttribute()
+    {
+        $asignaturas = $this->getAsignaturasAttribute();
+        $Sct_totales = 0;
+        foreach ($asignaturas as $key => $asignatura) {
+            foreach ($asignatura->asignatura_horas as $key => $asignatura_hora) {
+                $Sct_totales = $Sct_totales + $asignatura_hora->cantidad;
+            }
+        }
+        return $Sct_totales/2;
+
         // return array_unique(array_merge(array_unique($asignaturas_1),array_unique($asignaturas_2)));
             // foreach ($plan_niveles as $key => $plan_nivel) {
             //     if($i == 0){
