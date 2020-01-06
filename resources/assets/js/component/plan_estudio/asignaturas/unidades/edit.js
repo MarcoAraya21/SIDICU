@@ -4,9 +4,10 @@ export default class edit extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            deshabilitado: true
+            deshabilitado: true,
+            editando: false
+
         }
-        this.addElemento = this.addElemento.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
 
@@ -14,35 +15,6 @@ export default class edit extends Component {
 
     habilitar() {
         this.setState({ deshabilitado: false });
-    }
-
-    addElemento(variable) {
-        //e.preventDefault();
-        fetch(`/api/${variable}/`, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-            ,
-            body: JSON.stringify(
-                {
-                    unidad_id: this.props.unidad.id
-                }
-            )
-        })
-            .then(function (response) {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw "Error en la llamada Ajax";
-                }
-
-            })
-            .then(data => { [this.props.handleAddElementAsignatura(variable, data, this.props.asignaturaId), this.props.addNotification()] })
-            .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            })
     }
 
     handleSubmit(variable, elemento) {
@@ -71,8 +43,9 @@ export default class edit extends Component {
                 console.log('Hubo un problema con la petición Fetch:' + error.message);
             })
             .finally(() => {
-                [this.setState({ guardando: false, deshabilitado: true }),
-                this.props.habilitarGeneral(true)
+                [this.setState({ guardando: false, deshabilitado: true, editando: false  }),
+                this.props.habilitarGeneral(true),
+                this.props.habilitareditunidades(false)
                 ]
             });
         //console.log('formulario enviado',this.state);
@@ -92,9 +65,9 @@ export default class edit extends Component {
                     </input>
                 </div>
                 <div className="col-6 text-right">
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('contenidos', this.props.contenido)}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.props.habilitareditunidades(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('contenidos', this.props.contenido)}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={() => {
                             if (window.confirm('¿Estas Seguro?'))
                                 this.props.borrarElementoAsignatura('contenidos', this.props.contenido.id, this.props.addNotification, this.props.asignaturaId)

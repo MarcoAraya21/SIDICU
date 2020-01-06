@@ -1,16 +1,24 @@
 import React, { Component } from 'react'
 import Edit from './edit';
+import Panel from '../../../utiles/Panel'
 
 export default class show extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            deshabilitado: true
+            deshabilitado: true,
+            editandounidades: false
         }
         this.addElemento = this.addElemento.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
+        this.habilitareditunidades = this.habilitareditunidades.bind(this);
 
+
+    }
+
+    habilitareditunidades(estado){
+        this.setState({editandounidades: estado});
     }
 
     habilitar() {
@@ -83,8 +91,8 @@ export default class show extends Component {
 
     render() {
         return (
-            <React.Fragment>
-                <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
+            <Panel titulo={this.props.unidad.nombre || 'Sin Nombre'} border={true} collapse={true} habilitado={!(this.props.habilitadogeneral || this.state.editandounidades || !this.state.deshabilitado) }>
+                <div className="my-2">
                     <div className="col-12 row mb-3">
                         <div className="col-4">
                             <label>Descripción</label>
@@ -132,6 +140,7 @@ export default class show extends Component {
                                             borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                             habilitarGeneral={this.props.habilitarGeneral}
                                             habilitadogeneral={this.props.habilitadogeneral}
+                                            habilitareditunidades = {this.habilitareditunidades}
                                             addNotification={this.props.addNotification} />
                                         )
                                     }
@@ -147,16 +156,16 @@ export default class show extends Component {
                     </div>
                 </div>
                 <div className="col-12 text-right">
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('unidades', this.props.unidad)}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                    <button type="button" disabled={this.state.editandounidades || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" disabled={this.state.editandounidades || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('unidades', this.props.unidad)}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    <button type="button" disabled={this.state.editandounidades || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={() => {
                             if (window.confirm('¿Estas Seguro?'))
                                 this.props.borrarElementoAsignatura('unidades', this.props.unidad.id, this.props.addNotification, this.props.asignaturaId)
                         }}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
                 </div>
-            </React.Fragment>
+            </Panel>
         );
     }
 }

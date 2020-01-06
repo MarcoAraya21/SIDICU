@@ -22,7 +22,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import Panel from '../../../utiles/Panel'
 import Show from './show'
 
 
@@ -107,25 +106,25 @@ export default function Unidades({ openUnidades, handleCloseUnidades, unidades, 
                             {
                                 unidades.length > 0 ?
                                     unidades.map((unidad, i) =>
-                                        <Panel key={i} titulo={unidad.nombre || 'Sin Nombre'} border={true} collapse={true}>
-                                            <Show key={unidad.id}
-                                                unidad={unidad}
-                                                asignaturaId={asignaturaId}
-                                                handleInputArraysAsignatura={handleInputArraysAsignatura}
-                                                handleAddElementAsignatura={handleAddElementAsignatura}
-                                                borrarElementoAsignatura={borrarElementoAsignatura}
-                                                habilitarGeneral={habilitarGeneral}
-                                                habilitadogeneral={habilitadogeneral}
-                                                addNotification={addNotification} />
-                                        </Panel>
+                                        <Show key={unidad.id}
+                                            unidad={unidad}
+                                            asignaturaId={asignaturaId}
+                                            handleInputArraysAsignatura={handleInputArraysAsignatura}
+                                            handleAddElementAsignatura={handleAddElementAsignatura}
+                                            borrarElementoAsignatura={borrarElementoAsignatura}
+                                            habilitarGeneral={habilitarGeneral}
+                                            habilitadogeneral={habilitadogeneral}
+                                            addNotification={addNotification}
+                                        />
                                     )
                                     :
                                     <p>No posee ninguna unidad asociada</p>
                             }
-                            <div className="col row p-10 border" style={{alignItems: "flex-end"}}>
+                            <div className={"col row p-10 border " + (!habilitadogeneral ? "deshabilitado" : "")}  style={{alignItems: "flex-end"}}>
                                 <div className="col-6 p-0">
                                     <label>Descripción</label>
                                     <textarea rows="2"
+                                        disabled={!habilitadogeneral}
                                         className="form-control"
                                         value={descripcion || ''}
                                         onChange={(e) => setdescripcion(e.target.value)}>

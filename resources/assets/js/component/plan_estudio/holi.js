@@ -4,7 +4,7 @@ class holi extends Component {
     constructor (props) {
         super(props)
         this.state = {
-          nombre: 'felipe'
+          nombre: ''
         }
     }
     render() {

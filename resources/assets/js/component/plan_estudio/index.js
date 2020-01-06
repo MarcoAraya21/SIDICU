@@ -9,7 +9,7 @@ import Dominios from './dominios';
 import Competencias from './dominios/competencias';
 import NivelCompetencias from './dominios/competencias/nivelcompetencias';
 import Asignaturas from './asignaturas';
-
+import TreePlan from './tree';
 
 
 
@@ -132,16 +132,16 @@ export default class index extends Component {
 
     
     render() {
-        var aux2 = []
-        this.state.dominios && this.state.dominios.map(dominio =>
-            dominio.competencias.map((competencia,j) =>
-                [aux2[j] = {'competencia_id': competencia.id, 'logros': 0},
-                competencia.nivel_competencias.map(nivel_competencia =>
-                    aux2[j].logros = aux2[j].logros + (nivel_competencia.logro_aprendizajes && nivel_competencia.logro_aprendizajes.length)
-                    )
-                ])
-            )
-        console.log('logros por competencia', aux2)
+        // var aux2 = []
+        // this.state.dominios && this.state.dominios.map(dominio =>
+        //     dominio.competencias.map((competencia,j) =>
+        //         [aux2[j] = {'competencia_id': competencia.id, 'logros': 0},
+        //         competencia.nivel_competencias.map(nivel_competencia =>
+        //             aux2[j].logros = aux2[j].logros + (nivel_competencia.logro_aprendizajes && nivel_competencia.logro_aprendizajes.length)
+        //             )
+        //         ])
+        //     )
+        // console.log('logros por competencia', aux2)
         return (
             <div className="container py-4">
                 <ReactNotification ref={this.notificationDOMRef}/>
@@ -181,6 +181,12 @@ export default class index extends Component {
                                 <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Asignaturas</span>
                                     <span className="d-sm-block d-none">Asignaturas del Plan</span>
+                                </a>
+                            </li>
+                            <li className="nav-items">
+                                <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
+                                    <span className="d-sm-none">Tree</span>
+                                    <span className="d-sm-block d-none">Tree Plan</span>
                                 </a>
                             </li>
                         </ul>
@@ -261,15 +267,27 @@ export default class index extends Component {
                                 addNotification = {this.addNotification}
                                 />
                             </div>
+                            <div className="tab-pane fade" id="plan-tab-5">
+                                {/* <TreePlan id={this.state.id}
+                                nombre={this.state.nombre}
+                                dominios={this.state.dominios}
+                                competencias_genericas={this.state.competencias_genericas}/> */}
+                            </div>
                         </div>			
                     </div>
                </div>
                
                
                 <div className="col-12 text-right t-2">
+                    <a href="#" className="btn btn-primary">Ver Plan</a>
                     {/* <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
                     <a href={`/pdf_descargar/${this.state.id}`} download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
                 </div>
+
+               
+
+
+
             </div>
 
         );

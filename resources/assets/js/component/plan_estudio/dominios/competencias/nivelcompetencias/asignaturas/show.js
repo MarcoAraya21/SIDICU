@@ -1,21 +1,20 @@
 import React, { Component } from 'react'
 import Panel from '../../../../../utiles/Panel'
+import Edit from './edit'
 
-export default class edit extends Component {
+export default class show extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            deshabilitado: true,
-            editando: false
+            editandocompetencias: false
         }
         this.addElemento = this.addElemento.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.habilitar = this.habilitar.bind(this);
+        this.habilitareditasignaturas = this.habilitareditasignaturas.bind(this);
 
     }
 
-    habilitar() {
-        this.setState({ deshabilitado: false });
+    habilitareditasignaturas(estado){
+        this.setState({editandoasignaturas: estado});
     }
 
     addElemento(variable) {
@@ -56,45 +55,10 @@ export default class edit extends Component {
             })
     }
 
-    handleSubmit(variable, elemento) {
-        //e.preventDefault();
-        this.setState({ guardando: true })
-        fetch(`/api/${variable}/${elemento.id}`, {
-            method: 'put',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(
-                elemento
-            )
-        })
-            .then(function (response) {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw "Error en la llamada Ajax";
-                }
-
-            })
-            .then(data => { this.props.addNotification() })
-            .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            })
-            .finally(() => {
-                [this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                this.props.habilitarGeneral(true)
-                ]
-            });
-        //console.log('formulario enviado',this.state);
-    }
-
-
-
     render() {
         return (
             !this.props.nivel_generica_asignatura ?
-                <Panel titulo={this.props.nivel_competencia_asignatura.asignatura.nombre || 'Sin Nombre'} border={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
+                <Panel titulo={this.props.nivel_competencia_asignatura.asignatura.nombre || 'Sin Nombre'} border={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandoasignaturas)}>
                     <div className="col-12">
                         <label>Procedimientos y/o Herramientas de Evaluación:</label>
                         {
@@ -102,28 +66,16 @@ export default class edit extends Component {
                                 <ol>
                                     {
                                         this.props.nivel_competencia_asignatura.competencia_evaluaciones.map((competencia_evaluacion,i) =>
-                                            <li key={i}>
-                                                <div className="row">
-                                                    <div className="col-6">
-                                                        <input type="text"
-                                                            disabled={this.state.deshabilitado}
-                                                            className="form-control"
-                                                            value={competencia_evaluacion.descripcion || ''}
-                                                            onChange={(e) => this.props.handleInputArrays(e, 'competencia_evaluaciones', 'descripcion', competencia_evaluacion.id)}>
-                                                        </input>
-                                                    </div>
-                                                    <div className="col-6 text-right">
-                                                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                                                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('competencia_evaluaciones', competencia_evaluacion)}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                                                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
-                                                            onClick={() => {
-                                                                if (window.confirm('¿Estas Seguro?'))
-                                                                    this.props.borrarElemento('competencia_evaluaciones', competencia_evaluacion.id, this.props.addNotification)
-                                                            }}>
-                                                            <i className="fas fa-times p-r-10"></i>Eliminar</button>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            <Edit
+                                                key={i}
+                                                competencia_evaluacion={competencia_evaluacion}
+                                                handleInputArrays={this.props.handleInputArrays}
+                                                borrarElemento={this.props.borrarElemento}
+                                                habilitarGeneral={this.props.habilitarGeneral}
+                                                habilitadogeneral={this.props.habilitadogeneral}
+                                                habilitareditasignaturas = {this.habilitareditasignaturas}
+                                                addNotification={this.props.addNotification}
+                                            />
                                         )
                                     }
                                 </ol>
@@ -172,7 +124,7 @@ export default class edit extends Component {
                     </div>
                 </Panel>                            
             :
-                <Panel key={i} titulo={nivel_generica_asignatura.asignatura.nombre || 'Sin Nombre'} border={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
+                <Panel titulo={this.props.nivel_generica_asignatura.asignatura.nombre || 'Sin Nombre'} border={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandoasignaturas)}>
                     <div className="col-12">
                         <label>Procedimientos y/o Herramientas de Evaluación:</label>
                         {
@@ -180,27 +132,16 @@ export default class edit extends Component {
                                 <ol>
                                     {
                                         this.props.nivel_generica_asignatura.generica_evaluaciones.map((generica_evaluacion,i) =>
-                                            <li key={i}>
-                                                <div className="row">
-                                                    <div className="col-6">
-                                                        <input type="text"
-                                                            className="form-control"
-                                                            value={generica_evaluacion.descripcion || ''}
-                                                            onChange={(e) => this.props.handleInputArrays(e, 'generica_evaluaciones', 'descripcion', generica_evaluacion.id)}>
-                                                        </input>
-                                                    </div>
-                                                    <div className="col-6 text-right">
-                                                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                                                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('generica_evaluaciones', generica_evaluacion)}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                                                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
-                                                            onClick={() => {
-                                                                if (window.confirm('¿Estas Seguro?'))
-                                                                    this.props.borrarElemento('generica_evaluaciones', generica_evaluacion.id, this.props.addNotification)
-                                                            }}>
-                                                            <i className="fas fa-times p-r-10"></i>Eliminar</button>
-                                                    </div>
-                                                </div>
-                                            </li>
+                                            <Edit
+                                                key={i}
+                                                generica_evaluacion={generica_evaluacion}
+                                                handleInputArrays={this.props.handleInputArrays}
+                                                borrarElemento={this.props.borrarElemento}
+                                                habilitarGeneral={this.props.habilitarGeneral}
+                                                habilitadogeneral={this.props.habilitadogeneral}
+                                                habilitareditasignaturas = {this.habilitareditasignaturas}
+                                                addNotification={this.props.addNotification}
+                                            />
                                         )
                                     }
                                 </ol>

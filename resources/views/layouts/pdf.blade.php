@@ -13,8 +13,8 @@
 		body {
 			font-family: 'San Francisco', sans-serif;
 		}
-		@page { margin: 180px 50px; } 
-		#header { position: fixed; left: 0px; top: -180px; right: 0px; height: 150px; } 
+		@page { margin: 180px 70px; } 
+		#header { position: fixed; left: 0px; top: -180px; right: 0px; height: 150px;} 
 		#footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 150px; text-align: center; font-size: 12px;} 
 		#footer .page:after { content: counter(page, upper-roman); } 
 		.m-3{ margin: 15px, 10px;}
@@ -36,30 +36,59 @@
 		.firma > p{
 			margin: 0;
 		}
+
+		table, th, td{
+			border: 1px solid #000;
+			border-collapse: collapse;
+		}
+
+		table{
+			width:100%;
+		}
+
+		th, td {
+			padding: 10px;
+		}
+
+		.celda-vacia{
+			padding:15px;
+		}
+
+		.page-break {
+			page-break-after: always;
+		}
+
+		.center{
+			text-align:center;
+		}
+
+		.txt-ver{
+ 			
+		}
+
+		
 	</style>
-	<title>Memorandum</title>
+	<title>Plan de Estudio</title>
 </head>
 <body>
-	<div id='header'>
-		<img src="assets/img/utem/pdf_logo.png" alt="Logo" height="100px" class="m-3">
-	</div>
+	<div id='header' style="display:none;">
+		<img src="assets/img/utem/logo_gob_footer_grande.png" alt="Logo" height="100px" class="m-3">
+		<div>
+			<p>Universidad Tecnológica Metropolitana</p>
+		</div>
+		<div >
+			<p>Vicerrectoría Académica</p>
+		</div>
+    </div>
 	<div id="content">
 		@yield('content')
 		<div class="firma">
-			<p><b> Elizabeth Troncoso Ahués </b></p>
-			<p>Directora de Investigación</p>
-			<p>Vicerrectoría de Investigación y Postgrado</p>
-			<p>Universidad Tecnológica Metropolitana</p>
+			
 		</div>
 	</div>
 	<div id="footer">
 		<div class="division"></div> 
-		<p>
-			Dirección de Investigación – VRIP - Universidad Tecnológica Metropolitana
-		</p> 
-		<p>
-			Dieciocho 161, Santiago, Chile. Correo electrónico: dir.investigacion@utem.cl
-		</p>
+		
 	</div>
 </body>
 </html>
