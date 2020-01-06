@@ -50,11 +50,9 @@ export default class index extends Component {
                     <legend>Dominios</legend>
                     <React.Fragment>
                         <h4>Especialidad</h4>
-                        <div className="border p-3 mb-3">
                             {
                             this.props.dominios && this.props.dominios.filter(dominio =>
                                 dominio.tipo_dominio_id == 1).map( (dominio,i) =>
-                                <Panel key={dominio.id} titulo={(dominio.nombre || 'Sin Nombre')}>
                                     <Edit key={dominio.id}
                                         dominio = {dominio}
                                         i={i}
@@ -64,7 +62,6 @@ export default class index extends Component {
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}
                                     />
-                                </Panel>
                                 )
                             }
                             {this.props.dominios.filter(dominio => dominio.tipo_dominio_id == 1).length < 4 &&
@@ -73,9 +70,7 @@ export default class index extends Component {
                                     <i className="fas fa-plus p-r-5" ></i>Crear Dominio
                                 </button>
                             </div>
-                            } 
-                        </div>
-                        
+                            }                         
                         {/* <h4>Dominio Generico</h4> */}
                         {/*
                         <div className="border p-3 mb-3">

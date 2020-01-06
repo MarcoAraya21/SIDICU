@@ -1,15 +1,11 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import { validaciones } from '../validaciones';
-
+import Panel from '../../utiles/Panel'
 export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            deshabilitado: true
+            deshabilitado: true,
+            editando: false,
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
@@ -26,6 +22,7 @@ export default class edit extends Component {
     habilitar(){
         this.setState({deshabilitado: false});
     }
+
     
     handleSubmit(){
         //e.preventDefault();
@@ -52,7 +49,7 @@ export default class edit extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
+        .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
                         this.props.habilitarGeneral(true)
         ]});
         //console.log('formulario enviado',this.state);
@@ -62,7 +59,7 @@ export default class edit extends Component {
     
     render() {
         return (
-            <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
+            <Panel titulo={("D" + (this.props.i + 1) + " ") + (this.props.dominio.nombre || 'Sin Nombre')} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
                 <div className="mb-2">
                     <p className="m-0">Nombre:</p>
                     <input type="text"
@@ -82,18 +79,16 @@ export default class edit extends Component {
                     </textarea>
                 </div>
                 <div className="col-12 text-right mt-2">
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     {!this.props.transversal && 
-                        <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
                         this.props.borrarElemento('dominios', this.props.dominio.id, this.props.addNotification)}}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
                     }
                 </div>
-            </div>
-
-
+            </Panel>
         );
     }
 }

@@ -15,15 +15,20 @@ export default class show extends Component {
                 requisito_obtencion: '',
                 campo_desarrollo: '',
                 guardando: false,
-                errores: {}
+                errores: {},
+                deshabilitado: true
         }
         // this.handleInput = handleInput.bind(this);
         // this.handleInputArrays = handleInputArrays.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        
+        this.habilitar = this.habilitar.bind(this);
 
 
         //this.renderErrorFor = this.renderErrorFor.bind(this)
+    }
+
+    habilitar(){
+        this.setState({deshabilitado: false});
     }
 
     handleInput(e, atributo)
@@ -59,7 +64,9 @@ export default class show extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {this.setState({guardando: false})});
+        .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
+            this.props.habilitarGeneral(true)
+        ]});
         //console.log('formulario enviado',this.state);
     }
 
@@ -75,7 +82,7 @@ export default class show extends Component {
     render() {
         return (
             <div className="container py-4">
-                <div className="col-12">
+                <div className={"col-12 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
                     <legend>Datos Iniciales del Plan</legend>
                     <div className="col row">
                         <p className="col-6"><b>Nombre</b></p>
@@ -112,7 +119,9 @@ export default class show extends Component {
                     <legend>Otros Datos</legend>
                     <div className="row mb-2">
                         <label className="col-3">Proposito</label>
-                        <textarea className={ "form-control col-9 " + (this.state.errores.proposito && 'is-invalid')}  rows="3"
+                        <textarea
+                        disabled={this.state.deshabilitado}
+                        className={ "form-control col-9 " + (this.state.errores.proposito && 'is-invalid')}  rows="3"
                          value={this.state.proposito || ''}
                          onChange={(e)=>this.handleInput(e, 'proposito')}
                         ></textarea>
@@ -121,7 +130,9 @@ export default class show extends Component {
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Objetivo</label>
-                        <textarea className={ "form-control col-9 " + (this.state.errores.objetivo && 'is-invalid')}  rows="3"
+                        <textarea
+                        disabled={this.state.deshabilitado}
+                        className={ "form-control col-9 " + (this.state.errores.objetivo && 'is-invalid')}  rows="3"
                          value={this.state.objetivo || ''}
                          onChange={(e)=>this.handleInput(e, 'objetivo')}
                         ></textarea>
@@ -130,7 +141,9 @@ export default class show extends Component {
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Requisito de Admisión</label>
-                        <textarea className={ "form-control col-9 " + (this.state.errores.requisito_admision && 'is-invalid')}  rows="3"
+                        <textarea
+                        disabled={this.state.deshabilitado}
+                        className={ "form-control col-9 " + (this.state.errores.requisito_admision && 'is-invalid')}  rows="3"
                          value={this.state.requisito_admision || ''}
                          onChange={(e)=>this.handleInput(e, 'requisito_admision')}
                         ></textarea>
@@ -139,7 +152,9 @@ export default class show extends Component {
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Mecanismo de Retención</label>
-                        <textarea className={ "form-control col-9 " + (this.state.errores.mecanismo_retencion && 'is-invalid')}  rows="3"
+                        <textarea
+                        disabled={this.state.deshabilitado}
+                        className={ "form-control col-9 " + (this.state.errores.mecanismo_retencion && 'is-invalid')}  rows="3"
                          value={this.state.mecanismo_retencion || ''}
                          onChange={(e)=>this.handleInput(e, 'mecanismo_retencion')}
                         ></textarea>
@@ -148,7 +163,9 @@ export default class show extends Component {
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Requisito de Obtención</label>
-                        <textarea className={ "form-control col-9 " + (this.state.errores.requisito_obtencion && 'is-invalid')}  rows="3"
+                        <textarea
+                        disabled={this.state.deshabilitado}
+                        className={ "form-control col-9 " + (this.state.errores.requisito_obtencion && 'is-invalid')}  rows="3"
                          value={this.state.requisito_obtencion || ''}
                          onChange={(e)=>this.handleInput(e, 'requisito_obtencion')}
                         ></textarea>
@@ -157,7 +174,9 @@ export default class show extends Component {
                     </div>
                     <div className="row mb-2">
                         <label className="col-3">Campo de Desarrollo</label>
-                        <textarea className={ "form-control col-9 " + (this.state.errores.campo_desarrollo && 'is-invalid')}  rows="3"
+                        <textarea
+                        disabled={this.state.deshabilitado}
+                        className={ "form-control col-9 " + (this.state.errores.campo_desarrollo && 'is-invalid')}  rows="3"
                          value={this.state.campo_desarrollo || ''}
                          onChange={(e)=>this.handleInput(e, 'campo_desarrollo')}
                         ></textarea>
@@ -166,11 +185,14 @@ export default class show extends Component {
                     </div>
                 </div>
                 <div className="col-12 text-right mt-2">
-                    { this.state.guardando ?
-                    <button className="btn btn-primary disabled"><i className="fas fa-spinner fa-pulse"></i> Guardando</button>                                
-                    :
-                    <button type="button" className="btn btn-primary m-b-10" onClick={this.handleSubmit}>Guardar</button>
+                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    {
+                        this.state.guardando ?
+                            <button className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse"></i> Guardando</button>
+                        :                             
+                            <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     }
+                    
                 </div>
 
 

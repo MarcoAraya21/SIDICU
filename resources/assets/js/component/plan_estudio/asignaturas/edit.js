@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Panel from '../../utiles/Panel'
 import Horas from './horas/index'
 import Requisitos from './requisitos/index'
 import Unidades from './unidades/index'
@@ -15,7 +16,8 @@ export default class edit extends Component {
             openUnidades: false,
             openMetodologias: false,
             openBibliografias: false,
-            deshabilitado: true
+            deshabilitado: true,
+            editando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpenHoras = this.handleOpenHoras.bind(this);
@@ -134,8 +136,9 @@ export default class edit extends Component {
                         })
                         .then(data => {
                             [
-                                this.setState({ guardando: false, deshabilitado: true }),
+                                this.setState({ guardando: false, deshabilitado: true, editando: false }),
                                 this.props.habilitarGeneral(true),
+                                this.props.habilitareditasignaturas(false),
                                 this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
                                 this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
                                 this.props.addNotification()
@@ -171,8 +174,9 @@ export default class edit extends Component {
                 })
                 .then(data => {
                     [
-                        this.setState({ guardando: false, deshabilitado: true }),
+                        this.setState({ guardando: false, deshabilitado: true, editando: false }),
                         this.props.habilitarGeneral(true),
+                        this.props.habilitareditasignaturas(false),
                         this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
                         this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
                         this.props.addNotification()
@@ -245,7 +249,7 @@ export default class edit extends Component {
             requisitosAsignatura = requisitosAsignatura.concat({ 'id': this.props.niveles[this.props.niveles.length - 1].id + 1, 'nombre': this.props.niveles[this.props.niveles.length - 1].nombre + 1 });
         }
         return (
-            <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
+            <Panel key = {'asignatura-' + this.props.asignatura.id} titulo={this.props.asignatura.nombre} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
                 <div className="col-12 mb-2">
                     <div className="col row mb-2">
                         <div className="col-6">
@@ -255,7 +259,7 @@ export default class edit extends Component {
                         </div>
                         <div className="col-6">
                             <label>Cambiar Nivel</label>
-                            <select disabled={requisitosAsignatura.length == 0} defaultValue={""}
+                            <select disabled={requisitosAsignatura.length == 0 || this.state.deshabilitado} defaultValue={""}
                                 className="form-control "
                                 onChange={(e) => this.setState({ nivel: {id: Number(e.target.value), nombre: Number(e.target.options[e.target.selectedIndex].text.slice(5)) }})}>
                                 <option disabled value="">Seleccione una Opción</option>
@@ -271,6 +275,7 @@ export default class edit extends Component {
                         <div className="col-6">
                             <label>Codigo</label>
                             <input type="text" className="form-control"
+                                disabled={this.state.deshabilitado}
                                 value={this.props.asignatura.codigo || ''}
                                 onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'codigo', this.props.asignatura.id)}>
                             </input>
@@ -278,6 +283,7 @@ export default class edit extends Component {
                         <div className="col-6">
                             <label>Tipo de Asignatura</label>
                             <select defaultValue={""}
+                                disabled={this.state.deshabilitado}
                                 className="form-control "
                                 onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'tipo_asignatura_id', this.props.asignatura.id)}>
                                 <option disabled value="">Seleccione una Opción</option>
@@ -315,7 +321,7 @@ export default class edit extends Component {
                         </div>
                         {!nivel1 &&
                             <div className="col-6 text-right mt-2">
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenRequisitos() }}>
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenRequisitos() }}>
                                     <i className="fas fa-plus p-r-5" ></i>Ver Requisitos
                                 </button>
                             </div>
@@ -334,6 +340,7 @@ export default class edit extends Component {
                         <div className="col-6">
                             <label>Modalidad</label>
                             <select defaultValue={""}
+                                disabled={this.state.deshabilitado}
                                 className="form-control "
                                 onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'modalidad_id', this.props.asignatura.id)}>
                                 <option disabled value="">Seleccione una Opción</option>
@@ -357,7 +364,7 @@ export default class edit extends Component {
                                 <li>{extra_aulas.tipo_hora.nombre}: {extra_aulas.cantidad}</li>
                             </ol>
                             <div>
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenHoras() }}>
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenHoras() }}>
                                     <i className="fas fa-plus p-r-5" ></i>Modificar Horas
                                 </button>
                             </div>
@@ -365,6 +372,7 @@ export default class edit extends Component {
                         <div className="col-6">
                             <label>Regimen</label>
                             <select defaultValue={""}
+                                disabled={this.state.deshabilitado}
                                 className="form-control "
                                 onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'regimen_id', this.props.asignatura.id)}>
                                 <option disabled value="">Seleccione una Opción</option>
@@ -376,6 +384,7 @@ export default class edit extends Component {
                         <div className="col-6">
                             <label>Ciclo o Programa de Formación</label>
                             <select defaultValue={""}
+                                disabled={this.state.deshabilitado}
                                 className="form-control "
                                 onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'ciclo_id', this.props.asignatura.id)}>
                                 <option disabled value="">Seleccione una Opción</option>
@@ -390,6 +399,7 @@ export default class edit extends Component {
                         <div className="col-6">
                             <label>Departamento</label>
                             <select defaultValue={""}
+                                disabled={this.state.deshabilitado}
                                 className="form-control "
                                 onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'departamento_id', this.props.asignatura.id)}>
                                 <option disabled value="">Seleccione una Opción</option>
@@ -420,6 +430,7 @@ export default class edit extends Component {
                     <div className="col mb-2">
                         <label>Descripción</label>
                         <textarea rows="3"
+                            disabled={this.state.deshabilitado}
                             className="form-control"
                             value={this.props.asignatura.descripcion || ''}
                             onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'descripcion', this.props.asignatura.id)}>
@@ -433,6 +444,7 @@ export default class edit extends Component {
                     <div className="col mb-2">
                         <label>Ambientes de aprendizaje</label>
                         <textarea rows="3"
+                            disabled={this.state.deshabilitado}
                             className="form-control"
                             value={this.props.asignatura.ambientes || ''}
                             onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'ambientes', this.props.asignatura.id)}>
@@ -441,6 +453,7 @@ export default class edit extends Component {
                     <div className="col mb-2">
                         <label>Perfil del docente</label>
                         <textarea rows="3"
+                            disabled={this.state.deshabilitado}
                             className="form-control"
                             value={this.props.asignatura.perfil_docente || ''}
                             onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'perfil_docente', this.props.asignatura.id)}>
@@ -449,6 +462,7 @@ export default class edit extends Component {
                     <div className="col mb-2">
                         <label>Perfil del ayudante</label>
                         <textarea rows="3"
+                            disabled={this.state.deshabilitado}
                             className="form-control"
                             value={this.props.asignatura.perfil_ayudante || ''}
                             onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'perfil_ayudante', this.props.asignatura.id)}>
@@ -505,7 +519,7 @@ export default class edit extends Component {
                                 <p>No Posee</p>
                             }
                             <div>
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenUnidades() }}>
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenUnidades() }}>
                                     <i className="fas fa-plus p-r-5" ></i>Unidades
                                 </button>
                             </div>
@@ -526,7 +540,7 @@ export default class edit extends Component {
                                 <p>No Posee</p>
                             }
                             <div>
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenMetodologias() }}>
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenMetodologias() }}>
                                     <i className="fas fa-plus p-r-5" ></i>Metodologias
                                 </button>
                             </div>
@@ -547,7 +561,7 @@ export default class edit extends Component {
                                 <p>No Posee</p>
                             }
                             <div>
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenBibliografias() }}>
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenBibliografias() }}>
                                     <i className="fas fa-plus p-r-5" ></i>Bibliografias
                                 </button>
                             </div>
@@ -555,9 +569,9 @@ export default class edit extends Component {
                     </div>
                 </div>
                 <div className="col-12 text-right mt-2">
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.props.habilitareditasignaturas(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={() => {
                             if (window.confirm('¿Estas Seguro?'))
                                 this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification)
@@ -644,7 +658,7 @@ export default class edit extends Component {
                 habilitadogeneral = {this.props.habilitadogeneral}
                 addNotification = {this.props.addNotification}
                 /> */}
-            </div>
+            </Panel>
         );
     }
 }

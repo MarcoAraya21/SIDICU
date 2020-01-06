@@ -1,16 +1,21 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
 import Edit from './edit';
+import Panel from '../../../utiles/Panel'
 
 export default class show extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            editandodominio: false
         }
+
+        this.habilitareditdominios = this.habilitareditdominios.bind(this);
+
         
+    }
+
+    habilitareditdominios(estado){
+        this.setState({editandodominio: estado});
     }
 
     addElemento(variable){
@@ -45,7 +50,7 @@ export default class show extends Component {
     render() {
         return (
             !this.props.competencias_genericas ?
-            <div className="border p-3 mb-3">
+            <Panel key={'dominio-' + this.props.dominio.id} titulo={'Dominio ' + this.props.dominio.tipo_dominio.nombre + ': ' + ("D" + (this.props.i + 1) + " ") + (this.props.dominio.nombre || 'Sin Nombre')} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandodominio)}>
                 {
                     this.props.dominio.competencias && this.props.dominio.competencias.length > 0 ?
                     this.props.dominio.competencias.map((competencia,i) =>
@@ -56,6 +61,7 @@ export default class show extends Component {
                         borrarElemento={this.props.borrarElemento}
                         habilitarGeneral = {this.props.habilitarGeneral}
                         habilitadogeneral = {this.props.habilitadogeneral}
+                        habilitareditdominios = {this.habilitareditdominios}
                         addNotification = {this.props.addNotification}/>
                         )
                     :
@@ -66,13 +72,18 @@ export default class show extends Component {
                         <i className="fas fa-plus p-r-5" ></i>Crear Competencia
                     </button>
                 </div> 
-            </div>
+            </Panel>
             :
-            this.props.competencias_genericas.map((competencia_generica,i) =>
-            <div key={i} className="border px-2 py-2 mb-3">
-                {competencia_generica.descripcion}
-            </div>
-            )
+            <Panel key={'dominio-generico'} titulo={'Dominio: Generico'} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.habilitareditdominios)}>
+                {
+                    this.props.competencias_genericas.map((competencia_generica,i) =>
+                    <div key={i} className="border px-2 py-2 mb-3">
+                        {competencia_generica.descripcion}
+                    </div>
+                    )
+                }
+            </Panel>
+            
             
         );
     }

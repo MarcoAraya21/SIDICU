@@ -22,7 +22,6 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import Panel from '../../../../../utiles/Panel'
 import Show from './show'
 import NewAsignatura from './new';
 
@@ -83,26 +82,22 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
           {!nivel_competencia_generica
             ?
             <React.Fragment>
-              <div className="border p-3 mb-3">
-                {
-                  nivel_competencia.nivel_competencia_asignaturas && nivel_competencia.nivel_competencia_asignaturas.length > 0 ?
-                      nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
-                        <Panel key={i} titulo={nivel_competencia_asignatura.asignatura.nombre || 'Sin Nombre'}>
-                          <Show key={nivel_competencia_asignatura.id}
-                              nivel_competencia_asignatura={nivel_competencia_asignatura}
-                              asignaturas={asignaturas}
-                              handleInputArrays={handleInputArrays}
-                              borrarElemento={borrarElemento}
-                              habilitarGeneral={habilitarGeneral}
-                              habilitadogeneral={habilitadogeneral}
-                              handleAddElement={handleAddElement}
-                              addNotification={addNotification} />
-                        </Panel>                            
-                      )
-                    :
-                    <p>No posee ninguna asignatura asociada</p>
-                }
-              </div>
+              {
+                nivel_competencia.nivel_competencia_asignaturas && nivel_competencia.nivel_competencia_asignaturas.length > 0 ?
+                    nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
+                      <Show key={nivel_competencia_asignatura.id}
+                          nivel_competencia_asignatura={nivel_competencia_asignatura}
+                          asignaturas={asignaturas}
+                          handleInputArrays={handleInputArrays}
+                          borrarElemento={borrarElemento}
+                          habilitarGeneral={habilitarGeneral}
+                          habilitadogeneral={habilitadogeneral}
+                          handleAddElement={handleAddElement}
+                          addNotification={addNotification} />
+                    )
+                  :
+                  <p>No posee ninguna asignatura asociada</p>
+              }
               <Divider />
               <div align="right" className="mt-2 mb-1">
                 <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { handleOpenNew() }}>
@@ -120,27 +115,23 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
             </React.Fragment>
             :
             <React.Fragment>
-              <div className="border p-3 mb-3">
-                {
-                  nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas &&
-                    nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length > 0 ?
-                      nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
-                      <Panel key={i} titulo={nivel_generica_asignatura.asignatura.nombre || 'Sin Nombre'}>
-                          <Show key={nivel_generica_asignatura.id}
-                              nivel_generica_asignatura={nivel_generica_asignatura}
-                              asignaturas={asignaturas}
-                              handleInputArrays={handleInputArrays}
-                              borrarElemento={borrarElemento}
-                              habilitarGeneral={habilitarGeneral}
-                              habilitadogeneral={habilitadogeneral}
-                              handleAddElement={handleAddElement}
-                              addNotification={addNotification} />
-                        </Panel>  
-                      )
-                    :
-                    <p>No posee ninguna asignatura asociada</p>
-                }
-              </div>
+              {
+                nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas &&
+                  nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length > 0 ?
+                    nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
+                      <Show key={nivel_generica_asignatura.id}
+                          nivel_generica_asignatura={nivel_generica_asignatura}
+                          asignaturas={asignaturas}
+                          handleInputArrays={handleInputArrays}
+                          borrarElemento={borrarElemento}
+                          habilitarGeneral={habilitarGeneral}
+                          habilitadogeneral={habilitadogeneral}
+                          handleAddElement={handleAddElement}
+                          addNotification={addNotification} />
+                    )
+                  :
+                  <p>No posee ninguna asignatura asociada</p>
+              }
               <Divider />
               <div align="right" className="mt-2 mb-1">
                 <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { handleOpenNew() }}>

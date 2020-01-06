@@ -1,9 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import Panel from '../../../utiles/Panel'
 import Show from './show';
 
 export default class index extends Component {
@@ -23,18 +18,17 @@ export default class index extends Component {
                         <legend>Competencias</legend>
                         <React.Fragment>
                             {this.props.dominios.sort((a, b) => a.tipo_dominio_id - b.tipo_dominio_id).map((dominio, i) =>
-                                <Panel key={'dominio-' + dominio.id} titulo={'Dominio ' + dominio.tipo_dominio.nombre + ': ' + (dominio.nombre || 'Sin Nombre')}>
-                                    <Show
-                                        i={i}
-                                        dominio={dominio}
-                                        handleAddElement={this.props.handleAddElement}
-                                        borrarElemento={this.props.borrarElemento}
-                                        handleInputArrays={this.props.handleInputArrays}
-                                        habilitarGeneral={this.props.habilitarGeneral}
-                                        habilitadogeneral={this.props.habilitadogeneral}
-                                        addNotification={this.props.addNotification}
-                                    />
-                                </Panel>
+                                <Show
+                                    key={i}
+                                    i={i}
+                                    dominio={dominio}
+                                    handleAddElement={this.props.handleAddElement}
+                                    borrarElemento={this.props.borrarElemento}
+                                    handleInputArrays={this.props.handleInputArrays}
+                                    habilitarGeneral={this.props.habilitarGeneral}
+                                    habilitadogeneral={this.props.habilitadogeneral}
+                                    addNotification={this.props.addNotification}
+                                />
                             )}
                         </React.Fragment>
                     </div>
@@ -42,13 +36,10 @@ export default class index extends Component {
                 <div className="border p-3 mb-3">
                     <div className="col ui-sortable-disabled">
                         <legend>Competencias Genericas</legend>
-                        <React.Fragment>
-                            <Panel key={'dominio-generico'} titulo={'Dominio: Generico'}>
-                                <Show
-                                    competencias_genericas={this.props.competencias_genericas}
-                                />
-                            </Panel>
-                        </React.Fragment>
+                        <Show
+                            competencias_genericas={this.props.competencias_genericas}
+                            habilitadogeneral={this.props.habilitadogeneral}
+                        />
                     </div>
                 </div>
                 {/* <div className="col-12">

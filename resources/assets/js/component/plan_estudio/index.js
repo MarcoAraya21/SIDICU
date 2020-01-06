@@ -130,8 +130,18 @@ export default class index extends Component {
         this.getPlanEstudio();
     }
 
-
+    
     render() {
+        var aux2 = []
+        this.state.dominios && this.state.dominios.map(dominio =>
+            dominio.competencias.map((competencia,j) =>
+                [aux2[j] = {'competencia_id': competencia.id, 'logros': 0},
+                competencia.nivel_competencias.map(nivel_competencia =>
+                    aux2[j].logros = aux2[j].logros + (nivel_competencia.logro_aprendizajes && nivel_competencia.logro_aprendizajes.length)
+                    )
+                ])
+            )
+        console.log('logros por competencia', aux2)
         return (
             <div className="container py-4">
                 <ReactNotification ref={this.notificationDOMRef}/>
@@ -192,6 +202,8 @@ export default class index extends Component {
                                 tipo_ingreso={this.state.tipo_ingreso}
                                 usuarios={this.state.usuarios}
                                 params={this.props.match.params.id}
+                                habilitarGeneral = {this.habilitarGeneral}
+                                habilitadogeneral = {this.state.habilitadogeneral} 
                                 addNotification = {this.addNotification}/>
                                 }
                             </div>

@@ -1,16 +1,20 @@
 import React, { Component } from 'react'
 import Edit from './edit'
-import Panel from '../../utiles/Panel'
-
 
 export default class show extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            editandoasignaturas: false
         }
         
+        this.habilitareditasignaturas = this.habilitareditasignaturas.bind(this);
+
     }
 
+    habilitareditasignaturas(estado){
+        this.setState({editandoasignaturas: estado});
+    }
     // addElemento(variable){
     //     //e.preventDefault();
     //     fetch(`/api/${variable}/`, {
@@ -48,22 +52,22 @@ export default class show extends Component {
                     {
                         this.props.asignaturas && 
                         this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0 ?
-                            this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).map( asignatura =>
-                                <Panel key = {'asignatura-' + asignatura.id} titulo={asignatura.nombre} collapse={true}>
-                                    <Edit
-                                        asignatura={asignatura}
-                                        asignaturas={this.props.asignaturas}
-                                        niveles={this.props.niveles}
-                                        handleInputArrays = {this.props.handleInputArrays}
-                                        handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
-                                        handleAddElement = {this.props.handleAddElement}
-                                        handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
-                                        borrarElementoAsignatura={this.props.borrarElementoAsignatura}
-                                        habilitarGeneral = {this.props.habilitarGeneral}
-                                        habilitadogeneral = {this.props.habilitadogeneral}
-                                        addNotification = {this.props.addNotification}
-                                    />
-                                </Panel>    
+                            this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).map( (asignatura,i) =>
+                                <Edit
+                                    key={i}
+                                    asignatura={asignatura}
+                                    asignaturas={this.props.asignaturas}
+                                    niveles={this.props.niveles}
+                                    handleInputArrays = {this.props.handleInputArrays}
+                                    handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                    handleAddElement = {this.props.handleAddElement}
+                                    handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
+                                    borrarElementoAsignatura={this.props.borrarElementoAsignatura}
+                                    habilitarGeneral = {this.props.habilitarGeneral}
+                                    habilitadogeneral = {this.props.habilitadogeneral}
+                                    habilitareditasignaturas = {this.habilitareditasignaturas}
+                                    addNotification = {this.props.addNotification}
+                                />
                             )
                         :
                             'No existen asignaturas en este nivel'

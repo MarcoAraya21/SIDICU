@@ -14,7 +14,8 @@ export default class edit extends Component {
         this.state = {
             open: false,
             openAsignatura: false,
-            deshabilitado: true
+            deshabilitado: true,
+            editando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
@@ -80,8 +81,9 @@ export default class edit extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
-            this.props.habilitarGeneral(true)
+        .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
+                        this.props.habilitarGeneral(true),
+                        this.props.habilitareditcompetencias(false),
         ]});
         //console.log('formulario enviado',this.state);
     }
@@ -101,15 +103,7 @@ export default class edit extends Component {
                         value={this.props.nivel_competencia.descripcion || ''}
                         onChange={(e)=>this.props.handleInputArrays(e, 'nivel_competencias', 'descripcion', this.props.nivel_competencia.id)}>
                     </textarea>
-                    <div className="col-12 text-right mt-2">
-                        <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                        <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                        <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
-                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                        this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification)}}>
-                        <i className="fas fa-times p-r-10"></i>Eliminar</button>         
-                    </div>
-                    <div className="col-12 row">
+                    <div className="col-12 row mt-2">
                         <div className="col-6">
                             <strong>Logros de Aprendizaje</strong>
                             {this.props.nivel_competencia.logro_aprendizajes.length > 0 ?
@@ -122,7 +116,7 @@ export default class edit extends Component {
                             <p>No Posee</p>
                             }
                             <div>
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpen()}}>      
                                     <i className="fas fa-plus p-r-5" ></i>Logros de Aprendizaje
                                 </button>
                             </div>
@@ -144,11 +138,19 @@ export default class edit extends Component {
                             <p>No Posee</p>
                             }
                             <div>
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
                                     <i className="fas fa-plus p-r-5" ></i>Asignatura
                                 </button>
                             </div>
                         </div>   
+                    </div>
+                    <div className="col-12 text-right mt-2">
+                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.props.habilitareditcompetencias(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
+                        this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>         
                     </div>
                     <Logros
                     open = {this.state.open}
@@ -210,7 +212,7 @@ export default class edit extends Component {
                             <p>No Posee</p>
                             }
                             <div>
-                                <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={()=>{this.handleOpenAsignatura()}}>      
                                     <i className="fas fa-plus p-r-5" ></i>Asignatura
                                 </button>
                             </div>

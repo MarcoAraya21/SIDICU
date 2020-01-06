@@ -1,18 +1,21 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
 import Edit from './edit';
+import Panel from '../../../../utiles/Panel'
+
 export default class showcompetencias extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            editandocompetencias: false
         }
+
+        this.habilitareditcompetencias = this.habilitareditcompetencias.bind(this);
+
     }
 
-
-
+    habilitareditcompetencias(estado){
+        this.setState({editandocompetencias: estado});
+    }
 
     addElemento(variable){
         //e.preventDefault();
@@ -40,54 +43,49 @@ export default class showcompetencias extends Component {
         
     }
     
-
-    
     render() {
         return (
-            <div className="border p-3 mb-3">
-                
+            !this.props.competencia_generica
+            ?
+                <Panel key = {'competencia-' + this.props.competencia.id} titulo={this.props.competencia.descripcion} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandocompetencias)}>
                 {
-                    !this.props.competencia_generica
-                    ?
-                        this.props.competencia.nivel_competencias && this.props.competencia.nivel_competencias.length > 0 ?
-                        this.props.competencia.nivel_competencias.map((nivel_competencia,i) =>
-                            <Edit key={nivel_competencia.id}
-                            nivel_competencia = {nivel_competencia}
-                            asignaturas={this.props.asignaturas}
-                            i={i}
-                            handleInputArrays = {this.props.handleInputArrays}
-                            borrarElemento = {this.props.borrarElemento}
-                            handleAddElement = {this.props.handleAddElement}
-                            habilitarGeneral = {this.props.habilitarGeneral}
-                            habilitadogeneral = {this.props.habilitadogeneral}
-                            addNotification = {this.props.addNotification}/>
-                            )
-                        :
-                        <p>No posee ningun nivel de competencia</p>
+                    this.props.competencia.nivel_competencias && this.props.competencia.nivel_competencias.length > 0 ?
+                    this.props.competencia.nivel_competencias.map((nivel_competencia,i) =>
+                        <Edit key={nivel_competencia.id}
+                        nivel_competencia = {nivel_competencia}
+                        asignaturas={this.props.asignaturas}
+                        i={i}
+                        handleInputArrays = {this.props.handleInputArrays}
+                        borrarElemento = {this.props.borrarElemento}
+                        handleAddElement = {this.props.handleAddElement}
+                        habilitarGeneral = {this.props.habilitarGeneral}
+                        habilitadogeneral = {this.props.habilitadogeneral}
+                        habilitareditcompetencias = {this.habilitareditcompetencias}
+                        addNotification = {this.props.addNotification}/>
+                        )
                     :
+                    <p>No posee ningun nivel de competencia</p>
+                }
+                </Panel>
+                
+            :
+                <Panel key = {'competencia-generica-' + this.props.competencia_generica.id} titulo={this.props.competencia_generica.sigla + ": " + this.props.competencia_generica.descripcion} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandocompetencias)}>
+                {
                     this.props.competencia_generica.nivel_competencias.map((nivel_competencia_generica,i) =>
-                            <Edit key={nivel_competencia_generica.id}
-                            nivel_competencia_generica = {nivel_competencia_generica}
-                            asignaturas={this.props.asignaturas}
-                            i={i}
-                            handleInputArrays = {this.props.handleInputArrays}
-                            borrarElemento = {this.props.borrarElemento}
-                            handleAddElement = {this.props.handleAddElement}
-                            habilitarGeneral = {this.props.habilitarGeneral}
-                            habilitadogeneral = {this.props.habilitadogeneral}
-                            addNotification = {this.props.addNotification}/>
+                        <Edit key={nivel_competencia_generica.id}
+                        nivel_competencia_generica = {nivel_competencia_generica}
+                        asignaturas={this.props.asignaturas}
+                        i={i}
+                        handleInputArrays = {this.props.handleInputArrays}
+                        borrarElemento = {this.props.borrarElemento}
+                        handleAddElement = {this.props.handleAddElement}
+                        habilitarGeneral = {this.props.habilitarGeneral}
+                        habilitadogeneral = {this.props.habilitadogeneral}
+                        habilitareditcompetencias = {this.habilitareditcompetencias}
+                        addNotification = {this.props.addNotification}/>
                     )
                 }
-                {
-                    // !this.props.competencia_generica
-                    // &&
-                    // <div align="right" className="mt-2 mb-1">
-                    //     <button type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_competencias')}}>      
-                    //         <i className="fas fa-plus p-r-5" ></i>Crear Nivel Competencia
-                    //     </button>                    
-                    // </div>
-                }
-            </div>
+                </Panel>
         );
     }
 }

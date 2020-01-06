@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
 
 export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            deshabilitado: true
+            deshabilitado: true,
+            editando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
@@ -52,8 +49,9 @@ export default class edit extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
-                        this.props.habilitarGeneral(true)
+        .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
+                        this.props.habilitarGeneral(true),
+                        this.props.habilitareditdominios(false)
         ]});
         //console.log('formulario enviado',this.state);
     }
@@ -72,9 +70,9 @@ export default class edit extends Component {
                 </textarea>
                 
                 <div className="col-12 text-right mt-2">
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                    <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.props.habilitareditdominios(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                     onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
                     this.props.borrarElemento('competencias', this.props.competencia.id,this.props.addNotification)}}>
                     <i className="fas fa-times p-r-10"></i>Eliminar</button>
