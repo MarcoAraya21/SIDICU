@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Asignatura extends Model
 {
-    protected $fillable = ['nombre', 'codigo', 'descripcion', 'relacion_egreso', 'metodologias', 'ambientes', 'perfil_docente', 'perfil_ayudante', 'tipo_asignatura_id', 'modalidad_id', 'regimen_id', 'ciclo_id', 'requisito_id', 'departamento_id', 'nivel_competencia_id'];
+    protected $fillable = ['nombre', 'codigo', 'descripcion', 'relacion_egreso', 'ambientes', 'perfil_docente', 'perfil_ayudante', 'tipo_asignatura_id', 'modalidad_id', 'regimen_id', 'ciclo_id', 'requisito_id', 'departamento_id', 'nivel_id'];
 
     public function tipo_asignatura()
     {
@@ -28,6 +28,10 @@ class Asignatura extends Model
     {
         return $this->belongsTo('App\Departamento');
     }
+    public function nivel()
+    {
+        return $this->belongsTo('App\Nivel');
+    }
 
     public function bibliografias()
     {
@@ -36,14 +40,6 @@ class Asignatura extends Model
     public function asignatura_horas()
     {
         return $this->hasMany('App\AsignaturaHora');
-    }
-    public function evaluaciones()
-    {
-        return $this->hasMany('App\Evaluacion');
-    }
-    public function metodologias()
-    {
-        return $this->hasMany('App\Metodologia');
     }
     public function unidades()
     {
@@ -60,9 +56,13 @@ class Asignatura extends Model
         return $this->hasMany('App\NivelGenericaAsignatura');
     }
 
-    //Hacer funcion que retorne el padre
-    // public function requisitos()
-    // {
-    //     return $this->hasMany('App\RequisitoPlanAsignatura');
-    // }
+    public function asignatura_metodologias()
+    {
+        return $this->hasMany('App\AsignaturaMetodologia');
+    }
+
+    public function requisitos()
+    {
+        return $this->hasMany('App\RequisitoAsignatura');
+    }
 }

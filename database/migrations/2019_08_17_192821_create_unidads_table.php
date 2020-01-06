@@ -16,6 +16,8 @@ class CreateUnidadsTable extends Migration
         Schema::create('unidades', function (Blueprint $table) {
             $table->increments('id');
             $table->string('nombre')->nullable();
+            $table->tinyInteger('horas_aula');
+            $table->tinyInteger('horas_extra_aula');
             $table->timestamps();
         });
     }

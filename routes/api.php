@@ -36,5 +36,24 @@ Route::apiResource('nivel_generica_asignaturas', 'NivelGenericaAsignaturaControl
     'nivel_generica_asignaturas' => 'nivel_generica_asignatura']]);
 Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [
     'asignaturas' => 'asignatura']]);
+Route::resource('asignatura_horas', 'AsignaturaHoraController', ['only' => ['update']]);
+Route::resource('bibliografias', 'BibliografiaController', ['only' => ['store', 'update', 'destroy']]);
+Route::resource('requisitos', 'RequisitoController', ['only' => ['store', 'destroy']]);
+
+Route::apiResource('competencia_evaluaciones', 'CompetenciaEvaluacionController', ['parameters' => [
+    'competencia_evaluaciones' => 'competencia_evaluacion']]);
+Route::apiResource('generica_evaluaciones', 'GenericaEvaluacionController', ['parameters' => [
+    'generica_evaluaciones' => 'generica_evaluacion']]);
+
+Route::resource('niveles', 'NivelController', ['only' => ['store', 'destroy']]);
+
+Route::resource('metodologias', 'MetodologiaController', ['only' => ['index']]);
+Route::resource('asignatura_metodologias', 'AsignaturaMetodologiaController', ['only' => ['store', 'destroy']]);
+
+
+Route::apiResource('unidades', 'UnidadController', ['parameters' => [
+    'unidades' => 'unidad']]);
+Route::apiResource('contenidos', 'ContenidoController', ['parameters' => [
+    'contenidos' => 'contenido']]);
 Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
 

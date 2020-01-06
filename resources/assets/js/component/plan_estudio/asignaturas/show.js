@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
+import Edit from './edit'
+import Panel from '../../utiles/Panel'
 
 
 export default class show extends Component {
@@ -42,181 +42,45 @@ export default class show extends Component {
     
     render() {
         return (
-            <div className="panel-body bg-white">
-                <div className="col-12 mb-2">
-                    <div className="col row mb-2">
-                        <div className="col-6">
-                            <label>Nombre</label>
-                            <input type="text" className="form-control">
-                            </input>
-                        </div>
-                        <div className="col-6">
-                            <label>Codigo</label>
-                            <input type="text" className="form-control">
-                            </input>
-                        </div>
-                    </div>
-                    <div className="col row mb-2">
-                        <div className="col-4">
-                            <label>Tipo de Asignatura</label>
-                            <select className="form-control">
-                                <option disabled value="">Seleccione una Opción</option>
-                            </select>
-                        </div>
-                        <div className="col-4">
-                            <label>Requisito</label>
-                            <select className="form-control">
-                                <option disabled value="">Seleccione una Opción</option>
-                            </select>
-                        </div>
-                        <div className="col-4">
-                            <label>Modalidad</label>
-                            <select className="form-control">
-                                <option disabled value="">Seleccione una Opción</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col row mb-2">
-                        <div className="col-6">
-                            <label>Ciclo o Programa de Formación</label>
-                            <select className="form-control">
-                                <option disabled value="">Seleccione una Opción</option>
-                            </select>
-                        </div>
-                        <div className="col-6">
-                            <label>Departamento</label>
-                            <select className="form-control">
-                                <option disabled value="">Seleccione una Opción</option>
-                            </select>
-                        </div>
-                        
-                    </div>
-                    <div className="col mb-2">
-                        <label>Descripción</label>
-                        <textarea className="form-control" rows="3"></textarea>
-                    </div>
-                    <div className="col mb-2">
-                        <label>Relación con el perfil de egreso</label>
-                        <textarea disabled className="form-control" rows="3"></textarea>
-                    </div>
-                    <div className="col mb-2">
-                        <label>Metodología de enseñanza y aprendizaje</label>
-                        <textarea className="form-control" rows="3"></textarea>
-                    </div>
-                    <div className="col mb-2">
-                        <label>Ambientes de aprendizaje</label>
-                        <textarea className="form-control" rows="3"></textarea>
-                    </div>
-                    <div className="col mb-2">
-                        <label>Perfil del docente</label>
-                        <textarea className="form-control" rows="3"></textarea>
-                    </div>
-                    <div className="col mb-2">
-                        <label>Perfil del ayudante</label>
-                        <textarea className="form-control" rows="3"></textarea>
-                    </div>
+            <div className="border p-3 mb-3">
+                <div className="col ui-sortable-disabled">
+                    <legend>Asignaturas del Nivel {this.props.nivelAsignatura.nombre}</legend>
+                    {
+                        this.props.asignaturas && 
+                        this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0 ?
+                            this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).map( asignatura =>
+                                <Panel key = {'asignatura-' + asignatura.id} titulo={asignatura.nombre} collapse={true}>
+                                    <Edit
+                                        asignatura={asignatura}
+                                        asignaturas={this.props.asignaturas}
+                                        niveles={this.props.niveles}
+                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                        handleAddElement = {this.props.handleAddElement}
+                                        handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
+                                        borrarElementoAsignatura={this.props.borrarElementoAsignatura}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}
+                                    />
+                                </Panel>    
+                            )
+                        :
+                            'No existen asignaturas en este nivel'
+                    }
                 </div>
-                <div className="col-12 mb-2 row">
-                    <div className="col-4">
-                        <strong>Horas</strong>
-                        <ol>
-                            <li>
-                                Aula: 6
-                                <ul>
-                                    <li>Teoria: 4</li>
-                                    <li>Taller: 0</li>
-                                    <li>Laboratorio: 2</li>
-                                </ul>
-                            </li>
-                            <li>Extra Aula: 6</li>
-                        </ol>
-                        <div>
-                            <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary">      
-                                <i className="fas fa-plus p-r-5" ></i>Modificar Horas
-                            </button>
-                        </div>
+                {
+                    this.props.ultimoNivel &&
+                    <div className="col-12 text-right mt-2">
+                        <button type="button" disabled={!this.state.deshabilitado && this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0} className="btn btn-danger p-5 m-l-5"
+                            onClick={() => {
+                                if (window.confirm('¿Estas Seguro?'))
+                                    this.props.borrarElemento('niveles', this.props.nivelAsignatura.id, this.props.addNotification)
+                            }}>
+                            <i className="fas fa-times p-r-10"></i>Eliminar Nivel</button>
                     </div>
-                    <div className="col-4">
-                        <strong>Unidades</strong>
-                        <ol>
-                            <li>Unidad 1</li>
-                            <li>Unidad 2</li>
-                            <li>Unidad 3</li>
-                        </ol>
-                        <div>
-                            <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary">      
-                                <i className="fas fa-plus p-r-5" ></i>Unidades
-                            </button>
-                        </div>
-                    </div>
-                    <div className="col-4">
-                        <strong>Bibliografia</strong>
-                        <ol>
-                            <li>Bibliografia 1</li>
-                            <li>Bibliografia 2</li>
-                            <li>Bibliografia 3</li>
-                        </ol>
-                        <div>
-                            <button type="button" disabled={!this.state.deshabilitado} className="btn btn-primary">      
-                                <i className="fas fa-plus p-r-5" ></i>Unidades
-                            </button>
-                        </div>
-                    </div> 
-                </div>
-                <div className="col-12 row">
-                    <div className="col-6">
-                        <strong>Competencias</strong>
-                        <ol>
-                            <li>
-                                Competencia 1
-                                <a className="m-l-5" href="" target="_blank">
-                                    <span className="badge badge-info">Ver</span>
-                                </a>
-                            </li>
-                            <li>
-                                Competencia 2
-                                <a className="m-l-5" href="" target="_blank">
-                                    <span className="badge badge-info">Ver</span>
-                                </a>
-                            </li>
-                            <li>
-                                Competencia 3
-                                <a className="m-l-5" href="" target="_blank">
-                                    <span className="badge badge-info">Ver</span>
-                                </a>
-                            </li>
-                        </ol>
-                    </div> 
-                    <div className="col-6">
-                        <strong>Competencias Genericas</strong>
-                        <ol>
-                            <li>
-                                Competencia Generica 1
-                                <a className="m-l-5" href="" target="_blank">
-                                    <span className="badge badge-info">Ver</span>
-                                </a>
-                            </li>
-                            <li>
-                                Competencia Generica 2
-                                <a className="m-l-5" href="" target="_blank">
-                                    <span className="badge badge-info">Ver</span>
-                                </a>
-                            </li>
-                            <li>
-                                Competencia Generica 3
-                                <a className="m-l-5" href="" target="_blank">
-                                    <span className="badge badge-info">Ver</span>
-                                </a>
-                            </li>
-                        </ol>
-                    </div>  
-                </div>
-                <div align="right" className="mt-2 mb-1">
-                    <button type="button" className="btn btn-primary">      
-                        <i className="fas fa-plus p-r-5" ></i>Guardar
-                    </button>
-                </div> 
-            </div>        
+                }
+            </div>     
         );
     }
 }

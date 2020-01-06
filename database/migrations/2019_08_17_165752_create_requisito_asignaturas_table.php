@@ -17,9 +17,9 @@ class CreateRequisitoAsignaturasTable extends Migration
             $table->increments('id');
 
             $table->unsignedInteger('asignatura_id')->nullable();
-            $table->foreign('asignatura_id')->references('id')->on('asignaturas');
+            $table->foreign('asignatura_id')->references('id')->on('asignaturas')->onDelete('cascade');
             $table->unsignedInteger('requisito_id')->nullable();
-            $table->foreign('requisito_id')->references('id')->on('asignaturas');
+            $table->foreign('requisito_id')->references('id')->on('asignaturas')->onDelete('cascade');
 
             $table->timestamps();
         });

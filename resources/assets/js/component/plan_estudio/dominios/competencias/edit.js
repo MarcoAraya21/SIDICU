@@ -76,7 +76,7 @@ export default class edit extends Component {
                     <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     <button type="button" disabled={!this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                     onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElemento('competencias', this.props.competencia.id)}}>
+                    this.props.borrarElemento('competencias', this.props.competencia.id,this.props.addNotification)}}>
                     <i className="fas fa-times p-r-10"></i>Eliminar</button>
                     
                 </div>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class TipoHora extends Model
 {
-    protected $fillable = ['nombre', 'padre_id'];
+    protected $fillable = ['nombre'];
 
     //verificar
     // public function padre()

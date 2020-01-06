@@ -15,12 +15,12 @@ class CreateBibliografiasTable extends Migration
     {
         Schema::create('bibliografias', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre_autor');
-            $table->string('apellido_autor');
-            $table->string('año');
-            $table->string('titulo');
-            $table->string('editorial');
-            $table->string('pais');
+            $table->string('nombre_autor')->nullable();
+            $table->string('apellido_autor')->nullable();
+            $table->string('año')->nullable();
+            $table->string('titulo')->nullable();
+            $table->string('editorial')->nullable();
+            $table->string('pais')->nullable();
             $table->timestamps();
         });
     }

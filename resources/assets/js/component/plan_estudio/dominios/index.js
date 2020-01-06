@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import { validaciones } from '../validaciones';
 import Edit from './edit';
-import { handleInput } from '../../utiles/lib';
-
+import Panel from '../../utiles/Panel'
 export default class index extends Component {
     constructor (props) {
         super(props)
@@ -58,14 +54,17 @@ export default class index extends Component {
                             {
                             this.props.dominios && this.props.dominios.filter(dominio =>
                                 dominio.tipo_dominio_id == 1).map( (dominio,i) =>
-                                <Edit key={dominio.id}
-                                dominio = {dominio}
-                                i={i}
-                                handleInputArrays={this.props.handleInputArrays}
-                                borrarElemento={this.props.borrarElemento}
-                                habilitarGeneral = {this.props.habilitarGeneral}
-                                habilitadogeneral = {this.props.habilitadogeneral}
-                                addNotification = {this.props.addNotification} />
+                                <Panel key={dominio.id} titulo={(dominio.nombre || 'Sin Nombre')}>
+                                    <Edit key={dominio.id}
+                                        dominio = {dominio}
+                                        i={i}
+                                        handleInputArrays={this.props.handleInputArrays}
+                                        borrarElemento={this.props.borrarElemento}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}
+                                    />
+                                </Panel>
                                 )
                             }
                             {this.props.dominios.filter(dominio => dominio.tipo_dominio_id == 1).length < 4 &&

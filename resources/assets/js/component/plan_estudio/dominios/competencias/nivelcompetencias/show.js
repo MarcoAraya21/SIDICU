@@ -1,9 +1,4 @@
 import React, { Component } from 'react'
-import axios from 'axios'
-import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
-import Edit from './edit';
 import ShowCompetencias from './showcompetencias';
 import Panel from '../../../../utiles/Panel';
 
@@ -22,15 +17,14 @@ export default class show extends Component {
     render() {
         return (
             <div className="border p-3 mb-3">
-                
-                <div className="col-12">
+                <div className="col ui-sortable-disabled">
                     <legend>Competencias</legend>
                     <React.Fragment>
                         {
                             !this.props.competencias_genericas
                             ?
                             this.props.dominio &&  this.props.dominio.competencias && this.props.dominio.competencias.map((competencia,i) =>
-                                <Panel key = {i} titulo={competencia.descripcion}>
+                                <Panel key = {'competencia-' + competencia.id} titulo={competencia.descripcion}>
                                     <ShowCompetencias
                                         competencia={competencia}
                                         asignaturas={this.props.asignaturas}
@@ -45,7 +39,7 @@ export default class show extends Component {
                             )
                             :
                             this.props.competencias_genericas.map((competencia_generica,i) =>
-                                <Panel key = {i} titulo={competencia_generica.sigla + ": " + competencia_generica.descripcion}>
+                                <Panel key = {'competencia-generica-' + competencia_generica.id} titulo={competencia_generica.sigla + ": " + competencia_generica.descripcion}>
                                     <ShowCompetencias
                                         competencia_generica={competencia_generica}
                                         asignaturas={this.props.asignaturas}

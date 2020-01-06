@@ -65,6 +65,7 @@ class PlanEstudioController extends Controller
         // $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);
         $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->academico_id,'rol_id' => 2]);
+        $PlanEstudio->niveles()->create(['nombre'=> 1]);
 
         $competencias = Competencia::where('dominio_id', 1)->get();
         $i = 0;
@@ -101,7 +102,8 @@ class PlanEstudioController extends Controller
                         ->with('logro_aprendizajes')
                         ->with(['nivel_competencia_asignaturas' => function ($query) {
                             $query
-                            ->with('asignatura');
+                            ->with('asignatura')
+                            ->with('competencia_evaluaciones');
                         }]);
                     }]);
                 }]);
@@ -113,6 +115,7 @@ class PlanEstudioController extends Controller
                 $query
                 ->with('usuario');
             }])
+            ->with('niveles')
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }

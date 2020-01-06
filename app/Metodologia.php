@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Metodologia extends Model
 {
-    protected $fillable = ['nombre', 'asignatura_id'];
+    protected $fillable = ['nombre'];
 
-    public function asignatura()
+    public function asignatura_metodologias()
     {
-        return $this->belongsTo('App\Asignatura');
+        return $this->hasMany('App\AsignaturaMetodologia');
     }
 }

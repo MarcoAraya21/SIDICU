@@ -24,6 +24,8 @@ class AddForeignKeysAsignaturasTable extends Migration
             $table->foreign('ciclo_id')->references('id')->on('ciclos');
             $table->unsignedInteger('departamento_id')->nullable(); 
             $table->foreign('departamento_id')->references('id')->on('departamentos');
+            $table->unsignedInteger('nivel_id')->nullable(); 
+            $table->foreign('nivel_id')->references('id')->on('niveles');
         });
     }
 
@@ -40,6 +42,8 @@ class AddForeignKeysAsignaturasTable extends Migration
             $table->dropForeign('asignaturas_regimen_id_foreign');
             $table->dropForeign('asignaturas_ciclo_id_foreign');
             $table->dropForeign('asignaturas_departamento_id_foreign');
+            $table->dropForeign('asignaturas_nivel_id_foreign');
+
         });
     }
 }

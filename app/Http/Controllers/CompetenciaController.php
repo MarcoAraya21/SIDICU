@@ -45,10 +45,6 @@ class CompetenciaController extends Controller
             $Competencia->nivel_competencias()->create(['nivel' => $i, 'descripcion' => 'Sin Nombre']);
         }
 
-        with(['nivel_competencias' => function ($query) {
-            $query
-            ->with('logro_aprendizajes');
-        }]);
         $Competencia = Competencia::with(['nivel_competencias' => function ($query) {
             $query
             ->with('logro_aprendizajes')

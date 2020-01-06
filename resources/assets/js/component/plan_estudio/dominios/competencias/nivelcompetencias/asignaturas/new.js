@@ -48,20 +48,23 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, handleInputArrays, handleAddElement, borrarElemento, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, handleAddElement, addNotification }) {
     const classes = useStyles();
     const [value, setvalue] = useState('');
     const [suggestions, setsuggestions] = useState([]);
+    const [existeasoc, setexisteasoc] = useState(false);
+    
     const filtrarsugerencias = [];
     nivel_competencia ?
         nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
-            filtrarsugerencias[i] = nivel_competencia_asignatura.asignatura
+            filtrarsugerencias[i] = nivel_competencia_asignatura.asignatura.id
         )
         :
         nivel_competencia_generica &&
         nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
-            filtrarsugerencias[i] = nivel_generica_asignatura.asignatura
+            filtrarsugerencias[i] = nivel_generica_asignatura.asignatura.id
         );
+    const sugerencias = asignaturas.filter(asignatura => !filtrarsugerencias.includes(asignatura.id));
 
 
     function escapeRegexCharacters(str) {
@@ -75,7 +78,7 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
             return [];
         }
         const regex = new RegExp('^' + escapedValue, 'i');
-        return asignaturas.filter(asignatura => regex.test(asignatura.nombre));
+        return sugerencias.filter(sugerencia => regex.test(sugerencia.nombre));
     }
 
     function getSuggestionValue(suggestion) {
@@ -92,6 +95,14 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
     };
 
     function onSuggestionsFetchRequested({ value }) {
+        let aux = false;
+        filtrarsugerencias.map(filtrarsugerencia => {
+            if (asignaturas.find(asignatura => asignatura.id == filtrarsugerencia).nombre == value) {
+                aux = true;
+            }
+        })
+        setexisteasoc(aux);
+
         setsuggestions(getSuggestions(value));
     };
 
@@ -100,18 +111,16 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
 
     };
     function addElemento() {
+        let form = {};        
+        let variable = '';
         let existe = false;
         let idAsignatura = 0;
-        let form = {};
         asignaturas.map(asignatura => {
             if (asignatura.nombre == value) {
                 existe = true;
                 idAsignatura = asignatura.id;
-
             }
-        }
-        )
-        let variable = '';
+        })
         if (existe) {
             if (nivel_competencia) {
                 variable = 'nivel_competencia_asignaturas';
@@ -149,7 +158,6 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
             }
         }
 
-        console.log(form)
         fetch(`/api/${variable}/`, {
 
             method: 'post',
@@ -175,11 +183,15 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                     if (data.nivel_competencia_id) {
                         handleAddElement(variable, data);
                         addNotification();
+                        handleCloseNew();
+                        setvalue("");
                     }
                     else {
                         if (data.nivel_generica_id) {
                             handleAddElement(variable, data);
                             addNotification();
+                            handleCloseNew();
+                            setvalue("");
                         }
                     }
                 }
@@ -187,11 +199,15 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                     if (data[1].nivel_competencia_id) {
                         handleAddElement(variable, data);
                         addNotification();
+                        handleCloseNew();
+                        setvalue("");
                     }
                     else {
                         if (data[1].nivel_generica_id) {
                             handleAddElement(variable, data);
                             addNotification();
+                            handleCloseNew();
+                            setvalue("");
                         }
                     }
                 }
@@ -209,12 +225,6 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
 
     return (
         <div>
-            {
-                [console.log('asignaturas', asignaturas),
-                console.log('filtrarsugerencias', filtrarsugerencias),
-                // console.log('sugerencias', sugerencias),
-                console.log('igualdad', asignaturas == filtrarsugerencias )]
-            }
             <Dialog open={openNew} onClose={handleCloseNew} scroll='body' disableEscapeKeyDown>
                 <DialogTitle id="form-dialog-title">Asociar Asignatura</DialogTitle>
                 <DialogContent>
@@ -234,9 +244,17 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                     <Button onClick={handleCloseNew} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={() => addElemento()} color="primary">
-                        Asociar
-                     </Button>
+                    {
+                        existeasoc || value == "" ?
+                        <Button disabled onClick={() => addElemento()} color="primary">
+                            Asociar
+                        </Button>
+                        :
+                        <Button onClick={() => addElemento()} color="primary">
+                            Asociar
+                        </Button>
+                    }
+                    
                 </DialogActions>
             </Dialog>
         </div>

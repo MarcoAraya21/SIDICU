@@ -15,7 +15,7 @@ class CreateMetodologiasTable extends Migration
     {
         Schema::create('metodologias', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nombre')->nullable();
+            $table->string('nombre');
             $table->timestamps();
         });
     }
