@@ -2,7 +2,7 @@
   "_args": [
     [
       "bootstrap-daterangepicker@2.1.30",
-      "C:\\Users\\MASTE\\desktop\\sidicu"
+      "C:\\Users\\Caro\\desktop\\sidicu"
     ]
   ],
   "_from": "bootstrap-daterangepicker@2.1.30",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/bootstrap-daterangepicker/-/bootstrap-daterangepicker-2.1.30.tgz",
   "_spec": "2.1.30",
-  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
+  "_where": "C:\\Users\\Caro\\desktop\\sidicu",
   "author": {
     "name": "Dan Grossman",
     "email": "dan@dangrossman.info",

@@ -276,10 +276,21 @@
 				<tr>
 					<th colspan="2">Competencias Genéricas Sello UTEM</th>
 				</tr>
-				<tr>
-					<td>Sigla</td>
-					<td>descripcion</td>
-				</tr>
+
+
+				<?php 
+			
+			foreach ($PlanEstudio->competencias_genericas as $key => $generica) {
+				echo '<tr>
+						<td>';
+				echo $generica->sigla;
+				echo '</td>
+						<td>';
+				echo $generica->descripcion;
+				echo '</td>
+					</tr>';
+				}
+			?>
 			</table>
 
 			<div class="page-break"></div>
@@ -291,7 +302,7 @@
 					<th>PERFIL DEL (nombre de la perfil) DE LA UNIVERSIDAD TECNOLÓGICA METROPOLITANA</th>
 				</tr>
 				<tr>
-					<td>(perfil de egreso)</td>
+					<td></td>
 				</tr>
 			</table>
 

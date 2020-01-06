@@ -2,7 +2,7 @@
   "_args": [
     [
       "ion-rangeslider@2.2.0",
-      "C:\\Users\\MASTE\\desktop\\sidicu"
+      "C:\\Users\\Caro\\desktop\\sidicu"
     ]
   ],
   "_from": "ion-rangeslider@2.2.0",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/ion-rangeslider/-/ion-rangeslider-2.2.0.tgz",
   "_spec": "2.2.0",
-  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
+  "_where": "C:\\Users\\Caro\\desktop\\sidicu",
   "author": {
     "name": "Denis Ineshin",
     "email": "ionden.tech@gmail.com",

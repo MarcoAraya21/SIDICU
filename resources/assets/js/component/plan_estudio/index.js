@@ -9,7 +9,7 @@ import Dominios from './dominios';
 import Competencias from './dominios/competencias';
 import NivelCompetencias from './dominios/competencias/nivelcompetencias';
 import Asignaturas from './asignaturas';
-
+import TreePlan from './tree';
 
 
 
@@ -168,6 +168,12 @@ export default class index extends Component {
                                     <span className="d-sm-block d-none">Asignaturas del Plan</span>
                                 </a>
                             </li>
+                            <li className="nav-items">
+                                <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
+                                    <span className="d-sm-none">Tree</span>
+                                    <span className="d-sm-block d-none">Tree Plan</span>
+                                </a>
+                            </li>
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane fade active show" id="plan-tab-show">
@@ -234,15 +240,27 @@ export default class index extends Component {
                                 asignaturas= {this.state.asignaturas}
                                 />
                             </div>
+                            <div className="tab-pane fade" id="plan-tab-5">
+                                <TreePlan id={this.state.id}
+                                nombre={this.state.nombre}
+                                dominios={this.state.dominios}
+                                competencias_genericas={this.state.competencias_genericas}/>
+                            </div>
                         </div>			
                     </div>
                </div>
                
                
                 <div className="col-12 text-right t-2">
+                    <a href="#" className="btn btn-primary">Ver Plan</a>
                     {/* <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
                     <a href={`/pdf_descargar/${this.state.id}`} download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
                 </div>
+
+               
+
+
+
             </div>
 
         );

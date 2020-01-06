@@ -2,7 +2,7 @@
   "_args": [
     [
       "clipboard@1.7.1",
-      "C:\\Users\\MASTE\\desktop\\sidicu"
+      "C:\\Users\\Caro\\desktop\\sidicu"
     ]
   ],
   "_from": "clipboard@1.7.1",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/clipboard/-/clipboard-1.7.1.tgz",
   "_spec": "1.7.1",
-  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
+  "_where": "C:\\Users\\Caro\\desktop\\sidicu",
   "bugs": {
     "url": "https://github.com/zenorocha/clipboard.js/issues"
   },
