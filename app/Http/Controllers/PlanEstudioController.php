@@ -160,8 +160,11 @@ class PlanEstudioController extends Controller
                     $casilla_logros_dominios = $casilla_logros_dominios + $casilla_nivel_logros;
                 };
             };
-
-            $auxiliar[$key] = (object) ['id' => $dominio->id, 'count_competencias' => $casilla_competencias, 'competencias' => $casilla_logros, 'casilla_logros' => $casilla_logros_dominios];
+            if($casilla_logros_dominios == 0)
+            {
+                $casilla_logros_dominios = 1;
+            }
+            $auxiliar[$key] = (object) ['id' => $dominio->id, 'casilla_competencias' => $casilla_competencias, 'competencias' => $casilla_logros, 'casilla_logros' => $casilla_logros_dominios];
             // $casilla = count($element->competencias);
             // if($casilla == 0)
             // {
