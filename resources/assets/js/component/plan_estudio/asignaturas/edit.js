@@ -475,9 +475,9 @@ export default class edit extends Component {
                                 <ol>
                                     {this.props.asignatura.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
                                         <li key={i}>{nivel_competencia_asignatura.nivel_competencia.descripcion}
-                                            <a className="m-l-5" href="" target="_blank">
+                                            {/* <a className="m-l-5" href="" target="_blank">
                                                 <span className="badge badge-info">Ver</span>
-                                            </a>
+                                            </a> */}
                                         </li>
                                     )}
                                 </ol>
@@ -491,9 +491,9 @@ export default class edit extends Component {
                                 <ol>
                                     {this.props.asignatura.nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
                                         <li key={i}>{nivel_generica_asignatura.nivel_generica.nivel_competencia.descripcion}
-                                            <a className="m-l-5" href="" target="_blank">
+                                            {/* <a className="m-l-5" href="" target="_blank">
                                                 <span className="badge badge-info">Ver</span>
-                                            </a>
+                                            </a> */}
                                         </li>
                                     )}
                                 </ol>
@@ -508,10 +508,8 @@ export default class edit extends Component {
                             {this.props.asignatura.unidades.length > 0 ?
                                 <ol>
                                     {this.props.asignatura.unidades.map((unidad, i) =>
-                                        <li key={i}>{unidad.nombre}
-                                            <a className="m-l-5" href="" target="_blank">
-                                                <span className="badge badge-info">Ver</span>
-                                            </a>
+                                        <li key={i}>
+                                            {unidad.nombre}
                                         </li>
                                     )}
                                 </ol>
@@ -529,10 +527,8 @@ export default class edit extends Component {
                             {this.props.asignatura.asignatura_metodologias.length > 0 ?
                                 <ol>
                                     {this.props.asignatura.asignatura_metodologias.map((asignatura_metodologia, i) =>
-                                        <li key={i}>{asignatura_metodologia.metodologia.nombre}
-                                            <a className="m-l-5" href="" target="_blank">
-                                                <span className="badge badge-info">Ver</span>
-                                            </a>
+                                        <li key={i}>
+                                            {asignatura_metodologia.metodologia.nombre}
                                         </li>
                                     )}
                                 </ol>
@@ -550,10 +546,8 @@ export default class edit extends Component {
                             {this.props.asignatura.bibliografias.length > 0 ?
                                 <ol>
                                     {this.props.asignatura.bibliografias.map((bibliografia, i) =>
-                                        <li key={i}>{bibliografia.titulo}
-                                            <a className="m-l-5" href="" target="_blank">
-                                                <span className="badge badge-info">Ver</span>
-                                            </a>
+                                        <li key={i}>
+                                            {bibliografia.titulo}
                                         </li>
                                     )}
                                 </ol>

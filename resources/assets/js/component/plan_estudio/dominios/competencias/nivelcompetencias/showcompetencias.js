@@ -47,7 +47,7 @@ export default class showcompetencias extends Component {
         return (
             !this.props.competencia_generica
             ?
-                <Panel key = {'competencia-' + this.props.competencia.id} titulo={this.props.competencia.descripcion} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandocompetencias)}>
+                <Panel key = {'competencia-' + this.props.competencia.id} titulo={this.props.competencia.descripcion} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandocompetencias)}>
                 {
                     this.props.competencia.nivel_competencias && this.props.competencia.nivel_competencias.length > 0 ?
                     this.props.competencia.nivel_competencias.map((nivel_competencia,i) =>
@@ -69,7 +69,7 @@ export default class showcompetencias extends Component {
                 </Panel>
                 
             :
-                <Panel key = {'competencia-generica-' + this.props.competencia_generica.id} titulo={this.props.competencia_generica.sigla + ": " + this.props.competencia_generica.descripcion} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandocompetencias)}>
+                <Panel key = {'competencia-generica-' + this.props.competencia_generica.id} titulo={this.props.competencia_generica.sigla + ": " + this.props.competencia_generica.descripcion} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandocompetencias)}>
                 {
                     this.props.competencia_generica.nivel_competencias.map((nivel_competencia_generica,i) =>
                         <Edit key={nivel_competencia_generica.id}

@@ -55,5 +55,7 @@ Route::apiResource('unidades', 'UnidadController', ['parameters' => [
     'unidades' => 'unidad']]);
 Route::apiResource('contenidos', 'ContenidoController', ['parameters' => [
     'contenidos' => 'contenido']]);
+
+Route::get('plan_estudios/{plan_id}/datos', 'PlanEstudioController@datos');
 Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
 

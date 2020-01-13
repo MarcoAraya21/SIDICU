@@ -185,8 +185,8 @@ export default class index extends Component {
                             </li>
                             <li className="nav-items">
                                 <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">Tree</span>
-                                    <span className="d-sm-block d-none">Tree Plan</span>
+                                    <span className="d-sm-none">Gráficos</span>
+                                    <span className="d-sm-block d-none">Gráficos y Tablas</span>
                                 </a>
                             </li>
                         </ul>
@@ -268,10 +268,10 @@ export default class index extends Component {
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-5">
-                                {/* <TreePlan id={this.state.id}
+                                <TreePlan id={this.state.id}
                                 nombre={this.state.nombre}
                                 dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}/> */}
+                                competencias_genericas={this.state.competencias_genericas}/>
                             </div>
                         </div>			
                     </div>

@@ -50,7 +50,7 @@ export default class show extends Component {
     render() {
         return (
             !this.props.competencias_genericas ?
-            <Panel key={'dominio-' + this.props.dominio.id} titulo={'Dominio ' + this.props.dominio.tipo_dominio.nombre + ': ' + ("D" + (this.props.i + 1) + " ") + (this.props.dominio.nombre || 'Sin Nombre')} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandodominio)}>
+            <Panel key={'dominio-' + this.props.dominio.id} titulo={'Dominio ' + this.props.dominio.tipo_dominio.nombre + ': ' + ("D" + (this.props.i + 1) + " ") + (this.props.dominio.nombre || 'Sin Nombre')} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandodominio)}>
                 {
                     this.props.dominio.competencias && this.props.dominio.competencias.length > 0 ?
                     this.props.dominio.competencias.map((competencia,i) =>
@@ -74,11 +74,11 @@ export default class show extends Component {
                 </div> 
             </Panel>
             :
-            <Panel key={'dominio-generico'} titulo={'Dominio: Generico'} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.habilitareditdominios)}>
+            <Panel key={'dominio-generico'} titulo={'Dominio: Generico'} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.habilitareditdominios)}>
                 {
                     this.props.competencias_genericas.map((competencia_generica,i) =>
                     <div key={i} className="border px-2 py-2 mb-3">
-                        {competencia_generica.descripcion}
+                        {competencia_generica.sigla + ": " + competencia_generica.descripcion}
                     </div>
                     )
                 }

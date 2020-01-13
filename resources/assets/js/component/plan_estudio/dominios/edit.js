@@ -59,7 +59,7 @@ export default class edit extends Component {
     
     render() {
         return (
-            <Panel titulo={("D" + (this.props.i + 1) + " ") + (this.props.dominio.nombre || 'Sin Nombre')} border={true} expand={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
+            <Panel titulo={("D" + (this.props.i + 1) + " ") + (this.props.dominio.nombre || 'Sin Nombre')} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
                 <div className="mb-2">
                     <p className="m-0">Nombre:</p>
                     <input type="text"

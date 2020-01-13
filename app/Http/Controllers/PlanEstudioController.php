@@ -120,6 +120,61 @@ class PlanEstudioController extends Controller
         return $PlanEstudio->toJson();
     }
 
+
+    public function datos($id)
+    {
+        $PlanEstudio = PlanEstudio::
+            with(['dominios' => function ($query) {
+                $query
+                 ->with(['competencias' => function ($query) {
+                    $query
+                    ->with(['nivel_competencias' => function ($query) {
+                        $query
+                        ->with('logro_aprendizajes');
+                    }]);
+                }]);
+            }])
+            ->findOrFail($id);
+        $auxiliar = $PlanEstudio->dominios;
+        // $auxiliar = [];
+
+        $auxiliar = [];
+
+        foreach ($PlanEstudio->dominios as $key => $dominio) {
+            $casilla_logros_dominios = 0;
+            $casilla_competencias = count($dominio->competencias);
+            if($casilla_competencias == 0)
+            {
+                $casilla_competencias = 1;
+            };
+            $casilla_logros = [];
+            foreach ($dominio->competencias as $key2 => $competencia) {
+                $casilla_logros[$key2] = (object) ['id' => $competencia->id, 'casilla_logros' => 0];
+                foreach ($competencia->nivel_competencias as $key3 => $nivel_competencia) {
+                    $casilla_nivel_logros = count($nivel_competencia->logro_aprendizajes);
+                    if($casilla_nivel_logros == 0)
+                    {
+                        $casilla_nivel_logros = 1;
+                    }
+                    $casilla_logros[$key2]->casilla_logros = $casilla_logros[$key2]->casilla_logros + $casilla_nivel_logros;
+                    $casilla_logros_dominios = $casilla_logros_dominios + $casilla_nivel_logros;
+                };
+            };
+
+            $auxiliar[$key] = (object) ['id' => $dominio->id, 'count_competencias' => $casilla_competencias, 'competencias' => $casilla_logros, 'casilla_logros' => $casilla_logros_dominios];
+            // $casilla = count($element->competencias);
+            // if($casilla == 0)
+            // {
+            //     $casilla = 1;
+            // }
+            // $auxiliar[$key] = object('nombre' => $element->id, '2');
+        }
+
+        // $auxiliar[0] =
+        
+        return $auxiliar;
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

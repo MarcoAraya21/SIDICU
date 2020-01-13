@@ -24,8 +24,21 @@ export default class edit extends Component {
         this.handleCloseAsignatura = this.handleCloseAsignatura.bind(this);
         this.habilitar = this.habilitar.bind(this);
 
+        this.irAsignatura = this.irAsignatura.bind(this);
 
+    }
 
+    irAsignatura(asignatura)
+    {
+        document.querySelector('a[href="#plan-tab-4"]').click();
+        document.querySelector('a[href="#nivel-tab-1"]').click();
+
+        // if(asignatura.nivel)
+        // nivel tab show 
+        // o nivel tab x
+        // setTimeout(() => {
+        //     document.getElementById('panel-' + solicitud).scrollIntoView();
+        // }, 500);
     }
 
     habilitar(){
@@ -128,9 +141,12 @@ export default class edit extends Component {
                                 {this.props.nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura,i) =>
                                     <li key={i}>
                                         {nivel_competencia_asignatura.asignatura.nombre}
-                                        <a className="m-l-5" href="" target="_blank">
+                                        {/* <a className="m-l-5"
+                                            href=""
+                                            // onClick={() => this.irAsignatura(nivel_competencia_asignatura.asignatura)}
+                                            target="_blank">
                                             <span className="badge badge-info">Ver</span>
-                                        </a>
+                                        </a> */}
                                     </li>
                                 )}
                             </ol>

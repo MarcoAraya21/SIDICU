@@ -9567,12 +9567,12 @@ var index = function (_Component) {
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'span',
                                         { className: 'd-sm-none' },
-                                        'Tree'
+                                        'Gr\xE1ficos'
                                     ),
                                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'span',
                                         { className: 'd-sm-block d-none' },
-                                        'Tree Plan'
+                                        'Gr\xE1ficos y Tablas'
                                     )
                                 )
                             )
@@ -9663,7 +9663,14 @@ var index = function (_Component) {
                                     addNotification: this.addNotification
                                 })
                             ),
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('div', { className: 'tab-pane fade', id: 'plan-tab-5' })
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'div',
+                                { className: 'tab-pane fade', id: 'plan-tab-5' },
+                                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__tree__["a" /* default */], { id: this.state.id,
+                                    nombre: this.state.nombre,
+                                    dominios: this.state.dominios,
+                                    competencias_genericas: this.state.competencias_genericas })
+                            )
                         )
                     )
                 ),
@@ -39878,7 +39885,7 @@ var edit = function (_Component) {
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_1__utiles_Panel__["a" /* default */],
-                { titulo: "D" + (this.props.i + 1) + " " + (this.props.dominio.nombre || 'Sin Nombre'), border: true, expand: true, habilitado: !this.props.habilitadogeneral && this.state.deshabilitado },
+                { titulo: "D" + (this.props.i + 1) + " " + (this.props.dominio.nombre || 'Sin Nombre'), border: true, collapse: true, expand: true, habilitado: !this.props.habilitadogeneral && this.state.deshabilitado },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'mb-2' },
@@ -40123,7 +40130,7 @@ var show = function (_Component) {
 
             return !this.props.competencias_genericas ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_2__utiles_Panel__["a" /* default */],
-                { key: 'dominio-' + this.props.dominio.id, titulo: 'Dominio ' + this.props.dominio.tipo_dominio.nombre + ': ' + ("D" + (this.props.i + 1) + " ") + (this.props.dominio.nombre || 'Sin Nombre'), border: true, expand: true, habilitado: !this.props.habilitadogeneral && !this.state.editandodominio },
+                { key: 'dominio-' + this.props.dominio.id, titulo: 'Dominio ' + this.props.dominio.tipo_dominio.nombre + ': ' + ("D" + (this.props.i + 1) + " ") + (this.props.dominio.nombre || 'Sin Nombre'), border: true, collapse: true, expand: true, habilitado: !this.props.habilitadogeneral && !this.state.editandodominio },
                 this.props.dominio.competencias && this.props.dominio.competencias.length > 0 ? this.props.dominio.competencias.map(function (competencia, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__edit__["a" /* default */], { key: competencia.id,
                         competencia: competencia,
@@ -40153,12 +40160,12 @@ var show = function (_Component) {
                 )
             ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_2__utiles_Panel__["a" /* default */],
-                { key: 'dominio-generico', titulo: 'Dominio: Generico', border: true, expand: true, habilitado: !this.props.habilitadogeneral && !this.state.habilitareditdominios },
+                { key: 'dominio-generico', titulo: 'Dominio: Generico', border: true, collapse: true, expand: true, habilitado: !this.props.habilitadogeneral && !this.state.habilitareditdominios },
                 this.props.competencias_genericas.map(function (competencia_generica, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
                         { key: i, className: 'border px-2 py-2 mb-3' },
-                        competencia_generica.descripcion
+                        competencia_generica.sigla + ": " + competencia_generica.descripcion
                     );
                 })
             );
@@ -40646,7 +40653,7 @@ var showcompetencias = function (_Component) {
 
             return !this.props.competencia_generica ? __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_2__utiles_Panel__["a" /* default */],
-                { key: 'competencia-' + this.props.competencia.id, titulo: this.props.competencia.descripcion, border: true, expand: true, habilitado: !this.props.habilitadogeneral && !this.state.editandocompetencias },
+                { key: 'competencia-' + this.props.competencia.id, titulo: this.props.competencia.descripcion, border: true, collapse: true, expand: true, habilitado: !this.props.habilitadogeneral && !this.state.editandocompetencias },
                 this.props.competencia.nivel_competencias && this.props.competencia.nivel_competencias.length > 0 ? this.props.competencia.nivel_competencias.map(function (nivel_competencia, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__edit__["a" /* default */], { key: nivel_competencia.id,
                         nivel_competencia: nivel_competencia,
@@ -40666,7 +40673,7 @@ var showcompetencias = function (_Component) {
                 )
             ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_2__utiles_Panel__["a" /* default */],
-                { key: 'competencia-generica-' + this.props.competencia_generica.id, titulo: this.props.competencia_generica.sigla + ": " + this.props.competencia_generica.descripcion, border: true, expand: true, habilitado: !this.props.habilitadogeneral && !this.state.editandocompetencias },
+                { key: 'competencia-generica-' + this.props.competencia_generica.id, titulo: this.props.competencia_generica.sigla + ": " + this.props.competencia_generica.descripcion, border: true, collapse: true, expand: true, habilitado: !this.props.habilitadogeneral && !this.state.editandocompetencias },
                 this.props.competencia_generica.nivel_competencias.map(function (nivel_competencia_generica, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_1__edit__["a" /* default */], { key: nivel_competencia_generica.id,
                         nivel_competencia_generica: nivel_competencia_generica,
@@ -40742,10 +40749,25 @@ var edit = function (_Component) {
         _this.handleCloseAsignatura = _this.handleCloseAsignatura.bind(_this);
         _this.habilitar = _this.habilitar.bind(_this);
 
+        _this.irAsignatura = _this.irAsignatura.bind(_this);
+
         return _this;
     }
 
     _createClass(edit, [{
+        key: 'irAsignatura',
+        value: function irAsignatura(asignatura) {
+            document.querySelector('a[href="#plan-tab-4"]').click();
+            document.querySelector('a[href="#nivel-tab-1"]').click();
+
+            // if(asignatura.nivel)
+            // nivel tab show 
+            // o nivel tab x
+            // setTimeout(() => {
+            //     document.getElementById('panel-' + solicitud).scrollIntoView();
+            // }, 500);
+        }
+    }, {
         key: 'habilitar',
         value: function habilitar() {
             this.setState({ deshabilitado: false });
@@ -40887,16 +40909,7 @@ var edit = function (_Component) {
                                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'li',
                                         { key: i },
-                                        nivel_competencia_asignatura.asignatura.nombre,
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            'a',
-                                            { className: 'm-l-5', href: '', target: '_blank' },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'span',
-                                                { className: 'badge badge-info' },
-                                                'Ver'
-                                            )
-                                        )
+                                        nivel_competencia_asignatura.asignatura.nombre
                                     );
                                 })
                             ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -61278,16 +61291,7 @@ var edit = function (_Component) {
                                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'li',
                                         { key: i },
-                                        nivel_competencia_asignatura.nivel_competencia.descripcion,
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            'a',
-                                            { className: 'm-l-5', href: '', target: '_blank' },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'span',
-                                                { className: 'badge badge-info' },
-                                                'Ver'
-                                            )
-                                        )
+                                        nivel_competencia_asignatura.nivel_competencia.descripcion
                                     );
                                 })
                             ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -61311,16 +61315,7 @@ var edit = function (_Component) {
                                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'li',
                                         { key: i },
-                                        nivel_generica_asignatura.nivel_generica.nivel_competencia.descripcion,
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            'a',
-                                            { className: 'm-l-5', href: '', target: '_blank' },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'span',
-                                                { className: 'badge badge-info' },
-                                                'Ver'
-                                            )
-                                        )
+                                        nivel_generica_asignatura.nivel_generica.nivel_competencia.descripcion
                                     );
                                 })
                             ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -61348,16 +61343,7 @@ var edit = function (_Component) {
                                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'li',
                                         { key: i },
-                                        unidad.nombre,
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            'a',
-                                            { className: 'm-l-5', href: '', target: '_blank' },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'span',
-                                                { className: 'badge badge-info' },
-                                                'Ver'
-                                            )
-                                        )
+                                        unidad.nombre
                                     );
                                 })
                             ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -61393,16 +61379,7 @@ var edit = function (_Component) {
                                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'li',
                                         { key: i },
-                                        asignatura_metodologia.metodologia.nombre,
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            'a',
-                                            { className: 'm-l-5', href: '', target: '_blank' },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'span',
-                                                { className: 'badge badge-info' },
-                                                'Ver'
-                                            )
-                                        )
+                                        asignatura_metodologia.metodologia.nombre
                                     );
                                 })
                             ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -61438,16 +61415,7 @@ var edit = function (_Component) {
                                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                         'li',
                                         { key: i },
-                                        bibliografia.titulo,
-                                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                            'a',
-                                            { className: 'm-l-5', href: '', target: '_blank' },
-                                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                                                'span',
-                                                { className: 'badge badge-info' },
-                                                'Ver'
-                                            )
-                                        )
+                                        bibliografia.titulo
                                     );
                                 })
                             ) : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -62285,6 +62253,26 @@ function Unidades(_ref) {
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
                     null,
+                    __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                        'div',
+                        null,
+                        __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                            'ul',
+                            null,
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'li',
+                                null,
+                                'Horas Aula Restantes: ',
+                                restantes.aula
+                            ),
+                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+                                'li',
+                                null,
+                                'Horas Extra-Aula Restantes: ',
+                                restantes.extra_aula
+                            )
+                        )
+                    ),
                     unidades.length > 0 ? unidades.map(function (unidad, i) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_19__show__["a" /* default */], { key: unidad.id,
                             unidad: unidad,
@@ -62670,7 +62658,7 @@ var edit = function (_Component) {
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 'div',
-                { className: 'row' },
+                { className: 'row mb-2' },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'col-6' },
@@ -63000,15 +62988,13 @@ function metodologias(_ref) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__material_ui_icons_Close__ = __webpack_require__(22);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__material_ui_icons_Close___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__material_ui_icons_Close__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__material_ui_core_Slide__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__utiles_Panel__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__edit__ = __webpack_require__(546);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__material_ui_core_TextField__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__material_ui_core_DialogActions__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__material_ui_core_DialogContent__ = __webpack_require__(26);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__material_ui_core_DialogContentText__ = __webpack_require__(27);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_20__material_ui_core_DialogTitle__ = __webpack_require__(28);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__edit__ = __webpack_require__(546);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_15__material_ui_core_TextField__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_16__material_ui_core_DialogActions__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_17__material_ui_core_DialogContent__ = __webpack_require__(26);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_18__material_ui_core_DialogContentText__ = __webpack_require__(27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_19__material_ui_core_DialogTitle__ = __webpack_require__(28);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
 
 
 
@@ -63127,7 +63113,7 @@ function bibliografias(_ref) {
                 )
             ),
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_18__material_ui_core_DialogContent__["a" /* default */],
+                __WEBPACK_IMPORTED_MODULE_17__material_ui_core_DialogContent__["a" /* default */],
                 null,
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
@@ -63138,19 +63124,16 @@ function bibliografias(_ref) {
                         'B\xE1sica'
                     ),
                     basica.length > 0 ? basica.map(function (bibliografia) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            __WEBPACK_IMPORTED_MODULE_14__utiles_Panel__["a" /* default */],
-                            { key: 'bibliografia' + bibliografia.id, titulo: bibliografia.titulo || 'Sin Nombre', collapse: true },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_15__edit__["a" /* default */], { key: bibliografia.id,
-                                bibliografia: bibliografia,
-                                asignaturaId: asignaturaId,
-                                handleInputArrays: handleInputArrays,
-                                handleInputArraysAsignatura: handleInputArraysAsignatura,
-                                borrarElementoAsignatura: borrarElementoAsignatura,
-                                habilitarGeneral: habilitarGeneral,
-                                habilitadogeneral: habilitadogeneral,
-                                addNotification: addNotification })
-                        );
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_14__edit__["a" /* default */], { key: bibliografia.id,
+                            bibliografia: bibliografia,
+                            asignaturaId: asignaturaId,
+                            handleInputArrays: handleInputArrays,
+                            handleInputArraysAsignatura: handleInputArraysAsignatura,
+                            borrarElementoAsignatura: borrarElementoAsignatura,
+                            habilitarGeneral: habilitarGeneral,
+                            habilitadogeneral: habilitadogeneral,
+                            addNotification: addNotification
+                        });
                     }) : 'No posee Bibliografia Basica',
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'legend',
@@ -63158,19 +63141,16 @@ function bibliografias(_ref) {
                         'Complementaria'
                     ),
                     complementaria.length > 0 ? complementaria.map(function (bibliografia) {
-                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                            __WEBPACK_IMPORTED_MODULE_14__utiles_Panel__["a" /* default */],
-                            { key: 'bibliografia' + bibliografia.id, titulo: bibliografia.titulo || 'Sin Nombre', collapse: true },
-                            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_15__edit__["a" /* default */], { key: bibliografia.id,
-                                bibliografia: bibliografia,
-                                asignaturaId: asignaturaId,
-                                handleInputArrays: handleInputArrays,
-                                handleInputArraysAsignatura: handleInputArraysAsignatura,
-                                borrarElementoAsignatura: borrarElementoAsignatura,
-                                habilitarGeneral: habilitarGeneral,
-                                habilitadogeneral: habilitadogeneral,
-                                addNotification: addNotification })
-                        );
+                        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_14__edit__["a" /* default */], { key: bibliografia.id,
+                            bibliografia: bibliografia,
+                            asignaturaId: asignaturaId,
+                            handleInputArrays: handleInputArrays,
+                            handleInputArraysAsignatura: handleInputArraysAsignatura,
+                            borrarElementoAsignatura: borrarElementoAsignatura,
+                            habilitarGeneral: habilitarGeneral,
+                            habilitadogeneral: habilitadogeneral,
+                            addNotification: addNotification
+                        });
                     }) : 'No posee Bibliografia Basica',
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'div',
@@ -63197,6 +63177,9 @@ function bibliografias(_ref) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utiles_Panel__ = __webpack_require__(12);
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -63204,6 +63187,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -63216,7 +63200,9 @@ var edit = function (_Component) {
         var _this = _possibleConstructorReturn(this, (edit.__proto__ || Object.getPrototypeOf(edit)).call(this, props));
 
         _this.state = {
-            deshabilitado: true
+            tipo_bibliografia: _this.props.bibliografia.tipo_bibliografia_id,
+            deshabilitado: true,
+            editando: false
         };
         _this.handleSubmit = _this.handleSubmit.bind(_this);
         _this.habilitar = _this.habilitar.bind(_this);
@@ -63242,7 +63228,7 @@ var edit = function (_Component) {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(this.props.bibliografia)
+                body: JSON.stringify(_extends({}, this.props.bibliografia, { tipo_bibliografia_id: this.state.tipo_bibliografia }))
             }).then(function (response) {
                 if (response.ok) {
                     return response.json();
@@ -63250,11 +63236,9 @@ var edit = function (_Component) {
                     throw "Error en la llamada Ajax";
                 }
             }).then(function (data) {
-                _this2.props.addNotification();
+                [_this2.setState({ guardando: false, deshabilitado: true, editando: false }), _this2.props.habilitarGeneral(true), _this2.state.tipo_bibliografia != _this2.props.bibliografia.tipo_bibliografia_id && alert('Se ha trasladado al apartado de ' + (_this2.state.tipo_bibliografia == 1 ? 'Básica' : _this2.state.tipo_bibliografia == 2 && 'Complementaria')), _this2.props.handleInputArraysAsignatura(_this2.state.tipo_bibliografia, 'bibliografias', 'tipo_bibliografia_id', _this2.props.bibliografia.id, _this2.props.asignaturaId), _this2.props.addNotification()];
             }).catch(function (error) {
                 console.log('Hubo un problema con la petición Fetch:' + error.message);
-            }).finally(function () {
-                [_this2.setState({ guardando: false, deshabilitado: true }), _this2.props.habilitarGeneral(true)];
             });
             //console.log('formulario enviado',this.state);
         }
@@ -63264,8 +63248,8 @@ var edit = function (_Component) {
             var _this3 = this;
 
             return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                'div',
-                { className: "my-2 " + (!this.props.habilitadogeneral && this.state.deshabilitado ? "deshabilitado" : "") },
+                __WEBPACK_IMPORTED_MODULE_1__utiles_Panel__["a" /* default */],
+                { key: 'bibliografia' + this.props.bibliografia.id, titulo: this.props.bibliografia.titulo || 'Sin Nombre', border: true, collapse: true, habilitado: !this.props.habilitadogeneral && this.state.deshabilitado },
                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     'div',
                     { className: 'col-12' },
@@ -63281,6 +63265,7 @@ var edit = function (_Component) {
                                 'Titulo'
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
+                                disabled: this.state.deshabilitado,
                                 className: 'form-control ',
                                 value: this.props.bibliografia.titulo || '',
                                 onChange: function onChange(e) {
@@ -63298,9 +63283,10 @@ var edit = function (_Component) {
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                 'select',
                                 { defaultValue: this.props.bibliografia.tipo_bibliografia_id,
+                                    disabled: this.state.deshabilitado,
                                     className: 'form-control ',
                                     onChange: function onChange(e) {
-                                        return _this3.props.handleInputArraysAsignatura(e, 'bibliografias', 'tipo_bibliografia_id', _this3.props.bibliografia.id, _this3.props.asignaturaId);
+                                        return _this3.setState({ tipo_bibliografia: e.target ? e.target.value : e });
                                     } },
                                 __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                                     'option',
@@ -63332,6 +63318,7 @@ var edit = function (_Component) {
                                 'Nombre del Autor'
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
+                                disabled: this.state.deshabilitado,
                                 className: 'form-control ',
                                 value: this.props.bibliografia.nombre_autor || '',
                                 onChange: function onChange(e) {
@@ -63347,6 +63334,7 @@ var edit = function (_Component) {
                                 'Apellido del Autor'
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
+                                disabled: this.state.deshabilitado,
                                 className: 'form-control ',
                                 value: this.props.bibliografia.apellido_autor || '',
                                 onChange: function onChange(e) {
@@ -63366,6 +63354,7 @@ var edit = function (_Component) {
                                 'A\xF1o'
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
+                                disabled: this.state.deshabilitado,
                                 className: 'form-control ',
                                 value: this.props.bibliografia.año || '',
                                 onChange: function onChange(e) {
@@ -63381,6 +63370,7 @@ var edit = function (_Component) {
                                 'Editorial'
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
+                                disabled: this.state.deshabilitado,
                                 className: 'form-control ',
                                 value: this.props.bibliografia.editorial || '',
                                 onChange: function onChange(e) {
@@ -63396,6 +63386,7 @@ var edit = function (_Component) {
                                 'Pais'
                             ),
                             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('input', { type: 'text',
+                                disabled: this.state.deshabilitado,
                                 className: 'form-control ',
                                 value: this.props.bibliografia.pais || '',
                                 onChange: function onChange(e) {
@@ -63409,21 +63400,23 @@ var edit = function (_Component) {
                     { className: 'col-12 text-right mt-2' },
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', disabled: !this.state.deshabilitado, className: 'btn btn-lime p-5', onClick: function onClick() {
-                                return [_this3.habilitar(), _this3.props.habilitarGeneral(false)];
+                        { type: 'button', disabled: !this.state.editando && !this.props.habilitadogeneral || !this.state.deshabilitado, className: 'btn btn-lime p-5', onClick: function onClick() {
+                                return [_this3.habilitar(), _this3.props.habilitarGeneral(false), _this3.setState({ editando: true })];
                             } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-pencil-alt p-r-10' }),
                         'Editar'
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', disabled: this.state.deshabilitado, className: 'btn btn-primary p-5 m-l-5', onClick: this.handleSubmit },
+                        { type: 'button', disabled: !this.state.editando && !this.props.habilitadogeneral || this.state.deshabilitado, className: 'btn btn-primary p-5 m-l-5', onClick: function onClick() {
+                                return _this3.handleSubmit();
+                            } },
                         __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('i', { className: 'fas fa-save p-r-10' }),
                         'Guardar'
                     ),
                     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         'button',
-                        { type: 'button', disabled: !this.state.deshabilitado, className: 'btn btn-danger p-5 m-l-5',
+                        { type: 'button', disabled: !this.state.editando && !this.props.habilitadogeneral || !this.state.deshabilitado, className: 'btn btn-danger p-5 m-l-5',
                             onClick: function onClick() {
                                 if (window.confirm('¿Estas Seguro?')) _this3.props.borrarElementoAsignatura('bibliografias', _this3.props.bibliografia.id, _this3.props.addNotification, _this3.props.asignaturaId);
                             } },
@@ -63525,6 +63518,7 @@ var StyledTreeExample = function (_React$Component) {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_2_react_organizational_chart__["a" /* Tree */],
             {
+              style: { overflowX: 'scroll' },
               lineWidth: "2px",
               lineColor: "green",
               lineBorderRadius: "10px",
@@ -63687,7 +63681,7 @@ var StyledTreeExample = function (_React$Component) {
               this.props.competencias_genericas.length > 0 && this.props.competencias_genericas[0].nivel_competencias[0].logro_aprendizajes.slice(1, this.props.competencias_genericas[0].nivel_competencias[0].logro_aprendizajes.length).map(function (logro, i) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   "tr",
-                  null,
+                  { key: i },
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "td",
                     null,
@@ -63698,7 +63692,7 @@ var StyledTreeExample = function (_React$Component) {
               this.props.competencias_genericas.length > 0 && this.props.competencias_genericas[0].nivel_competencias.slice(1, 3).map(function (nivel, i) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
-                  null,
+                  { key: i },
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "tr",
                     null,
@@ -63721,7 +63715,7 @@ var StyledTreeExample = function (_React$Component) {
                   nivel.logro_aprendizajes.slice(1, nivel.logro_aprendizajes.length).map(function (logro, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "tr",
-                      null,
+                      { key: i },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "td",
                         null,
@@ -63734,7 +63728,7 @@ var StyledTreeExample = function (_React$Component) {
               this.props.competencias_genericas.length && this.props.competencias_genericas.slice(1, this.props.competencias_genericas.length).map(function (generica, i) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
-                  null,
+                  { key: i },
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "tr",
                     null,
@@ -63762,7 +63756,7 @@ var StyledTreeExample = function (_React$Component) {
                   generica.nivel_competencias[0].logro_aprendizajes.slice(1, generica.nivel_competencias[0].logro_aprendizajes.length).map(function (logro, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "tr",
-                      null,
+                      { key: i },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "td",
                         null,
@@ -63773,7 +63767,7 @@ var StyledTreeExample = function (_React$Component) {
                   generica.nivel_competencias.slice(1, generica.nivel_competencias.length).map(function (nivel, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
-                      null,
+                      { key: i },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "tr",
                         null,
@@ -63796,7 +63790,7 @@ var StyledTreeExample = function (_React$Component) {
                       nivel.logro_aprendizajes.slice(1, nivel.logro_aprendizajes.length).map(function (logro, i) {
                         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                           "tr",
-                          null,
+                          { key: i },
                           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                             "td",
                             null,
@@ -63811,7 +63805,7 @@ var StyledTreeExample = function (_React$Component) {
               this.props.dominios.map(function (dominio, i) {
                 return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.Fragment,
-                  null,
+                  { key: i },
                   __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                     "tr",
                     null,
@@ -63844,7 +63838,7 @@ var StyledTreeExample = function (_React$Component) {
                   dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.slice(1, dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length).map(function (logro, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "tr",
-                      null,
+                      { key: i },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "td",
                         null,
@@ -63855,7 +63849,7 @@ var StyledTreeExample = function (_React$Component) {
                   dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias.slice(1, dominio.competencias[0].nivel_competencias.length).map(function (nivel, i) {
                     return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                       "tr",
-                      null,
+                      { key: i },
                       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                         "td",
                         null,
@@ -63885,7 +63879,7 @@ var StyledTreeExample = function (_React$Component) {
   return StyledTreeExample;
 }(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
 
-/* unused harmony default export */ var _unused_webpack_default_export = (StyledTreeExample);
+/* harmony default export */ __webpack_exports__["a"] = (StyledTreeExample);
 
 /***/ }),
 /* 548 */

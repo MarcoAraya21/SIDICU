@@ -55,7 +55,7 @@ export default class edit extends Component {
 
     render() {
         return (
-            <div className="row">
+            <div className="row mb-2">
                 <div className="col-6">
                     <input type="text"
                         disabled={this.state.deshabilitado}

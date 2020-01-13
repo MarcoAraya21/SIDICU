@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import Panel from '../../../utiles/Panel'
 import Edit from './edit';
 
 
@@ -99,7 +98,6 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                         {
                             basica.length > 0 ?
                                 basica.map(bibliografia =>
-                                <Panel key={'bibliografia' + bibliografia.id} titulo={bibliografia.titulo || 'Sin Nombre'} collapse={true}>
                                     <Edit key={bibliografia.id}
                                         bibliografia={bibliografia}
                                         asignaturaId={asignaturaId}
@@ -108,8 +106,8 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                                         borrarElementoAsignatura={borrarElementoAsignatura}
                                         habilitarGeneral={habilitarGeneral}
                                         habilitadogeneral={habilitadogeneral}
-                                        addNotification={addNotification} />
-                                </Panel>
+                                        addNotification={addNotification}
+                                    />
                                 )   
                             :
                                 'No posee Bibliografia Basica'
@@ -118,7 +116,6 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                         {
                             complementaria.length > 0 ?
                                 complementaria.map(bibliografia =>
-                                <Panel key={'bibliografia' + bibliografia.id} titulo={bibliografia.titulo || 'Sin Nombre'} collapse={true}>
                                     <Edit key={bibliografia.id}
                                         bibliografia={bibliografia}
                                         asignaturaId={asignaturaId}
@@ -127,8 +124,8 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                                         borrarElementoAsignatura={borrarElementoAsignatura}
                                         habilitarGeneral={habilitarGeneral}
                                         habilitadogeneral={habilitadogeneral}
-                                        addNotification={addNotification} />
-                                </Panel>
+                                        addNotification={addNotification}
+                                    />
                                 )   
                             :
                                 'No posee Bibliografia Basica'

@@ -103,6 +103,12 @@ export default function Unidades({ openUnidades, handleCloseUnidades, unidades, 
                 </AppBar>
                 <DialogContent>
                         <React.Fragment>
+                            <div>
+                                <ul>
+                                    <li>Horas Aula Restantes: {restantes.aula}</li>
+                                    <li>Horas Extra-Aula Restantes: {restantes.extra_aula}</li>
+                                </ul>
+                            </div>
                             {
                                 unidades.length > 0 ?
                                     unidades.map((unidad, i) =>
