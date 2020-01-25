@@ -9,8 +9,8 @@ class Modalidad extends Model
     protected $fillable = ['nombre'];
     protected $table = 'modalidades';
 
-    public function asignaturas()
+    public function plan_estudios()
     {
-        return $this->hasMany('App\Asignatura');
+        return $this->hasMany('App\PlanEstudio');
     }
 }

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Competencia extends Model
 {
-    protected $fillable = ['descripcion', 'dominio_id'];
+    protected $fillable = ['descripcion', 'funcion_clave', 'dominio_id'];
 
     public function dominio()
     {

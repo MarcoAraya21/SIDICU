@@ -23,6 +23,12 @@ class CreatePlanEstudiosTable extends Migration
             $table->text('mecanismo_retencion')->nullable();
             $table->text('requisito_obtencion')->nullable();
             $table->text('campo_desarrollo')->nullable();
+            $table->boolean('nueva_oferta')->default(false);
+            $table->string('perfil_egresado')->nullable();
+            $table->string('perfil_licenciado')->nullable();
+            $table->string('titulo_intermedio')->nullable();
+            $table->string('minor')->nullable();
+            $table->string('diploma')->nullable();
             $table->timestamps();
         });
     }

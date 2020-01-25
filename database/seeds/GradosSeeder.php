@@ -12,14 +12,14 @@ class GradosSeeder extends Seeder
     public function run()
     {
         DB::table('grados')->insert([
-            ['nombre' => 'Licenciado en Administración Pública', 'perfil' => ''],
-            ['nombre' => 'Licenciado en Bibliotecología y Gestión de Información', 'perfil' => ''],
-            ['nombre' => 'Licenciado en Contabilidad y Auditoría', 'perfil' => ''],
-            ['nombre' => 'Licenciado en Ciencias de la Administración de Empresas', 'perfil' => ''],
-            ['nombre' => 'Licenciado en Administración y Negocios', 'perfil' => ''],
-            ['nombre' => 'Licenciado en Comercio Internacional', 'perfil' => ''],
-            ['nombre' => 'Licenciado en Administración Turística', 'perfil' => ''],
-            ['nombre' => 'Licenciado en Contabilidad y Auditoría', 'perfil' => ''],
+            ['nombre' => 'Licenciado en Administración Pública'],
+            ['nombre' => 'Licenciado en Bibliotecología y Gestión de Información'],
+            ['nombre' => 'Licenciado en Contabilidad y Auditoría'],
+            ['nombre' => 'Licenciado en Ciencias de la Administración de Empresas'],
+            ['nombre' => 'Licenciado en Administración y Negocios'],
+            ['nombre' => 'Licenciado en Comercio Internacional'],
+            ['nombre' => 'Licenciado en Administración Turística'],
+            ['nombre' => 'Licenciado en Contabilidad y Auditoría'],
 
 
         ]);

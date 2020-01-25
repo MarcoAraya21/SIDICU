@@ -9,6 +9,7 @@ import Dominios from './dominios';
 import Competencias from './dominios/competencias';
 import NivelCompetencias from './dominios/competencias/nivelcompetencias';
 import Asignaturas from './asignaturas';
+import Diseno from './diseno';
 import TreePlan from './tree';
 
 
@@ -179,12 +180,18 @@ export default class index extends Component {
                             </li>
                             <li className="nav-items">
                                 <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
+                                    <span className="d-sm-none">Diseño</span>
+                                    <span className="d-sm-block d-none">Diseño del Plan</span>
+                                </a>
+                            </li>
+                            <li className="nav-items">
+                                <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Asignaturas</span>
                                     <span className="d-sm-block d-none">Asignaturas del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Gráficos</span>
                                     <span className="d-sm-block d-none">Gráficos y Tablas</span>
                                 </a>
@@ -253,6 +260,21 @@ export default class index extends Component {
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-4">
+                                <Diseno
+                                    asignaturas = {this.state.asignaturas}
+                                    niveles = {this.state.niveles}
+                                    handleInputArrays = {this.handleInputArrays}
+                                    handleInputArraysAsignatura = {this.handleInputArraysAsignatura}
+                                    handleAddElement = {this.handleAddElement}
+                                    borrarElemento = {this.borrarElemento}
+                                    handleAddElementAsignatura = {this.handleAddElementAsignatura}
+                                    borrarElementoAsignatura = {this.borrarElementoAsignatura}
+                                    habilitarGeneral = {this.habilitarGeneral}
+                                    habilitadogeneral = {this.state.habilitadogeneral}
+                                    addNotification = {this.addNotification}
+                                />
+                            </div>
+                            <div className="tab-pane fade" id="plan-tab-5">
                                 <Asignaturas
                                 asignaturas = {this.state.asignaturas}
                                 niveles = {this.state.niveles}
@@ -267,7 +289,7 @@ export default class index extends Component {
                                 addNotification = {this.addNotification}
                                 />
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-5">
+                            <div className="tab-pane fade" id="plan-tab-6">
                                 <TreePlan id={this.state.id}
                                 nombre={this.state.nombre}
                                 dominios={this.state.dominios}

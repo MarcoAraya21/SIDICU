@@ -16,8 +16,6 @@ class AddForeignKeysCarrerasTable extends Migration
         Schema::table('carreras', function (Blueprint $table) {
             $table->unsignedInteger('escuela_id')->nullable(); 
             $table->foreign('escuela_id')->references('id')->on('escuelas');
-            $table->unsignedInteger('grado_id')->nullable(); 
-            $table->foreign('grado_id')->references('id')->on('grados');
         });
     }
 
@@ -30,7 +28,6 @@ class AddForeignKeysCarrerasTable extends Migration
     {
         Schema::table('carreras', function (Blueprint $table) {
             $table->dropForeign('carreras_escuela_id_foreign');
-            $table->dropForeign('carreras_grado_id_foreign');
         });
     }
 }

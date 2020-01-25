@@ -18,7 +18,6 @@ class CreateCarrerasTable extends Migration
             $table->string('nombre');
             $table->string('cod_demre');
             $table->string('titulo');
-            $table->text('perfil');
             $table->timestamps();
         });
     }

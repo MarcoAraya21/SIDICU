@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CarrerasSeeder::class);
         $this->call(TipoIngresosSeeder::class);
         $this->call(TipoPlanesSeeder::class);
+        $this->call(TipoGradosSeeder::class);
         $this->call(PerfilesSeeder::class);
         $this->call(RolesSeeder::class);
         $this->call(DominiosSeeder::class);
@@ -32,6 +33,6 @@ class DatabaseSeeder extends Seeder
         $this->call(CiclosSeeder::class);
         $this->call(DepartamentosSeeder::class);
         $this->call(TipoBibliografiasSeeder::class);
-
+        $this->call(TipoFormacionesSeeder::class);
     }
 }

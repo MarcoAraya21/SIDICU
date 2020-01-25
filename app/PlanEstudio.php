@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PlanEstudio extends Model
 {
-    protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo',
-                            'carrera_id', 'tipo_plan_id', 'tipo_ingreso_id', 'padre_id', 'estado_id'];
+    protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo', 'nueva_oferta', 'perfil_egresado', 'perfil_licenciado', 'titulo_intermedio', 'minor', 'diploma',
+                            'carrera_id', 'tipo_plan_id', 'tipo_grado_id', 'tipo_ingreso_id', 'padre_id', 'estado_id', 'modalidad_id', 'regimen_id', 'grado_id', 'tipo_formacion_id'];
     protected $appends = ['competencias_genericas','asignaturas','sct_totales'];
 
 
@@ -19,9 +19,29 @@ class PlanEstudio extends Model
     {
         return $this->belongsTo('App\TipoPlan');
     }
+    public function tipo_grado()
+    {
+        return $this->belongsTo('App\TipoGrado');
+    }
     public function tipo_ingreso()
     {
         return $this->belongsTo('App\TipoIngreso');
+    }
+    public function modalidad()
+    {
+        return $this->belongsTo('App\Modalidad');
+    }
+    public function regimen()
+    {
+        return $this->belongsTo('App\Regimen');
+    }
+    public function grado()
+    {
+        return $this->belongsTo('App\Grado');
+    }
+    public function tipo_formaciones()
+    {
+        return $this->belongsTo('App\TipoFormacion');
     }
     //verificar
     public function padre()

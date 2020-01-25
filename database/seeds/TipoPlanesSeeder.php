@@ -12,7 +12,8 @@ class TipoPlanesSeeder extends Seeder
     public function run()
     {
         DB::table('tipo_planes')->insert([
-            ['nombre' => 'Regular']
+            ['nombre' => 'Regular'],
+            ['nombre' => 'Prosecución']
         ]);
     }
 }

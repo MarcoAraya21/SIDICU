@@ -12,7 +12,9 @@ class ModalidadesSeeder extends Seeder
     public function run()
     {
         DB::table('modalidades')->insert([
-            ['nombre' => 'Presencial']
+            ['nombre' => 'Presencial'],
+            ['nombre' => 'Semi Presencial'],
+            ['nombre' => 'A Distancia'],
         ]);
     }
 }

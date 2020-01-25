@@ -147,6 +147,7 @@ class Index extends Component {
                                     onChange={(e)=>this.handleInput(e, 'tipo_plan_id')}>
                                     <option disabled value="">Seleccione una Opción</option>
                                     <option value='1'>Regular</option>
+                                    <option value='2'>Prosecución</option>
                                 </select>
                                 {this.state.errores.tipo_plan_id &&
                                 <div className="invalid-feedback">{this.state.errores.tipo_plan_id}</div>}

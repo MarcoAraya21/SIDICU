@@ -6,19 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Asignatura extends Model
 {
-    protected $fillable = ['nombre', 'codigo', 'descripcion', 'relacion_egreso', 'ambientes', 'perfil_docente', 'perfil_ayudante', 'tipo_asignatura_id', 'modalidad_id', 'regimen_id', 'ciclo_id', 'requisito_id', 'departamento_id', 'nivel_id'];
+    protected $fillable = ['nombre', 'codigo', 'descripcion', 'relacion_egreso', 'ambientes', 'perfil_docente', 'perfil_ayudante', 'tipo_asignatura_id', 'ciclo_id', 'requisito_id', 'departamento_id', 'nivel_id'];
 
     public function tipo_asignatura()
     {
         return $this->belongsTo('App\TipoAsignatura');
-    }
-    public function modalidad()
-    {
-        return $this->belongsTo('App\Modalidad');
-    }
-    public function regimen()
-    {
-        return $this->belongsTo('App\Regimen');
     }
     public function ciclo()
     {

@@ -17,6 +17,7 @@ class CreateCompetenciasTable extends Migration
             $table->increments('id');
             $table->text('descripcion')->nullable();
             $table->string('sigla')->nullable();
+            $table->text('funcion_clave')->nullable();
             $table->timestamps();
         });
     }
