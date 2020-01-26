@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import Index from './component/Index'
 import PlanEstudio from './component/plan_estudio/index'
-import Index2 from './component/plan_estudio/index2'
+import CrearPlan from './component/crear_plan/index'
 import Admin from './component/admin/index'
 // import IndexAsignaturas from './component/asignaturas/index'
 
@@ -16,7 +16,7 @@ const Router = () => {
                 <Switch>
                     <Route path='/Administrador' component={Admin} />
                     {/* <Route path='/ListAsignaturas' component={IndexAsignaturas} /> */}
-                    <Route path='/NewPlan' component={Index2} />
+                    <Route path='/NuevoPlan' component={CrearPlan} />
                     <Route path='/:id' component={PlanEstudio} />
                     <Route exact path='/' component={Index} />
                 </Switch>

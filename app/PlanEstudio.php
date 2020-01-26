@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlanEstudio extends Model
 {
     protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo', 'nueva_oferta', 'perfil_egresado', 'perfil_licenciado', 'titulo_intermedio', 'minor', 'diploma',
-                            'carrera_id', 'tipo_plan_id', 'tipo_grado_id', 'tipo_ingreso_id', 'padre_id', 'estado_id', 'modalidad_id', 'regimen_id', 'grado_id', 'tipo_formacion_id'];
+                            'carrera_id', 'tipo_plan_id', 'tipo_grado_id', 'tipo_ingreso_id', 'estado_id', 'modalidad_id', 'regimen_id', 'grado_id', 'tipo_formacion_id', 'jornada_id'];
     protected $appends = ['competencias_genericas','asignaturas','sct_totales'];
 
 
@@ -39,14 +39,13 @@ class PlanEstudio extends Model
     {
         return $this->belongsTo('App\Grado');
     }
-    public function tipo_formaciones()
+    public function tipo_formacion()
     {
         return $this->belongsTo('App\TipoFormacion');
     }
-    //verificar
-    public function padre()
+    public function jornada()
     {
-        return $this->belongsTo('App\PlanEstudio');
+        return $this->belongsTo('App\Jornada');
     }
     public function estado()
     {
@@ -56,11 +55,6 @@ class PlanEstudio extends Model
     public function anexos()
     {
         return $this->hasMany('App\Anexo');
-    }
-    //verificar
-    public function hijos()
-    {
-        return $this->hasMany('App\PlanEstudio');
     }
     //verificar
     public function plan_estudio_usuarios()

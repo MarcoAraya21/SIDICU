@@ -21,7 +21,7 @@ return [
 				'url' => 'javascript:;',
 				'sub_menu' => [
 					[
-						'url' => '/NewPlan',
+						'url' => '/NuevoPlan',
 						'title' => 'Nuevo Plan'
 					],
 					[

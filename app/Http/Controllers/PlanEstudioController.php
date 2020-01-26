@@ -53,9 +53,7 @@ class PlanEstudioController extends Controller
             'nombre' => 'required',
             'observacion' => 'required',
             'carrera_id' => 'required|numeric|min:1',
-            'tipo_plan_id' => 'required|numeric|min:1',
-            'tipo_ingreso_id' => 'required|numeric|min:1',
-            
+            'tipo_plan_id' => 'required|numeric|min:1',            
         ]);
 
         $PlanEstudio = PlanEstudio::create($request->all());

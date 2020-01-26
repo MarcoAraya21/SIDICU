@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call(DepartamentosSeeder::class);
         $this->call(TipoBibliografiasSeeder::class);
         $this->call(TipoFormacionesSeeder::class);
+        $this->call(JornadasSeeder::class);
     }
 }

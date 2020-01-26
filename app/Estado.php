@@ -12,4 +12,8 @@ class Estado extends Model
     {
         return $this->hasMany('App\PlanEstudio');
     }
+    public function carreras()
+    {
+        return $this->hasMany('App\Carrera');
+    }
 }

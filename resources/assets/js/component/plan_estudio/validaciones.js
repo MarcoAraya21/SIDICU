@@ -45,6 +45,9 @@ export function validaciones(values, show){
         if (!values.tipo_plan_id) {
             errors.tipo_plan_id = campo_mensaje;
         }
+        if (!values.tipo_grado_id) {
+            errors.tipo_plan_id = campo_mensaje;
+        }
         if (!values.tipo_ingreso_id) {
             errors.tipo_ingreso_id = campo_mensaje;
         }

@@ -16,7 +16,7 @@ class CarreraController extends Controller
      */
     public function index()
     {
-        $carreras = Carrera::all();
+        $carreras = Carrera::with('escuela')->get();
         return $carreras->toJson();
     }
 
@@ -38,7 +38,14 @@ class CarreraController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'nombre' => 'required',
+            'titulo' => 'required',
+            'escuela_id' => 'required|numeric|min:1',
+            
+        ]);        
+        $Carrera = Carrera::Create($request->all());
+        return response()->json($Carrera, 201);
     }
 
     /**

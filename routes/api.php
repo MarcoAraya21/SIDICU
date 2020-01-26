@@ -17,7 +17,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::apiResource('carreras', 'CarreraController');
+Route::resource('carreras', 'CarreraController', ['only' => ['index', 'store']]);
+Route::resource('escuelas', 'EscuelaController', ['only' => ['index']]);
+Route::resource('grados', 'GradoController', ['only' => ['index']]);
+
+
 Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
     'plan_estudios' => 'plan_estudio']]);
 Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
