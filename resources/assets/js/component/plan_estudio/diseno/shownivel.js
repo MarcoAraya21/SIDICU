@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import Panel from '../../utiles/Panel'
+import Edit from './edit'
 
-export default class show extends Component {
+export default class shownivel extends Component {
     constructor (props) {
         super(props)
         this.state = {
@@ -72,47 +73,23 @@ export default class show extends Component {
                                 this.props.asignaturas && 
                                 this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0 ?
                                     this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).map( (asignatura,i) =>
-                                        <tr>
-                                            <td>
-                                                <select defaultValue={""}
-                                                    disabled={this.state.deshabilitado}
-                                                    className="form-control "
-                                                    onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'ciclo_id', this.props.asignatura.id)}>
-                                                    <option disabled value="">Seleccione una Opción</option>
-                                                    <option value='1'>Ciclo Cientifico Tecnológico</option>
-                                                    <option value='2'>Ciclo de Especialización</option>
-                                                    <option value='3'>Ciclo de Titulación</option>
-                                                    <option value='4'>Programa de Desarrollo Personal y Social</option>
-                                                    <option value='5'>Programa de Bienestar Físico y Deportes</option>
-                                                    <option value='6'>Programa de Inglés</option>
-                                                </select>
-                                            </td>
-                                            <td>Código</td>
-                                            <td>Nombre</td>
-                                            <td>
-                                                {(aulas.reduce((previous, current) => {
-                                                    return Number(previous) + Number(current.cantidad);
-                                                }, 0) +
-                                                    extra_aulas.cantidad) / 2}
-                                            </td>
-                                            <td>
-                                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenRequisitos() }}>
-                                                    <i className="fas fa-plus p-r-5" ></i>Ver Requisitos
-                                                </button>
-                                            </td>
-                                            <td>
-                                                <select disabled={requisitosAsignatura.length == 0 || this.state.deshabilitado} defaultValue={""}
-                                                    className="form-control "
-                                                    onChange={(e) => this.setState({ nivel: {id: Number(e.target.value), nombre: Number(e.target.options[e.target.selectedIndex].text.slice(5)) }})}>
-                                                    <option disabled value="">Seleccione una Opción</option>
-                                                    {
-                                                        requisitosAsignatura.map((requisitoAsignatura, i) =>
-                                                            <option key={i} value={requisitoAsignatura.id}>Nivel {requisitoAsignatura.nombre}</option>
-                                                        )
-                                                    }
-                                                </select>
-                                            </td> 
-                                        </tr>
+                                        <Edit
+                                            key={i}
+                                            i={i}
+                                            nivelAsignatura={this.props.nivelAsignatura}
+                                            niveles = {this.props.niveles}
+                                            asignatura = {asignatura}
+                                            asignaturas={this.props.asignaturas}
+                                            handleInputArrays = {this.props.handleInputArrays}
+                                            handleAddElement={this.props.handleAddElement}
+                                            borrarElemento={this.props.borrarElemento}
+                                            handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                            handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
+                                            borrarElementoAsignatura={this.props.borrarElementoAsignatura}
+                                            habilitarGeneral={this.props.habilitarGeneral}
+                                            habilitadogeneral={this.props.habilitadogeneral}
+                                            addNotification={this.props.addNotification}
+                                        />
                                     )
                                 :
                                     'No existen asignaturas en este nivel'

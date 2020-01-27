@@ -103,8 +103,6 @@ class AsignaturaController extends Controller
             }]);
         }])
         ->with('tipo_asignatura')
-        ->with('modalidad')
-        ->with('regimen')
         ->with('ciclo')
         ->with('departamento')
         ->with('nivel')

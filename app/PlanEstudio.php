@@ -143,8 +143,6 @@ class PlanEstudio extends Model
                             }]);
                         }])
                         ->with('tipo_asignatura')
-                        ->with('modalidad')
-                        ->with('regimen')
                         ->with('ciclo')
                         ->with('departamento')
                         ->with('nivel')
@@ -193,8 +191,6 @@ class PlanEstudio extends Model
                     }]);
                 }])
                 ->with('tipo_asignatura')
-                ->with('modalidad')
-                ->with('regimen')
                 ->with('ciclo')
                 ->with('departamento')
                 ->with('nivel')

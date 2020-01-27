@@ -337,16 +337,6 @@ export default class edit extends Component {
                                     extra_aulas.cantidad) / 2}>
                             </input>
                         </div>
-                        <div className="col-6">
-                            <label>Modalidad</label>
-                            <select defaultValue={""}
-                                disabled={this.state.deshabilitado}
-                                className="form-control "
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'modalidad_id', this.props.asignatura.id)}>
-                                <option disabled value="">Seleccione una Opción</option>
-                                <option value='1'>Presencial</option>
-                            </select>
-                        </div>
                     </div>
                     <div className="col row mb-2">
                         <div className="col-6">
@@ -368,16 +358,6 @@ export default class edit extends Component {
                                     <i className="fas fa-plus p-r-5" ></i>Modificar Horas
                                 </button>
                             </div>
-                        </div>
-                        <div className="col-6">
-                            <label>Regimen</label>
-                            <select defaultValue={""}
-                                disabled={this.state.deshabilitado}
-                                className="form-control "
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'regimen_id', this.props.asignatura.id)}>
-                                <option disabled value="">Seleccione una Opción</option>
-                                <option value='1'>Semestral</option>
-                            </select>
                         </div>
                     </div>
                     <div className="col row mb-2">

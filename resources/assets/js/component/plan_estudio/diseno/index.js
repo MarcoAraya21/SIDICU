@@ -7,41 +7,7 @@ export default class index extends Component {
         this.state = {
         }
         
-        // this.addElemento = this.addElemento.bind(this);
-
     }
-
-    // addElemento(variable){
-    //     //e.preventDefault();
-    //     fetch(`/api/${variable}/`, {
-    //         method: 'post',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type':'application/json'
-    //         }
-    //         ,
-    //         body: JSON.stringify(
-    //             {plan_estudio_id:  this.props.id,
-    //             tipo_dominio_id: 1}
-    //         )
-    //     })
-    //     .then(function(response) {
-    //         if(response.ok) {
-    //             return response.json();
-    //         } else {
-    //             throw "Error en la llamada Ajax";
-    //         }
-         
-    //      })
-    //     .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
-    //     .catch(function(error) {
-    //         console.log('Hubo un problema con la petición Fetch:' + error.message);
-    //     })
-         
-        
-    // }
-    
-
     
     render() {
         return (
