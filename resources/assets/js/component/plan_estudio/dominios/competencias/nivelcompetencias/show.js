@@ -2,17 +2,15 @@ import React, { Component } from 'react'
 import ShowCompetencias from './showcompetencias';
 import Panel from '../../../../utiles/Panel';
 
+
 export default class show extends Component {
     constructor (props) {
         super(props)
         this.state = {
         }
         
-
     }
 
-
-    
     render() {
         return (
             <div className="border p-3 mb-3">

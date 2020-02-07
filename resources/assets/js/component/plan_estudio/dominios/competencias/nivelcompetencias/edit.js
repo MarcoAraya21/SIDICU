@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import axios from 'axios'
 import { Link } from 'react-router-dom'
-import ReactNotification from "react-notifications-component";
-import "react-notifications-component/dist/theme.css";
+
 import Logros from './logrosaprendizajes';
 import Asignatura from './asignaturas';
 
@@ -25,9 +24,11 @@ export default class edit extends Component {
         this.habilitar = this.habilitar.bind(this);
 
         this.irAsignatura = this.irAsignatura.bind(this);
-
+        
     }
 
+
+    
     irAsignatura(asignatura)
     {
         document.querySelector('a[href="#plan-tab-4"]').click();
@@ -105,11 +106,12 @@ export default class edit extends Component {
     
     render() {
         return (
-            <React.Fragment>
+            <React.Fragment>                
                 {
                 !this.props.nivel_competencia_generica ?
                 <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
-                    <p className="m-0">Ingrese Descripción del Nivel {this.props.nivel_competencia.nivel}:</p>
+                    <p className="m-0">
+                    Ingrese Descripción del Nivel {this.props.nivel_competencia.nivel}:</p>
                     <textarea rows="3"
                         disabled={this.state.deshabilitado}
                         className="form-control" 

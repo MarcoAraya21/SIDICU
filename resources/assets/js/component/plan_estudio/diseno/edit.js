@@ -43,6 +43,7 @@ export default class edit extends Component {
 
 
     handleSubmit() {
+        console.log(this.props)
         //e.preventDefault();
         this.setState({ guardando: true })
         if (!this.props.niveles.some(nivel => nivel.id == this.state.nivel.id)) {

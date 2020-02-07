@@ -6,22 +6,17 @@ export default class shownivel extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            deshabilitado: true,
+            editandoasignatura: false
         }
 
-        this.habilitar = this.habilitar.bind(this);
-        // this.habilitareditdominios = this.habilitareditdominios.bind(this);
+        this.habilitareditasignaturas = this.habilitareditasignaturas.bind(this);
 
         
     }
 
-
-    habilitar() {
-        this.setState({ deshabilitado: false });
+    habilitareditasignaturas(estado){
+        this.setState({editandoasignatura: estado});
     }
-    // habilitareditdominios(estado){
-    //     this.setState({editandodominio: estado});
-    // }
 
     // addElemento(variable){
     //     //e.preventDefault();
@@ -54,7 +49,7 @@ export default class shownivel extends Component {
     
     render() {
         return (
-            <Panel key={'Nivel-' + this.props.nivelAsignatura.nombre} titulo={'Nivel ' + this.props.nivelAsignatura.nombre} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandodominio)}>
+            <Panel key={'Nivel-' + this.props.nivelAsignatura.nombre} titulo={'Semestre ' + this.props.nivelAsignatura.nombre} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandoasignatura)}>
             {
                 <div className="table-responsive">
                     <table className="table">
@@ -65,7 +60,7 @@ export default class shownivel extends Component {
                                 <th>Nombre</th>
                                 <th>SCT-Chile</th>
                                 <th>Requisitos</th>
-                                <th>Cambiar Nivel</th>
+                                <th>Cambiar Semestre</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,6 +83,7 @@ export default class shownivel extends Component {
                                             borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                             habilitarGeneral={this.props.habilitarGeneral}
                                             habilitadogeneral={this.props.habilitadogeneral}
+                                            habilitareditasignaturas = {this.habilitareditasignaturas}
                                             addNotification={this.props.addNotification}
                                         />
                                     )

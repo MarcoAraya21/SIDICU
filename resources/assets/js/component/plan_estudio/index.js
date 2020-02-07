@@ -33,7 +33,6 @@ export default class index extends Component {
             dominios: [],
             usuarios: [],
             competencias_genericas: [],
-            asignaturas: [],
             niveles: [],
             habilitadogeneral: true,
         }
@@ -91,6 +90,14 @@ export default class index extends Component {
         axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) =>{
+                var asignaturas = [];
+                var i = 0;
+                response.data.niveles.map(nivel =>
+                    nivel.asignaturas.map(asignatura =>
+                        [asignaturas[i] = asignatura,
+                        i = i + 1]
+                    )
+                );
                 this.setState({
                     id: response.data.id,
                     nombre: response.data.nombre,
@@ -107,8 +114,8 @@ export default class index extends Component {
                     dominios: response.data.dominios,
                     usuarios: response.data.plan_estudio_usuarios,
                     competencias_genericas: response.data.competencias_genericas,
-                    asignaturas: response.data.asignaturas,
-                    niveles: response.data.niveles
+                    niveles: response.data.niveles,
+                    asignaturas: asignaturas
                 })
                 // console.log(response.data.informe_avance)
             }            
@@ -124,7 +131,8 @@ export default class index extends Component {
         //         // console.log(response.data.informe_avance)
         //     }            
         //     //console.log(response.data)
-        // );           
+        // );
+
     }
 
     componentWillMount() {
@@ -133,6 +141,7 @@ export default class index extends Component {
 
     
     render() {
+        
         // var aux2 = []
         // this.state.dominios && this.state.dominios.map(dominio =>
         //     dominio.competencias.map((competencia,j) =>
@@ -290,10 +299,10 @@ export default class index extends Component {
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-6">
-                                <TreePlan id={this.state.id}
+                                {/* <TreePlan id={this.state.id}
                                 nombre={this.state.nombre}
                                 dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}/>
+                                competencias_genericas={this.state.competencias_genericas}/> */}
                             </div>
                         </div>			
                     </div>
