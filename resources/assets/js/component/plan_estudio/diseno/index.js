@@ -31,7 +31,10 @@ export default class index extends Component {
                                 habilitarGeneral={this.props.habilitarGeneral}
                                 habilitadogeneral={this.props.habilitadogeneral}
                                 addNotification={this.props.addNotification}
+                                ultimoNivel={nivelAsignatura.id == this.props.niveles[this.props.niveles.length - 1].id}
                             />
+
+                            
                         )
                     }           
                 </div>  

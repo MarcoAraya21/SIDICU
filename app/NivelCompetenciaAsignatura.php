@@ -17,9 +17,4 @@ class NivelCompetenciaAsignatura extends Model
     {
         return $this->belongsTo('App\Asignatura');
     }
-    
-    public function competencia_evaluaciones()
-    {
-        return $this->hasMany('App\CompetenciaEvaluacion');
-    }
 }

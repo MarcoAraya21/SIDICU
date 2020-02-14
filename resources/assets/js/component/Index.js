@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import dominios from './plan_estudio/index'
 import {borrarElemento} from '../component/utiles/lib';
-import Holi from '../component/plan_estudio/holi'
 
 class Index extends Component {
   constructor (props) {

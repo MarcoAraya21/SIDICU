@@ -50,7 +50,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
   const classes = useStyles();
-
+  let horas_aula = asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id != 4).reduce((previous, current) => {
+        return Number(previous) + Number(current.cantidad);
+    }, 0);
+  let horas_extra_aula = asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id == 4).reduce((previous, current) => {
+      return Number(previous) + Number(current.cantidad);
+    }, 0);
   return (
     <div>
       <Dialog fullScreen open={openHoras} onClose={handleCloseHoras} TransitionComponent={Transition} disableEscapeKeyDown>
@@ -66,19 +71,51 @@ export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, a
           </Toolbar>
         </AppBar>
         <DialogContent>
+          <div className="text-right">
+            <em>Horas Pedagógicas: 45 Minutos</em>
+            <br/>
+            <em>Horas Cronológicas: 60 Minutos</em>
+          </div> 
           <div className="border p-3 mb-3">
+            <legend>Horas Aula Pedagógicas</legend>
             {
-                asignatura_horas.map((asignatura_hora, i) =>
-                  <Edit key={asignatura_hora.id}
-                    asignatura_hora={asignatura_hora}
-                    asignaturaId={asignaturaId}
-                    i={i}
-                    handleInputArraysAsignatura= {handleInputArraysAsignatura}
-                    habilitarGeneral={habilitarGeneral}
-                    habilitadogeneral={habilitadogeneral}
-                    addNotification={addNotification} />
-                )
+              asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id != 4).map((asignatura_hora, i) =>
+                <Edit key={asignatura_hora.id}
+                  asignatura_hora={asignatura_hora}
+                  asignaturaId={asignaturaId}
+                  i={asignatura_hora.id}
+                  handleInputArraysAsignatura= {handleInputArraysAsignatura}
+                  habilitarGeneral={habilitarGeneral}
+                  habilitadogeneral={habilitadogeneral}
+                  addNotification={addNotification} />
+              )
             }
+            <legend>Horas Extra Aula Pedagógicas</legend>
+            {
+              asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id == 4).map((asignatura_hora, i) =>
+                <Edit key={asignatura_hora.id}
+                  asignatura_hora={asignatura_hora}
+                  asignaturaId={asignaturaId}
+                  i={asignatura_hora.id}
+                  handleInputArraysAsignatura= {handleInputArraysAsignatura}
+                  habilitarGeneral={habilitarGeneral}
+                  habilitadogeneral={habilitadogeneral}
+                  addNotification={addNotification} />
+              )
+            }
+          </div>
+          <div className="border p-3 mb-3">
+            <h4>Formula de cálculo de SCT</h4>
+            <p>N° SCT = (Total horas cronológicas por semana * 18)/27</p>
+            <ul>
+              <b>Donde:</b>
+              <li>Total horas cronológicas por semana = Horas Aula + Horas Extra Aula</li>
+              <li>18, corresponde al número de semanas que contempla un semestre lectivo.</li>
+              <li>27, corresponde al valor en horas cronológicas de un SCT</li>
+            </ul>
+            <b>Reemplazando:</b>
+            <p>N° SCT = (({(horas_aula*0.75).toFixed(2)} + {(horas_extra_aula*0.75).toFixed(2)}) * 18)/27</p>
+            <p>N° SCT = {(((horas_aula + horas_extra_aula)*18*0.75)/27).toFixed(2)}</p>
           </div>
         </DialogContent>
       </Dialog>

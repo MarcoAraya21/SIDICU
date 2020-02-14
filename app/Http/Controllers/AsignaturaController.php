@@ -64,6 +64,10 @@ class AsignaturaController extends Controller
                         ->with('nivel');
                     }]);
                 }])
+                ->with(['asignatura_evaluaciones' => function ($query) {
+                    $query
+                    ->with('evaluacion');
+                }])
                 ->with(['asignatura_metodologias' => function ($query) {
                     $query
                     ->with('metodologia');
@@ -125,14 +129,14 @@ class AsignaturaController extends Controller
         if($request->nivel_competencia_id)
         {
             $Asignatura->nivel_competencia_asignaturas()->create(['nivel_competencia_id' => $request->nivel_competencia_id]);
-            $tipo_competencia = NivelCompetenciaAsignatura::where('nivel_competencia_id',$request->nivel_competencia_id)->where('asignatura_id',$Asignatura->id)->with('competencia_evaluaciones')->first();
+            $tipo_competencia = NivelCompetenciaAsignatura::where('nivel_competencia_id',$request->nivel_competencia_id)->where('asignatura_id',$Asignatura->id)->first();
         }
         else
         {
             if($request->nivel_generica_id)
             {
                 $Asignatura->nivel_generica_asignaturas()->create(['nivel_generica_id' => $request->nivel_generica_id]);
-                $tipo_competencia = NivelGenericaAsignatura::where('nivel_generica_id',$request->nivel_generica_id)->where('asignatura_id',$Asignatura->id)->with('generica_evaluaciones')->first();                
+                $tipo_competencia = NivelGenericaAsignatura::where('nivel_generica_id',$request->nivel_generica_id)->where('asignatura_id',$Asignatura->id)->first();                
             }
         }
         // dd($request);
@@ -173,6 +177,10 @@ class AsignaturaController extends Controller
         ->with(['requisitos' => function ($query) {
             $query
             ->with('tipo_hora');
+        }])
+        ->with(['asignatura_evaluaciones' => function ($query) {
+            $query
+            ->with('evaluacion');
         }])
         ->with(['asignatura_metodologias' => function ($query) {
             $query

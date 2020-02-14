@@ -40,33 +40,41 @@ export default class show extends Component {
 
     handleSubmit(){
         //e.preventDefault();
-        this.setState({guardando: true})
-        this.setState({errores: validaciones(this.state, show)})
-        fetch('/api/plan_estudios/' + this.props.params, {
-            method: 'put',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json'
-            },
-            body: JSON.stringify(
-                this.state
-            )
-        })
-        .then(function(response) {
-            if(response.ok) {
-                return response.json();
-            } else {
-                throw "Error en la llamada Ajax";
-            }
-         
-         })
-        .then(data => {this.props.addNotification()} )
-        .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
-        })
-        .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
-            this.props.habilitarGeneral(true)
-        ]});
+        let validaciones2 = validaciones(this.state, show)
+        this.setState({errores: validaciones2})
+        if(Object.keys(validaciones2).length == 0)
+        {
+            this.setState({guardando: true})
+            fetch('/api/plan_estudios/' + this.props.params, {
+                method: 'put',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(
+                    this.state
+                )
+            })
+            .then(function(response) {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    throw "Error en la llamada Ajax";
+                }
+            
+            })
+            .then(data => {this.props.addNotification()} )
+            .catch(error => {
+                this.props.addNotificationAlert('No se ha podido guardar.')
+            })
+            .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
+                this.props.habilitarGeneral(true)
+            ]});
+        }
+        else
+        {
+            this.props.addNotificationWarning('Debe rellenar los campos.');
+        }
         //console.log('formulario enviado',this.state);
     }
 
@@ -117,71 +125,71 @@ export default class show extends Component {
                         </div>
                     </div>
                     <legend>Otros Datos</legend>
-                    <div className="row mb-2">
-                        <label className="col-3">Proposito</label>
+                    <div className="form-group">
+                        <label>Proposito</label>
                         <textarea
-                        disabled={this.state.deshabilitado}
-                        className={ "form-control col-9 " + (this.state.errores.proposito && 'is-invalid')}  rows="3"
-                         value={this.state.proposito || ''}
-                         onChange={(e)=>this.handleInput(e, 'proposito')}
-                        ></textarea>
+                            disabled={this.state.deshabilitado}
+                            className={ "form-control " + (this.state.errores.proposito && 'is-invalid')}  rows="3"
+                            value={this.state.proposito || ''}
+                            onChange={(e)=>this.handleInput(e, 'proposito')}>
+                        </textarea>
                         {this.state.errores.proposito &&
-                                <div className="invalid-feedback" align="right">{this.state.errores.proposito}</div>}
+                            <div className="invalid-feedback" align="right">{this.state.errores.proposito}</div>}
                     </div>
-                    <div className="row mb-2">
-                        <label className="col-3">Objetivo</label>
+                    <div className="form-group">
+                        <label>Objetivo</label>
                         <textarea
-                        disabled={this.state.deshabilitado}
-                        className={ "form-control col-9 " + (this.state.errores.objetivo && 'is-invalid')}  rows="3"
-                         value={this.state.objetivo || ''}
-                         onChange={(e)=>this.handleInput(e, 'objetivo')}
-                        ></textarea>
+                            disabled={this.state.deshabilitado}
+                            className={ "form-control " + (this.state.errores.objetivo && 'is-invalid')}  rows="3"
+                            value={this.state.objetivo || ''}
+                            onChange={(e)=>this.handleInput(e, 'objetivo')}>
+                        </textarea>
                         {this.state.errores.objetivo &&
-                                <div className="invalid-feedback" align="right">{this.state.errores.objetivo}</div>}
+                            <div className="invalid-feedback" align="right">{this.state.errores.objetivo}</div>}
                     </div>
-                    <div className="row mb-2">
-                        <label className="col-3">Requisito de Admisión</label>
+                    <div className="form-group">
+                        <label>Requisito de Admisión</label>
                         <textarea
-                        disabled={this.state.deshabilitado}
-                        className={ "form-control col-9 " + (this.state.errores.requisito_admision && 'is-invalid')}  rows="3"
-                         value={this.state.requisito_admision || ''}
-                         onChange={(e)=>this.handleInput(e, 'requisito_admision')}
-                        ></textarea>
+                            disabled={this.state.deshabilitado}
+                            className={ "form-control " + (this.state.errores.requisito_admision && 'is-invalid')}  rows="3"
+                            value={this.state.requisito_admision || ''}
+                            onChange={(e)=>this.handleInput(e, 'requisito_admision')}>
+                        </textarea>
                         {this.state.errores.requisito_admision &&
-                                <div className="invalid-feedback" align="right">{this.state.errores.requisito_admision}</div>}
+                            <div className="invalid-feedback" align="right">{this.state.errores.requisito_admision}</div>}
                     </div>
-                    <div className="row mb-2">
-                        <label className="col-3">Mecanismo de Retención</label>
+                    <div className="form-group">
+                        <label>Mecanismo de Retención</label>
                         <textarea
-                        disabled={this.state.deshabilitado}
-                        className={ "form-control col-9 " + (this.state.errores.mecanismo_retencion && 'is-invalid')}  rows="3"
-                         value={this.state.mecanismo_retencion || ''}
-                         onChange={(e)=>this.handleInput(e, 'mecanismo_retencion')}
-                        ></textarea>
+                            disabled={this.state.deshabilitado}
+                            className={ "form-control " + (this.state.errores.mecanismo_retencion && 'is-invalid')}  rows="3"
+                            value={this.state.mecanismo_retencion || ''}
+                            onChange={(e)=>this.handleInput(e, 'mecanismo_retencion')}>
+                        </textarea>
                         {this.state.errores.mecanismo_retencion &&
-                                <div className="invalid-feedback" align="right">{this.state.errores.mecanismo_retencion}</div>}
+                            <div className="invalid-feedback" align="right">{this.state.errores.mecanismo_retencion}</div>}
                     </div>
-                    <div className="row mb-2">
-                        <label className="col-3">Requisito de Obtención</label>
+                    <div className="form-group">
+                        <label>Requisito de Obtención</label>
                         <textarea
-                        disabled={this.state.deshabilitado}
-                        className={ "form-control col-9 " + (this.state.errores.requisito_obtencion && 'is-invalid')}  rows="3"
-                         value={this.state.requisito_obtencion || ''}
-                         onChange={(e)=>this.handleInput(e, 'requisito_obtencion')}
-                        ></textarea>
+                            disabled={this.state.deshabilitado}
+                            className={ "form-control " + (this.state.errores.requisito_obtencion && 'is-invalid')}  rows="3"
+                            value={this.state.requisito_obtencion || ''}
+                            onChange={(e)=>this.handleInput(e, 'requisito_obtencion')}>
+                        </textarea>
                         {this.state.errores.requisito_obtencion &&
-                                <div className="invalid-feedback" align="right" >{this.state.errores.requisito_obtencion}</div>}
+                            <div className="invalid-feedback" align="right" >{this.state.errores.requisito_obtencion}</div>}
                     </div>
-                    <div className="row mb-2">
-                        <label className="col-3">Campo de Desarrollo</label>
+                    <div className="form-group">
+                        <label>Campo de Desarrollo</label>
                         <textarea
-                        disabled={this.state.deshabilitado}
-                        className={ "form-control col-9 " + (this.state.errores.campo_desarrollo && 'is-invalid')}  rows="3"
-                         value={this.state.campo_desarrollo || ''}
-                         onChange={(e)=>this.handleInput(e, 'campo_desarrollo')}
-                        ></textarea>
+                            disabled={this.state.deshabilitado}
+                            className={ "form-control " + (this.state.errores.campo_desarrollo && 'is-invalid')}  rows="3"
+                            value={this.state.campo_desarrollo || ''}
+                            onChange={(e)=>this.handleInput(e, 'campo_desarrollo')}>
+                        </textarea>
                         {this.state.errores.campo_desarrollo &&
-                                <div className="invalid-feedback" align="right">{this.state.errores.campo_desarrollo}</div>}
+                            <div className="invalid-feedback" align="right">{this.state.errores.campo_desarrollo}</div>}
                     </div>
                 </div>
                 <div className="col-12 text-right mt-2">

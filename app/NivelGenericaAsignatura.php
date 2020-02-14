@@ -17,9 +17,4 @@ class NivelGenericaAsignatura extends Model
     {
         return $this->belongsTo('App\Asignatura');
     }
-
-    public function generica_evaluaciones()
-    {
-        return $this->hasMany('App\GenericaEvaluacion');
-    }
 }

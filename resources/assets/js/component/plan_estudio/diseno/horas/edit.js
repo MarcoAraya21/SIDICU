@@ -51,7 +51,7 @@ export default class edit extends Component {
     
     render() {
         return (
-            <div className={"my-2 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
+            <div className={"my-2 p-15 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
                 <p className="m-0">Ingrese Cantidad de Horas {this.props.asignatura_hora.tipo_hora.nombre}:</p>
                 <input type="number"
                     disabled={this.state.deshabilitado}

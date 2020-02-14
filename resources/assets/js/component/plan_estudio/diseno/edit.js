@@ -43,7 +43,6 @@ export default class edit extends Component {
 
 
     handleSubmit() {
-        console.log(this.props)
         //e.preventDefault();
         this.setState({ guardando: true })
         if (!this.props.niveles.some(nivel => nivel.id == this.state.nivel.id)) {
@@ -217,69 +216,81 @@ export default class edit extends Component {
         }
         return (
             // <Panel key = {'asignatura-' + this.props.asignatura.id} titulo={this.props.asignatura.nombre} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
-                <tr>
-                    <td>
-                        <select defaultValue={""}
-                            disabled={this.state.deshabilitado}
-                            className="form-control "
-                            onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'ciclo_id', this.props.asignatura.id)}>
-                            <option disabled value="">Seleccione una Opción</option>
-                            <option value='1'>Ciclo Cientifico Tecnológico</option>
-                            <option value='2'>Ciclo de Especialización</option>
-                            <option value='3'>Ciclo de Titulación</option>
-                            <option value='4'>Programa de Desarrollo Personal y Social</option>
-                            <option value='5'>Programa de Bienestar Físico y Deportes</option>
-                            <option value='6'>Programa de Inglés</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input type="text" className="form-control"
-                            disabled={this.state.deshabilitado}
-                            value={this.props.asignatura.codigo || ''}
-                            onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'codigo', this.props.asignatura.id)}>
-                        </input>
-                    </td>
-                    <td>
-                        <input disabled type="text" className="form-control" placeholder={this.props.asignatura.nombre}>
-                        </input>
-                    </td>
-                    <td>
-                        <input disabled type="number" className="form-control"
-                            placeholder={(aulas.reduce((previous, current) => {
+                <div className="col-12">
+                    <div className="row">
+                        <div className="form-group col-4">
+                            <label>Nombre</label>
+                            <p>{this.props.asignatura.nombre}</p>
+                        </div>
+                        <div className="form-group col-4">
+                            <label>Código</label>
+                            <input type="text" className="form-control"
+                                disabled={this.state.deshabilitado}
+                                value={this.props.asignatura.codigo || ''}
+                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'codigo', this.props.asignatura.id)}>
+                            </input>
+                        </div>
+                        <div className="form-group col-4">
+                            <label>Ciclo</label>
+                            <select defaultValue={this.props.asignatura.ciclo_id || ""}
+                                disabled={this.state.deshabilitado}
+                                className="form-control "
+                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'ciclo_id', this.props.asignatura.id)}>
+                                <option disabled value="">Seleccione una Opción</option>
+                                <option value='1'>Ciclo Cientifico Tecnológico</option>
+                                <option value='2'>Ciclo de Especialización</option>
+                                <option value='3'>Ciclo de Titulación</option>
+                                <option value='4'>Programa de Desarrollo Personal y Social</option>
+                                <option value='5'>Programa de Bienestar Físico y Deportes</option>
+                                <option value='6'>Programa de Inglés</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="form-group col-4">
+                            <label>
+                                SCT-Chile: {(aulas.reduce((previous, current) => {
                                 return Number(previous) + Number(current.cantidad);
-                            }, 0) +
-                                extra_aulas.cantidad) / 2}>
-                        </input>
-                    </td>
-                    <td>
-                        {nivel1 ?
-                            'Ingreso'
-                        :
-                            <div className="col-6 text-right mt-2">
+                                }, 0) +
+                                extra_aulas.cantidad) / 2}
+                            </label>
+                            <p>
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenHoras() }}>
+                                    <i className="fas fa-plus p-r-5" ></i>Modificar Horas
+                                </button>
+                            </p>
+                        </div>
+                        <div className="form-group col-4">
+                            <label>Requisitos</label>
+                            <p>
+                            {
+                                nivel1 ?
+                                'Ingreso'
+                                :
                                 <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenRequisitos() }}>
                                     <i className="fas fa-plus p-r-5" ></i>Ver Requisitos
                                 </button>
-                            </div>
-                        }
-                    </td>
-                    <td>
-                        <select disabled={requisitosAsignatura.length == 0 || this.state.deshabilitado} defaultValue={""}
-                            className="form-control "
-                            onChange={(e) => this.setState({ nivel: {id: Number(e.target.value), nombre: Number(e.target.options[e.target.selectedIndex].text.slice(5)) }})}>
-                            <option disabled value="">Seleccione una Opción</option>
-                            {
-                                requisitosAsignatura.map((requisitoAsignatura, i) =>
-                                    <option key={i} value={requisitoAsignatura.id}>Nivel {requisitoAsignatura.nombre}</option>
-                                )
                             }
-                        </select>
-                    </td>
-                    <td>
+                            </p>
+                        </div>
+                        <div className="form-group col-4">
+                            <label>Cambiar Semestre</label>
+                            <select disabled={requisitosAsignatura.length == 0 || this.state.deshabilitado} defaultValue={""}
+                                className="form-control "
+                                onChange={(e) => this.setState({ nivel: {id: Number(e.target.value), nombre: Number(e.target.options[e.target.selectedIndex].text.slice(5)) }})}>
+                                <option disabled value="">Seleccione una Opción</option>
+                                {
+                                    requisitosAsignatura.map((requisitoAsignatura, i) =>
+                                        <option key={i} value={requisitoAsignatura.id}>Nivel {requisitoAsignatura.nombre}</option>
+                                    )
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-12 text-right mt-2">
                         <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.props.habilitareditasignaturas(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    </td>
-                    <td>
                         <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                    </td>
+                    </div>
                     <Horas
                         openHoras={this.state.openHoras}
                         handleCloseHoras={this.handleCloseHoras}
@@ -306,7 +317,7 @@ export default class edit extends Component {
                         habilitadogeneral={this.props.habilitadogeneral}
                         addNotification={this.props.addNotification}
                     />
-                </tr>            
+                </div>            
                 
             // </Panel>
         );

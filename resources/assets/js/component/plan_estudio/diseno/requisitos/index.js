@@ -109,7 +109,7 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                             <CloseIcon />
                         </IconButton>
                         <Typography variant="h6" className={classes.title}>
-                            {asignaturaNombre || "Sin Nombre"}
+                            Asignatura: {asignaturaNombre || "Sin Nombre"}
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -120,7 +120,7 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                             requisitoNiveles.length > 0 ?
                                 requisitoNiveles.map((requisitoNivel,i) =>
                                     <React.Fragment key={i}>
-                                        <legend>{requisitoNivel.nombre}</legend>
+                                        <legend>Semestre {requisitoNivel.nombre}</legend>
                                         {
                                             requisitoNivel.requisitos.map((requisito,i) =>
                                             <React.Fragment key={i}>
@@ -159,7 +159,7 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                                             <option value="">Seleccione una Opción</option>
                                             {
                                                 requisitoNivelesSelect.map((requisitoNivelSelect,i) =>
-                                                    <optgroup key={i} label={requisitoNivelSelect.nombre}>
+                                                    <optgroup key={i} label={'Semestre ' + requisitoNivelSelect.nombre}>
                                                         {
                                                             requisitoNivelSelect.requisitos.map((requisito,i) =>
                                                                 <option key={i} value={requisito.id}>{requisito.nombre}</option>

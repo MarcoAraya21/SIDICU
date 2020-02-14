@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import Panel from '../../utiles/Panel'
-import Horas from './horas/index'
-import Requisitos from './requisitos/index'
 import Unidades from './unidades/index'
+import Evaluaciones from './evaluaciones/index'
 import Metodologias from './metodologias/index'
 import Bibliografias from './bibliografias/index'
 
@@ -11,21 +10,18 @@ export default class edit extends Component {
         super(props)
         this.state = {
             nivel: {id:this.props.asignatura.nivel_id, nombre: this.props.asignatura.nivel.nombre},
-            openHoras: false,
-            openRequisitos: false,
             openUnidades: false,
+            openEvaluaciones: false,
             openMetodologias: false,
             openBibliografias: false,
             deshabilitado: true,
             editando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleOpenHoras = this.handleOpenHoras.bind(this);
-        this.handleCloseHoras = this.handleCloseHoras.bind(this);
-        this.handleOpenRequisitos = this.handleOpenRequisitos.bind(this);
-        this.handleCloseRequisitos = this.handleCloseRequisitos.bind(this);
         this.handleOpenUnidades = this.handleOpenUnidades.bind(this);
         this.handleCloseUnidades = this.handleCloseUnidades.bind(this);
+        this.handleOpenEvaluaciones = this.handleOpenEvaluaciones.bind(this);
+        this.handleCloseEvaluaciones = this.handleCloseEvaluaciones.bind(this);
         this.handleOpenMetodologias = this.handleOpenMetodologias.bind(this);
         this.handleCloseMetodologias = this.handleCloseMetodologias.bind(this);
         this.handleOpenBibliografias = this.handleOpenBibliografias.bind(this);
@@ -40,25 +36,18 @@ export default class edit extends Component {
         this.setState({ deshabilitado: false });
     }
 
-    handleOpenHoras() {
-        this.setState({ openHoras: true });
-    }
-    handleCloseHoras() {
-        this.setState({ openHoras: false });
-    }
-
-    handleOpenRequisitos() {
-        this.setState({ openRequisitos: true });
-    }
-    handleCloseRequisitos() {
-        this.setState({ openRequisitos: false });
-    }
-
     handleOpenUnidades() {
         this.setState({ openUnidades: true });
     }
     handleCloseUnidades() {
         this.setState({ openUnidades: false });
+    }
+
+    handleOpenEvaluaciones() {
+        this.setState({ openEvaluaciones: true });
+    }
+    handleCloseEvaluaciones() {
+        this.setState({ openEvaluaciones: false });
     }
 
     handleOpenMetodologias() {
@@ -192,93 +181,19 @@ export default class edit extends Component {
 
 
     render() {
-        var aulas = this.props.asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora.nombre != 'Extra Aula');
-        var extra_aulas = this.props.asignatura.asignatura_horas.find(asignatura_hora => asignatura_hora.tipo_hora.nombre == 'Extra Aula');
-        if (this.props.asignatura.nivel.nombre == 1) {
-            var nivel1 = true;
-        }
-        else {
-            var requisitoNiveles = [];
-            // if (this.props.asignatura.requisitos.length > 0) {
-            //     this.props.niveles.slice(0, -1).map((nivel, i) => {
-            //         if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length ==
-            //             this.props.asignaturas.filter(asignatura2 => asignatura2.nivel.nombre == nivel.nombre).length) {
-            //             requisitoNiveles[i] = { 'nombre': nivel.nombre }
-            //         }
-            //         else {
-            //             if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
-            //                 requisitoNiveles[i] = { 'nombre': nivel.nombre, 'requisitos': this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre) }
-            //             }
-            //         }
-            //     })
-            // }
-            if (this.props.asignatura.requisitos.length > 0) {
-                this.props.niveles.filter(nivel => nivel.nombre < this.props.asignatura.nivel.nombre).map((nivel, i) => {
-                    if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
-                        if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length ==
-                            this.props.asignaturas.filter(asignatura2 => asignatura2.nivel.nombre == nivel.nombre).length) {
-                            requisitoNiveles[i] = { 'nombre': nivel.nombre }
-                        }
-                        else {
-                            if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
-                                requisitoNiveles[i] = { 'nombre': nivel.nombre, 'requisitos': this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre) }
-                            }
-                        }
-                    }
-
-                })
-            }
-        }
-        var requisitoSuperior = this.props.asignaturas.filter(asignatura =>
-            asignatura.requisitos.some(requisito =>
-                requisito.requisito.id == this.props.asignatura.id
-            )
-        ).sort((a, b) => a.nivel.nombre - b.nivel.nombre)[0] || null;
-        var requisitoSuperior = requisitoSuperior && requisitoSuperior.nivel.nombre;
-
-        var requisitoInferior = this.props.asignatura.requisitos.sort((a, b) =>
-            b.requisito.nivel.nombre - a.requisito.nivel.nombre)[0] || null;
-        var requisitoInferior = requisitoInferior && requisitoInferior.requisito.nivel.nombre;
-
-        var requisitosAsignatura = this.props.niveles.filter(nivel => (requisitoSuperior ? (nivel.nombre < requisitoSuperior) : !requisitoSuperior) &&
-            (requisitoInferior ? (nivel.nombre > requisitoInferior) : !requisitoInferior) &&
-            (nivel.nombre != this.props.asignatura.nivel.nombre)
-        )
-        
-        if (!requisitoSuperior) {
-            requisitosAsignatura = requisitosAsignatura.concat({ 'id': this.props.niveles[this.props.niveles.length - 1].id + 1, 'nombre': this.props.niveles[this.props.niveles.length - 1].nombre + 1 });
-        }
         return (
             <Panel key = {'asignatura-' + this.props.asignatura.id} titulo={this.props.asignatura.nombre} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
                 <div className="col-12 mb-2">
                     <div className="col row mb-2">
                         <div className="col-6">
                             <label>Nombre</label>
-                            <input disabled type="text" className="form-control" placeholder={this.props.asignatura.nombre}>
-                            </input>
-                        </div>
-                        <div className="col-6">
-                            <label>Cambiar Nivel</label>
-                            <select disabled={requisitosAsignatura.length == 0 || this.state.deshabilitado} defaultValue={""}
-                                className="form-control "
-                                onChange={(e) => this.setState({ nivel: {id: Number(e.target.value), nombre: Number(e.target.options[e.target.selectedIndex].text.slice(5)) }})}>
-                                <option disabled value="">Seleccione una Opción</option>
-                                {
-                                    requisitosAsignatura.map((requisitoAsignatura, i) =>
-                                        <option key={i} value={requisitoAsignatura.id}>Nivel {requisitoAsignatura.nombre}</option>
-                                    )
-                                }
-                            </select>
+                            <p>{this.props.asignatura.nombre}</p>
                         </div>
                     </div>
                     <div className="col row mb-2">
                         <div className="col-6">
                             <label>Codigo</label>
-                            <input type="text" className="form-control"
-                                disabled={this.state.deshabilitado}
-                                value={this.props.asignatura.codigo || ''}
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'codigo', this.props.asignatura.id)}>
-                            </input>
+                            <p>{this.props.asignatura.codigo || ''}</p>
                         </div>
                         <div className="col-6">
                             <label>Tipo de Asignatura</label>
@@ -293,89 +208,6 @@ export default class edit extends Component {
                         </div>
                     </div>
                     <div className="col row mb-2">
-                        <div className="col-6">
-                            <label>Requisitos:</label>
-                            <ul>
-                                {
-                                    nivel1 ?
-                                        <li>Ingreso</li>
-                                        :
-                                        requisitoNiveles.map((requisitoNivel, i) =>
-                                            <li key={i}>
-                                                {
-                                                    requisitoNivel.requisitos ?
-                                                        ["Nivel " + requisitoNivel.nombre + ':',
-                                                        <ol key={i}>
-                                                            {requisitoNivel.requisitos.map((requisito, i) =>
-                                                                <li key={i}>{requisito.requisito.nombre}</li>
-                                                            )}
-                                                        </ol>
-                                                        ]
-                                                        :
-                                                        "Nivel " + requisitoNivel.nombre + ' Completo'
-                                                }
-                                            </li>
-                                        )
-                                }
-                            </ul>
-                        </div>
-                        {!nivel1 &&
-                            <div className="col-6 text-right mt-2">
-                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenRequisitos() }}>
-                                    <i className="fas fa-plus p-r-5" ></i>Ver Requisitos
-                                </button>
-                            </div>
-                        }
-                    </div>
-                    <div className="col row mb-2">
-                        <div className="col-6">
-                            <label>SCT</label>
-                            <input disabled type="number" className="form-control"
-                                placeholder={(aulas.reduce((previous, current) => {
-                                    return Number(previous) + Number(current.cantidad);
-                                }, 0) +
-                                    extra_aulas.cantidad) / 2}>
-                            </input>
-                        </div>
-                    </div>
-                    <div className="col row mb-2">
-                        <div className="col-6">
-                            <strong>Horas</strong>
-                            <ol>
-                                <li>
-                                    Aula: {aulas.reduce((previous, current) => {
-                                        return Number(previous) + Number(current.cantidad);
-                                    }, 0)}
-                                    <ul>
-                                        {aulas.map(aula =>
-                                            <li key={aula.id}>{aula.tipo_hora.nombre}: {aula.cantidad}</li>)}
-                                    </ul>
-                                </li>
-                                <li>{extra_aulas.tipo_hora.nombre}: {extra_aulas.cantidad}</li>
-                            </ol>
-                            <div>
-                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenHoras() }}>
-                                    <i className="fas fa-plus p-r-5" ></i>Modificar Horas
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col row mb-2">
-                        <div className="col-6">
-                            <label>Ciclo o Programa de Formación</label>
-                            <select defaultValue={""}
-                                disabled={this.state.deshabilitado}
-                                className="form-control "
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'ciclo_id', this.props.asignatura.id)}>
-                                <option disabled value="">Seleccione una Opción</option>
-                                <option value='1'>Ciclo Cientifico Tecnológico</option>
-                                <option value='2'>Ciclo de Especialización</option>
-                                <option value='3'>Ciclo de Titulación</option>
-                                <option value='4'>Programa de Desarrollo Personal y Social</option>
-                                <option value='5'>Programa de Bienestar Físico y Deportes</option>
-                                <option value='6'>Programa de Inglés</option>
-                            </select>
-                        </div>
                         <div className="col-6">
                             <label>Departamento</label>
                             <select defaultValue={""}
@@ -503,6 +335,25 @@ export default class edit extends Component {
                             </div>
                         </div>
                         <div className="col-4">
+                            <strong>Evaluaciones</strong>
+                            {this.props.asignatura.asignatura_evaluaciones.length > 0 ?
+                                <ol>
+                                    {this.props.asignatura.asignatura_evaluaciones.map((asignatura_evaluacion, i) =>
+                                        <li key={i}>
+                                            {asignatura_evaluacion.evaluacion.nombre}
+                                        </li>
+                                    )}
+                                </ol>
+                                :
+                                <p>No Posee</p>
+                            }
+                            <div>
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-primary" onClick={() => { this.handleOpenEvaluaciones() }}>
+                                    <i className="fas fa-plus p-r-5" ></i>Evaluaciones
+                                </button>
+                            </div>
+                        </div>
+                        <div className="col-4">
                             <strong>Metodología</strong>
                             {this.props.asignatura.asignatura_metodologias.length > 0 ?
                                 <ol>
@@ -545,49 +396,29 @@ export default class edit extends Component {
                 <div className="col-12 text-right mt-2">
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.props.habilitareditasignaturas(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
-                        onClick={() => {
-                            if (window.confirm('¿Estas Seguro?'))
-                                this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification)
-                        }}>
-                        <i className="fas fa-times p-r-10"></i>Eliminar</button>
                 </div>
-                <Horas
-                    openHoras={this.state.openHoras}
-                    handleCloseHoras={this.handleCloseHoras}
-                    asignatura_horas={this.props.asignatura.asignatura_horas}
+                <Unidades
+                    openUnidades={this.state.openUnidades}
+                    handleCloseUnidades={this.handleCloseUnidades}
+                    unidades={this.props.asignatura.unidades}
+                    // horas={{aula: aulas.reduce((previous, current) => {
+                    //     return Number(previous) + Number(current.cantidad);
+                    // }, 0)*18,extra_aula: extra_aulas.cantidad *18}}
                     asignaturaId={this.props.asignatura.id}
                     asignaturaNombre={this.props.asignatura.nombre}
-                    handleInputArrays={this.props.handleInputArrays}
                     handleInputArraysAsignatura={this.props.handleInputArraysAsignatura}
-                    habilitarGeneral={this.props.habilitarGeneral}
-                    habilitadogeneral={this.props.habilitadogeneral}
-                    addNotification={this.props.addNotification}
-                />
-                <Requisitos
-                    openRequisitos={this.state.openRequisitos}
-                    handleCloseRequisitos={this.handleCloseRequisitos}
-                    requisitos={this.props.asignatura.requisitos}
-                    opcionRequisitos={this.props.asignaturas.filter(asignatura =>
-                        asignatura.nivel.nombre < this.props.asignatura.nivel.nombre)}
-                    asignaturaId={this.props.asignatura.id}
-                    asignaturaNombre={this.props.asignatura.nombre}
                     handleAddElementAsignatura={this.props.handleAddElementAsignatura}
                     borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                     habilitarGeneral={this.props.habilitarGeneral}
                     habilitadogeneral={this.props.habilitadogeneral}
                     addNotification={this.props.addNotification}
                 />
-                <Unidades
-                    openUnidades={this.state.openUnidades}
-                    handleCloseUnidades={this.handleCloseUnidades}
-                    unidades={this.props.asignatura.unidades}
-                    horas={{aula: aulas.reduce((previous, current) => {
-                        return Number(previous) + Number(current.cantidad);
-                    }, 0)*18,extra_aula: extra_aulas.cantidad *18}}
+                <Evaluaciones
+                    openEvaluaciones={this.state.openEvaluaciones}
+                    handleCloseEvaluaciones={this.handleCloseEvaluaciones}
+                    asignatura_evaluaciones={this.props.asignatura.asignatura_evaluaciones}
                     asignaturaId={this.props.asignatura.id}
                     asignaturaNombre={this.props.asignatura.nombre}
-                    handleInputArraysAsignatura={this.props.handleInputArraysAsignatura}
                     handleAddElementAsignatura={this.props.handleAddElementAsignatura}
                     borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                     habilitarGeneral={this.props.habilitarGeneral}

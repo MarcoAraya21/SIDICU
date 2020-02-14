@@ -49,7 +49,7 @@ export default class index extends Component {
 
         this.addNotification = this.addNotification.bind(this);
         this.addNotificationAlert = this.addNotificationAlert.bind(this);
-
+        this.addNotificationWarning = this.addNotificationWarning.bind(this);
         this.notificationDOMRef = React.createRef();
 
     }
@@ -77,7 +77,21 @@ export default class index extends Component {
         container: "top-right",
         animationIn: ["animated", "zoomIn"],
         animationOut: ["animated", "zoomOut"],
-        dismiss: { duration: 10000 },
+        dismiss: { duration: 3000 },
+        dismissable: { click: true }
+        });
+    }
+
+    addNotificationWarning(mensaje) {
+        this.notificationDOMRef.current.addNotification({ 
+        title: "Advertencia",
+        message: mensaje,
+        type: "warning",
+        insert: "top",
+        container: "top-right",
+        animationIn: ["animated", "zoomIn"],
+        animationOut: ["animated", "zoomOut"],
+        dismiss: { duration: 3000 },
         dismissable: { click: true }
         });
     }
@@ -90,14 +104,6 @@ export default class index extends Component {
         axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) =>{
-                var asignaturas = [];
-                var i = 0;
-                response.data.niveles.map(nivel =>
-                    nivel.asignaturas.map(asignatura =>
-                        [asignaturas[i] = asignatura,
-                        i = i + 1]
-                    )
-                );
                 this.setState({
                     id: response.data.id,
                     nombre: response.data.nombre,
@@ -115,7 +121,7 @@ export default class index extends Component {
                     usuarios: response.data.plan_estudio_usuarios,
                     competencias_genericas: response.data.competencias_genericas,
                     niveles: response.data.niveles,
-                    asignaturas: asignaturas
+                    asignaturas: response.data.asignaturas
                 })
                 // console.log(response.data.informe_avance)
             }            
@@ -226,7 +232,9 @@ export default class index extends Component {
                                 params={this.props.match.params.id}
                                 habilitarGeneral = {this.habilitarGeneral}
                                 habilitadogeneral = {this.state.habilitadogeneral} 
-                                addNotification = {this.addNotification}/>
+                                addNotification = {this.addNotification}
+                                addNotificationAlert = {this.addNotificationAlert}
+                                addNotificationWarning = {this.addNotificationWarning}/>
                                 }
                             </div>
                             <div className="tab-pane fade" id="plan-tab-1">

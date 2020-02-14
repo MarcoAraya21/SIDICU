@@ -8,7 +8,7 @@ class PlanEstudio extends Model
 {
     protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo', 'nueva_oferta', 'perfil_egresado', 'perfil_licenciado', 'titulo_intermedio', 'minor', 'diploma',
                             'carrera_id', 'tipo_plan_id', 'tipo_grado_id', 'tipo_ingreso_id', 'estado_id', 'modalidad_id', 'regimen_id', 'grado_id', 'tipo_formacion_id', 'jornada_id'];
-    protected $appends = ['competencias_genericas', 'sct_totales'];
+    protected $appends = ['competencias_genericas', 'asignaturas', 'sct_totales'];
 
 
     public function carrera()
@@ -96,8 +96,7 @@ class PlanEstudio extends Model
                         $query
                         ->with(['nivel_generica_asignaturas' => function ($query) {
                             $query
-                            ->with('asignatura')
-                            ->with('generica_evaluaciones');
+                            ->with('asignatura');
                         }]);
                     }]);
                 }]);
@@ -115,6 +114,65 @@ class PlanEstudio extends Model
             //     }
             //     $i = $i + 1;
             // }
+    }
+
+
+    public function getAsignaturasAttribute()
+    {
+        $niveles = $this->niveles()->with(['asignaturas' => function ($query) {
+            $query
+            ->with(['nivel_competencia_asignaturas' => function ($query) {
+                $query
+                ->with('nivel_competencia');
+            }])
+            ->with(['nivel_generica_asignaturas' => function ($query) {
+                $query
+                ->with(['nivel_generica' => function ($query) {
+                    $query
+                    ->with('nivel_competencia');
+                }]);
+            }])
+            ->with('tipo_asignatura')
+            ->with('ciclo')
+            ->with('departamento')
+            ->with('nivel')
+            ->with(['bibliografias' => function ($query) {
+                $query
+                ->with('tipo_bibliografia');
+            }])
+            ->with(['unidades' => function ($query) {
+                $query
+                ->with('contenidos');
+            }])
+            ->with(['asignatura_horas' => function ($query) {
+                $query
+                ->with('tipo_hora');
+            }])
+            ->with(['requisitos' => function ($query) {
+                $query
+                ->with(['requisito' => function ($query) {
+                    $query
+                    ->with('nivel');
+                }]);
+            }])
+            ->with(['asignatura_evaluaciones' => function ($query) {
+                $query
+                ->with('evaluacion');
+            }])
+            ->with(['asignatura_metodologias' => function ($query) {
+                $query
+                ->with('metodologia');
+            }]);
+        }])->get();
+        $asignaturas = [];
+        $i = 0;
+        foreach ($niveles as $key => $nivel) {
+            foreach ($nivel->asignaturas as $key => $asignatura) {
+                $asignaturas[$i] = $asignatura;
+                $i = $i + 1;
+            }
+        }
+        return $asignaturas;
     }
 
     public function getSctTotalesAttribute()

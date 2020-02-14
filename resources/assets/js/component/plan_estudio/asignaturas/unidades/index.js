@@ -51,12 +51,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Unidades({ openUnidades, handleCloseUnidades, unidades, horas, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
     const classes = useStyles();
     const [descripcion, setdescripcion] = useState('');
-    const restantes = {
-        aula: horas.aula - unidades.reduce((previous, current) => {
-        return Number(previous) + Number(current.horas_aula);}, 0),
-        extra_aula: horas.extra_aula - unidades.reduce((previous, current) => {
-            return Number(previous) + Number(current.horas_extra_aula);}, 0)
-    }
+    // const restantes = {
+    //     aula: horas.aula - unidades.reduce((previous, current) => {
+    //     return Number(previous) + Number(current.horas_aula);}, 0),
+    //     extra_aula: horas.extra_aula - unidades.reduce((previous, current) => {
+    //         return Number(previous) + Number(current.horas_extra_aula);}, 0)
+    // }
 
 
     function addElemento(variable) {
@@ -105,8 +105,8 @@ export default function Unidades({ openUnidades, handleCloseUnidades, unidades, 
                         <React.Fragment>
                             <div>
                                 <ul>
-                                    <li>Horas Aula Restantes: {restantes.aula}</li>
-                                    <li>Horas Extra-Aula Restantes: {restantes.extra_aula}</li>
+                                    {/* <li>Horas Aula Restantes: {restantes.aula}</li>
+                                    <li>Horas Extra-Aula Restantes: {restantes.extra_aula}</li> */}
                                 </ul>
                             </div>
                             {

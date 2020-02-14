@@ -100,8 +100,7 @@ class PlanEstudioController extends Controller
                         ->with('logro_aprendizajes')
                         ->with(['nivel_competencia_asignaturas' => function ($query) {
                             $query
-                            ->with('asignatura')
-                            ->with('competencia_evaluaciones');
+                            ->with('asignatura');
                         }]);
                     }]);
                 }]);
@@ -113,50 +112,7 @@ class PlanEstudioController extends Controller
                 $query
                 ->with('usuario');
             }])
-            ->with(['niveles' => function ($query) {
-                $query
-                ->with(['asignaturas' => function ($query) {
-                    $query
-                    ->with(['nivel_competencia_asignaturas' => function ($query) {
-                        $query
-                        ->with('nivel_competencia');
-                    }])
-                    ->with(['nivel_generica_asignaturas' => function ($query) {
-                        $query
-                        ->with(['nivel_generica' => function ($query) {
-                            $query
-                            ->with('nivel_competencia');
-                        }]);
-                    }])
-                    ->with('tipo_asignatura')
-                    ->with('ciclo')
-                    ->with('departamento')
-                    ->with('nivel')
-                    ->with(['bibliografias' => function ($query) {
-                        $query
-                        ->with('tipo_bibliografia');
-                    }])
-                    ->with(['unidades' => function ($query) {
-                        $query
-                        ->with('contenidos');
-                    }])
-                    ->with(['asignatura_horas' => function ($query) {
-                        $query
-                        ->with('tipo_hora');
-                    }])
-                    ->with(['requisitos' => function ($query) {
-                        $query
-                        ->with(['requisito' => function ($query) {
-                            $query
-                            ->with('nivel');
-                        }]);
-                    }])
-                    ->with(['asignatura_metodologias' => function ($query) {
-                        $query
-                        ->with('metodologia');
-                    }]);
-                }]);
-            }])
+            ->with('niveles')
             ->findOrFail($id);
         return $PlanEstudio->toJson();
     }

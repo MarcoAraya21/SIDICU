@@ -48,6 +48,11 @@ class Asignatura extends Model
         return $this->hasMany('App\NivelGenericaAsignatura');
     }
 
+    public function asignatura_evaluaciones()
+    {
+        return $this->hasMany('App\AsignaturaEvaluacion');
+    }
+
     public function asignatura_metodologias()
     {
         return $this->hasMany('App\AsignaturaMetodologia');
