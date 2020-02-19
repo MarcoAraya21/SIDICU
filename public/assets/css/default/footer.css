@@ -1,0 +1,243 @@
+.deshabilitado {
+  pointer-events: none;
+  cursor: not-allowed;
+  border: 1px solid red !important;
+  background: #ff000030 !important;
+}
+
+.react-autosuggest__container {
+  position: relative;
+}
+
+.react-autosuggest__input {
+  width: 240px;
+  height: 30px;
+  padding: 10px 20px;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+}
+
+.react-autosuggest__input--focused {
+  outline: none;
+}
+
+.react-autosuggest__input--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.react-autosuggest__suggestions-container {
+  display: none;
+}
+
+.react-autosuggest__suggestions-container--open {
+  display: block;
+  width: 240px;
+  border: 1px solid #aaa;
+  background-color: #fff;
+  font-family: Helvetica, sans-serif;
+  font-weight: 300;
+  font-size: 16px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+  z-index: 2;
+}
+
+.react-autosuggest__suggestions-list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.react-autosuggest__suggestion {
+  cursor: pointer;
+  padding: 10px 20px;
+}
+
+.react-autosuggest__suggestion--highlighted {
+  background-color: #ddd;
+}
+
+/* footer */
+
+.footer_parte_azul_sup {
+  background-color: #040f19;
+  height: 80px;
+  margin-top: 30px;
+}
+
+.footer_parte_azul_cent {
+  background-color: #021C36;
+  height: 230px;
+}
+
+.footer_parte_azul_inf {
+  background-color: #040f19;
+  height: 158px;
+}
+
+/* footer logo acreditacion */
+
+@media screen and (max-width: 991px) {
+  .logo_ac_footer {
+    margin: auto;
+    padding: auto;
+  }
+
+  /* footer menu */
+
+  #menu_footer {
+    margin-top: 20px;
+    padding: 0;
+    text-align: center;
+  }
+
+  #menu_footer li {
+    display: inline;
+    list-style-type: none;
+    color: white;
+    vertical-align: middle;
+  }
+
+  #menu_footer li a {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 8px;
+    color: white;
+  }
+
+  #menu_footer li a:focus {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 8px;
+    color: white;
+  }
+
+  /*texto final footer*/
+
+  .texto_footer {
+    margin-top: 45px;
+    color: #09C;
+    font-size: 10px;
+    text-align: center;
+  }
+}
+
+.logo_ac_footer_grande {
+  margin-top: 10px;
+}
+
+.cuadro_footer_1 {
+  font-family: Oswald;
+  font-size: 15px;
+  color: #09C;
+  border-right: 1px solid #369;
+  margin-top: 30px;
+}
+
+.titulo_cuadro_footer {
+  font-family: Oswald;
+  font-size: 15px;
+  color: #09C;
+}
+
+.texto_cuadro_footer {
+  font-family: Open Sans;
+  font-size: 12px;
+  color: white;
+}
+
+.cuadro_footer_2 {
+  font-family: Oswald;
+  font-size: 15px;
+  color: #09C;
+  margin-top: 30px;
+}
+
+@media screen and (min-width: 560px) {
+  #menu_footer li a {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: white;
+  }
+
+  #menu_footer li a:focus {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: white;
+  }
+
+  .texto_footer {
+    margin-top: 5px;
+    color: #09C;
+    font-size: 12px;
+    text-align: center;
+  }
+}
+
+@media screen and (min-width: 992px) {
+  .contenedor_imagenes_footer {
+    display: inline;
+  }
+
+  .contenedor_log_gob {
+    z-index: 100;
+    float: right;
+    top: -22px;
+  }
+
+  .logo_gob_grande {
+    float: right;
+    margin-top: 38px;
+  }
+
+  #menu_footer {
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding: 0;
+    text-align: left;
+  }
+
+  #menu_footer li {
+    display: inline;
+    list-style-type: none;
+    color: white;
+    vertical-align: middle;
+  }
+
+  .texto_footer {
+    margin-top: 45px;
+    color: #09C;
+    font-size: 12px;
+    text-align: left;
+  }
+}
+
+.rs_footer_left {
+  margin: -8px 0 0 15px;
+}
+
+.rs_footer_centro {
+  margin: -8px 5px 0 5px;
+}
+
+.rs_footer_right {
+  margin: -8px 0 0 1px;
+}
+
+.texto_rs_footer {
+  font-family: Oswald;
+  color: white;
+  display: inline-block;
+  padding-top: 30px;
+}
+
+@media screen and (max-width: 1200px) {
+  .texto_rs_footer {
+    color: white;
+    display: inline-block;
+    padding-top: 27px;
+  }
+}
+

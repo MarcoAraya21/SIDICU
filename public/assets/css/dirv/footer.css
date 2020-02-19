@@ -1,0 +1,291 @@
+/* footer */
+.footer_parte_azul_sup{
+    background-color: #040f19;
+    height: 80px;
+    margin-top: 30px;
+}
+
+.footer_parte_azul_cent{
+    background-color: #021C36;
+    height: 230px;  
+}
+
+
+.footer_parte_azul_inf{
+    background-color:#040f19; 
+    height: 158px;
+}
+
+/* footer logo acreditacion */
+@media screen and (max-width:991px){
+.logo_ac_footer{    
+    margin:auto;
+    padding: auto;
+    }
+
+/* footer menu */
+#menu_footer{
+    margin-top: 20px;
+    padding: 0;
+    text-align: center;
+    }
+
+#menu_footer li{  
+    display: inline;    
+    list-style-type:none;
+    color:white;
+    vertical-align:middle;
+    }
+
+#menu_footer li a{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 8px;
+    color: white;
+    }
+
+#menu_footer li a:focus{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 8px;
+    color: white;
+    }
+
+/*texto final footer*/
+
+.texto_footer{
+margin-top: 45px;
+color: #09C;
+font-size: 10px;
+text-align: center;
+}
+}
+
+.logo_ac_footer_grande{
+    margin-top: 10px;
+} 
+
+.cuadro_footer_1{
+    font-family: Oswald;
+    font-size: 15px;
+    color: #09C;
+    border-right:1px solid #369;
+    margin-top: 30px;
+}
+
+.titulo_cuadro_footer{
+    font-family: Oswald;
+    font-size: 15px;
+    color: #09C;
+}
+
+.texto_cuadro_footer{
+    font-family: Open Sans;
+    font-size: 12px;
+    color: white;
+}
+
+.cuadro_footer_2{
+    font-family: Oswald;
+    font-size: 15px;
+    color: #09C;
+    margin-top: 30px;
+}
+
+@media screen and (min-width:560px){
+    #menu_footer li a{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: white;
+    }
+
+#menu_footer li a:focus{
+    font-family: 'Open Sans', sans-serif;
+    font-size: 14px;
+    color: white;
+    }
+
+.texto_footer{
+    margin-top: 5px;
+    color: #09C;
+    font-size: 12px;
+    text-align: center;
+    }
+}
+
+@media screen and (min-width:992px){
+.contenedor_imagenes_footer{
+    display: inline;
+}
+
+.contenedor_log_gob{
+z-index:100; 
+float: right;
+top:-22px;
+}
+
+.logo_gob_grande{
+    float: right;
+    margin-top: 38px;
+}
+
+#menu_footer{
+    margin-top: 20px;
+    margin-bottom: 15px;
+    padding: 0;
+    text-align: left;
+    }
+
+#menu_footer li{        
+    display: inline;    
+    list-style-type:none;
+    color:white;
+    vertical-align:middle;
+    }
+
+.texto_footer{
+    margin-top: 45px;
+    color: #09C;
+    font-size: 12px;
+    text-align: left;
+    }
+}
+
+.rs_footer_left{    
+    margin: -8px 0 0 15px;
+}
+
+.rs_footer_centro{  
+    margin: -8px 5px 0 5px;
+}
+
+.rs_footer_right{   
+    margin: -8px 0 0 1px;
+}
+
+.texto_rs_footer{
+    font-family: Oswald; 
+    color: #FFF;    
+    display: inline-block;
+    padding-top:30px; 
+}
+
+@media screen and (max-width:1200px){
+.texto_rs_footer {
+    color: #FFF;
+    display: inline-block;
+    padding-top: 27px;
+    }
+}
+
+.menu-superior {
+    width: 100%;
+    padding: 1em;
+  /*padding: 0.5em;*/
+  /*border: 1px solid #98be10;*/
+    background: #040f19;
+    height: 60px;
+    color: #FFF;
+}
+
+.contenido_principal, .contenido2{
+    /*background: #D0D0D0; este es el q se utiliza */
+    /*background: #DCDCDC; me gusto es mas claro el formulario*/
+    background: #E5E4E4; /* me gusto se ve mas ordenado */
+    border-color: gray;
+    border-width: 1px;
+    border-style: solid;    
+}
+
+.contenido-formulario2{   
+    padding-bottom:30px;    
+}
+
+.contenido-formulario3{   
+    padding-bottom:30px;
+    margin-top: 30px;    
+}
+
+.letra_blanca{
+    color: #FFF;
+}
+
+.letra_azul{
+    color: #0066cc;
+}
+
+.titulo{
+    font-family: 'Roboto Slab', serif;
+    line-height: 130%;
+        margin:15px 0;   
+}
+
+.titulo_actividad{
+
+    font-family: 'Verdana';
+    color: #000000;
+}
+
+
+
+.contenido{
+    background: #D0D0D0;
+    left: -25px;
+
+}
+
+.titulo_proyecto{
+
+    font-family: 'Roboto Slab', serif;
+    line-height: 130%;
+}
+
+.titulo_mis_proy{
+    font-family: 'Roboto Slab', serif;
+    color:#00cccc;
+    font-weight: bold;
+    margin-top: 30px;
+}
+
+.altura{
+    min-height: 300px;
+}
+
+.block1{
+    margin-bottom: 30px;
+    text-align: center;
+    /*background-color: #20B2AA; /*#00cccc;*/    
+    width: 100%;    
+}
+
+.margen{
+    margin:0em 1em 1em;
+}
+
+.invisible {
+    /*display: none;*/
+    visibility: hidden;
+}
+
+.texto1{
+    color: #5f5f5f;
+    margin: 0 0 2px;
+    font-size: 8px;
+}
+
+.box1{
+    border-width: 1px;
+    border-style: solid;
+    border-color: #5f5f5f;
+}
+
+.Rectangulo {
+   width: 100px;
+   height: 150px;
+   padding: 20px 174px;
+   border-color: gray;
+   border-width: 1px;
+   border-style: solid;
+}
+
+.Rectangulo:hover {
+   background: #F6F6F6;
+}
