@@ -931,8 +931,8 @@ export const CONF_DATATABLE = {
         "paginate": {
             "first": "Primero",
             "last": "Ultimo",
-            "next": "Anterior",
-            "previous": "Siguiente"
+            "next": "Siguiente",
+            "previous": "Anterior"
         },
         'search': "Buscar: ",
     },

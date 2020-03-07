@@ -4,9 +4,7 @@
 
 @section('content')
 	<!-- begin login -->
-	@if ( $_COOKIE['token'] )
-	@endif
-	
+	<!-- {{ $key->perfil->nombre }} -->
 	<div id='home'></div>
 @endsection
 

@@ -62,5 +62,6 @@ class Kernel extends HttpKernel
         'ability' => 'App\Http\Middleware\TokenEntrustAbility::class',
         //'csrf' => 'App\Http\Middleware\VerifyCsrfToken',
         'inversejwt.auth' => \App\Http\Middleware\InverseVerifyJWTToken::class,
+        'userprofile' => \App\Http\Middleware\UserProfile::class,
     ];
 }

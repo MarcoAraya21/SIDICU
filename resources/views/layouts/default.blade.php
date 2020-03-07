@@ -51,8 +51,70 @@
 		
 		@include('includes/footer_utem')
 	</div>	
-	
+	<script src="/assets/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="/assets/js/Router.js"></script>
+	<script>
+		function pad2(number) {   
+			return (number < 10 ? '0' : '') + number;
+		}
+			var restante = {{ $restante }};
+			var l = document.getElementById("restante");
+			
+				window.setInterval(function(){
+					if(restante >= 0)
+					{
+						l.innerHTML = 'Tiempo Restante: ' + pad2(Math.trunc(restante/60)) + ':' + pad2(restante%60);;
+						restante--;
+					}
+				},1000);
+	</script>
+	<script>
+		function logout()
+		{
+			fetch(`/api/auth/logout`, {
+				method: 'get',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type':'application/json'
+				}
+			})
+			.then(function(response) {
+				if(response.ok) {
+					return response.json();
+				} else {
+					throw "Error en la llamada Ajax";
+				}
+			
+			})
+			.then((data) =>{
+				if(data.status == "success")
+				{
+					swal({
+						title: data.message,
+						icon: "success",
+						closeOnEsc : false,
+						allowOutsideClick: false
+					})
+					.then(function(){window.location.replace("/")});
+				}
+				else
+				{
+					if(data.status == "error")
+					{
+						swal({
+							title: data.message,
+							icon: "warning",
+							closeOnEsc : false,
+							allowOutsideClick: false
+						})
+					}
+				}
+			})
+			.catch(function(error) {
+				window.location.replace("/");
+			})
+		}
+	</script>
 	@include('includes.page-js')
 	
 </body>

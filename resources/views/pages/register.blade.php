@@ -110,14 +110,18 @@
 							<div class="invalid-feedback" name="fec_nac"></div>
 						</div>
 					</div>
-					<div class="checkbox checkbox-css m-b-30">
+					<div class="m-b-10">
+						<div class="g-recaptcha" data-sitekey="6Lf-htoUAAAAAAFXTHj0QP-V_OQrfPe5hRMXewPa"></div>
+						<div class="text-danger" name="captcha"></div>
+					</div>
+					<!-- <div class="checkbox checkbox-css m-b-30">
 						<div class="checkbox checkbox-css m-b-30">
 							<input type="checkbox" id="agreement_checkbox" value="">
 							<label for="agreement_checkbox">
 								By clicking Sign Up, you agree to our <a href="javascript:;">Terms</a> and that you have read our <a href="javascript:;">Data Policy</a>, including our <a href="javascript:;">Cookie Use</a>.
 							</label>
 						</div>
-					</div>
+					</div> -->
 					<div class="register-buttons">
 						<button type="button" onClick="enviar();" value="submit" id="button-send" class="btn btn-success btn-block btn-lg">Registrarse</button>
 					</div>
@@ -229,7 +233,7 @@
 							title: data.message,
 							text: "Se le ha enviado un mail de confirmación a " + data.correo,
 							icon: "info",
-							allowEscapeKey : false,
+							closeOnEsc : false,
 							allowOutsideClick: false
 						})
 						.then(function(){window.location.replace("/")});
@@ -241,7 +245,7 @@
 							swal({
 								title: data.message,
 								icon: "warning",
-								allowEscapeKey : false,
+								closeOnEsc : false,
 								allowOutsideClick: false
 							})
 						}
@@ -252,7 +256,7 @@
 						title: "Oops...",
 						text: "Ha ocurrido un error en el servidor, intente nuevamente!",
 						icon: "error",
-						allowEscapeKey : false,
+						closeOnEsc : false,
 						allowOutsideClick: false
 					})
 				})
@@ -455,7 +459,20 @@
 					errores.push($('input[name="fec_nac"]').attr('name'));
 				}
 			}
-			// console.log(errores)
+			if(grecaptcha.getResponse() == "")
+			{
+				$('.g-recaptcha').addClass("is-invalid");
+				$('div[name="captcha"]').html("Valide el Captcha.");
+				$('.g-recaptcha').removeClass("is-valid");
+				errores.push('captcha');
+			}
+			else
+			{
+				$('.g-recaptcha').addClass("is-valid");
+				$('.g-recaptcha').removeClass("is-invalid");
+				$('div[name="captcha"]').html("");
+			}
+			console.log(errores)
 			// console.log(errores.length > 0)
 
 			return(!(errores.length > 0))

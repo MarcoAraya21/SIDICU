@@ -8,7 +8,7 @@ class PlanEstudio extends Model
 {
     protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo', 'nueva_oferta', 'perfil_egresado', 'perfil_licenciado', 'titulo_intermedio', 'minor', 'diploma',
                             'carrera_id', 'tipo_plan_id', 'tipo_grado_id', 'tipo_ingreso_id', 'estado_id', 'modalidad_id', 'regimen_id', 'grado_id', 'tipo_formacion_id', 'jornada_id'];
-    protected $appends = ['competencias_genericas', 'asignaturas', 'sct_totales'];
+    protected $appends = ['competencias_genericas', 'asignaturas', 'sct_totales', 'asesor_uic', 'coordinador'];
 
 
     public function carrera()
@@ -190,5 +190,36 @@ class PlanEstudio extends Model
             }
         }
         return $Sct_totales/2;
+    }
+
+    public function getAsesorUicAttribute()
+    {
+        $plan_usuarios = $this->plan_estudio_usuarios()->where('rol_id', 1)->with('usuario')->get();
+        
+        foreach ($plan_usuarios as $key => $plan_usuario) {
+            return $plan_usuario->usuario;
+        }
+    }
+
+    public function getCoordinadorAttribute()
+    {
+        $plan_usuarios = $this->plan_estudio_usuarios()->where('rol_id', 2)->with('usuario')->get();
+        
+        foreach ($plan_usuarios as $key => $plan_usuario) {
+            return $plan_usuario->usuario;
+        }
+    }
+
+    public function scopeAcceso($usuario_id)
+    {
+        $acceso = $this->plan_estudio_usuarios()->where('usuario_id', $usuario_id)->get();
+        return $acceso; 
+        // foreach ($plan_usuarios as $key => $plan_usuario) {
+        //     return $plan_usuario->usuario;
+        // }
+        // return $this->plan_estudio_usuarios()->join('plan_estudios', 'plan_estudios.id', '=', 'plan_estudio_usuarios.plan_estudio_id')
+        // ->select('plan_estudio_usuarios.*')
+        // ->where('plan_estudios.estado_id', '!=', 4)
+        // ->count();
     }
 }

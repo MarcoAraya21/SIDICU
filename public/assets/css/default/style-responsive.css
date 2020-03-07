@@ -1565,7 +1565,7 @@ Website: http://www.seantheme.com/color-admin-v4.0/admin/
 
 @media (max-width: 1024px) {
     .login.login-with-news-feed, .register.register-with-news-feed {
-    	/* position: fixed; */
+    	position: fixed;
     	left: 0;
     	right: 0;
     	bottom: 0;

@@ -11,20 +11,22 @@
 				<a href="javascript:;" data-toggle="nav-profile">
 					<div class="cover with-shadow"></div>
 					<div class="image">
-						<img src="/assets/img/user/user-13.jpg" alt="" />
+						<img src="/assets/img/user/user-12.jpg" alt="" />
 					</div>
 					<div class="info">
 						<b class="caret pull-right"></b>
-						Usuario
-						<small>cargo</small>
+						{{ $key->nombre }} {{ $key->apellido_paterno }}
+						<small>{{ $key->perfil->nombre }}</small>
 					</div>
 				</a>
 			</li>
 			<li>
 				<ul class="nav nav-profile">
-					<li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
+					<li><a href="javascript:;" class="dropdown-item">Editar Perfil</a></li>
+					<li><a onClick="logout();" class="dropdown-item">Cerrar Sesión</a><li>
+					<!-- <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
 					<li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>
-					<li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li>
+					<li><a href="javascript:;"><i class="fa fa-question-circle"></i> Helps</a></li> -->
 				</ul>
 			</li>
 		</ul>
@@ -74,7 +76,39 @@
 					return $subMenu;
 				}
 				
-				foreach (config('sidebar.menu') as $key => $menu) {
+				if($key->perfil->id == 1)
+				{
+					$tipo_menu = 'sidebar.menu_admin';
+				}
+				else
+				{
+					if($key->perfil->id == 2)
+					{
+						$tipo_menu = 'sidebar.menu_jefe';
+					}
+					else
+					{
+						if($key->perfil->id == 3)
+						{
+							$tipo_menu = 'sidebar.menu_asesor';
+						}
+						else
+						{
+							if($key->perfil->id == 4)
+							{
+								$tipo_menu = 'sidebar.menu_academico';
+							}
+							else
+							{
+								if($key->perfil->id == 5)
+								{
+									$tipo_menu = 'sidebar.menu_invitado';
+								}
+							}
+						}
+					}
+				}
+				foreach (config($tipo_menu) as $key => $menu) {
 					$GLOBALS['parent_active'] = '';
 					
 					$hasSub = (!empty($menu['sub_menu'])) ? 'has-sub' : '';

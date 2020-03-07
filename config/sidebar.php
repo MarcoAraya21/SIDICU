@@ -12,8 +12,7 @@ return [
     | the usual Laravel view path has already been registered for you.
     |
     */
-
-		'menu' => 
+		'menu_admin' => 
 		[
 			[
 				'icon' => 'fa fa-hdd',
@@ -21,47 +20,116 @@ return [
 				'url' => 'javascript:;',
 				'sub_menu' => [
 					[
-						'url' => '/NuevoPlan',
-						'title' => 'Nuevo Plan'
-					],
-					[
-						'url' => '/home',
+						'url' => '/Listado',
 						'title' => 'Listado'
 					],
 					[
-						'url' => '/',
+						'url' => '/home',
 						'title' => 'Finalizados'
 					]
 				]
 			],
-			
-			[
-				'icon' => 'fa fa-hdd',
-				'title' => 'Gestion de Asignaturas',
-				'url' => 'javascript:;',
-				'sub_menu' => [
-					[
-						'url' => '/NewAsignatura',
-						'title' => 'Nuevo Plan'
-					],
-					[
-						'url' => '/ListAsignaturas',
-						'title' => 'Listado'
-					]
-				]
-			],
-
 			[
 				'icon' => 'fa fa-chart-line',
 				'title' => 'Indicadores',
 				'url' => 'javascript:;',
 			],
-
 			[
-				'icon' => 'fa fa-user-md',
+				'icon' => 'fa fa-user-secret',
 				'title' => 'Administrador',
-				'url' => 'Administrador',
+				'url' => 'javascript:;',
+				'sub_menu' => [
+					[
+						'url' => '/Administrador',
+						'title' => 'Editar Tablas'
+					]
+				]
 			]
-			
-		]
+		],
+
+		'menu_jefe' => 
+		[
+			[
+				'icon' => 'fa fa-hdd',
+				'title' => 'Planes de Estudio',
+				'url' => 'javascript:;',
+				'sub_menu' => [
+					[
+						'url' => '/Listado',
+						'title' => 'Listado'
+					],
+					[
+						'url' => '/AsignarPlan',
+						'title' => 'Asignar Plan'
+					],
+					[
+						'url' => '/home',
+						'title' => 'Finalizados'
+					]
+				]
+			],
+			[
+				'icon' => 'fa fa-chart-line',
+				'title' => 'Indicadores',
+				'url' => 'javascript:;',
+			]
+		],
+
+		'menu_asesor' => 
+		[
+			[
+				'icon' => 'fa fa-hdd',
+				'title' => 'Planes de Estudio',
+				'url' => 'javascript:;',
+				'sub_menu' => [
+					[
+						'url' => '/MisPlanes',
+						'title' => 'Mis Planes'
+					],
+					[
+						'url' => '/Pendientes',
+						'title' => 'Planes Pendientes'
+					],
+					[
+						'url' => '/home',
+						'title' => 'Finalizados'
+					]
+				]
+			]
+		],
+
+		'menu_academico' => 
+		[
+			[
+				'icon' => 'fa fa-hdd',
+				'title' => 'Planes de Estudio',
+				'url' => 'javascript:;',
+				'sub_menu' => [
+					[
+						'url' => '/MisPlanes',
+						'title' => 'Mis Planes'
+					],
+					[
+						'url' => '/home',
+						'title' => 'Finalizados'
+					]
+				]
+			]
+		],
+
+		'menu_invitado' => 
+		[
+			[
+				'icon' => 'fa fa-hdd',
+				'title' => 'Planes de Estudio',
+				'url' => 'javascript:;',
+				'sub_menu' => [
+					[
+						'url' => '/Finalizados',
+						'title' => 'Finalizados'
+					]
+				]
+			]
+		],
+
 ];

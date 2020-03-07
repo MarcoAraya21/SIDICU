@@ -31,6 +31,18 @@ class UsuarioController extends Controller
         return $Usuarios->toJson();
     }
 
+    public function getAsesores()
+    {
+        $Usuarios = Usuario::where('perfil_id', 3)->get();
+        return $Usuarios->toJson();
+    }
+
+    public function getAcademicos()
+    {
+        $Usuarios = Usuario::where('perfil_id', 4)->get();
+        return $Usuarios->toJson();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -118,14 +130,14 @@ class UsuarioController extends Controller
                 'fec_nac' => $fecha_nacimiento,
                 'fono_fijo' => $request->get(''),
                 'fono_celular' => $request->get(''),
-                'perfil_id' => $request->get(''),
+                'perfil_id' => 5,
                 'carrera_id' => $request->get(''),
                 'estado_id' => 1
             ]);
         }
         catch(\Illuminate\Database\QueryException $e)
         {
-            return response()->json(['status'=>'warning','message'=>'El correo ingresado ya se encuentra registrado.']);
+            return response()->json(['status'=>'warning','message'=>'El correo o rut ingresados ya se encuentran registrado.']);
         }
         $Usuario->usuario_verificaciones()->create(['verification_code' => $verification_code, 'activo' => 1]);
         $nombre = $request->get('nombre');
@@ -167,22 +179,33 @@ class UsuarioController extends Controller
     }
 
     public function login(Request $request){
+        
         $credentials = $request->only('rut', 'password');
- 
         $token = null;
         try {
            if (!$token = JWTAuth::attempt($credentials)) {
-            return response()->json(['Usuario o Contraseña incorrectos'], 422);
+            return response()->json(['status'=>'warning','message'=>'Usuario o Contraseña incorrectos.']);
            }
         } catch (JWTAuthException $e) {
-            return response()->json(['Error al crear el token'], 500);
+            return response()->json(['status'=>'warning','message'=>'Error al crear el token.']);
         }
  
  
         // Retorno los datos dentro de un token en formato JSON:
         // return response()->json(compact('token'));
         // dd(compact('token')['token']);
-        return redirect('/home')->withCookie('token', compact('token')['token'], 120);
+        if(JWTAuth::toUser(JWTAuth::attempt($credentials))->validado == 0)
+        {
+            return response()->json(['status'=>'warning','message'=>'Aun no ha validado su correo.']);
+        }
+        else
+        {
+            if(JWTAuth::toUser(JWTAuth::attempt($credentials))->validado == 1)
+            {
+                return response()->json(['status'=>'success'])->withCookie('token', compact('token')['token'], 120);
+                // return redirect('/home')->withCookie('token', compact('token')['token'], 120);
+            }
+        }
     }
 
     public function logout()
@@ -192,13 +215,13 @@ class UsuarioController extends Controller
         {
             $token = $_COOKIE['token'];
         }
-
+        $olvidarToken = \Cookie::forget('token');
         try {
             JWTAuth::invalidate($token);
-            return response()->json(['success' => true, 'message'=> "You have successfully logged out."]);
+            return response()->json(['status' => 'success', 'message'=> "Has cerrado sesión satisfactoriamente!"])->withCookie($olvidarToken);;
         } catch (JWTException $e) {
             // something went wrong whilst attempting to encode the token
-            return response()->json(['success' => false, 'error' => 'Failed to logout, please try again.'], 500);
+            return response()->json(['success' => 'error', 'message' => 'Failed to logout, please try again.']);
         }
     }
 

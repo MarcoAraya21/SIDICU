@@ -9055,7 +9055,7 @@ body .morris-hover.morris-default-style {
 }
 .login.login-with-news-feed .news-feed,
 .register.register-with-news-feed .news-feed {
-    /* position: fixed; */
+    position: fixed;
     left: 0;
     right: 500px;
     top: 0;

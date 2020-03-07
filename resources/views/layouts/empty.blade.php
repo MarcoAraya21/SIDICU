@@ -2,6 +2,7 @@
 <html lang="{{ app()->getLocale() }}">
 <head>
 	@include('includes.head')
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </head>
 @php
 	$bodyClass = (!empty($boxedLayout)) ? 'boxed-layout ' : '';

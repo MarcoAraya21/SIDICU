@@ -39,19 +39,51 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         return $pdf->download('invoice.pdf');
         //return $pdf->stream();
     });
+    
     Route::get('pdf_descargar/{id}', 'PdfController@pdfview');
 
     
+
+    Route::group(['middleware' => 'userprofile'], function () {
+        Route::get('/Administrador', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/AsignarPlan', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/Listado', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/Pendientes', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/InformacionBasica/{id}', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/MisPlanes', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/Plan/Ver/{id}', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/Plan/Editar/{id}', function () {
+            return view('/pages/welcome');
+        });
+        // Route::get('/NuevoPlan', function () {
+        //     return view('/pages/welcome');
+        // });
+        Route::get('/Indicadores', function () {
+            return view('/pages/welcome');
+        });
+    });
+
     Route::get('/home', function () {
         return view('/pages/welcome');
     });
-    Route::get('/NuevoPlan', function () {
-        return view('/pages/welcome');
-    });
+    
     Route::get('/{path?}', function () {
         return redirect('/home');
-    })->where('path', '.*')->where('path', '^((?!assets).)*$');
-
+    })->where('path', '.*')->where('path', '^((?!assets|api).)*$');
 });
 // Route::get('/home', function () {
 //     return view('pages/welcome');

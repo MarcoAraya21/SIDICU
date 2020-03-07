@@ -16,7 +16,7 @@ class FacultadesSeeder extends Seeder
             ['nombre' => 'Ciencias de la Construcción y Ordenamiento Territorial'],
             ['nombre' => 'Ciencias Naturales, Matemática y del Medio Ambiente'],
             ['nombre' => 'Humanidades y Tecnologías de la Comunicación Social'],
-            ['nombre' => 'Ingenieria'],
+            ['nombre' => 'Ingeniería'],
         ]);
     }
 }

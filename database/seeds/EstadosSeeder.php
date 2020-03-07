@@ -13,7 +13,8 @@ class EstadosSeeder extends Seeder
     {
         DB::table('estados')->insert([
             // DE USUARIO
-            ['nombre' => 'Espera'],
+            ['nombre' => 'Pendiente'],
+            ['nombre' => 'En Proceso'],
             ['nombre' => 'Revision'],
             ['nombre' => 'Aprobado']
         ]);

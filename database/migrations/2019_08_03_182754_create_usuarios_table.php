@@ -19,7 +19,7 @@ class CreateUsuariosTable extends Migration
             $table->string('apellido_paterno');
             $table->string('apellido_materno');
             $table->string('correo')->unique();
-            $table->string('rut');
+            $table->string('rut')->unique();
             $table->string('password');
             $table->date('fec_nac');
             $table->string('fono_fijo')->nullable();

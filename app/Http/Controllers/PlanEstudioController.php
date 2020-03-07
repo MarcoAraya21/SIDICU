@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\PlanEstudio;
 use App\Competencia;
-
+use JWTAuth;
+use App\Usuario;
+use App\PlanEstudioUsuario;
 class PlanEstudioController extends Controller
 {
     /**
@@ -14,6 +16,45 @@ class PlanEstudioController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
+    {
+        $PlanEstudio = PlanEstudio::
+        with(['dominios' => function ($query) {
+            $query
+            ->with(['competencias' => function ($query) {
+                $query
+                ->with(['nivel_competencias' => function ($query) {
+                    $query
+                    ->with('logro_aprendizajes');
+                }]);
+            }]);
+        }])
+        ->get();
+        return $PlanEstudio->toJson();
+    }
+
+    public function listado()
+    {
+        $PlanEstudio = PlanEstudio::where('estado_id', '!=', 4)
+        ->get();
+        return $PlanEstudio->toJson();
+    }
+
+    public function misPendientes()
+    {
+        $token = '';
+        if(isset($_COOKIE['token']))
+        {
+            $token = $_COOKIE['token'];
+        }
+        $usuario_id = JWTAuth::toUser($token)->id;
+        // $PlanEstudio = PlanEstudioUsuario::where([['usuario_id', $usuario_id], ['rol_id', 1]])->plan_estudio()->where('estado_id', 1)->get();
+        // $PlanEstudio = PlanEstudio::where('estado_id', 1)->plan_estudio_usuarios()->where('usuario_id',$usuario_id);
+        $PlanEstudio = Usuario::find($usuario_id)->plan_estudios()->where('estado_id', 1)->get();
+        // ->get();
+        return $PlanEstudio->toJson();
+    }
+
+    public function finalizados()
     {
         $PlanEstudio = PlanEstudio::
         with(['dominios' => function ($query) {
@@ -48,36 +89,38 @@ class PlanEstudioController extends Controller
      */
     public function store(Request $request)
     {
-        
-        $this->validate($request, [
-            'nombre' => 'required',
-            'observacion' => 'required',
-            'carrera_id' => 'required|numeric|min:1',
-            'tipo_plan_id' => 'required|numeric|min:1',            
-        ]);
-
-        $PlanEstudio = PlanEstudio::create($request->all());
-        for ($i=0; $i <= 1  ; $i++) {
-            $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1, 'nombre' => 'Sin Nombre']);
-        }
-        // $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
-        $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);
-        $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->academico_id,'rol_id' => 2]);
-        $PlanEstudio->niveles()->create(['nombre'=> 1]);
-
-        $competencias = Competencia::where('dominio_id', 1)->get();
-        $i = 0;
-        foreach ($competencias as $key => $competencia) {
-            if($i < 4)
-            {
-                $nivel_competencias = $competencia->nivel_competencias()->get();
-                foreach ($nivel_competencias as $key => $nivel_competencia) {
-                    $PlanEstudio->nivel_genericas()->create(['nivel_competencia_id' => $nivel_competencia['id']]);
-                }
-            }
-            $i = $i + 1;
-        }
+        $PlanEstudio = PlanEstudio::create(['estado_id' => 1]);
+        $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id' => $request->usuario_id, 'rol_id' => 1]);
         return response()->json($PlanEstudio, 201);
+        // $this->validate($request, [
+        //     'nombre' => 'required',
+        //     'observacion' => 'required',
+        //     'carrera_id' => 'required|numeric|min:1',
+        //     'tipo_plan_id' => 'required|numeric|min:1',            
+        // ]);
+
+        // $PlanEstudio = PlanEstudio::create($request->all());
+        // for ($i=0; $i <= 1  ; $i++) {
+        //     $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1, 'nombre' => 'Sin Nombre']);
+        // }
+        // // $PlanEstudio->dominios()->create(['tipo_dominio_id' => 2]);
+        // $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->uic_id,'rol_id' => 1]);
+        // $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id'=> $request->academico_id,'rol_id' => 2]);
+        // $PlanEstudio->niveles()->create(['nombre'=> 1]);
+
+        // $competencias = Competencia::where('dominio_id', 1)->get();
+        // $i = 0;
+        // foreach ($competencias as $key => $competencia) {
+        //     if($i < 4)
+        //     {
+        //         $nivel_competencias = $competencia->nivel_competencias()->get();
+        //         foreach ($nivel_competencias as $key => $nivel_competencia) {
+        //             $PlanEstudio->nivel_genericas()->create(['nivel_competencia_id' => $nivel_competencia['id']]);
+        //         }
+        //     }
+        //     $i = $i + 1;
+        // }
+        // return response()->json($PlanEstudio, 201);
 
     }
 
@@ -89,34 +132,95 @@ class PlanEstudioController extends Controller
      */
     public function show($id)
     {
-        $PlanEstudio = PlanEstudio::
-            with(['dominios' => function ($query) {
-                $query
-                ->with('tipo_dominio')
-                ->with(['competencias' => function ($query) {
-                    $query
-                    ->with(['nivel_competencias' => function ($query) {
+        $token = '';
+        if(isset($_COOKIE['token']))
+        {
+            $token = $_COOKIE['token'];
+        }
+        $usuario_id = JWTAuth::toUser($token)->id;
+        $acceso = 'denegado';
+        $PlanEstudioUsuarios = PlanEstudio::with('plan_estudio_usuarios')->findOrFail($id)->plan_estudio_usuarios;
+        foreach ($PlanEstudioUsuarios as $key => $PlanEstudioUsuario) {
+            if($PlanEstudioUsuario->usuario_id == $usuario_id)
+            {
+                $PlanEstudio = PlanEstudio::
+                    with(['dominios' => function ($query) {
                         $query
-                        ->with('logro_aprendizajes')
-                        ->with(['nivel_competencia_asignaturas' => function ($query) {
+                        ->with('tipo_dominio')
+                        ->with(['competencias' => function ($query) {
                             $query
-                            ->with('asignatura');
+                            ->with(['nivel_competencias' => function ($query) {
+                                $query
+                                ->with('logro_aprendizajes')
+                                ->with(['nivel_competencia_asignaturas' => function ($query) {
+                                    $query
+                                    ->with('asignatura');
+                                }]);
+                            }]);
                         }]);
-                    }]);
-                }]);
-            }])
-            ->with('carrera')
-            ->with('tipo_plan')
-            ->with('tipo_ingreso')
-            ->with(['plan_estudio_usuarios' => function ($query) {
-                $query
-                ->with('usuario');
-            }])
-            ->with('niveles')
-            ->findOrFail($id);
-        return $PlanEstudio->toJson();
+                    }])
+                    ->with('carrera')
+                    ->with('tipo_plan')
+                    ->with('tipo_ingreso')
+                    ->with(['plan_estudio_usuarios' => function ($query) {
+                        $query
+                        ->with('usuario');
+                    }])
+                    ->with('niveles')
+                    ->findOrFail($id);
+                return $PlanEstudio->toJson();
+            }
+        }   
     }
 
+
+
+    public function getInformacionBasica($id)
+    {
+        $token = '';
+        if(isset($_COOKIE['token']))
+        {
+            $token = $_COOKIE['token'];
+        }
+        $usuario_id = JWTAuth::toUser($token)->id;
+        // $PlanEstudio = PlanEstudioUsuario::where([['usuario_id', $usuario_id], ['rol_id', 1]])->plan_estudio()->where('estado_id', 1)->get();
+        // $PlanEstudio = PlanEstudio::where('estado_id', 1)->plan_estudio_usuarios()->where('usuario_id',$usuario_id);
+        $PlanEstudio = Usuario::find($usuario_id)->plan_estudio_usuarios()->where('plan_estudio_id', $id)->get();
+        if(count($PlanEstudio) == 1)
+        {
+            $PlanEstudio = PlanEstudio::findOrFail($id);
+            if($PlanEstudio->estado_id == 1)
+            {
+                // return response()->json(['status'=>'success','plan'=>$PlanEstudio]);
+                return response()->json(['status'=>'success']);
+            }
+            else
+            {
+                return response()->json(['status'=>'warning','message'=>'Ya ha validado este plan.']);
+            }
+        }
+        else
+        {
+            if(count($PlanEstudio) == 0)
+            {
+                return response()->json(['status'=>'danger','message'=>'Acceso Denegado']);
+            }
+        }
+    }
+
+    public function updateInformacionBasica(Request $request, PlanEstudio $PlanEstudio)
+    {
+        $this->validate($request, [
+            'nombre' => 'required',
+            'observacion' => 'required',
+            'carrera_id' => 'required|numeric|min:1',
+            'tipo_plan_id' => 'required|numeric|min:1',            
+        ],['required' => 'el campo es requerido',
+        'min' => 'debe ser de al menos :value']);
+        
+        $PlanEstudio = $PlanEstudio->update($request->all());
+        return response()->json($PlanEstudio, 201);
+    }
 
     public function datos($id)
     {

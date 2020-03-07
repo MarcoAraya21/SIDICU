@@ -16,8 +16,8 @@ class Estado extends Model
     {
         return $this->hasMany('App\Carrera');
     }
-    public function estados()
+    public function usuarios()
     {
-        return $this->hasMany('App\Estado');
+        return $this->hasMany('App\Usuario');
     }
 }

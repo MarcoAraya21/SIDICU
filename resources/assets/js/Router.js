@@ -1,10 +1,15 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Index from './component/Index'
+import MisPlanes from './pages/mis_planes'
 import PlanEstudio from './component/plan_estudio/index'
-import CrearPlan from './component/crear_plan/index'
+// import CrearPlan from './component/crear_plan/index'
+import AsignarPlan from './pages/asignar_plan'
 import Admin from './component/admin/index'
+import Listado from './pages/listado'
+import Pendientes from './pages/pendientes'
+import Finalizados from './pages/finalizados'
+import InformacionBasica from './pages/informacion_basica/index'
 // import IndexAsignaturas from './component/asignaturas/index'
 
 
@@ -16,9 +21,15 @@ const Router = () => {
                 <Switch>
                     <Route path='/Administrador' component={Admin} />
                     {/* <Route path='/ListAsignaturas' component={IndexAsignaturas} /> */}
-                    <Route path='/NuevoPlan' component={CrearPlan} />
-                    <Route path='/Plan/:id' component={PlanEstudio} />
-                    <Route exact path='/home' component={Index} />
+                    <Route path='/AsignarPlan' component={AsignarPlan} />
+                    <Route path='/Listado' component={Listado} />
+                    <Route path='/Pendientes' component={Pendientes} />
+                    {/* <Route path='/NuevoPlan' component={CrearPlan} /> */}
+                    <Route path='/InformacionBasica/:id' component={InformacionBasica} />
+                    <Route path='/Plan/Editar/:id' component={PlanEstudio} />
+                    <Route path='/Plan/Ver/:id' component={PlanEstudio} />
+                    <Route path='/MisPlanes' component={MisPlanes} />
+                    <Route exact path='/home' component={Finalizados} />
                 </Switch>
             </div>
         </BrowserRouter>

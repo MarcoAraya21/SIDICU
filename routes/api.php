@@ -23,7 +23,16 @@ Route::post('auth/login', 'UsuarioController@login');
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('auth/authenticate', 'UsuarioController@getAuthUser');
     Route::get('auth/logout', 'UsuarioController@logout');
+    Route::get('asesores', 'UsuarioController@getAsesores');
+    Route::get('academicos', 'UsuarioController@getAcademicos');
+    Route::get('informacion_basica/{plan_id}', 'PlanEstudioController@getInformacionBasica');
+    Route::put('informacion_basica/{plan_id}', 'PlanEstudioController@updateInformacionBasica');
 
+    Route::get('listado_planes', 'PlanEstudioController@listado');
+    Route::get('pendientes', 'PlanEstudioController@misPendientes');
+    Route::get('planes_finalizados', 'PlanEstudioController@finalizados');
+    Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
+        'plan_estudios' => 'plan_estudio']]);
 });
 
 
@@ -32,8 +41,7 @@ Route::resource('escuelas', 'EscuelaController', ['only' => ['index']]);
 Route::resource('grados', 'GradoController', ['only' => ['index']]);
 
 
-Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
-    'plan_estudios' => 'plan_estudio']]);
+
 Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
     'usuarios' => 'usuario']]);
 Route::apiResource('dominios', 'DominioController', ['parameters' => [

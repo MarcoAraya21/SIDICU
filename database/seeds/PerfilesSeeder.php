@@ -12,8 +12,11 @@ class PerfilesSeeder extends Seeder
     public function run()
     {
         DB::table('perfiles')->insert([
-            ['nombre' => 'UIC'],
-            ['nombre' => 'Academico']
+            ['nombre' => 'Administrador'],
+            ['nombre' => 'Jefe UIC'],
+            ['nombre' => 'Asesor UIC'],
+            ['nombre' => 'Academico'],
+            ['nombre' => 'Invitado']
         ]);
     }
 }

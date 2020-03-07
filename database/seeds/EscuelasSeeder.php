@@ -14,8 +14,8 @@ class EscuelasSeeder extends Seeder
         DB::table('escuelas')->insert([
             ['nombre' => 'Administración', 'facultad_id' => 1],
             ['nombre' => 'Bibliotecología', 'facultad_id' => 1],
-            ['nombre' => 'Contadores Auditores', 'facultad_id' => 1],
             ['nombre' => 'Comercio Internacional', 'facultad_id' => 1],
+            ['nombre' => 'Contadores Auditores', 'facultad_id' => 1],
             ['nombre' => 'Ingeniería Comercial', 'facultad_id' => 1],
             ['nombre' => 'Arquitectura', 'facultad_id' => 2],
             ['nombre' => 'Construcción Civil', 'facultad_id' => 2],
