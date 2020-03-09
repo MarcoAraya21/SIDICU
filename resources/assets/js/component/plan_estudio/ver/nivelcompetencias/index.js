@@ -59,7 +59,7 @@ export default class index extends Component {
                                                            <ShowCompetencias
                                                                key={i}
                                                                competencia={competencia}
-                                                               asignaturas={asignaturas}
+                                                               asignaturas={this.props.asignaturas}
                                                            />
                                                         )
                                                     :
@@ -80,7 +80,7 @@ export default class index extends Component {
                                                            <ShowCompetencias
                                                                key={i}
                                                                competencia={competencia}
-                                                               asignaturas={asignaturas}
+                                                               asignaturas={this.props.asignaturas}
                                                            />
                                                         )
                                                     :
@@ -100,7 +100,7 @@ export default class index extends Component {
                                                         <ShowCompetencias
                                                             key={i}
                                                             competencia_generica={competencia_generica}
-                                                            asignaturas={asignaturas}
+                                                            asignaturas={this.props.asignaturas}
                                                         />
                                                     )
                                                 }

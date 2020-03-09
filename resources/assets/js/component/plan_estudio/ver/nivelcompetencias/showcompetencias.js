@@ -133,7 +133,7 @@ export default class showcompetencias extends Component {
         return (
             !this.props.competencia_generica
             ?
-                <Panel key = {'competencia-' + this.props.competencia.id} titulo={this.props.competencia.descripcion} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandocompetencias)}>
+                <Panel key = {'competencia-' + this.props.competencia.id} titulo={this.props.competencia.descripcion} border={true} collapse={true} expand={true}>
                     <ReactNotification ref={this.notificationDOMRef}/>
                     <div className="dropdown text-right">
                         <button className="btn btn-info dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -148,11 +148,11 @@ export default class showcompetencias extends Component {
                     
                     this.props.competencia.nivel_competencias && this.props.competencia.nivel_competencias.length > 0 ?
                     this.props.competencia.nivel_competencias.map((nivel_competencia,i) =>
-                        <div className="my-2">
-                            <p className="m-0">
-                            Ingrese Descripción del Nivel {nivel_competencia.nivel}:</p>
-                            <p>
-                                {nivel_competencia.descripcion || ''}
+                        <div className="my-2" key={i}>
+                            <p className="my-2">
+                            Descripción del Nivel {nivel_competencia.nivel}:</p>
+                            <p className="px-2 py-2 border">
+                                {nivel_competencia.descripcion}
                             </p>
                             <div className="col-12 row mt-2">
                                 <div className="col-6">
@@ -196,10 +196,10 @@ export default class showcompetencias extends Component {
                 </Panel>
                 
             :
-                <Panel key = {'competencia-generica-' + this.props.competencia_generica.id} titulo={this.props.competencia_generica.sigla + ": " + this.props.competencia_generica.descripcion} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.editandocompetencias)}>
+                <Panel key = {'competencia-generica-' + this.props.competencia_generica.id} titulo={this.props.competencia_generica.sigla + ": " + this.props.competencia_generica.descripcion} border={true} collapse={true} expand={true}>
                 {
                     this.props.competencia_generica.nivel_competencias.map((nivel_competencia_generica,i) =>
-                        <div className="my-2">
+                        <div className="my-2" key={i}>
                             <p className="m-0">Descripción del Nivel {nivel_competencia_generica.nivel}:</p>
                             <p className="px-2 py-2 border">
                                 {nivel_competencia_generica.descripcion}
