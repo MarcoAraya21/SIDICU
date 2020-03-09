@@ -27,7 +27,6 @@ class Index extends Component {
             tipo_formacion_id: 0,
             modalidad_id: 0,
             jornada_id: 0,
-            uic_id: 0,
             academico_id: 0,
             titulo_intermedio: "",
             minor: "",
@@ -117,10 +116,10 @@ class Index extends Component {
 
 
     handleSubmit() {
-        // let validaciones2 = validaciones(this.state.plan_estudios, this.state.nueva_carrera, this.state.otros);
-        // this.setState({errores: validaciones2})
-        // if(Object.keys(validaciones2.plan).length == 0 && Object.keys(validaciones2.carrera).length == 0)
-        // {
+        let validaciones2 = validaciones(this.state.plan_estudios, this.state.nueva_carrera, this.state.otros);
+        this.setState({errores: validaciones2})
+        if(Object.keys(validaciones2.plan).length == 0 && Object.keys(validaciones2.carrera).length == 0)
+        {
             this.setState({guardando: true})
             if(this.state.plan_estudios.nueva_oferta == true)
             {
@@ -223,7 +222,7 @@ class Index extends Component {
                     this.setState({guardando: false})                    
                 })
             }
-        // }
+        }
     }
 
 

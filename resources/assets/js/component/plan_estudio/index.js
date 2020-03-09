@@ -4,12 +4,18 @@ import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
-import Show from './show';
-import Dominios from './dominios';
-import Competencias from './dominios/competencias';
-import NivelCompetencias from './dominios/competencias/nivelcompetencias';
-import Asignaturas from './asignaturas';
-import Diseno from './diseno';
+import VerShow from './ver/show';
+import EditarShow from './editar/show'
+import VerDominios from './ver/dominios';
+import EditarDominios from './editar/dominios';
+import VerCompetencias from './ver/competencias';
+import EditarCompetencias from './editar/competencias';
+import VerNivelCompetencias from './ver/nivelcompetencias';
+import EditarNivelCompetencias from './editar/nivelcompetencias';
+import VerAsignaturas from './ver/asignaturas';
+import EditarAsignaturas from './editar/asignaturas';
+import VerDiseno from './ver/diseno';
+import EditarDiseno from './editar/diseno';
 import TreePlan from './tree';
 
 
@@ -31,10 +37,12 @@ export default class index extends Component {
             tipo_plan: {},
             tipo_ingreso: {},
             dominios: [],
-            usuarios: [],
             competencias_genericas: [],
             niveles: [],
+            asesor_uic: {},
+            coordinador: {},
             habilitadogeneral: true,
+            acceso: 0
         }
 
         this.handleInput = handleInput.bind(this);
@@ -100,67 +108,33 @@ export default class index extends Component {
         this.setState({ habilitadogeneral: estado });
     }
 
-    getUsuario() {
-        fetch(`/api/mi_usuario/`, {
-            method: 'get',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            }
-        })
-            .then((data) => {
-                swal({
-                    title: data.message,
-                    text: "Se ha asignado correctamente!",
-                    icon: "success",
-                    closeOnEsc: false,
-                    allowOutsideClick: false
-                });
-                // let new_asesores = this.state.asesores.map(asesor_state => {
-                //     return {
-                //         ...asesor_state,
-                //         planes_pendientes: (asesor_state.id == asesor.id) ?
-                //             asesor_state.planes_pendientes + 1 : asesor_state.planes_pendientes,
-                //         planes_asignados: (asesor_state.id == asesor.id) ?
-                //         asesor_state.planes_asignados + 1 : asesor_state.planes_asignados,
-                //     }
-                // });
-                // this.setState({ asesores: new_asesores })
-            })
-            .catch(function (error) {
-                swal({
-                    title: "Oops...",
-                    text: "Ha ocurrido un error en el servidor, intente nuevamente!",
-                    icon: "error",
-                    closeOnEsc: false,
-                    allowOutsideClick: false
-                })
-            })
-    }
     getPlanEstudio() {
         // console.log(projectId);
         axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({
-                id: response.data.id,
-                nombre: response.data.nombre,
-                observacion: response.data.observacion,
-                proposito: response.data.proposito,
-                objetivo: response.data.objetivo,
-                requisito_admision: response.data.requisito_admision,
-                mecanismo_retencion: response.data.mecanismo_retencion,
-                requisito_obtencion: response.data.requisito_obtencion,
-                campo_desarrollo: response.data.campo_desarrollo,
-                carrera: response.data.carrera,
-                tipo_plan: response.data.tipo_plan,
-                tipo_ingreso: response.data.tipo_ingreso,
-                dominios: response.data.dominios,
-                usuarios: response.data.dominios,
-                competencias_genericas: response.data.competencias_genericas,
-                niveles: response.data.niveles,
-                asignaturas: response.data.asignaturas
+                id: response.data[0].id,
+                nombre: response.data[0].nombre,
+                observacion: response.data[0].observacion,
+                proposito: response.data[0].proposito,
+                objetivo: response.data[0].objetivo,
+                requisito_admision: response.data[0].requisito_admision,
+                mecanismo_retencion: response.data[0].mecanismo_retencion,
+                requisito_obtencion: response.data[0].requisito_obtencion,
+                campo_desarrollo: response.data[0].campo_desarrollo,
+                carrera: response.data[0].carrera,
+                tipo_plan: response.data[0].tipo_plan,
+                tipo_ingreso: response.data[0].tipo_ingreso,
+                dominios: response.data[0].dominios,
+                competencias_genericas: response.data[0].competencias_genericas,
+                niveles: response.data[0].niveles,
+                asignaturas: response.data[0].asignaturas,
+                asesor_uic: response.data[0].asesor_uic,
+                coordinador: response.data[0].coordinador,
+                acceso: response.data[1]
             })
+            
             // console.log(response.data.informe_avance)
         }
             //console.log(response.data)
@@ -185,18 +159,8 @@ export default class index extends Component {
 
 
     render() {
-        const permitido = this.state.permitido;
-        if (permitido) {
-            // var aux2 = []
-            // this.state.dominios && this.state.dominios.map(dominio =>
-            //     dominio.competencias.map((competencia,j) =>
-            //         [aux2[j] = {'competencia_id': competencia.id, 'logros': 0},
-            //         competencia.nivel_competencias.map(nivel_competencia =>
-            //             aux2[j].logros = aux2[j].logros + (nivel_competencia.logro_aprendizajes && nivel_competencia.logro_aprendizajes.length)
-            //             )
-            //         ])
-            //     )
-            // console.log('logros por competencia', aux2)
+        if(this.state.acceso == 1 || this.state.acceso == 2 || this.state.acceso == 3)
+        {
             return (
                 <div className="container py-4">
                     <ReactNotification ref={this.notificationDOMRef} />
@@ -255,95 +219,163 @@ export default class index extends Component {
                                 <div className="tab-pane fade active show" id="plan-tab-show">
                                     {
                                         this.state.id &&
-                                        <Show id={this.state.id}
-                                            nombre={this.state.nombre}
-                                            observacion={this.state.observacion}
-                                            proposito={this.state.proposito}
-                                            objetivo={this.state.objetivo}
-                                            requisito_admision={this.state.requisito_admision}
-                                            mecanismo_retencion={this.state.mecanismo_retencion}
-                                            requisito_obtencion={this.state.requisito_obtencion}
-                                            campo_desarrollo={this.state.campo_desarrollo}
-                                            carrera={this.state.carrera}
-                                            tipo_plan={this.state.tipo_plan}
-                                            tipo_ingreso={this.state.tipo_ingreso}
-                                            usuarios={this.state.usuarios}
-                                            params={this.props.match.params.id}
-                                            habilitarGeneral={this.habilitarGeneral}
-                                            habilitadogeneral={this.state.habilitadogeneral}
-                                            addNotification={this.addNotification}
-                                            addNotificationAlert={this.addNotificationAlert}
-                                            addNotificationWarning={this.addNotificationWarning} />
+                                        this.state.acceso == 1 ?
+                                            <EditarShow
+                                                id={this.state.id}
+                                                nombre={this.state.nombre}
+                                                observacion={this.state.observacion}
+                                                proposito={this.state.proposito}
+                                                objetivo={this.state.objetivo}
+                                                requisito_admision={this.state.requisito_admision}
+                                                mecanismo_retencion={this.state.mecanismo_retencion}
+                                                requisito_obtencion={this.state.requisito_obtencion}
+                                                campo_desarrollo={this.state.campo_desarrollo}
+                                                carrera={this.state.carrera}
+                                                tipo_plan={this.state.tipo_plan}
+                                                tipo_ingreso={this.state.tipo_ingreso}
+                                                asesor_uic={this.state.asesor_uic}
+                                                coordinador={this.state.coordinador}
+                                                params={this.props.match.params.id}
+                                                habilitarGeneral={this.habilitarGeneral}
+                                                habilitadogeneral={this.state.habilitadogeneral}
+                                                addNotification={this.addNotification}
+                                                addNotificationAlert={this.addNotificationAlert}
+                                                addNotificationWarning={this.addNotificationWarning}
+                                            />
+                                        :
+                                            <VerShow
+                                                id={this.state.id}
+                                                nombre={this.state.nombre}
+                                                observacion={this.state.observacion}
+                                                proposito={this.state.proposito}
+                                                objetivo={this.state.objetivo}
+                                                requisito_admision={this.state.requisito_admision}
+                                                mecanismo_retencion={this.state.mecanismo_retencion}
+                                                requisito_obtencion={this.state.requisito_obtencion}
+                                                campo_desarrollo={this.state.campo_desarrollo}
+                                                carrera={this.state.carrera}
+                                                tipo_plan={this.state.tipo_plan}
+                                                tipo_ingreso={this.state.tipo_ingreso}
+                                                asesor_uic={this.state.asesor_uic}
+                                                coordinador={this.state.coordinador}
+                                                params={this.props.match.params.id}
+                                            />
                                     }
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-1">
-                                    <Dominios
-                                        id={this.state.id}
-                                        dominios={this.state.dominios}
-                                        handleInput={this.handleInput}
-                                        handleInputArrays={this.handleInputArrays}
-                                        borrarElemento={this.borrarElemento}
-                                        handleAddElement={this.handleAddElement}
-                                        habilitarGeneral={this.habilitarGeneral}
-                                        habilitadogeneral={this.state.habilitadogeneral}
-                                        addNotification={this.addNotification}
-                                    />
+                                    {
+                                        this.state.acceso == 1 ?
+                                        <EditarDominios
+                                            id={this.state.id}
+                                            dominios={this.state.dominios}
+                                            handleInput={this.handleInput}
+                                            handleInputArrays={this.handleInputArrays}
+                                            borrarElemento={this.borrarElemento}
+                                            handleAddElement={this.handleAddElement}
+                                            habilitarGeneral={this.habilitarGeneral}
+                                            habilitadogeneral={this.state.habilitadogeneral}
+                                            addNotification={this.addNotification}
+                                        />
+                                        :
+                                        <VerDominios
+                                            id={this.state.id}
+                                            dominios={this.state.dominios}
+                                        />
+                                    }
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-2">
-                                    <Competencias
-                                        id={this.state.id}
-                                        dominios={this.state.dominios}
-                                        competencias_genericas={this.state.competencias_genericas}
-                                        handleInputArrays={this.handleInputArrays}
-                                        borrarElemento={this.borrarElemento}
-                                        handleAddElement={this.handleAddElement}
-                                        habilitarGeneral={this.habilitarGeneral}
-                                        habilitadogeneral={this.state.habilitadogeneral}
-                                        addNotification={this.addNotification}
-                                    />
+                                    {
+                                        this.state.acceso == 1 ?
+                                        <EditarCompetencias
+                                            id={this.state.id}
+                                            dominios={this.state.dominios}
+                                            competencias_genericas={this.state.competencias_genericas}
+                                            handleInputArrays={this.handleInputArrays}
+                                            borrarElemento={this.borrarElemento}
+                                            handleAddElement={this.handleAddElement}
+                                            habilitarGeneral={this.habilitarGeneral}
+                                            habilitadogeneral={this.state.habilitadogeneral}
+                                            addNotification={this.addNotification}
+                                        />
+                                        :
+                                        <VerCompetencias
+                                            id={this.state.id}
+                                            dominios={this.state.dominios}
+                                            competencias_genericas={this.state.competencias_genericas}
+                                        />
+                                    }
+                                    
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-3">
-                                    <NivelCompetencias
-                                        dominios={this.state.dominios}
-                                        competencias_genericas={this.state.competencias_genericas}
-                                        asignaturas={this.state.asignaturas}
-                                        handleInputArrays={this.handleInputArrays}
-                                        borrarElemento={this.borrarElemento}
-                                        handleAddElement={this.handleAddElement}
-                                        habilitarGeneral={this.habilitarGeneral}
-                                        habilitadogeneral={this.state.habilitadogeneral}
-                                        addNotification={this.addNotification}
-                                    />
+                                    {
+                                        this.state.acceso == 1 ?
+                                        <EditarNivelCompetencias
+                                            dominios={this.state.dominios}
+                                            competencias_genericas={this.state.competencias_genericas}
+                                            asignaturas={this.state.asignaturas}
+                                            handleInputArrays={this.handleInputArrays}
+                                            borrarElemento={this.borrarElemento}
+                                            handleAddElement={this.handleAddElement}
+                                            habilitarGeneral={this.habilitarGeneral}
+                                            habilitadogeneral={this.state.habilitadogeneral}
+                                            addNotification={this.addNotification}
+                                        />
+                                        :
+                                        <VerNivelCompetencias
+                                            dominios={this.state.dominios}
+                                            competencias_genericas={this.state.competencias_genericas}
+                                            asignaturas={this.state.asignaturas}
+                                        />
+                                    }
+                                    
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-4">
-                                    <Diseno
-                                        asignaturas={this.state.asignaturas}
-                                        niveles={this.state.niveles}
-                                        handleInputArrays={this.handleInputArrays}
-                                        handleInputArraysAsignatura={this.handleInputArraysAsignatura}
-                                        handleAddElement={this.handleAddElement}
-                                        borrarElemento={this.borrarElemento}
-                                        handleAddElementAsignatura={this.handleAddElementAsignatura}
-                                        borrarElementoAsignatura={this.borrarElementoAsignatura}
-                                        habilitarGeneral={this.habilitarGeneral}
-                                        habilitadogeneral={this.state.habilitadogeneral}
-                                        addNotification={this.addNotification}
-                                    />
+                                    {
+                                        this.state.acceso == 1 ?
+                                        <EditarDiseno
+                                            asignaturas={this.state.asignaturas}
+                                            niveles={this.state.niveles}
+                                            handleInputArrays={this.handleInputArrays}
+                                            handleInputArraysAsignatura={this.handleInputArraysAsignatura}
+                                            handleAddElement={this.handleAddElement}
+                                            borrarElemento={this.borrarElemento}
+                                            handleAddElementAsignatura={this.handleAddElementAsignatura}
+                                            borrarElementoAsignatura={this.borrarElementoAsignatura}
+                                            habilitarGeneral={this.habilitarGeneral}
+                                            habilitadogeneral={this.state.habilitadogeneral}
+                                            addNotification={this.addNotification}
+                                        />
+                                        :
+                                        <VerDiseno
+                                            asignaturas={this.state.asignaturas}
+                                            niveles={this.state.niveles}
+                                        />
+                                    }
+                                    
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-5">
-                                    <Asignaturas
-                                        asignaturas={this.state.asignaturas}
-                                        niveles={this.state.niveles}
-                                        handleInputArrays={this.handleInputArrays}
-                                        handleInputArraysAsignatura={this.handleInputArraysAsignatura}
-                                        handleAddElement={this.handleAddElement}
-                                        borrarElemento={this.borrarElemento}
-                                        handleAddElementAsignatura={this.handleAddElementAsignatura}
-                                        borrarElementoAsignatura={this.borrarElementoAsignatura}
-                                        habilitarGeneral={this.habilitarGeneral}
-                                        habilitadogeneral={this.state.habilitadogeneral}
-                                        addNotification={this.addNotification}
-                                    />
+                                    {
+                                        this.state.acceso == 1 ?
+                                        <EditarAsignaturas
+                                            asignaturas={this.state.asignaturas}
+                                            niveles={this.state.niveles}
+                                            handleInputArrays={this.handleInputArrays}
+                                            handleInputArraysAsignatura={this.handleInputArraysAsignatura}
+                                            handleAddElement={this.handleAddElement}
+                                            borrarElemento={this.borrarElemento}
+                                            handleAddElementAsignatura={this.handleAddElementAsignatura}
+                                            borrarElementoAsignatura={this.borrarElementoAsignatura}
+                                            habilitarGeneral={this.habilitarGeneral}
+                                            habilitadogeneral={this.state.habilitadogeneral}
+                                            addNotification={this.addNotification}
+                                        />
+                                        :
+                                        <VerAsignaturas
+                                            asignaturas={this.state.asignaturas}
+                                            niveles={this.state.niveles}
+                                        />
+                                    }
+                                    
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-6">
                                     {/* <TreePlan id={this.state.id}
@@ -372,8 +404,7 @@ export default class index extends Component {
         }
         else
         {
-            return 'no tiene acceso';
+            return "Acceso Denegado";
         }
-
     }
 }

@@ -56,18 +56,23 @@ class PlanEstudioController extends Controller
 
     public function finalizados()
     {
-        $PlanEstudio = PlanEstudio::
-        with(['dominios' => function ($query) {
-            $query
-            ->with(['competencias' => function ($query) {
-                $query
-                ->with(['nivel_competencias' => function ($query) {
-                    $query
-                    ->with('logro_aprendizajes');
-                }]);
-            }]);
-        }])
+        $PlanEstudio = PlanEstudio::where('estado_id', 4)
         ->get();
+        return $PlanEstudio->toJson();
+    }
+
+    public function misPlanes()
+    {
+        $token = '';
+        if(isset($_COOKIE['token']))
+        {
+            $token = $_COOKIE['token'];
+        }
+        $usuario_id = JWTAuth::toUser($token)->id;
+        // $PlanEstudio = PlanEstudioUsuario::where([['usuario_id', $usuario_id], ['rol_id', 1]])->plan_estudio()->where('estado_id', 1)->get();
+        // $PlanEstudio = PlanEstudio::where('estado_id', 1)->plan_estudio_usuarios()->where('usuario_id',$usuario_id);
+        $PlanEstudio = Usuario::find($usuario_id)->plan_estudios()->where('estado_id', 2)->get();
+        // ->get();
         return $PlanEstudio->toJson();
     }
 
@@ -89,9 +94,23 @@ class PlanEstudioController extends Controller
      */
     public function store(Request $request)
     {
-        $PlanEstudio = PlanEstudio::create(['estado_id' => 1]);
-        $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id' => $request->usuario_id, 'rol_id' => 1]);
-        return response()->json($PlanEstudio, 201);
+        $token = '';
+        if(isset($_COOKIE['token']))
+        {
+            $token = $_COOKIE['token'];
+        }
+        $perfil_id = JWTAuth::toUser($token)->perfil_id;
+        if($perfil_id == 2)
+        {
+            $PlanEstudio = PlanEstudio::create(['estado_id' => 1]);
+            $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id' => $request->usuario_id, 'rol_id' => 1]);
+            return response()->json($PlanEstudio, 201);
+        }
+        else
+        {
+            return response()->json(['status'=>'danger','message'=>'Acceso Denegado']);
+        }
+        
         // $this->validate($request, [
         //     'nombre' => 'required',
         //     'observacion' => 'required',
@@ -168,9 +187,10 @@ class PlanEstudioController extends Controller
                     }])
                     ->with('niveles')
                     ->findOrFail($id);
-                return $PlanEstudio->toJson();
+                return response()->json([$PlanEstudio, $PlanEstudioUsuario->rol_id], 200);
             }
-        }   
+        }
+        return response()->json(['error' => 'Acceso no permitido.'],403);
     }
 
 
@@ -208,18 +228,72 @@ class PlanEstudioController extends Controller
         }
     }
 
-    public function updateInformacionBasica(Request $request, PlanEstudio $PlanEstudio)
+    public function updateInformacionBasica(Request $request, PlanEstudio $PlanEstudio, $id)
     {
         $this->validate($request, [
             'nombre' => 'required',
             'observacion' => 'required',
+            'tipo_formacion_id' => 'required|numeric|min:1',  
             'carrera_id' => 'required|numeric|min:1',
-            'tipo_plan_id' => 'required|numeric|min:1',            
-        ],['required' => 'el campo es requerido',
-        'min' => 'debe ser de al menos :value']);
+            'tipo_plan_id' => 'required|numeric|min:1',
+            'tipo_grado_id' => 'required|numeric|min:1',
+            'grado_id' => 'required|numeric|min:1',
+            'jornada_id' => 'required|numeric|min:1',
+            'modalidad_id' => 'required|numeric|min:1',
+            'academico_id' => 'required|numeric|min:1'
+        ]);
+
+        $academico_id = $request['academico_id'];
+
+        $PlanEstudio = $PlanEstudio->find($id);
+        if($PlanEstudio->estado_id == 1)
+        {
+            $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id' => $academico_id, 'rol_id' => 2]);
+
+            for ($i=0; $i <= 1  ; $i++) {
+                $PlanEstudio->dominios()->create(['tipo_dominio_id' => 1, 'nombre' => 'Sin Nombre']);
+            }
         
-        $PlanEstudio = $PlanEstudio->update($request->all());
-        return response()->json($PlanEstudio, 201);
+            $PlanEstudio->niveles()->create(['nombre'=> 1]);
+
+            $competencias = Competencia::where('dominio_id', 1)->get();
+            $i = 0;
+            foreach ($competencias as $key => $competencia) {
+                if($i < 4)
+                {
+                    $nivel_competencias = $competencia->nivel_competencias()->get();
+                    foreach ($nivel_competencias as $key => $nivel_competencia) {
+                        $PlanEstudio->nivel_genericas()->create(['nivel_competencia_id' => $nivel_competencia['id']]);
+                    }
+                }
+                $i = $i + 1;
+            }
+
+            $PlanEstudio = $PlanEstudio->update([
+                "nombre" => $request['nombre'],
+                "observacion" => $request['observacion'],
+                "nueva_oferta" => $request['nueva_oferta'],
+                "carrera_id" => $request['carrera_id'],
+                "tipo_plan_id" => $request['tipo_plan_id'],
+                "tipo_grado_id" => $request['tipo_grado_id'],
+                "grado_id" => $request['grado_id'],
+                "tipo_formacion_id" => $request['tipo_formacion_id'],
+                "modalidad_id" => $request['modalidad_id'],
+                "jornada_id" => $request['jornada_id'],
+                "titulo_intermedio" => $request['titulo_intermedio'],
+                "minor" => $request['minor'],
+                "diploma" => $request['diploma'],
+                "regimen_id" => 1,
+                "tipo_ingreso_id" => 1,
+                "estado_id" => 2
+            ]);
+            return response()->json($PlanEstudio, 201);
+        }
+        else
+        {
+            return response()->json(['status'=>'danger','message'=>'Acceso Denegado']);
+        }
+        
     }
 
     public function datos($id)

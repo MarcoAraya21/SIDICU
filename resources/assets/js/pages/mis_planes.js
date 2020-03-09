@@ -56,7 +56,7 @@ class Index extends Component {
     }
 
     getPlanEstudios() {
-        fetch('/api/plan_estudios', {signal: this.abortController.signal})
+        fetch('/api/mis_planes', {signal: this.abortController.signal})
           .then(response => response.json())
           .then(data => this.setState({ plan_estudios: data}))
           .catch(err => {
@@ -72,7 +72,7 @@ class Index extends Component {
                 <tr key={i}>
                     <td>{plan_estudio.id}</td>
                     <td>{plan_estudio.nombre}</td>
-                    <td><Link to={`${plan_estudio.id}`} className='btn btn-primary'>Abrir</Link></td>
+                    <td><Link to={`Plan/Editar/${plan_estudio.id}`} className='btn btn-primary'>Abrir</Link></td>
                     <td><button type="button" className="btn btn-danger p-5 m-l-5"
                     onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
                     this.borrarElemento('plan_estudios', plan_estudio.id)}}>

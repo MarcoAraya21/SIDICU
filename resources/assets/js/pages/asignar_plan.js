@@ -61,25 +61,36 @@ class Index extends Component {
 
                         })
                         .then((data) => {
-                            swal({
-                                title: data.message,
-                                text: "Se ha asignado correctamente!",
-                                icon: "success",
-                                closeOnEsc: false,
-                                allowOutsideClick: false
-                            });
-                            let new_asesores = this.state.asesores.map(asesor_state => {
-                                return {
-                                    ...asesor_state,
-                                    planes_pendientes: (asesor_state.id == asesor.id) ?
-                                        asesor_state.planes_pendientes + 1 : asesor_state.planes_pendientes,
-                                    planes_asignados: (asesor_state.id == asesor.id) ?
-                                    asesor_state.planes_asignados + 1 : asesor_state.planes_asignados,
-                                }
-                            });
-                            this.setState({ asesores: new_asesores })
-
-
+                            if(data.status == "danger")
+                            {
+                                swal({
+                                    title: "Oops...",
+                                    text: data.message,
+                                    icon: "error",
+                                    closeOnEsc: false,
+                                    allowOutsideClick: false
+                                });
+                            }
+                            else
+                            {
+                                swal({
+                                    title: data.message,
+                                    text: "Se ha asignado correctamente!",
+                                    icon: "success",
+                                    closeOnEsc: false,
+                                    allowOutsideClick: false
+                                });
+                                let new_asesores = this.state.asesores.map(asesor_state => {
+                                    return {
+                                        ...asesor_state,
+                                        planes_pendientes: (asesor_state.id == asesor.id) ?
+                                            asesor_state.planes_pendientes + 1 : asesor_state.planes_pendientes,
+                                        planes_asignados: (asesor_state.id == asesor.id) ?
+                                        asesor_state.planes_asignados + 1 : asesor_state.planes_asignados,
+                                    }
+                                });
+                                this.setState({ asesores: new_asesores })
+                            }
                         })
                         .catch(function (error) {
                             swal({
