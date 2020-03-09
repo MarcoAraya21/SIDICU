@@ -10,7 +10,8 @@ import Competencias from './dominios/competencias';
 import NivelCompetencias from './dominios/competencias/nivelcompetencias';
 import Asignaturas from './asignaturas';
 import TreePlan from './tree';
-
+import Tabla from './tabla';
+import Grafico from './grafico';
 
 
 export default class index extends Component {
@@ -35,6 +36,8 @@ export default class index extends Component {
             asignaturas: [],
             niveles: [],
             habilitadogeneral: true,
+            openGrafico:false,
+            openTabla:false,
         }
 
         this.handleInput = handleInput.bind(this);
@@ -52,6 +55,10 @@ export default class index extends Component {
 
         this.notificationDOMRef = React.createRef();
 
+        this.handleOpenGrafico = this.handleOpenGrafico.bind(this);
+        this.handleCloseGrafico = this.handleCloseGrafico.bind(this);
+        this.handleOpenTabla = this.handleOpenTabla.bind(this);
+        this.handleCloseTabla = this.handleCloseTabla.bind(this);        
     }
 
     addNotification() {
@@ -81,6 +88,21 @@ export default class index extends Component {
         dismissable: { click: true }
         });
     }
+
+    handleOpenTabla() {
+        this.setState({ openTabla: true });
+    }
+    handleCloseTabla() {
+        this.setState({ openTabla: false });
+    }
+
+    handleOpenGrafico() {
+        this.setState({ openGrafico: true });
+    }
+    handleCloseGrafico() {
+        this.setState({ openGrafico: false });
+    }
+
 
     habilitarGeneral(estado){
         this.setState({habilitadogeneral: estado});
@@ -278,8 +300,37 @@ export default class index extends Component {
                </div>
                
                
-                <div className="col-12 text-right t-2">
-                    <a href="#" className="btn btn-primary">Ver Plan</a>
+
+               
+               <div className="col-12 text-right t-2">
+                    <div className="btn-group">
+                        <a href="#" onClick={()=> this.handleOpenTabla(this.setState({openTabla:true}))} class="btn btn-primary"><i className="fas fa-eye fa-fw"></i> Ver Plan</a>
+                        <a href="#" className="btn btn-primary dropdown-toggle"
+                            data-toggle="dropdown"></a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a onClick={()=> this.handleOpenTabla(this.setState({openTabla:true}))}>Tabla</a></li>
+                            <li><a onClick={()=> this.handleOpenGrafico(this.setState({openGrafico:true}))}>Gráfico</a></li>
+                        </ul>
+                    </div>
+                
+
+                <Tabla id={this.state.id}
+                                nombre={this.state.nombre}
+                                dominios={this.state.dominios}
+                                competencias_genericas={this.state.competencias_genericas}
+                                openTabla = {this.state.openTabla}
+                                handleCloseTabla = {this.handleCloseTabla}
+                />
+                <Grafico id={this.state.id}
+                                nombre={this.state.nombre}
+                                dominios={this.state.dominios}
+                                competencias_genericas={this.state.competencias_genericas}
+                                openGrafico = {this.state.openGrafico}
+                                handleCloseGrafico = {this.handleCloseGrafico}
+                />
+
+               
+
                     {/* <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
                     <a href={`/pdf_descargar/${this.state.id}`} download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
                 </div>

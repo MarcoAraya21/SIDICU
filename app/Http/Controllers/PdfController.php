@@ -115,5 +115,15 @@ class PdfController extends Controller
     }
 
 
+    public function pdfasignatura($id)
+    {
+        $Asignatura = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id));
+
+        $pdf = PDF::loadView('pdf.asignatura',compact('Asignaruta'));
+        // download pdf
+        return $pdf->download('Aginatura.pdf');
+        //return $pdf->stream('datos-iniciales');
+    }
+
 
 }

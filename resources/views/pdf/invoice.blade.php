@@ -245,7 +245,9 @@
 				echo '</td>
 					 </tr>
 				 	<tr>
-				 		<td colspan="2">(Aquí va la descripción del dominio)</td>
+						 <td colspan="2">';
+				echo $dominio->descripcion;
+				echo '</td>
 					</tr>
 					<tr>
 						<th colspan="2">COMPETENCIA ASOCIADA AL DOMINIO</th>

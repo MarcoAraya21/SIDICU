@@ -30,6 +30,8 @@ Route::get('/pdf', function () {
 
 Route::get('pdf_descargar/{id}', 'PdfController@pdfview');
 
+Route::get('pdf_asignatura/{id}', 'PdfController@pdfasignatura');
+
 Route::get('/{path?}', function () {
     return view('pages/welcome');
 })->where('path', '.*')->where('path', '^((?!assets).)*$');
