@@ -91,14 +91,7 @@ class PlanEstudio extends Model
                 $query
                 ->with(['nivel_competencias' => function ($query) {
                     $query
-                    ->with('logro_aprendizajes')
-                    ->with(['nivel_genericas' => function ($query) {
-                        $query
-                        ->with(['nivel_generica_asignaturas' => function ($query) {
-                            $query
-                            ->with('asignatura');
-                        }]);
-                    }]);
+                    ->with('logro_aprendizajes');
                 }]);
             }]);
         }])->get();

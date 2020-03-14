@@ -84,17 +84,17 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
             <React.Fragment>
               {
                 nivel_competencia.nivel_competencia_asignaturas && nivel_competencia.nivel_competencia_asignaturas.length > 0 ?
-                    nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
-                      <Show key={nivel_competencia_asignatura.id}
-                          nivel_competencia_asignatura={nivel_competencia_asignatura}
-                          asignaturas={asignaturas}
-                          handleInputArrays={handleInputArrays}
-                          borrarElemento={borrarElemento}
-                          habilitarGeneral={habilitarGeneral}
-                          habilitadogeneral={habilitadogeneral}
-                          handleAddElement={handleAddElement}
-                          addNotification={addNotification} />
-                    )
+                  nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
+                    <Show key={nivel_competencia_asignatura.id}
+                      nivel_competencia_asignatura={nivel_competencia_asignatura}
+                      asignaturas={asignaturas}
+                      handleInputArrays={handleInputArrays}
+                      borrarElemento={borrarElemento}
+                      habilitarGeneral={habilitarGeneral}
+                      habilitadogeneral={habilitadogeneral}
+                      handleAddElement={handleAddElement}
+                      addNotification={addNotification} />
+                  )
                   :
                   <p>No posee ninguna asignatura asociada</p>
               }
@@ -115,22 +115,30 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
             </React.Fragment>
             :
             <React.Fragment>
-              {
-                nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas &&
-                  nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length > 0 ?
-                    nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
-                      <Show key={nivel_generica_asignatura.id}
-                          nivel_generica_asignatura={nivel_generica_asignatura}
-                          asignaturas={asignaturas}
-                          handleInputArrays={handleInputArrays}
-                          borrarElemento={borrarElemento}
-                          habilitarGeneral={habilitarGeneral}
-                          habilitadogeneral={habilitadogeneral}
-                          handleAddElement={handleAddElement}
-                          addNotification={addNotification} />
+              {asignaturas.some(asignatura =>
+                asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura =>
+                  nivel_generica_asignatura.nivel_generica.nivel_competencia_id ==
+                  nivel_competencia_generica.id
+                )
+              ) ?
+                  asignaturas.filter(asignatura =>
+                    asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura =>
+                      nivel_generica_asignatura.nivel_generica.nivel_competencia_id ==
+                      nivel_competencia_generica.id
                     )
+                  ).map((asignatura, i) =>
+                    <Show key={asignatura.nivel_generica_asignaturas.find(nivel_generica_asignatura => nivel_generica_asignatura.nivel_generica.nivel_competencia_id == nivel_competencia_generica.id).id}
+                      nivel_generica_asignatura={asignatura.nivel_generica_asignaturas.find(nivel_generica_asignatura => nivel_generica_asignatura.nivel_generica.nivel_competencia_id == nivel_competencia_generica.id)}
+                      asignaturas={asignaturas}
+                      handleInputArrays={handleInputArrays}
+                      borrarElemento={borrarElemento}
+                      habilitarGeneral={habilitarGeneral}
+                      habilitadogeneral={habilitadogeneral}
+                      handleAddElement={handleAddElement}
+                      addNotification={addNotification} />
+                  )
                   :
-                  <p>No posee ninguna asignatura asociada</p>
+                <p>No posee ninguna asignatura asociada</p>
               }
               <Divider />
               <div align="right" className="mt-2 mb-1">

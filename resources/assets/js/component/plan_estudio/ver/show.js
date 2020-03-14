@@ -47,37 +47,37 @@ export default class show extends Component {
                     <legend>Otros Datos</legend>
                     <div className="form-group">
                         <label>Proposito</label>
-                        <p>
+                        <p className="px-2 py-2 border">
                             {this.props.proposito || ''}
                         </p>
                     </div>
                     <div className="form-group">
                         <label>Objetivo</label>
-                        <p>
+                        <p className="px-2 py-2 border">
                             {this.props.objetivo || ''}
                         </p>
                     </div>
                     <div className="form-group">
                         <label>Requisito de Admisión</label>
-                        <p>
+                        <p className="px-2 py-2 border">
                             {this.props.requisito_admisin || ''}
                         </p>
                     </div>
                     <div className="form-group">
                         <label>Mecanismo de Retención</label>
-                        <p>
+                        <p className="px-2 py-2 border">
                             {this.props.mecanismo_retencon || ''}
                         </p>
                     </div>
                     <div className="form-group">
                         <label>Requisito de Obtención</label>
-                        <p>
+                        <p className="px-2 py-2 border">
                             {this.props.requisito_obtencon || ''}
                         </p>
                     </div>
                     <div className="form-group">
                         <label>Campo de Desarrollo</label>
-                        <p>
+                        <p className="px-2 py-2 border">
                             {this.props.campo_desarrollo|| ''}
                         </p>
                     </div>

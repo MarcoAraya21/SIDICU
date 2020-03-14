@@ -24,14 +24,14 @@ export default class index extends Component {
                                 dominio.tipo_dominio_id == 1).map( (dominio,i) =>
                                     <Panel key={i} titulo={("D" + (i + 1) + " ") + (dominio.nombre || 'Sin Nombre')} border={true} collapse={true} expand={true}>
                                         <div className="mb-2">
-                                            <p className="m-0">Nombre:</p>
-                                            <p>
+                                            <p className="my-2">Nombre:</p>
+                                            <p className="px-2 py-2 border">
                                                 {dominio.nombre || ''}
                                             </p>
                                         </div>
                                         <div className="mb-2">
-                                            <p className="m-0">Descripción:</p>
-                                            <p>
+                                            <p className="my-2">Descripción:</p>
+                                            <p className="px-2 py-2 border">
                                                 {dominio.descripcion || ''}
                                             </p>
                                         </div>

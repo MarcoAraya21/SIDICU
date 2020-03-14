@@ -73,14 +73,6 @@
 							<div class="invalid-feedback" name="correo"></div>
 						</div>
 					</div>
-					<label class="control-label">Confirmar Correo <span class="text-danger">*</span></label>
-					<div class="row m-b-10">
-						<div class="col-md-12 input-group">
-							<div class="input-group-prepend"><span class="input-group-text">@</span></div>
-							<input type="text" class="form-control" placeholder="Confirmar Correo Electrónico" name="confirma_correo" required />
-							<div class="invalid-feedback" name="confirma_correo"></div>
-						</div>
-					</div>
                     <label class="control-label">Rut<span class="text-danger">*</span></label>
 					<div class="row m-b-10">
 						<div class="col-md-12">
@@ -100,6 +92,13 @@
 						<div class="col-md-12">
 							<input type="password" minlength="5" class="form-control" placeholder="Ingrese Contraseña" name="password" required />
 							<div class="invalid-feedback" name="password"></div>
+						</div>
+					</div>
+					<label class="control-label">Confirmar Contraseña <span class="text-danger">*</span></label>
+					<div class="row m-b-10">
+						<div class="col-md-12">
+							<input type="password" minlength="5" class="form-control" name="re-password" required />
+							<div class="invalid-feedback" name="re-password"></div>
 						</div>
 					</div>
                     <label class="control-label">Fecha de Nacimiento<span class="text-danger">*</span></label>
@@ -367,29 +366,6 @@
 					errores.push($('input[name="correo"]').attr('name'));
 				}
 			}
-			if($('input[name="confirma_correo"]').val() == "")
-			{
-				$('input[name="confirma_correo"]').addClass("is-invalid");
-				$('div[name="confirma_correo"]').html("Complete este campo.");
-				$('input[name="confirma_correo"]').removeClass("is-valid");
-				errores.push($('input[name="confirma_correo"]').attr('name'));
-			}
-			else
-			{
-				if($('input[name="confirma_correo"]').val() == $('input[name="correo"]').val())
-				{
-					$('input[name="confirma_correo"]').addClass("is-valid");
-					$('input[name="confirma_correo"]').removeClass("is-invalid");
-					$('div[name="confirma_correo"]').html("");
-				}
-				else
-				{
-					$('input[name="confirma_correo"]').addClass("is-invalid");
-					$('div[name="confirma_correo"]').html("Los correos ingresados no coinciden.");
-					$('input[name="confirma_correo"]').removeClass("is-valid");
-					errores.push($('input[name="confirma_correo"]').attr('name'));
-				}
-			}
 			if($('input[name="rut"]').val() == "")
 			{
 				$('input[name="rut"]').addClass("is-invalid");
@@ -434,6 +410,29 @@
 					$('div[name="password"]').html("Ingrese una contraseña válida.");
 					$('input[name="password"]').removeClass("is-valid");
 					errores.push($('input[name="password"]').attr('name'));
+				}
+			}
+			if($('input[name="re-password"]').val() == "")
+			{
+				$('input[name="re-password"]').addClass("is-invalid");
+				$('div[name="re-password"]').html("Complete este campo.");
+				$('input[name="re-password"]').removeClass("is-valid");
+				errores.push($('input[name="re-password"]').attr('name'));
+			}
+			else
+			{
+				if($('input[name="re-password"]').val() == $('input[name="password"]').val())
+				{
+					$('input[name="re-password"]').addClass("is-valid");
+					$('input[name="re-password"]').removeClass("is-invalid");
+					$('div[name="re-password"]').html("");
+				}
+				else
+				{
+					$('input[name="re-password"]').addClass("is-invalid");
+					$('div[name="re-password"]').html("Las Contraseñas ingresadas no coinciden.");
+					$('input[name="re-password"]').removeClass("is-valid");
+					errores.push($('input[name="re-password"]').attr('name'));
 				}
 			}
 			if($('input[name="fec_nac"]').val() == "")

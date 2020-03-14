@@ -7,155 +7,8 @@ export default class edit extends Component {
         super(props)
         this.state = {
             nivel: {id:this.props.asignatura.nivel_id, nombre: this.props.asignatura.nivel.nombre},
-            openHoras: false,
-            openRequisitos: false,
-            deshabilitado: true,
-            editando: false
         }
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleOpenHoras = this.handleOpenHoras.bind(this);
-        this.handleCloseHoras = this.handleCloseHoras.bind(this);
-        this.handleOpenRequisitos = this.handleOpenRequisitos.bind(this);
-        this.handleCloseRequisitos = this.handleCloseRequisitos.bind(this);
-        this.habilitar = this.habilitar.bind(this);
-
-
-
     }
-
-    habilitar() {
-        this.setState({ deshabilitado: false });
-    }
-
-    handleOpenHoras() {
-        this.setState({ openHoras: true });
-    }
-    handleCloseHoras() {
-        this.setState({ openHoras: false });
-    }
-
-    handleOpenRequisitos() {
-        this.setState({ openRequisitos: true });
-    }
-    handleCloseRequisitos() {
-        this.setState({ openRequisitos: false });
-    }
-
-
-    handleSubmit() {
-        //e.preventDefault();
-        this.setState({ guardando: true })
-        if (!this.props.niveles.some(nivel => nivel.id == this.state.nivel.id)) {
-            fetch('/api/niveles/', {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-                ,
-                body: JSON.stringify(
-                    {
-                        plan_estudio_id: this.props.niveles[0].plan_estudio_id,
-                        nombre: (this.state.nivel.nombre)
-                    }
-                )
-            })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw "Error en la llamada Ajax";
-                    }
-
-                })
-                .then(data => {
-                    [
-                        this.setState({ nivel: {id: data.id, nombre: data.nombre} }),
-                        alert('se ha creado el nivel ' + this.state.nivel.nombre),
-                        this.props.handleAddElement('niveles', data),
-                    ]
-                    return data;
-                })
-                .catch(function (error) {
-                    console.log('Hubo un problema con la petición Fetch:' + error.message);
-                })
-                .then(data => {
-                    fetch('/api/asignaturas/' + this.props.asignatura.id, {
-                        method: 'put',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(
-                            {
-                                ...this.props.asignatura, nivel_id: data.id
-                            }
-                        )
-                    })
-                        .then(function (response) {
-                            if (response.ok) {
-                                return response.json();
-                            } else {
-                                throw "Error en la llamada Ajax";
-                            }
-
-                        })
-                        .then(data => {
-                            [
-                                this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                                this.props.habilitarGeneral(true),
-                                this.props.habilitareditasignaturas(false),
-                                this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
-                                this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
-                                this.props.addNotification()
-                            ]
-                        })
-                        .catch(function (error) {
-                            console.log('Hubo un problema con la petición Fetch:' + error.message);
-                        })
-
-                    })
-
-        }
-        else {
-            fetch('/api/asignaturas/' + this.props.asignatura.id, {
-                method: 'put',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {
-                        ...this.props.asignatura, nivel_id: this.state.nivel.id
-                    }
-                )
-            })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw "Error en la llamada Ajax";
-                    }
-
-                })
-                .then(data => {
-                    [
-                        this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                        this.props.habilitarGeneral(true),
-                        this.props.habilitareditasignaturas(false),
-                        this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
-                        this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
-                        this.props.addNotification()
-                    ]
-                })
-                .catch(function (error) {
-                    console.log('Hubo un problema con la petición Fetch:' + error.message);
-                })
-        }
-
-    }
-
-
 
     render() {
         var aulas = this.props.asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora.nombre != 'Extra Aula');
@@ -165,19 +18,6 @@ export default class edit extends Component {
         }
         else {
             var requisitoNiveles = [];
-            // if (this.props.asignatura.requisitos.length > 0) {
-            //     this.props.niveles.slice(0, -1).map((nivel, i) => {
-            //         if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length ==
-            //             this.props.asignaturas.filter(asignatura2 => asignatura2.nivel.nombre == nivel.nombre).length) {
-            //             requisitoNiveles[i] = { 'nombre': nivel.nombre }
-            //         }
-            //         else {
-            //             if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
-            //                 requisitoNiveles[i] = { 'nombre': nivel.nombre, 'requisitos': this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre) }
-            //             }
-            //         }
-            //     })
-            // }
             if (this.props.asignatura.requisitos.length > 0) {
                 this.props.niveles.filter(nivel => nivel.nombre < this.props.asignatura.nivel.nombre).map((nivel, i) => {
                     if (this.props.asignatura.requisitos.filter(requisito => requisito.requisito.nivel.nombre == nivel.nombre).length > 0) {
@@ -287,39 +127,8 @@ export default class edit extends Component {
                             </select>
                         </div>
                     </div>
-                    <div className="col-12 text-right mt-2">
-                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.props.habilitareditasignaturas(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                    </div>
-                    <Horas
-                        openHoras={this.state.openHoras}
-                        handleCloseHoras={this.handleCloseHoras}
-                        asignatura_horas={this.props.asignatura.asignatura_horas}
-                        asignaturaId={this.props.asignatura.id}
-                        asignaturaNombre={this.props.asignatura.nombre}
-                        handleInputArrays={this.props.handleInputArrays}
-                        handleInputArraysAsignatura={this.props.handleInputArraysAsignatura}
-                        habilitarGeneral={this.props.habilitarGeneral}
-                        habilitadogeneral={this.props.habilitadogeneral}
-                        addNotification={this.props.addNotification}
-                    />
-                    <Requisitos
-                        openRequisitos={this.state.openRequisitos}
-                        handleCloseRequisitos={this.handleCloseRequisitos}
-                        requisitos={this.props.asignatura.requisitos}
-                        opcionRequisitos={this.props.asignaturas.filter(asignatura =>
-                            asignatura.nivel.nombre < this.props.asignatura.nivel.nombre)}
-                        asignaturaId={this.props.asignatura.id}
-                        asignaturaNombre={this.props.asignatura.nombre}
-                        handleAddElementAsignatura={this.props.handleAddElementAsignatura}
-                        borrarElementoAsignatura={this.props.borrarElementoAsignatura}
-                        habilitarGeneral={this.props.habilitarGeneral}
-                        habilitadogeneral={this.props.habilitadogeneral}
-                        addNotification={this.props.addNotification}
-                    />
                 </div>            
                 
-            // </Panel>
         );
     }
 }

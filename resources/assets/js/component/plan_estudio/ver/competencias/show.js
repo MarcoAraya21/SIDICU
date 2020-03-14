@@ -19,8 +19,8 @@ export default class show extends Component {
                     this.props.dominio.competencias && this.props.dominio.competencias.length > 0 ?
                     this.props.dominio.competencias.map((competencia,i) =>
                         <div key={competencia.id} className="my-2">
-                            <p className="m-0">Descripción de la Competencia: {i + 1}</p>
-                            <p>
+                            <p className="my-2">Descripción de la Competencia: {i + 1}</p>
+                            <p className="px-2 py-2 border">
                                 {competencia.descripcion || ''}
                             </p>
                         </div>

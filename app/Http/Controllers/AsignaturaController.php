@@ -88,6 +88,7 @@ class AsignaturaController extends Controller
 
     public function store(Request $request)
     {
+        dd($_GET);
         if($request->nivel_competencia_id)
         {
             $nivel1id = NivelCompetencia::with(['competencia' => function ($query) {
@@ -121,7 +122,6 @@ class AsignaturaController extends Controller
         {
             $request->nivel_id = $nivel1id;
         }
-        
         $Asignatura = Asignatura::create(['nombre' => $request->nombre, 'nivel_id' => $request->nivel_id]);
         for ($i=1; $i <= 4  ; $i++) {
             $Asignatura->asignatura_horas()->create(['tipo_hora_id' => $i, 'cantidad' => 0]);

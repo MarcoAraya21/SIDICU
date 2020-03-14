@@ -22,15 +22,6 @@ export default class index extends Component {
                                 nivelAsignatura={nivelAsignatura}
                                 niveles = {this.props.niveles}
                                 asignaturas={this.props.asignaturas}
-                                handleInputArrays = {this.props.handleInputArrays}
-                                handleAddElement={this.props.handleAddElement}
-                                borrarElemento={this.props.borrarElemento}
-                                handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
-                                handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
-                                borrarElementoAsignatura={this.props.borrarElementoAsignatura}
-                                habilitarGeneral={this.props.habilitarGeneral}
-                                habilitadogeneral={this.props.habilitadogeneral}
-                                addNotification={this.props.addNotification}
                                 ultimoNivel={nivelAsignatura.id == this.props.niveles[this.props.niveles.length - 1].id}
                             />
 
