@@ -7,11 +7,11 @@
 	<div class="login login-with-news-feed">
 		<!-- begin news-feed -->
 		<div class="news-feed">
-			<div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg-11.jpg)"></div>
+			<div class="news-image" style="background-image: url(../assets/img/utem/macul.jpg)"></div>
 			<div class="news-caption">
-				<h4 class="caption-title"><b>Color</b> Admin App</h4>
+				<h4 class="caption-title"><b>Bienvenido a SIDECU</b></h4>
 				<p>
-					Download the Color Admin app for iPhone®, iPad®, and Android™. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+					Sistema de desarrollo Curricular
 				</p>
 			</div>
 		</div>
@@ -45,7 +45,7 @@
 						</div>
 					</div>
 					<div class="m-b-10">
-						<div class="g-recaptcha" data-sitekey="6Lf-htoUAAAAAAFXTHj0QP-V_OQrfPe5hRMXewPa"></div>
+						<div class="g-recaptcha" data-sitekey="6Ldt2OIUAAAAAAWutDYJEgikH86idvHbJ5btVckq"></div>
 						<div class="text-danger" name="captcha"></div>
 					</div>
 					<div class="login-buttons">

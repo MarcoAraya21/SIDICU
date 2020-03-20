@@ -28,11 +28,11 @@
 	<div class="register register-with-news-feed">
 		<!-- begin news-feed -->
 		<div class="news-feed">
-			<div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg-9.jpg)"></div>
+			<div class="news-image" style="background-image: url(../assets/img/utem/patio-casa-central.jpg)"></div>
 			<div class="news-caption">
-				<h4 class="caption-title"><b>Color</b> Admin App</h4>
+				<h4 class="caption-title"><b>Bienvenido a SIDECU</b></h4>
 				<p>
-					As a Color Admin app administrator, you use the Color Admin console to manage your organization’s account, such as add new users, manage security settings, and turn on the services you want your team to access.
+					Sistema de Desarrollo Curricular
 				</p>
 			</div>
 		</div>
@@ -41,8 +41,8 @@
 		<div class="right-content">
 			<!-- begin register-header -->
 			<h1 class="register-header">
-				Sign Up
-				<small>Create your Color Admin Account. It’s free and always will be.</small>
+				Registrarse
+				<small>Crea tu cuenta!</small>
 			</h1>
 			<!-- end register-header -->
 			<!-- begin register-content -->
@@ -110,7 +110,7 @@
 						</div>
 					</div>
 					<div class="m-b-10">
-						<div class="g-recaptcha" data-sitekey="6Lf-htoUAAAAAAFXTHj0QP-V_OQrfPe5hRMXewPa"></div>
+						<div class="g-recaptcha" data-sitekey="6Ldt2OIUAAAAAAWutDYJEgikH86idvHbJ5btVckq"></div>
 						<div class="text-danger" name="captcha"></div>
 					</div>
 					<!-- <div class="checkbox checkbox-css m-b-30">
