@@ -88,7 +88,6 @@ class AsignaturaController extends Controller
 
     public function store(Request $request)
     {
-        dd($_GET);
         if($request->nivel_competencia_id)
         {
             $nivel1id = NivelCompetencia::with(['competencia' => function ($query) {

@@ -49,7 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Asignatura({ openAsignatura, handleCloseAsignatura, nivel_competencia, nivel_competencia_generica, asignaturas, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Asignatura({ openAsignatura, handleCloseAsignatura, nivel_competencia, nivel_competencia_generica, asignaturas, plan_generica, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification }) {
   const classes = useStyles();
   const [openNew, setOpenNew] = useState(false);
 
@@ -129,6 +129,7 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
                   ).map((asignatura, i) =>
                     <Show key={asignatura.nivel_generica_asignaturas.find(nivel_generica_asignatura => nivel_generica_asignatura.nivel_generica.nivel_competencia_id == nivel_competencia_generica.id).id}
                       nivel_generica_asignatura={asignatura.nivel_generica_asignaturas.find(nivel_generica_asignatura => nivel_generica_asignatura.nivel_generica.nivel_competencia_id == nivel_competencia_generica.id)}
+                      plan_generica_asignatura={asignatura}
                       asignaturas={asignaturas}
                       handleInputArrays={handleInputArrays}
                       borrarElemento={borrarElemento}
@@ -151,6 +152,7 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
                 handleCloseNew={handleCloseNew}
                 nivel_competencia_generica={nivel_competencia_generica}
                 asignaturas={asignaturas}
+                plan_generica={plan_generica}
                 handleAddElement={handleAddElement}
                 addNotification={addNotification}
               />

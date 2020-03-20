@@ -48,21 +48,26 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, handleAddElement, addNotification }) {
+export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, plan_generica, handleAddElement, addNotification }) {
     const classes = useStyles();
     const [value, setvalue] = useState('');
     const [suggestions, setsuggestions] = useState([]);
     const [existeasoc, setexisteasoc] = useState(false);
     
     const filtrarsugerencias = [];
+
     nivel_competencia ?
         nivel_competencia.nivel_competencia_asignaturas.map((nivel_competencia_asignatura, i) =>
             filtrarsugerencias[i] = nivel_competencia_asignatura.asignatura.id
         )
         :
-        nivel_competencia_generica &&
-        nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura, i) =>
-            filtrarsugerencias[i] = nivel_generica_asignatura.asignatura.id
+        asignaturas.filter(asignatura =>
+            asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura =>
+                nivel_generica_asignatura.nivel_generica.nivel_competencia_id == 
+                nivel_competencia_generica.id
+            )
+        ).map((asignatura, i) => 
+            filtrarsugerencias[i] = asignatura.id
         );
     const sugerencias = asignaturas.filter(asignatura => !filtrarsugerencias.includes(asignatura.id));
 
@@ -133,7 +138,7 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                 if (nivel_competencia_generica) {
                     variable = 'nivel_generica_asignaturas';
                     form = {
-                        nivel_generica_id: nivel_competencia_generica.nivel_genericas[0].id,
+                        nivel_generica_id: plan_generica.id,
                         asignatura_id: idAsignatura
                     }
                 }
@@ -151,7 +156,7 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                 {
                     variable = 'asignaturas';
                     form = {
-                        nivel_generica_id: nivel_competencia_generica.nivel_genericas[0].id,
+                        nivel_generica_id: plan_generica.id,
                         nombre: value
                     }
                 }
