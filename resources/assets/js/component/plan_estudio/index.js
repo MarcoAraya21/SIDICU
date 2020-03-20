@@ -17,6 +17,8 @@ import EditarAsignaturas from './editar/asignaturas';
 import VerDiseno from './ver/diseno';
 import EditarDiseno from './editar/diseno';
 import TreePlan from './tree';
+import Resumen from './resumen';
+
 
 
 
@@ -39,9 +41,11 @@ export default class index extends Component {
             dominios: [],
             competencias_genericas: [],
             niveles: [],
+            asignaturas: [],
             asesor_uic: {},
             coordinador: {},
             habilitadogeneral: true,
+            plan_genericas: [],
             acceso: 0
         }
 
@@ -132,6 +136,7 @@ export default class index extends Component {
                 asignaturas: response.data[0].asignaturas,
                 asesor_uic: response.data[0].asesor_uic,
                 coordinador: response.data[0].coordinador,
+                plan_genericas: response.data[0].nivel_genericas,
                 acceso: response.data[1]
             })
             
@@ -214,6 +219,12 @@ export default class index extends Component {
                                     <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Gráficos</span>
                                         <span className="d-sm-block d-none">Gráficos y Tablas</span>
+                                    </a>
+                                </li>
+                                <li className="nav-items">
+                                    <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
+                                        <span className="d-sm-none">Finalizar</span>
+                                        <span className="d-sm-block d-none">Finalizar plan</span>
                                     </a>
                                 </li>
                             </ul>
@@ -315,6 +326,7 @@ export default class index extends Component {
                                             dominios={this.state.dominios}
                                             competencias_genericas={this.state.competencias_genericas}
                                             asignaturas={this.state.asignaturas}
+                                            plan_genericas={this.state.plan_genericas}
                                             handleInputArrays={this.handleInputArrays}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
@@ -384,6 +396,13 @@ export default class index extends Component {
                                 nombre={this.state.nombre}
                                 dominios={this.state.dominios}
                                 competencias_genericas={this.state.competencias_genericas}/> */}
+                                </div>
+                                <div className="tab-pane fade" id="plan-tab-7">
+                                    <Resumen
+                                        dominios={this.state.dominios}
+                                        competencias_genericas={this.state.competencias_genericas}
+                                        asignaturas={this.state.asignaturas}
+                                    />
                                 </div>
                             </div>
                         </div>

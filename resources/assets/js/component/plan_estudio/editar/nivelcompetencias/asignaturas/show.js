@@ -34,7 +34,7 @@ export default class show extends Component {
                                                 :
                                                 texto = texto + requisito.nombre + "\n"
                                                 )
-                                            alert(concat('No puede el eliminarse al ser requisito de:\n',texto))
+                                            alert('No puede el eliminarse al ser requisito de:\n' + texto)
                                         }
                                         else
                                         {
@@ -63,16 +63,16 @@ export default class show extends Component {
                 <List>
                     <React.Fragment>
                         <ListItem button>
-                            <ListItemText primary={this.props.nivel_generica_asignatura.asignatura.nombre || 'Sin Nombre'}/>
+                            <ListItemText primary={this.props.plan_generica_asignatura.nombre || 'Sin Nombre'}/>
                             <div className="mt-2 mb-1">
                                 <button type="button" disabled={!this.props.habilitadogeneral} className="btn btn-danger m-l-10"
                                     onClick={() => {
                                         let requisitos = this.props.asignaturas.filter(asignatura => asignatura.requisitos.some(requisito =>
-                                                requisito.requisito.id == this.props.nivel_generica_asignatura.asignatura_id
+                                                requisito.requisito.id == this.props.plan_generica_asignatura.id
                                             ))
                                         // if(this.props.asignaturas.)
                                         if (window.confirm('¿Estas Seguro?')) {
-                                            let asignaturaAsociada = this.props.asignaturas.find(asignatura => asignatura.id == this.props.nivel_generica_asignatura.asignatura.id)
+                                            let asignaturaAsociada = this.props.asignaturas.find(asignatura => asignatura.id == this.props.plan_generica_asignatura.id)
                                             if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length > 1) {
                                                 this.props.borrarElemento('nivel_generica_asignaturas', this.props.nivel_generica_asignatura.id, this.props.addNotification)
                                             }

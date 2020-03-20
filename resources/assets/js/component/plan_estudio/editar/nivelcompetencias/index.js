@@ -92,6 +92,7 @@ export default class index extends Component {
                                         <Show
                                         competencias_genericas={this.props.competencias_genericas}
                                         asignaturas={this.props.asignaturas}
+                                        plan_genericas={this.props.plan_genericas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}

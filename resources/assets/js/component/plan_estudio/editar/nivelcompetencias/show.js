@@ -43,6 +43,7 @@ export default class show extends Component {
                                         key={i}
                                         competencia_generica={competencia_generica}
                                         asignaturas={this.props.asignaturas}
+                                        plan_genericas={this.props.plan_genericas}
                                         handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}

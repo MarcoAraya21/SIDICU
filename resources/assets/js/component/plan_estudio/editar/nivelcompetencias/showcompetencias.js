@@ -193,6 +193,8 @@ export default class showcompetencias extends Component {
                         <Edit key={nivel_competencia_generica.id}
                         nivel_competencia_generica = {nivel_competencia_generica}
                         asignaturas={this.props.asignaturas}
+                        plan_generica={this.props.plan_genericas.find(plan_generica => 
+                            plan_generica.nivel_competencia_id == nivel_competencia_generica.id)}
                         i={i}
                         handleInputArrays = {this.props.handleInputArrays}
                         borrarElemento = {this.props.borrarElemento}
