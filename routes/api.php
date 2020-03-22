@@ -20,8 +20,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('auth/register', 'UsuarioController@register');
 Route::post('auth/login', 'UsuarioController@login');
+Route::post('auth/forgot', 'UsuarioController@forgot');
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('auth/authenticate', 'UsuarioController@getAuthUser');
+    Route::post('auth/change', 'UsuarioController@change');
     Route::get('auth/logout', 'UsuarioController@logout');
     Route::get('asesores', 'UsuarioController@getAsesores');
     Route::get('academicos', 'UsuarioController@getAcademicos');

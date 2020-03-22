@@ -22,7 +22,7 @@
 			</li>
 			<li>
 				<ul class="nav nav-profile">
-					<li><a href="javascript:;" class="dropdown-item">Editar Perfil</a></li>
+					<li><a href="/cambiar-password" class="dropdown-item">Cambiar Password</a></li>
 					<li><a onClick="logout();" class="dropdown-item">Cerrar Sesión</a><li>
 					<!-- <li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
 					<li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send Feedback</a></li>

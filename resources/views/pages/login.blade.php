@@ -53,6 +53,8 @@
 					</div>
 					<div class="m-t-20 m-b-40 p-b-40 text-inverse">
 						¿No tienes una cuenta? <a href="/registro" class="text-success">Regístrate</a>
+						<br>
+						¿Olvidaste tu contraseña? <a href="/recuperar-password" class="text-success">Recuperar</a>
 					</div>
 					<hr />
 					<p class="text-center text-grey-darker">

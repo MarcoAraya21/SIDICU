@@ -22,7 +22,9 @@ Route::group(['middleware' => 'inversejwt.auth'], function () {
     Route::get('/registro', function () {
         return view('/pages/register');    
     });
-    
+    Route::get('/recuperar-password', function () {
+        return view('/pages/recoverypass');    
+    });
     Route::get('/', function () {
         return view('/pages/login');    
     });
@@ -42,7 +44,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     
     Route::get('pdf_descargar/{id}', 'PdfController@pdfview');
 
-    
+    Route::get('/cambiar-password', function () {
+        return view('/pages/changepass');    
+    });
 
     Route::group(['middleware' => 'userprofile'], function () {
         Route::get('/Administrador', function () {
