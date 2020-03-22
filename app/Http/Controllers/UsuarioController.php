@@ -208,6 +208,68 @@ class UsuarioController extends Controller
         }
     }
 
+    public function forgot(Request $request){
+        // dd($request);
+        $fecha = $request->get('fec_nac');
+        $fecha_format = explode("/", $fecha);
+        $fecha_nacimiento = $fecha_format[2]. '/' . $fecha_format[1] . "/" . $fecha_format[0];
+        $rut = $request->get('rut');
+        $usuario = Usuario::where(['rut' => $rut])->first();    
+        if($usuario)
+        {
+            $usuario = $usuario->where(['fec_nac' => $fecha_nacimiento])->first();
+            if($usuario)
+            {
+                $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
+                $NuevaPass = "";
+                for($i=0;$i<15;$i++) {
+                    $NuevaPass .= substr($str,rand(0,62),1);
+                }
+                $usuario->update([
+                    'password' => bcrypt($NuevaPass),
+                ]);
+                $correo = $usuario['correo'];
+                $nombre = $usuario['nombre'];
+                $asunto = 'Contraseña Nueva SIDECU';
+                Mail::send('email.newpass', ['name' => $nombre, 'password' => $NuevaPass],
+                    function($mail) use ($correo, $nombre, $asunto){
+                        $mail->to($correo, $nombre);
+                        $mail->subject($asunto);
+                    });
+                return response()->json(['status'=>'success','message'=>'Password recuperada correctamente','correo'=>$correo]);
+            }
+            else
+            {
+                return response()->json(['status'=>'warning','message'=>'La fecha no coincide con nuestros datos']);
+            }
+        }
+        else
+        {
+            return response()->json(['status'=>'warning','message'=>'El usuario ingresado no existe']);
+        }
+        
+    }
+
+    public function change(Request $request){
+        $fecha = $request->get('fec_nac');
+        $fecha_format = explode("/", $fecha);
+        $fecha_nacimiento = $fecha_format[2]. '-' . $fecha_format[1] . "-" . $fecha_format[0];
+        $password = $request->get('password');
+        if(JWTAuth::authenticate()->fec_nac == $fecha_nacimiento)
+        {
+            $usuario = Usuario::where(["rut" => JWTAuth::authenticate()->rut])->first();
+            $usuario->update([
+                'password' => bcrypt($password),
+            ]);
+            return response()->json(['status'=>'success','message'=>'Contraseña Actualizada']);
+        }
+        else
+        {
+            return response()->json(['status'=>'warning','message'=>'La fecha no coincide con nuestros datos']);
+        }
+        
+    }
+
     public function logout()
     {
         $token = '';

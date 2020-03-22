@@ -12,7 +12,7 @@ class Usuario extends Model implements AuthenticatableContract
 
     protected $fillable = ['nombre','apellido_paterno', 'apellido_materno', 'correo', 'rut', 'password', 'fec_nac', 'fono_fijo', 'fono_celular', 'validado',
                             'perfil_id', 'carrera_id', 'estado_id'];
-    protected $hidden = ['password', 'remember_token', 'validado', 'perfil_id', 'estado_id', ];
+    protected $hidden = ['fec_nac', 'password', 'remember_token', 'validado', 'perfil_id', 'estado_id', ];
     protected $appends = ['planes_pendientes', 'planes_asignados'];
     public function perfil()
     {
