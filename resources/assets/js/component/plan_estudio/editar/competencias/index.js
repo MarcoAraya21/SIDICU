@@ -38,6 +38,8 @@ export default class index extends Component {
                         <legend>Competencias Genericas</legend>
                         <Show
                             competencias_genericas={this.props.competencias_genericas}
+                            comp_genericas={this.props.comp_genericas}
+                            id={this.props.id}
                             habilitadogeneral={this.props.habilitadogeneral}
                         />
                     </div>

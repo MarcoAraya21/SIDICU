@@ -67,6 +67,12 @@ class CompetenciaController extends Controller
         return $Competencia->toJson();
     }
 
+    public function genericas()
+    {
+        $Competencia = Competencia::where('dominio_id', 1)->get();
+        return $Competencia->toJson();
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

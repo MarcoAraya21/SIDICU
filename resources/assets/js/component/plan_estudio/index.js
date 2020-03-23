@@ -46,7 +46,8 @@ export default class index extends Component {
             coordinador: {},
             habilitadogeneral: true,
             plan_genericas: [],
-            acceso: 0
+            acceso: 0,
+            comp_genericas: []
         }
 
         this.handleInput = handleInput.bind(this);
@@ -159,9 +160,18 @@ export default class index extends Component {
 
 
     }
+    getGenericas() {
+        axios.get('/api/competencias_genericas').then((
+            response
+        ) =>{
+                this.setState({comp_genericas: response.data});
+            }            
+        );        
+    }
 
     componentWillMount() {
         this.getPlanEstudio();
+        this.getGenericas();
     }
 
 
@@ -303,6 +313,7 @@ export default class index extends Component {
                                             id={this.state.id}
                                             dominios={this.state.dominios}
                                             competencias_genericas={this.state.competencias_genericas}
+                                            comp_genericas = {this.state.comp_genericas}
                                             handleInputArrays={this.handleInputArrays}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}

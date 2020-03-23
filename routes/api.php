@@ -43,12 +43,14 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         'dominios' => 'dominio']]);
     Route::apiResource('competencias', 'CompetenciaController', ['parameters' => [
         'competencias' => 'competencia']]);
+    Route::get('competencias_genericas', 'CompetenciaController@genericas');
     Route::apiResource('nivel_competencias', 'NivelCompetenciaController', ['parameters' => [
         'nivel_competencias' => 'nivel_competencia']]);
     Route::apiResource('logro_aprendizajes', 'LogroAprendizajeController', ['parameters' => [
         'logro_aprendizajes' => 'logro_aprendizaje']]);
     Route::apiResource('nivel_competencia_asignaturas', 'NivelCompetenciaAsignaturaController', ['parameters' => [
         'nivel_competencia_asignaturas' => 'nivel_competencia_asignatura']]);
+    Route::resource('nivel_genericas', 'NivelGenericaController', ['only' => ['store', 'destroy']]);
     Route::apiResource('nivel_generica_asignaturas', 'NivelGenericaAsignaturaController', ['parameters' => [
         'nivel_generica_asignaturas' => 'nivel_generica_asignatura']]);
     Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [

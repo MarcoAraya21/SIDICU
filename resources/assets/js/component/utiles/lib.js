@@ -512,9 +512,20 @@ export function handleAddElement(key, elemento) {
                                         this.setState({ [key]: niveles });
                                     }
                                     else {
-                                        var state = this.state[key];
-                                        state.push(elemento);
-                                        this.setState({ [key]: state });
+                                        if(key == "nivel_genericas")
+                                        {
+                                            var plan_genericas = this.state["plan_genericas"];
+                                            plan_genericas.push(data[0]);
+                                            var competencias_genericas = this.state["competencias_genericas"];
+                                            competencias_genericas.push(data[1]);
+                                            this.setState({plan_genericas: plan_genericas, competencias_genericas: competencias_genericas})
+                                        }
+                                        else
+                                        {
+                                            var state = this.state[key];
+                                            state.push(elemento);
+                                            this.setState({ [key]: state });
+                                        }
                                     }
                                 }
                             }
