@@ -37,11 +37,11 @@ export default class show extends Component {
                     <div className="col row">
                         <div className="col-6">
                             <p className="mb-1"><b>Encargado UIC</b></p>
-                            <p>{this.props.asesor_uic && this.props.asesor_uic.nombre}</p>
+                            <p>{this.props.asesor_uic && this.props.asesor_uic.nombre} {this.props.asesor_uic && this.props.asesor_uic.apellido_paterno} {this.props.asesor_uic && this.props.asesor_uic.apellido_materno}</p>
                         </div>
                         <div className="col-6">
                             <p className="mb-1"><b>Coordinador del Cómite</b></p>
-                            <p>{this.props.coordinador && this.props.coordinador.nombre}</p>
+                            <p>{this.props.coordinador && this.props.coordinador.nombre} {this.props.coordinador && this.props.coordinador.apellido_paterno} {this.props.coordinador && this.props.coordinador.apellido_materno}</p>
                         </div>
                     </div>
                     <legend>Otros Datos</legend>

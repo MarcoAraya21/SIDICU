@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class NivelGenerica extends Model
 {
-    protected $fillable = ['nivel_competencia_id'];
+    protected $fillable = ['plan_estudio_id', 'nivel_competencia_id'];
 
     public function plan_estudio()
     {

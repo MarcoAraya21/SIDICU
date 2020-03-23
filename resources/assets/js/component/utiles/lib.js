@@ -512,9 +512,20 @@ export function handleAddElement(key, elemento) {
                                         this.setState({ [key]: niveles });
                                     }
                                     else {
-                                        var state = this.state[key];
-                                        state.push(elemento);
-                                        this.setState({ [key]: state });
+                                        if(key == "nivel_genericas")
+                                        {
+                                            var plan_genericas = this.state["plan_genericas"];
+                                            plan_genericas.push(...elemento[0]);
+                                            var competencias_genericas = this.state["competencias_genericas"];
+                                            competencias_genericas.push(elemento[1]);
+                                            this.setState({plan_genericas: plan_genericas, competencias_genericas: competencias_genericas})
+                                        }
+                                        else
+                                        {
+                                            var state = this.state[key];
+                                            state.push(elemento);
+                                            this.setState({ [key]: state });
+                                        }
                                     }
                                 }
                             }
@@ -849,8 +860,28 @@ export function borrarElemento(objeto, propiedad, addNotification) {
                                                 this.setState({ niveles: niveles })
                                             }
                                             else {
-                                                let newstate = this.state[objeto].filter((el) => el.id != propiedad)
-                                                this.setState({ [objeto]: newstate })
+                                                if(objeto = 'nivel_genericas') {
+                                                    let plan_genericas = this.state.plan_genericas.filter( plan_generica =>
+                                                        !this.state.competencias_genericas.filter( competencia_generica =>
+                                                            competencia_generica.id == propiedad
+                                                        ).some( competencia_generica =>
+                                                            competencia_generica.nivel_competencias.some( nivel_competencia =>
+                                                                nivel_competencia.id == plan_generica.nivel_competencia_id
+                                                            )
+                                                        )
+                                                        // plan_generica.nivel_competencia_id != propiedad
+                                                    )
+                                                    let competencias_genericas = this.state.competencias_genericas.filter( competencia_generica =>
+                                                        competencia_generica.id != propiedad
+                                                    )
+
+                                                    this.setState({ plan_genericas: plan_genericas, competencias_genericas: competencias_genericas })
+                                                }
+                                                else {
+                                                    let newstate = this.state[objeto].filter((el) => el.id != propiedad)
+                                                    this.setState({ [objeto]: newstate })
+                                                }
+                                                
                                             }
                                         }
                                     }
