@@ -60,11 +60,12 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 141);
+/******/ 	return __webpack_require__(__webpack_require__.s = 155);
 /******/ })
 /************************************************************************/
 /******/ ({
 
+<<<<<<< HEAD
 /***/ 11:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -82,11 +83,20 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Date: 2019-05-01T21:04Z
  */
 ( function( global, factory ) {
+=======
+/***/ 155:
+/***/ (function(module, exports, __webpack_require__) {
+
+__webpack_require__(156);
+__webpack_require__(162);
+module.exports = __webpack_require__(163);
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 	"use strict";
 
 	if ( typeof module === "object" && typeof module.exports === "object" ) {
 
+<<<<<<< HEAD
 		// For CommonJS and CommonJS-like environments where a proper `window`
 		// is present, execute the factory and get jQuery.
 		// For environments that do not have a `window` with a `document`
@@ -105,6 +115,10 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	} else {
 		factory( global );
 	}
+=======
+/***/ 156:
+/***/ (function(module, exports, __webpack_require__) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 // Pass this if window is not defined yet
 } )( typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
@@ -115,13 +129,27 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 // enough that all such attempts are guarded in a try block.
 "use strict";
 
+<<<<<<< HEAD
 var arr = [];
 
 var document = window.document;
+=======
+window.$ = window.jQuery = __webpack_require__(7);
+window.Cookies = __webpack_require__(157);
+
+__webpack_require__(158);
+__webpack_require__(159);
+__webpack_require__(161);
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 var getProto = Object.getPrototypeOf;
 
+<<<<<<< HEAD
 var slice = arr.slice;
+=======
+/***/ 157:
+/***/ (function(module, exports, __webpack_require__) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 var concat = arr.concat;
 
@@ -211,8 +239,13 @@ function toType( obj ) {
 
 
 
+<<<<<<< HEAD
 var
 	version = "3.4.1",
+=======
+/***/ 158:
+/***/ (function(module, exports, __webpack_require__) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -222,9 +255,18 @@ var
 		return new jQuery.fn.init( selector, context );
 	},
 
+<<<<<<< HEAD
 	// Support: Android <=4.0 only
 	// Make sure we trim BOM and NBSP
 	rtrim = /^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g;
+=======
+		// AMD. Register as an anonymous module.
+		!(__WEBPACK_AMD_DEFINE_ARRAY__ = [ __webpack_require__(7) ], __WEBPACK_AMD_DEFINE_FACTORY__ = (factory),
+				__WEBPACK_AMD_DEFINE_RESULT__ = (typeof __WEBPACK_AMD_DEFINE_FACTORY__ === 'function' ?
+				(__WEBPACK_AMD_DEFINE_FACTORY__.apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__)) : __WEBPACK_AMD_DEFINE_FACTORY__),
+				__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	} else {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 jQuery.fn = jQuery.prototype = {
 
@@ -14208,6 +14250,7 @@ $.widget( "ui.autocomplete", $.ui.autocomplete, {
 
 var autocomplete = $.ui.autocomplete;
 
+<<<<<<< HEAD
 
 /*!
  * jQuery UI Button 1.11.1
@@ -14219,6 +14262,21 @@ var autocomplete = $.ui.autocomplete;
  *
  * http://api.jqueryui.com/button/
  */
+=======
+/***/ 159:
+/***/ (function(module, exports, __webpack_require__) {
+
+/*!
+  * Bootstrap v4.0.0 (https://getbootstrap.com)
+  * Copyright 2011-2018 The Bootstrap Authors (https://github.com/twbs/bootstrap/graphs/contributors)
+  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
+  */
+(function (global, factory) {
+	 true ? factory(exports, __webpack_require__(7), __webpack_require__(160)) :
+	typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
+	(factory((global.bootstrap = {}),global.jQuery,global.Popper));
+}(this, (function (exports,$,Popper) { 'use strict';
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 
 var lastActive,
@@ -19625,10 +19683,15 @@ var dialog = $.widget( "ui.dialog", {
 		}
 	},
 
+<<<<<<< HEAD
 	_allowInteraction: function( event ) {
 		if ( $( event.target ).closest( ".ui-dialog" ).length ) {
 			return true;
 		}
+=======
+/***/ 160:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 		// TODO: Remove hack when datepicker implements
 		// the .ui-front logic (#8989)
@@ -21335,11 +21398,20 @@ $.fn.extend({
 /*********************************** EASING ***********************************/
 /******************************************************************************/
 
+<<<<<<< HEAD
 (function() {
+=======
+/* WEBPACK VAR INJECTION */}.call(__webpack_exports__, __webpack_require__(33)))
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 // based on easing equations from Robert Penner (http://www.robertpenner.com/easing)
 
+<<<<<<< HEAD
 var baseEasings = {};
+=======
+/***/ 161:
+/***/ (function(module, exports) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 $.each( [ "Quad", "Cubic", "Quart", "Quint", "Expo" ], function( i, name ) {
 	baseEasings[ name ] = function( p ) {
@@ -21914,9 +21986,14 @@ var effectHighlight = $.effects.effect.highlight = function( o, done ) {
 			backgroundColor: elem.css( "backgroundColor" )
 		};
 
+<<<<<<< HEAD
 	if (mode === "hide") {
 		animation.opacity = 0;
 	}
+=======
+/***/ 162:
+/***/ (function(module, exports) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 	$.effects.save( elem, props );
 
@@ -21940,6 +22017,11 @@ var effectHighlight = $.effects.effect.highlight = function( o, done ) {
 		});
 };
 
+<<<<<<< HEAD
+=======
+/***/ 163:
+/***/ (function(module, exports) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 /*!
  * jQuery UI Effects Size 1.11.1
@@ -21953,7 +22035,12 @@ var effectHighlight = $.effects.effect.highlight = function( o, done ) {
  */
 
 
+<<<<<<< HEAD
 var effectSize = $.effects.effect.size = function( o, done ) {
+=======
+/***/ 33:
+/***/ (function(module, exports) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 	// Create element
 	var original, baseline, factor,
@@ -22013,8 +22100,13 @@ var effectSize = $.effects.effect.size = function( o, done ) {
 		}
 	};
 
+<<<<<<< HEAD
 	// Scale the css box
 	if ( scale === "box" || scale === "both" ) {
+=======
+/***/ 7:
+/***/ (function(module, exports, __webpack_require__) {
+>>>>>>> 2b7a12fbaecd27df27e3b9ecbf5e5500527803e3
 
 		// Vertical props scaling
 		if ( factor.from.y !== factor.to.y ) {

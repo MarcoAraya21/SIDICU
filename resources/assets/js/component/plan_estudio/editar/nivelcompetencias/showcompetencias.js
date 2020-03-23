@@ -28,19 +28,19 @@ export default class showcompetencias extends Component {
         }
         if(nivel == 3)
         {
-            
+            var mensaje = verbos.aplicar.join(",\n");
         }
         if(nivel == 4)
         {
-            
+            var mensaje = verbos.analizar.join(",\n");
         }
         if(nivel == 5)
         {
-            
+            var mensaje = verbos.evaluar.join(",\n");
         }
         if(nivel == 6)
         {
-            
+            var mensaje = verbos.crear.join(",\n");
         }
         this.notificationDOMRef.current.addNotification({ 
         title: "Utilice uno de los siguientes verbos",
@@ -149,6 +149,124 @@ export default class showcompetencias extends Component {
                 "Revelar",
                 "Revisar",
                 "Traducir"
+            ],
+            aplicar: [
+                "Aplicar",
+                "Bosquejar",
+                "Calcular",
+                "Catalogar",
+                "Clasificar",
+                "Completar",
+                "Delinear",
+                "Demostrar",
+                "Desarrollar",
+                "Descubrir",
+                "Diseñar",
+                "Dramatizar",
+                "Ejemplificar",
+                "Emplear",
+                "Examinar",
+                "Modificar",
+                "Modular",
+                "Operar",
+                "Organizar",
+                "Practicar",
+                "Predecir",
+                "Preparar",
+                "Programar",
+                "Resolver",
+                "Transferir",
+                "Usar",
+                "Utilizar"
+            ],
+            analizar: [
+                "Agrupar",
+                "Analizar",
+                "Calcular",
+                "Categorizar",
+                "Clasificar",
+                "Comparar",
+                "Contrastar",
+                "Criticar",
+                "Debatir",
+                "Deducir",
+                "Detectar",
+                "Diferenciar",
+                "Discriminar",
+                "Distinguir",
+                "Esquematizar",
+                "Examinar",
+                "Experimentar",
+                "Explicar",
+                "Identificar",
+                "Ilustrar",
+                "Inferir",
+                "Inspeccionar",
+                "Investigar",
+                "Ordenar",
+                "Plantear",
+                "Ponderar",
+                "Preguntar",
+                "Probar",
+                "Reconocer",
+                "Relatar",
+                "Seleccionar",
+                "Separar",
+                "Solucionar",
+                "Tasar"
+            ],
+            evaluar: [
+                "Acumular",
+                "Argumentar",
+                "Evidenciar",
+                "Calibrar",
+                "Categorizar",
+                "Comparar",
+                "Concluir",
+                "Considerar",
+                "Contrastar",
+                "Criticar",
+                "Decidir",
+                "Diagnosticar",
+                "Discriminar",
+                "Enjuiciar",
+                "Escoger",
+                "Estimar",
+                "Evaluar",
+                "Hipotetizar",
+                "Justificar",
+                "Juzgar",
+                "Medir",
+                "Probar",
+                "Predecir",
+                "Recomendar",
+                "Revisar",
+                "Valorar",
+                "Verificar"
+            ],
+            crear: [
+                "Arreglar",
+                "Combinar",
+                "Componer",
+                "Construir",
+                "Crear",
+                "Desarrollar",
+                "Diseñar",
+                "Escribir",
+                "Generar",
+                "Generalizar",
+                "Idear",
+                "Integrar",
+                "Investar",
+                "Modificar",
+                "Organizar",
+                "Planificar",
+                "Preparar",
+                "Producir",
+                "Proponer",
+                "Rescribir",
+                "Reordenar",
+                "Sintetizar"
             ]
         };
         return (
@@ -163,6 +281,10 @@ export default class showcompetencias extends Component {
                         <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <button className="dropdown-item" onClick={() => this.addNotificationInfo(verbos, 1)}>Recordar</button>
                             <button className="dropdown-item" onClick={() => this.addNotificationInfo(verbos, 2)}>Comprender</button>
+                            <button className="dropdown-item" onClick={() => this.addNotificationInfo(verbos, 3)}>Aplicar</button>
+                            <button className="dropdown-item" onClick={() => this.addNotificationInfo(verbos, 4)}>Analizar</button>
+                            <button className="dropdown-item" onClick={() => this.addNotificationInfo(verbos, 5)}>Evaluar</button>
+                            <button className="dropdown-item" onClick={() => this.addNotificationInfo(verbos, 6)}>Crear</button>
                         </div>
                     </div>
                 {
@@ -173,6 +295,9 @@ export default class showcompetencias extends Component {
                         nivel_competencia = {nivel_competencia}
                         asignaturas={this.props.asignaturas}
                         i={i}
+                        verbos={nivel_competencia.nivel == 1 ? verbos.recordar.concat(verbos.comprender)
+                        : nivel_competencia.nivel == 2 ? verbos.aplicar.concat(verbos.analizar)
+                        : nivel_competencia.nivel == 3 && verbos.evaluar.concat(verbos.crear)}
                         handleInputArrays = {this.props.handleInputArrays}
                         borrarElemento = {this.props.borrarElemento}
                         handleAddElement = {this.props.handleAddElement}
