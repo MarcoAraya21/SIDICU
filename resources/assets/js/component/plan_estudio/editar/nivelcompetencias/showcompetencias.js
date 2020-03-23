@@ -63,7 +63,7 @@ export default class showcompetencias extends Component {
 
     addElemento(variable){
         //e.preventDefault();
-        fetch(`/api/${variable}/`, {
+        fetch(`//sidecu.utem.dev/api/${variable}/`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

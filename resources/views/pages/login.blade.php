@@ -44,10 +44,6 @@
 							<div class="invalid-feedback" name="password"></div>
 						</div>
 					</div>
-					<div class="m-b-10">
-						<div class="g-recaptcha" data-sitekey="6Ldt2OIUAAAAAAWutDYJEgikH86idvHbJ5btVckq"></div>
-						<div class="text-danger" name="captcha"></div>
-					</div>
 					<div class="login-buttons">
 						<button type="button" onClick="enviar();" value="submit" id="button-send" class="btn btn-success btn-block btn-lg">Iniciar Sesión</button>
 					</div>
@@ -178,19 +174,6 @@
 				$('input[name="password"]').addClass("is-valid");
 				$('div[name="password"]').html("");
 				$('input[name="password"]').removeClass("is-invalid");
-			}
-			if(grecaptcha.getResponse() == "")
-			{
-				$('.g-recaptcha').addClass("is-invalid");
-				$('div[name="captcha"]').html("Valide el Captcha.");
-				$('.g-recaptcha').removeClass("is-valid");
-				errores.push('captcha');
-			}
-			else
-			{
-				$('.g-recaptcha').addClass("is-valid");
-				$('.g-recaptcha').removeClass("is-invalid");
-				$('div[name="captcha"]').html("");
 			}
 			console.log(errores)
 			// console.log(errores.length > 0)
