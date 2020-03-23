@@ -61,32 +61,6 @@ export default class showcompetencias extends Component {
         this.setState({editandocompetencias: estado});
     }
 
-    addElemento(variable){
-        //e.preventDefault();
-        fetch(`//sidecu.utem.dev/api/${variable}/`, {
-            method: 'post',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type':'application/json'
-            }
-            ,
-            body: JSON.stringify(
-                {competencia_id:  this.props.competencia.id}
-            )
-        })
-        .then(function(response) {
-            if(response.ok) {
-                return response.json();
-            } else {
-                throw "Error en la llamada Ajax";
-            }
-         
-         })
-         .then( data => this.props.handleAddElement(variable, data));
-         
-        
-    }
-    
     render() {
         let verbos = {
             recordar: [
