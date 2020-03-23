@@ -53,6 +53,8 @@ export default class show extends Component {
         .catch(function(error) {
             console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
+        .finally(() => {this.setState({generica: ""})});
+
     }
     
 
@@ -96,34 +98,44 @@ export default class show extends Component {
                 <Panel key={'dominio-generico'} titulo={'Dominio: Generico'} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.habilitareditdominios)}>
                 {
                     this.props.competencias_genericas.map((competencia_generica,i) =>
-                    <div key={i} className="border px-2 py-2 mb-3">
-                        {competencia_generica.sigla + ": " + competencia_generica.descripcion}
+                    <div className="row mb-3"key={i}>
+                        <div className="col-md-9 border px-2 py-2 ">
+                            {competencia_generica.sigla + ": " + competencia_generica.descripcion}
+                        </div>
+                        <button type="button" disabled={!this.props.habilitadogeneral} className="btn btn-danger ml-auto"
+                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
+                        this.props.borrarElemento('nivel_genericas', competencia_generica.id,this.props.addNotification)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>
                     </div>
                     )
                 }
-                <div className="row">
-                    <div className="col-6 p-0">
-                        <select
-                            value={this.state.generica}
-                            className="form-control"
-                            onChange={(e)=> this.setState({generica: e.target.value})}>
-                            <option value="">Seleccione una Opción</option>
-                            
-                            {
-                                genericasSelect.map((opcionGenerica,i) =>
-                                        <option key={i} value={opcionGenerica.id}>{opcionGenerica.sigla + " " + opcionGenerica.descripcion}</option>
-                                    )
-                            }
-                        </select>
+                {
+                    genericasSelect.length > 0 &&
+                    <div className="row">
+                        <div className="col-6 p-0">
+                            <select
+                                value={this.state.generica}
+                                className="form-control"
+                                onChange={(e)=> this.setState({generica: e.target.value})}>
+                                <option value="">Seleccione una Opción</option>
+                                
+                                {
+                                    genericasSelect.map((opcionGenerica,i) =>
+                                            <option key={i} value={opcionGenerica.id}>{opcionGenerica.sigla + " " + opcionGenerica.descripcion}</option>
+                                        )
+                                }
+                            </select>
+                        </div>
+                        <div className="col-6 p-0">
+                            <div align="right" className="mt-2 mb-1">
+                                <button disabled={!this.props.habilitadogeneral || this.state.generica == ""} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_genericas')}}>      
+                                    <i className="fas fa-plus p-r-5" ></i>Asociar Competencia Generica
+                                </button>
+                            </div> 
+                        </div>
                     </div>
-                    <div className="col-6 p-0">
-                        <div align="right" className="mt-2 mb-1">
-                            <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_genericas')}}>      
-                                <i className="fas fa-plus p-r-5" ></i>Asociar Competencia Generica
-                            </button>
-                        </div> 
-                    </div>
-                </div>
+                }
+                
             </Panel>
             )
         };                        
