@@ -164,7 +164,27 @@ export default class edit extends Component {
                     </div>
                     <div className="col-12 text-right mt-2">
                         <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.props.habilitareditcompetencias(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5"
+                        onClick={()=>{
+                            var existe = false;
+                            var str = this.props.nivel_competencia.descripcion;
+                            this.props.verbos.map(verbo =>{
+                                if(str.toLowerCase().includes(verbo.toLowerCase()))
+                                {
+                                    existe = true;
+                                }
+                            })
+                            if(existe == false)
+                            {
+                                if(window.confirm('No ha usado ningun verbo recomendado, esta seguro de querer guardar ?'))
+                                    this.handleSubmit()
+                            }
+                            else
+                            {
+                                this.handleSubmit()
+                            }
+                        }}>
+                        <i className="fas fa-save p-r-10"></i>Guardar</button>
                         <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
                         this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification)}}>
