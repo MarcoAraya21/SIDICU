@@ -2,7 +2,7 @@
   "_args": [
     [
       "select2@4.0.6-rc.1",
-      "C:\\Users\\MASTE\\desktop\\sidicu"
+      "C:\\Users\\kroan\\desktop\\sidicu"
     ]
   ],
   "_from": "select2@4.0.6-rc.1",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/select2/-/select2-4.0.6-rc.1.tgz",
   "_spec": "4.0.6-rc.1",
-  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
+  "_where": "C:\\Users\\kroan\\desktop\\sidicu",
   "author": {
     "name": "Kevin Brown",
     "url": "https://github.com/kevin-brown"

@@ -93,9 +93,7 @@ class PdfController extends Controller
         // Set extra option
     	//PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         // pass view file
-        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id));
-
-
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
 
         // $PlanEstudio = PlanEstudio::
         // with('carrera')
@@ -110,10 +108,16 @@ class PdfController extends Controller
 
         $pdf = PDF::loadView('pdf.invoice',compact('PlanEstudio'));
         // download pdf
-        return $pdf->download('datos-iniciales.pdf');
+        return $pdf->download('plan.pdf');
         //return $pdf->stream('datos-iniciales');
     }
 
 
+    public function pdfasignatura($id)
+    {
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
+        $pdf = PDF::loadView('asignatura.invoice',compact('PlanEstudio'));
+        return $pdf->download('asinatura.pdf');
+    }
 
 }
