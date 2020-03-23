@@ -30,13 +30,13 @@ export default class show extends Component {
             var form = {dominio_id:  this.props.dominio.id};
         }
         //e.preventDefault();
-        fetch(`//sidecu.utem.dev/api/${variable}/`, {
+        fetch(`/api/${variable}/`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type':'application/json'
-            }
-            ,
+            },
+            mode: 'cors',
             body: JSON.stringify(
                 form
             )

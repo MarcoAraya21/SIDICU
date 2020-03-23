@@ -12,13 +12,13 @@ export default class index extends Component {
 
     addElemento(variable){
         //e.preventDefault();
-        fetch(`https://sidecu.utem.dev/api/${variable}/`, {
+        fetch(`/api/${variable}/`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type':'application/json'
-            }
-            ,
+            },
+            credentials: 'same-origin',
             body: JSON.stringify(
                 {plan_estudio_id:  this.props.id,
                 tipo_dominio_id: 1}
@@ -63,11 +63,13 @@ export default class index extends Component {
                                     />
                                 )
                             }
+                            {this.props.dominios.filter(dominio => dominio.tipo_dominio_id == 1).length < 4 &&
                             <div align="right" className="mt-2 mb-1">
                                 <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('dominios')}}>      
                                     <i className="fas fa-plus p-r-5" ></i>Crear Dominio
                                 </button>
                             </div>
+                            }                         
                         {/* <h4>Dominio Generico</h4> */}
                         {/*
                         <div className="border p-3 mb-3">
