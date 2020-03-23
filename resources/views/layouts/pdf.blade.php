@@ -13,8 +13,8 @@
 		body {
 			font-family: 'San Francisco', sans-serif;
 		}
-		@page { margin: 140px 70px; } 
-		#header { position: fixed; left: 0px; top: -180px; right: 0px; height: 90px;} 
+		@page { margin: 180px 70px; } 
+		#header { position: fixed; left: 0px; top: -180px; right: 0px; height: 150px;} 
 		#footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 150px; text-align: center; font-size: 12px;} 
 		#footer .page:after { content: counter(page, upper-roman); } 
 		.m-3{ margin: 15px, 10px;}
@@ -71,14 +71,14 @@
 	<title>Plan de Estudio</title>
 </head>
 <body>
-	<div id='header'>
-		<img src="assets/img/logo/logo_utem.png" alt="Logo" height="70px" class="m-3">
-		<!-- <div>
+	<div id='header' style="display:none;">
+		<img src="assets/img/utem/logo_gob_footer_grande.png" alt="Logo" height="100px" class="m-3">
+		<div>
 			<p>Universidad Tecnológica Metropolitana</p>
 		</div>
 		<div >
 			<p>Vicerrectoría Académica</p>
-		</div> -->
+		</div>
     </div>
 	<div id="content">
 		@yield('content')

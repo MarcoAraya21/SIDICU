@@ -18,8 +18,7 @@ import VerDiseno from './ver/diseno';
 import EditarDiseno from './editar/diseno';
 import TreePlan from './tree';
 import Resumen from './resumen';
-import Tabla from './graficos/tabla';
-import Grafico from './graficos/grafico';
+
 
 
 
@@ -47,11 +46,7 @@ export default class index extends Component {
             coordinador: {},
             habilitadogeneral: true,
             plan_genericas: [],
-            acceso: 0,
-            comp_genericas: [],
-            openGrafico:false,
-            openTabla:false,
-
+            acceso: 0
         }
 
         this.handleInput = handleInput.bind(this);
@@ -69,10 +64,6 @@ export default class index extends Component {
         this.addNotificationWarning = this.addNotificationWarning.bind(this);
         this.notificationDOMRef = React.createRef();
 
-        this.handleOpenGrafico = this.handleOpenGrafico.bind(this);
-        this.handleCloseGrafico = this.handleCloseGrafico.bind(this);
-        this.handleOpenTabla = this.handleOpenTabla.bind(this);
-        this.handleCloseTabla = this.handleCloseTabla.bind(this);   
     }
 
     addNotification() {
@@ -117,20 +108,6 @@ export default class index extends Component {
         });
     }
 
-    handleOpenTabla() {
-        this.setState({ openTabla: true });
-    }
-    handleCloseTabla() {
-        this.setState({ openTabla: false });
-    }
-
-    handleOpenGrafico() {
-        this.setState({ openGrafico: true });
-    }
-    handleCloseGrafico() {
-        this.setState({ openGrafico: false });
-    }
-    
     habilitarGeneral(estado) {
         this.setState({ habilitadogeneral: estado });
     }
@@ -182,18 +159,9 @@ export default class index extends Component {
 
 
     }
-    getGenericas() {
-        axios.get('/api/competencias_genericas').then((
-            response
-        ) =>{
-                this.setState({comp_genericas: response.data});
-            }            
-        );        
-    }
 
     componentWillMount() {
         this.getPlanEstudio();
-        this.getGenericas();
     }
 
 
@@ -247,12 +215,12 @@ export default class index extends Component {
                                         <span className="d-sm-block d-none">Asignaturas del Plan</span>
                                     </a>
                                 </li>
-                                {/* <li className="nav-items">
+                                <li className="nav-items">
                                     <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Gráficos</span>
                                         <span className="d-sm-block d-none">Gráficos y Tablas</span>
                                     </a>
-                                </li> */}
+                                </li>
                                 <li className="nav-items">
                                     <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Finalizar</span>
@@ -335,7 +303,6 @@ export default class index extends Component {
                                             id={this.state.id}
                                             dominios={this.state.dominios}
                                             competencias_genericas={this.state.competencias_genericas}
-                                            comp_genericas = {this.state.comp_genericas}
                                             handleInputArrays={this.handleInputArrays}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
@@ -402,7 +369,7 @@ export default class index extends Component {
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-5">
                                     {
-                                        this.state.acceso == 1 || this.state.acceso == 2 ?
+                                        this.state.acceso == 1 ?
                                         <EditarAsignaturas
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
@@ -424,12 +391,12 @@ export default class index extends Component {
                                     }
                                     
                                 </div>
-                                {/* <div className="tab-pane fade" id="plan-tab-6">
-                                    <TreePlan id={this.state.id}
+                                <div className="tab-pane fade" id="plan-tab-6">
+                                    {/* <TreePlan id={this.state.id}
                                 nombre={this.state.nombre}
                                 dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}/>
-                                </div> */}
+                                competencias_genericas={this.state.competencias_genericas}/> */}
+                                </div>
                                 <div className="tab-pane fade" id="plan-tab-7">
                                     <Resumen
                                         dominios={this.state.dominios}
@@ -443,31 +410,7 @@ export default class index extends Component {
 
 
                     <div className="col-12 text-right t-2">
-                    <div className="btn-group">
-                        <a href="#" onClick={()=> this.handleOpenTabla(this.setState({openTabla:true}))} className="btn btn-primary"><i className="fas fa-eye fa-fw"></i> Ver Plan</a>
-                        <a href="#" className="btn btn-primary dropdown-toggle"
-                            data-toggle="dropdown"></a>
-                        <ul className="dropdown-menu pull-right">
-                            <li><a onClick={()=> this.handleOpenTabla(this.setState({openTabla:true}))}>Tabla</a></li>
-                            <li><a onClick={()=> this.handleOpenGrafico(this.setState({openGrafico:true}))}>Gráfico</a></li>
-                        </ul>
-                    </div>
-                
-
-                <Tabla id={this.state.id}
-                                nombre={this.state.nombre}
-                                dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}
-                                openTabla = {this.state.openTabla}
-                                handleCloseTabla = {this.handleCloseTabla}
-                />
-                <Grafico id={this.state.id}
-                                nombre={this.state.nombre}
-                                dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}
-                                openGrafico = {this.state.openGrafico}
-                                handleCloseGrafico = {this.handleCloseGrafico}
-                />
+                        <a href="#" className="btn btn-primary">Ver Plan</a>
                         {/* <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
                         <a href={`/pdf_descargar/${this.state.id}`} download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
                     </div>

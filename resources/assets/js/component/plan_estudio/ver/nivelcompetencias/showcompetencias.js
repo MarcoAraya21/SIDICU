@@ -219,29 +219,16 @@ export default class showcompetencias extends Component {
                                 </div>
                                 <div className="col-6">
                                     <strong>Asignaturas</strong>
-                                        {this.props.asignaturas.some(asignatura =>
-                                        asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura =>
-                                            nivel_generica_asignatura.nivel_generica.nivel_competencia_id == 
-                                            nivel_competencia_generica.id
-                                        )
-                                    ) ?
+                                    {nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.length > 0 ?
                                     <ol>
-                                        {
-                                            this.props.asignaturas.filter(asignatura =>
-                                                asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura =>
-                                                    nivel_generica_asignatura.nivel_generica.nivel_competencia_id == 
-                                                    nivel_competencia_generica.id
-                                                )
-                                            ).map((asignatura, i) =>
-                                                <li key={i}>
-                                                    {asignatura.nombre}
-                                                    <a className="m-l-5" href="" target="_blank">
-                                                        <span className="badge badge-info">Ver</span>
-                                                    </a>
-                                                </li>
-                                            )
-                                        }
-                                            
+                                        {nivel_competencia_generica.nivel_genericas[0].nivel_generica_asignaturas.map((nivel_generica_asignatura,j) =>
+                                            <li key={j}>
+                                                {nivel_generica_asignatura.asignatura.nombre}
+                                                <a className="m-l-5" href="" target="_blank">
+                                                    <span className="badge badge-info">Ver</span>
+                                                </a>
+                                            </li>
+                                        )}
                                     </ol>
                                     :
                                     <p>No Posee</p>

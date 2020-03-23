@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Ciclo extends Model
 {
-    protected $fillable = ['nombre','sigla'];
+    protected $fillable = ['nombre'];
 
     public function asignaturas()
     {

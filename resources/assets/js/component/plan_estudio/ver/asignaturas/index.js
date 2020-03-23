@@ -16,7 +16,7 @@ export default class index extends Component {
             <div className="container py-4">
                 <div className="row">
                     <div className="col-lg-12 mx-auto">
-                        <ul className="nav nav-tabs">
+                        <ul className={"nav nav-tabs " + (!this.props.habilitadogeneral ? "deshabilitado" : "")}>
                             {
                                 this.props.niveles.map((nivel, i) =>
                                     i == 0 ? 
@@ -45,7 +45,16 @@ export default class index extends Component {
                                         <Show
                                         nivelAsignatura={nivelAsignatura}
                                         niveles={this.props.niveles}
-                                        asignaturas={this.props.asignaturas}                                     />
+                                        asignaturas={this.props.asignaturas}
+                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                        borrarElemento = {this.props.borrarElemento}
+                                        handleAddElement = {this.props.handleAddElement}
+                                        handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
+                                        borrarElementoAsignatura={this.props.borrarElementoAsignatura}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}                                      />
                                         }
                                     </div>
                                     :
@@ -54,6 +63,16 @@ export default class index extends Component {
                                         nivelAsignatura={nivelAsignatura}
                                         niveles={this.props.niveles}
                                         asignaturas={this.props.asignaturas}
+                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
+                                        borrarElemento = {this.props.borrarElemento}
+                                        handleAddElement = {this.props.handleAddElement}
+                                        handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
+                                        borrarElementoAsignatura={this.props.borrarElementoAsignatura}
+                                        habilitarGeneral = {this.props.habilitarGeneral}
+                                        habilitadogeneral = {this.props.habilitadogeneral}
+                                        addNotification = {this.props.addNotification}
+                                        ultimoNivel={nivelAsignatura.id == this.props.niveles[this.props.niveles.length - 1].id}
                                         />
                                     </div>
                                 )

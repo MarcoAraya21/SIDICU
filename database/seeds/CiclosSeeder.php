@@ -12,12 +12,12 @@ class CiclosSeeder extends Seeder
     public function run()
     {
         DB::table('ciclos')->insert([
-            ['nombre' => 'Ciclo Cientifico Tecnológico','sigla' => 'CCT'],
-            ['nombre' => 'Ciclo de Especialización', 'sigla' => 'CE'],
-            ['nombre' => 'Ciclo de Titulación','sigla'=> 'CT'],
-            ['nombre' => 'Programa de Desarrollo Personal y Social', 'sigla'=>'PPS'],
-            ['nombre' => 'Programa de Bienestar Físico y Deportes','sigla'=>''],
-            ['nombre' => 'Programa de Inglés', 'sigla' => '']
+            ['nombre' => 'Ciclo Cientifico Tecnológico'],
+            ['nombre' => 'Ciclo de Especialización'],
+            ['nombre' => 'Ciclo de Titulación'],
+            ['nombre' => 'Programa de Desarrollo Personal y Social'],
+            ['nombre' => 'Programa de Bienestar Físico y Deportes'],
+            ['nombre' => 'Programa de Inglés']
         ]);
     }
 }

@@ -31,26 +31,22 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::put('informacion_basica/{plan_id}', 'PlanEstudioController@updateInformacionBasica');
     Route::get('listado_planes', 'PlanEstudioController@listado');
     Route::get('mis_planes', 'PlanEstudioController@misPlanes');
-    Route::get('plan_estudios/finalizado/{plan_id}', 'PlanEstudioController@finalizado');
     Route::get('finalizados', 'PlanEstudioController@finalizados');
     Route::get('pendientes', 'PlanEstudioController@misPendientes');
     Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
         'plan_estudios' => 'plan_estudio']]);
 
-    Route::resource('perfiles', 'PerfilController', ['only' => ['index']]);
     // SEPARACION
     Route::apiResource('dominios', 'DominioController', ['parameters' => [
         'dominios' => 'dominio']]);
     Route::apiResource('competencias', 'CompetenciaController', ['parameters' => [
         'competencias' => 'competencia']]);
-    Route::get('competencias_genericas', 'CompetenciaController@genericas');
     Route::apiResource('nivel_competencias', 'NivelCompetenciaController', ['parameters' => [
         'nivel_competencias' => 'nivel_competencia']]);
     Route::apiResource('logro_aprendizajes', 'LogroAprendizajeController', ['parameters' => [
         'logro_aprendizajes' => 'logro_aprendizaje']]);
     Route::apiResource('nivel_competencia_asignaturas', 'NivelCompetenciaAsignaturaController', ['parameters' => [
         'nivel_competencia_asignaturas' => 'nivel_competencia_asignatura']]);
-    Route::resource('nivel_genericas', 'NivelGenericaController', ['only' => ['store', 'destroy']]);
     Route::apiResource('nivel_generica_asignaturas', 'NivelGenericaAsignaturaController', ['parameters' => [
         'nivel_generica_asignaturas' => 'nivel_generica_asignatura']]);
     Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [
@@ -74,18 +70,16 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     
     Route::get('plan_estudios/{plan_id}/datos', 'PlanEstudioController@datos');
     Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
-
-    Route::resource('carreras', 'CarreraController', ['only' => ['index', 'store']]);
-    Route::resource('escuelas', 'EscuelaController', ['only' => ['index']]);
-    Route::resource('grados', 'GradoController', ['only' => ['index']]);
-
-
-
-    Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
-        'usuarios' => 'usuario']]);
 });
 
 
+Route::resource('carreras', 'CarreraController', ['only' => ['index', 'store']]);
+Route::resource('escuelas', 'EscuelaController', ['only' => ['index']]);
+Route::resource('grados', 'GradoController', ['only' => ['index']]);
 
+
+
+Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
+    'usuarios' => 'usuario']]);
 
 

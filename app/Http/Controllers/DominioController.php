@@ -104,7 +104,7 @@ class DominioController extends Controller
         // foreach ($Competencias as $key => $Competencia) {
         //     $Competencia->nivel_competencias()->delete();
         // }
-        // $Dominio->competencias()->delete();
+        $Dominio->competencias()->delete();
         $Dominio->delete();
     }
 

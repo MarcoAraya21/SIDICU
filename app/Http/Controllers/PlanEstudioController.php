@@ -54,50 +54,6 @@ class PlanEstudioController extends Controller
         return $PlanEstudio->toJson();
     }
 
-    public function finalizado($id)
-    {
-        if($PlanEstudio = PlanEstudio::find($id))
-        {
-            if($PlanEstudio->estado_id == "4")
-            {
-                $PlanEstudio = $PlanEstudio->with(['dominios' => function ($query) {
-                        $query
-                        ->with('tipo_dominio')
-                        ->with(['competencias' => function ($query) {
-                            $query
-                            ->with(['nivel_competencias' => function ($query) {
-                                $query
-                                ->with('logro_aprendizajes')
-                                ->with(['nivel_competencia_asignaturas' => function ($query) {
-                                    $query
-                                    ->with('asignatura');
-                                }]);
-                            }]);
-                        }]);
-                    }])
-                    ->with('carrera')
-                    ->with('tipo_plan')
-                    ->with('tipo_ingreso')
-                    ->with(['plan_estudio_usuarios' => function ($query) {
-                        $query
-                        ->with('usuario');
-                    }])
-                    ->with('niveles')
-                    ->with('nivel_genericas')
-                    ->findOrFail($id);
-                return $PlanEstudio->toJson();
-            }
-            else
-            {
-                return response()->json(['status'=>'danger','message'=>'Acceso Denegado']);
-            }
-        }
-        else
-        {
-            return response()->json(['status'=>'danger','message'=>'Acceso Denegado']);
-        }
-    }
-
     public function finalizados()
     {
         $PlanEstudio = PlanEstudio::where('estado_id', 4)
@@ -231,8 +187,6 @@ class PlanEstudioController extends Controller
                     }])
                     ->with('niveles')
                     ->with('nivel_genericas')
-                    ->with('tipo_formacion')
-                    ->with('grado')
                     ->findOrFail($id);
                 return response()->json([$PlanEstudio, $PlanEstudioUsuario->rol_id], 200);
             }

@@ -25,17 +25,10 @@ class UsuarioController extends Controller
      */
     public function index()
     {
-        // if(JWTAuth::authenticate()->perfil_id == "1")
-        // {
-            $Usuarios = Usuario::where('perfil_id', '!=', '1')
-            ->with('perfil')
-            ->get();
-            return $Usuarios->toJson();
-        // }
-        // else
-        // {
-        //     return response()->json(['status'=>'denied','message'=>'No tiene permiso para acceder.']);
-        // }
+        $Usuarios = Usuario::
+        with('perfil')
+        ->get();
+        return $Usuarios->toJson();
     }
 
     public function getAsesores()
@@ -68,7 +61,7 @@ class UsuarioController extends Controller
      */
     public function store(Request $request)
     {
-        
+
     }
 
     /**
@@ -100,17 +93,9 @@ class UsuarioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Usuario $Usuario)
+    public function update(Request $request, PlanEstudio $PlanEstudio)
     {
-        if($request->get('perfil') != "1" && $request->get('perfil') != "")
-        {
-            $Usuario = $Usuario->update(['perfil_id' => $request->get('perfil')]);
-            return response()->json($Usuario, 201);
-        }
-        else
-        {
-            return response()->json(['error' => 'Acceso no permitido.'],403);
-        }
+        
     }
 
 
