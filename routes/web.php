@@ -43,6 +43,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     });
     
     Route::get('pdf_descargar/{id}', 'PdfController@pdfview');
+    Route::get('pdf_asignatura/{id}', 'PdfController@pdfasignatura');
 
     Route::get('/cambiar-password', function () {
         return view('/pages/changepass');    

@@ -231,6 +231,8 @@ class PlanEstudioController extends Controller
                     }])
                     ->with('niveles')
                     ->with('nivel_genericas')
+                    ->with('tipo_formacion')
+                    ->with('grado')
                     ->findOrFail($id);
                 return response()->json([$PlanEstudio, $PlanEstudioUsuario->rol_id], 200);
             }
