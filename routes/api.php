@@ -31,11 +31,13 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::put('informacion_basica/{plan_id}', 'PlanEstudioController@updateInformacionBasica');
     Route::get('listado_planes', 'PlanEstudioController@listado');
     Route::get('mis_planes', 'PlanEstudioController@misPlanes');
+    Route::get('plan_estudios/finalizado/{plan_id}', 'PlanEstudioController@finalizado');
     Route::get('finalizados', 'PlanEstudioController@finalizados');
     Route::get('pendientes', 'PlanEstudioController@misPendientes');
     Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
         'plan_estudios' => 'plan_estudio']]);
 
+    Route::resource('perfiles', 'PerfilController', ['only' => ['index']]);
     // SEPARACION
     Route::apiResource('dominios', 'DominioController', ['parameters' => [
         'dominios' => 'dominio']]);
@@ -70,16 +72,18 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     
     Route::get('plan_estudios/{plan_id}/datos', 'PlanEstudioController@datos');
     Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
+
+    Route::resource('carreras', 'CarreraController', ['only' => ['index', 'store']]);
+    Route::resource('escuelas', 'EscuelaController', ['only' => ['index']]);
+    Route::resource('grados', 'GradoController', ['only' => ['index']]);
+
+
+
+    Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
+        'usuarios' => 'usuario']]);
 });
 
 
-Route::resource('carreras', 'CarreraController', ['only' => ['index', 'store']]);
-Route::resource('escuelas', 'EscuelaController', ['only' => ['index']]);
-Route::resource('grados', 'GradoController', ['only' => ['index']]);
 
-
-
-Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
-    'usuarios' => 'usuario']]);
 
 

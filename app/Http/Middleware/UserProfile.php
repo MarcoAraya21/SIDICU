@@ -23,10 +23,11 @@ class UserProfile
         }
         // ddJWTAuth::toUser($request->token)
         $perfil = JWTAuth::toUser($token)->perfil_id;
+
         $path_editar = '/^\b(Plan\/Editar\/)+([1-9][0-9]{0,3})$/';
         $path_ver = '/^\b(Plan\/Ver\/)+([1-9][0-9]{0,3})$/';
         $path_basica = '/^\b(InformacionBasica\/)+([1-9][0-9]{0,3})$/';
-        if($path == "Administrador")
+        if($path == "Administrador" || $path == "AsignarPerfil")
         {
             if($perfil == 1)
             {
@@ -39,7 +40,7 @@ class UserProfile
         }
         if($path == "AsignarPlan")
         {
-            if($perfil == 2)
+            if($perfil == 1 || $perfil == 2)
             {
                 return $next($request);
             }
@@ -61,7 +62,7 @@ class UserProfile
         }
         if($path == "Pendientes" || preg_match($path_basica, $path))
         {
-            if($perfil == 3)
+            if($perfil == 1 || $perfil == 3)
             {
                 return $next($request);
             }
@@ -72,7 +73,7 @@ class UserProfile
         }
         if($path == "MisPlanes" || preg_match($path_editar, $path))
         {
-            if($perfil == 3 || $perfil == 4)
+            if($perfil == 1 || $perfil == 3 || $perfil == 4)
             {
                 return $next($request);
             }

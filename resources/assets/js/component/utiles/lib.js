@@ -404,28 +404,28 @@ export function handleAddElement(key, elemento) {
                         if (key == "asignaturas") {
                             let asignaturas = [...this.state.asignaturas, elemento[0]];
                             this.setState({ asignaturas: asignaturas })
-                            // if (elemento[1].nivel_competencia_id) {
-                            //     let dominios1 = this.state['dominios'].map(dominio => {
-                            //         return {
-                            //             ...dominio, competencias: dominio.competencias.map(competencia => {
-                            //                 return {
-                            //                     ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
-                            //                         if (nivel_competencia.id == elemento[1].nivel_competencia_id) {
-                            //                             return { ...nivel_competencia, nivel_competencia_asignaturas: [...nivel_competencia.nivel_competencia_asignaturas, { ...elemento[1], asignatura: elemento[0] }] };
-                            //                         }
-                            //                         else {
-                            //                             return nivel_competencia;
-                            //                         }
-                            //                     }
-                            //                     )
-                            //                 }
-                            //             }
-                            //             )
-                            //         }
-                            //     }
-                            //     )
-                            //     this.setState({ dominios: dominios1 })
-                            // }
+                            if (elemento[1].nivel_competencia_id) {
+                                let dominios1 = this.state['dominios'].map(dominio => {
+                                    return {
+                                        ...dominio, competencias: dominio.competencias.map(competencia => {
+                                            return {
+                                                ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
+                                                    if (nivel_competencia.id == elemento[1].nivel_competencia_id) {
+                                                        return { ...nivel_competencia, nivel_competencia_asignaturas: [...nivel_competencia.nivel_competencia_asignaturas, { ...elemento[1], asignatura: elemento[0] }] };
+                                                    }
+                                                    else {
+                                                        return nivel_competencia;
+                                                    }
+                                                }
+                                                )
+                                            }
+                                        }
+                                        )
+                                    }
+                                }
+                                )
+                                this.setState({ dominios: dominios1 })
+                            }
                             // else {
                             //     if (elemento[1].nivel_generica_id) {
                             //         let dominios1 = this.state['competencias_genericas'].map(competencias_generica => {

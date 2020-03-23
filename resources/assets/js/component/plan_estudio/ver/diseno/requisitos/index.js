@@ -104,7 +104,7 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
         <div>
             <Dialog fullScreen open={openRequisitos} onClose={handleCloseRequisitos} TransitionComponent={Transition} disableEscapeKeyDown>
                 <AppBar className={classes.appBar}>
-                    <Toolbar className={(!habilitadogeneral ? "deshabilitado" : "")}>
+                    <Toolbar>
                         <IconButton edge="start" color="inherit" onClick={handleCloseRequisitos} aria-label="close">
                             <CloseIcon />
                         </IconButton>
@@ -126,17 +126,6 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                                             <React.Fragment key={i}>
                                                 <ListItem button>
                                                     <ListItemText primary={requisito.requisito.nombre} />
-                                                    <div className="mt-2 mb-1">
-                                                        <button type="button" disabled={!habilitadogeneral} className="btn btn-danger"
-                                                            onClick={() => {
-                                                            if (window.confirm('¿Estas Seguro?'))
-                                                            {                                                    
-                                                                borrarElementoAsignatura('requisitos', requisito.id, addNotification, asignaturaId)   
-                                                            }
-                                                            }}>
-                                                            <i className="fas fa-times p-r-10" ></i>Eliminar Requisito
-                                                        </button>
-                                                    </div>
                                                 </ListItem >
                                                 <Divider />
                                             </React.Fragment>
@@ -149,39 +138,6 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                             :
                                 'No Tiene Requisitos Agregados'
                         }
-                            <ListItem>
-                                <div className="col row p-0">
-                                    <div className="col-6 p-0">
-                                        <select
-                                            value={addrequisito}
-                                            className="form-control"
-                                            onChange={(e)=> setaddrequisito(e.target.value)}>
-                                            <option value="">Seleccione una Opción</option>
-                                            {
-                                                requisitoNivelesSelect.map((requisitoNivelSelect,i) =>
-                                                    <optgroup key={i} label={'Semestre ' + requisitoNivelSelect.nombre}>
-                                                        {
-                                                            requisitoNivelSelect.requisitos.map((requisito,i) =>
-                                                                <option key={i} value={requisito.id}>{requisito.nombre}</option>
-                                                                )
-                                                        }
-                                                    </optgroup>
-                                                    )
-                                            }
-                                        </select>
-                                    </div>
-                                    {
-                                        <div className="col-6 p-0">
-                                            <div align="right">
-                                                <button type="button" disabled={!habilitadogeneral || addrequisito == ""} className="btn btn-primary" onClick={() => { addElemento('requisitos') }}>
-                                                    <i className="fas fa-plus p-r-5" ></i>Crear Requisito
-                                                </button>
-                                            </div>
-                                        </div>
-                                    }
-                                    
-                                </div>
-                            </ListItem >
                         </List>
                     </div>
                 </DialogContent>
