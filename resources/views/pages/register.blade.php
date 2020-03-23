@@ -28,11 +28,11 @@
 	<div class="register register-with-news-feed">
 		<!-- begin news-feed -->
 		<div class="news-feed">
-			<div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg-9.jpg)"></div>
+			<div class="news-image" style="background-image: url(../assets/img/utem/patio-casa-central.jpg)"></div>
 			<div class="news-caption">
-				<h4 class="caption-title"><b>Color</b> Admin App</h4>
+				<h4 class="caption-title"><b>Registrate en SIDECU</b></h4>
 				<p>
-					As a Color Admin app administrator, you use the Color Admin console to manage your organization’s account, such as add new users, manage security settings, and turn on the services you want your team to access.
+					<!-- As a Color Admin app administrator, you use the Color Admin console to manage your organization’s account, such as add new users, manage security settings, and turn on the services you want your team to access. -->
 				</p>
 			</div>
 		</div>
@@ -41,8 +41,8 @@
 		<div class="right-content">
 			<!-- begin register-header -->
 			<h1 class="register-header">
-				Sign Up
-				<small>Create your Color Admin Account. It’s free and always will be.</small>
+				Registrarse
+				<!-- <small>Create your Color Admin Account. It’s free and always will be.</small> -->
 			</h1>
 			<!-- end register-header -->
 			<!-- begin register-content -->

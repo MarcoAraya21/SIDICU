@@ -5,7 +5,7 @@
 <meta content="" name="author" />
 
 <!-- ================== BEGIN BASE CSS STYLE ================== -->
-<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
 <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet" />
 <link href="/assets/css/bundle.css" rel="stylesheet" />
 <link href="/assets/css/default/style.min.css" rel="stylesheet" />
