@@ -30,7 +30,7 @@ export default class show extends Component {
             var form = {dominio_id:  this.props.dominio.id};
         }
         //e.preventDefault();
-        fetch(`/api/${variable}/`, {
+        fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
