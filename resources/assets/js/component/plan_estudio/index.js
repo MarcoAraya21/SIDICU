@@ -369,7 +369,7 @@ export default class index extends Component {
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-5">
                                     {
-                                        this.state.acceso == 1 ?
+                                        this.state.acceso == 1 || this.state.acceso == 2 ?
                                         <EditarAsignaturas
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}

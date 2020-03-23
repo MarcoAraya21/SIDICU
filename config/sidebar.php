@@ -24,6 +24,18 @@ return [
 						'title' => 'Listado'
 					],
 					[
+						'url' => '/MisPlanes',
+						'title' => 'Mis Planes'
+					],
+					[
+						'url' => '/Pendientes',
+						'title' => 'Planes Pendientes'
+					],
+					[
+						'url' => '/AsignarPlan',
+						'title' => 'Asignar Plan'
+					],
+					[
 						'url' => '/home',
 						'title' => 'Finalizados'
 					]
@@ -42,6 +54,10 @@ return [
 					[
 						'url' => '/Administrador',
 						'title' => 'Editar Tablas'
+					],
+					[
+						'url' => 'AsignarPerfil',
+						'title' => 'Asignar Perfil'
 					]
 				]
 			]

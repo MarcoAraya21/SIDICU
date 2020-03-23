@@ -12,7 +12,6 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import CloseIcon from '@material-ui/icons/Close';
 import Slide from '@material-ui/core/Slide';
-import Edit from './edit';
 
 
 // --------------------------------------------
@@ -48,7 +47,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, asignaturaId, asignaturaNombre}) {
   const classes = useStyles();
   let horas_aula = asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id != 4).reduce((previous, current) => {
         return Number(previous) + Number(current.cantidad);
@@ -60,7 +59,7 @@ export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, a
     <div>
       <Dialog fullScreen open={openHoras} onClose={handleCloseHoras} TransitionComponent={Transition} disableEscapeKeyDown>
         <AppBar className={classes.appBar}>
-          <Toolbar className={(!habilitadogeneral ? "deshabilitado" : "")}>
+          <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleCloseHoras} aria-label="close">
               <CloseIcon />
             </IconButton>
@@ -80,27 +79,19 @@ export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, a
             <legend>Horas Aula Pedagógicas</legend>
             {
               asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id != 4).map((asignatura_hora, i) =>
-                <Edit key={asignatura_hora.id}
-                  asignatura_hora={asignatura_hora}
-                  asignaturaId={asignaturaId}
-                  i={asignatura_hora.id}
-                  handleInputArraysAsignatura= {handleInputArraysAsignatura}
-                  habilitarGeneral={habilitarGeneral}
-                  habilitadogeneral={habilitadogeneral}
-                  addNotification={addNotification} />
+                <div key={i} className="my-2 p-15">
+                  <p className="m-0">Cantidad de Horas {asignatura_hora.tipo_hora.nombre}:</p>
+                  <p>{asignatura_hora.cantidad || 0}</p>
+                </div>
               )
             }
             <legend>Horas Extra Aula Pedagógicas</legend>
             {
               asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id == 4).map((asignatura_hora, i) =>
-                <Edit key={asignatura_hora.id}
-                  asignatura_hora={asignatura_hora}
-                  asignaturaId={asignaturaId}
-                  i={asignatura_hora.id}
-                  handleInputArraysAsignatura= {handleInputArraysAsignatura}
-                  habilitarGeneral={habilitarGeneral}
-                  habilitadogeneral={habilitadogeneral}
-                  addNotification={addNotification} />
+                <div key={i} className="my-2 p-15">
+                  <p className="m-0">Cantidad de Horas {asignatura_hora.tipo_hora.nombre}:</p>
+                  <p>{asignatura_hora.cantidad || 0}</p>
+                </div>
               )
             }
           </div>

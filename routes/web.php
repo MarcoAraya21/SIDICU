@@ -52,6 +52,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/Administrador', function () {
             return view('/pages/welcome');
         });
+        Route::get('/AsignarPerfil', function () {
+            return view('/pages/welcome');
+        });
         Route::get('/AsignarPlan', function () {
             return view('/pages/welcome');
         });
@@ -67,9 +70,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/MisPlanes', function () {
             return view('/pages/welcome');
         });
-        Route::get('/Plan/Ver/{id}', function () {
-            return view('/pages/welcome');
-        });
         Route::get('/Plan/Editar/{id}', function () {
             return view('/pages/welcome');
         });
@@ -80,7 +80,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
             return view('/pages/welcome');
         });
     });
-
+    Route::get('/Plan/Ver/{id}', function () {
+        return view('/pages/welcome');
+    });
     Route::get('/home', function () {
         return view('/pages/welcome');
     });
