@@ -12,7 +12,7 @@ export default class index extends Component {
 
     addElemento(variable){
         //e.preventDefault();
-        fetch('https://sidecu.utem.dev/api/dominios', {
+        fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

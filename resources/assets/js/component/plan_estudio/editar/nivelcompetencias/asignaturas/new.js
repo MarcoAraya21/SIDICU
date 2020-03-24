@@ -163,7 +163,7 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
             }
         }
 
-        fetch(`/api/${variable}/`, {
+        fetch(`/api/${variable}`, {
 
             method: 'post',
             headers: {

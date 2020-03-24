@@ -643,7 +643,7 @@ export function handleInputOtros(e, id, object = 'tipo_resultado_id', key = 'tip
 
 export function borrarElemento(objeto, propiedad, addNotification) {
     //e.preventDefault();
-    fetch(`/api/${objeto}/${propiedad}/`, {
+    fetch(`/api/${objeto}/${propiedad}`, {
         method: 'delete',
         headers: {
             'Accept': 'application/json',
@@ -898,7 +898,7 @@ export function borrarElemento(objeto, propiedad, addNotification) {
 
 export function borrarElementoAsignatura(objeto, propiedad, addNotification, idAsignatura) {
     //e.preventDefault();
-    fetch(`/api/${objeto}/${propiedad}/`, {
+    fetch(`/api/${objeto}/${propiedad}`, {
         method: 'delete',
         headers: {
             'Accept': 'application/json',

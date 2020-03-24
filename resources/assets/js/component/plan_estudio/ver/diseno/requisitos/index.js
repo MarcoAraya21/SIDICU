@@ -52,7 +52,7 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
     const [addrequisito, setaddrequisito] = useState('');
     function addElemento(variable) {
         //e.preventDefault();
-        fetch(`/api/${variable}/`, {
+        fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

@@ -52,7 +52,7 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
     const classes = useStyles();
     function addElemento(variable) {
         //e.preventDefault();
-        fetch(`/api/${variable}/`, {
+        fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

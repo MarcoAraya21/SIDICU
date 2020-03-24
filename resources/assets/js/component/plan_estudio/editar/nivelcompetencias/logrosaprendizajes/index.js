@@ -54,7 +54,7 @@ export default function Logros({ open, handleClose, nivel_competencia, nivel_com
 
   function addElemento(variable) {
     //e.preventDefault();
-    fetch(`/api/${variable}/`, {
+    fetch(`/api/${variable}`, {
       method: 'post',
       headers: {
         'Accept': 'application/json',

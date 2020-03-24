@@ -65,7 +65,7 @@ export default function evaluaciones({ openEvaluaciones, handleCloseEvaluaciones
 
     function addElemento(variable) {
         //e.preventDefault();
-        fetch(`/api/${variable}/`, {
+        fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

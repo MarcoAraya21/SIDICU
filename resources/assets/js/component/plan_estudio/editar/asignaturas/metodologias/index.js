@@ -65,7 +65,7 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
 
     function addElemento(variable) {
         //e.preventDefault();
-        fetch(`/api/${variable}/`, {
+        fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',

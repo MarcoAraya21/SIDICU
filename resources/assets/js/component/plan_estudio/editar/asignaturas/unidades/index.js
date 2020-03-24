@@ -61,7 +61,7 @@ export default function Unidades({ openUnidades, handleCloseUnidades, unidades, 
 
     function addElemento(variable) {
         //e.preventDefault();
-        fetch(`/api/${variable}/`, {
+        fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
