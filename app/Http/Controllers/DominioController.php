@@ -106,6 +106,7 @@ class DominioController extends Controller
         // }
         // $Dominio->competencias()->delete();
         $Dominio->delete();
+        return response(null, 204);
     }
 
 }
