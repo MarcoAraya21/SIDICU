@@ -40,7 +40,7 @@ class Index extends Component {
         })
             .then((value) => {
                 if (value) {
-                    fetch(`/api/plan_estudios/`, {
+                    fetch(`/api/plan_estudios`, {
                         method: 'post',
                         headers: {
                             'Accept': 'application/json',

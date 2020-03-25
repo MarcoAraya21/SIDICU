@@ -123,7 +123,7 @@ class Index extends Component {
             this.setState({guardando: true})
             if(this.state.plan_estudios.nueva_oferta == true)
             {
-                fetch('/api/carreras/',{
+                fetch('/api/carreras',{
                     method: 'post',
                     headers: {
                         'Accept': 'application/json',

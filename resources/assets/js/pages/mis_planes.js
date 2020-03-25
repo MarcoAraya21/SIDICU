@@ -29,7 +29,7 @@ class Index extends Component {
 
     addElemento(){
       //e.preventDefault();
-      fetch(`/api/plan_estudios/`, {
+      fetch(`/api/plan_estudios`, {
           method: 'post',
           headers: {
               'Accept': 'application/json',

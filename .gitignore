@@ -4,6 +4,7 @@
 /storage/*.key
 /storage/app
 /storage/logs
+/storage/logs/laravel.log
 /vendor
 /storage/framework/cache
 /storage/framework/sessions
