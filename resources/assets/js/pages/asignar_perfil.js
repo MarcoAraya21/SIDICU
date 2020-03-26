@@ -38,14 +38,17 @@ class Index extends Component {
         this.setState({usuarios: usuarios});
     }
 
-    componentDidUpdate(_prevProps, prevState) {
-        if (prevState.usuarios !== this.state.usuarios) {
-            this.$el = $(this.el);
-            this.$el.DataTable(CONF_DATATABLE);
-        }
-    }
-
+    componentDidUpdate(prevProps) {
+        this.$el = $(this.el);
+        this.$el.DataTable(CONF_DATATABLE);
     
+    }
+    // componentDidUpdate(_prevProps, prevState) {
+    //     if (prevState.usuarios !== this.state.usuarios) {
+    //         this.$el = $(this.el);
+    //         this.$el.DataTable(CONF_DATATABLE);
+    //     }
+    // }
     guardarPerfil(usuario) {
         swal({
             title: 'Estas seguro que deseas asignar el perfil de  a "' + usuario.nombre + ' ' + usuario.apellido_paterno + '" ?',
@@ -193,35 +196,41 @@ class Index extends Component {
     }
 
     render() {
-        return (
-            <div className='container py-4'>
-                <ol className="breadcrumb pull-right">
-                    <li className="breadcrumb-item active">Inicio</li>
-                </ol>
-                <h1 className="page-header">Listado de Usuarios</h1>
-                <div className="panel-body bg-white">
-                    <div className="table-responsive">
-                        <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Rut</th>
-                                    <th>Perfil Actual</th>
-                                    <th>Cambiar Perfil</th>
-                                    <th>Guardar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    this.listUsuarios()
-                                }
-                            </tbody>
-                        </table>
+        if(this.state.usuarios.length == 0){
+            return null;
+        }
+        else
+        {
+            return (
+                <div className='container py-4'>
+                    <ol className="breadcrumb pull-right">
+                        <li className="breadcrumb-item active">Inicio</li>
+                    </ol>
+                    <h1 className="page-header">Listado de Usuarios</h1>
+                    <div className="panel-body bg-white">
+                        <div className="table-responsive">
+                            <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Rut</th>
+                                        <th>Perfil Actual</th>
+                                        <th>Cambiar Perfil</th>
+                                        <th>Guardar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        this.listUsuarios()
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 
