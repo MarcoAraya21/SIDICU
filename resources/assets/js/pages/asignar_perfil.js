@@ -38,11 +38,14 @@ class Index extends Component {
         this.setState({usuarios: usuarios});
     }
 
-    componentDidUpdate(prevProps) {
-        this.$el = $(this.el);
-        this.$el.DataTable(CONF_DATATABLE);
-    
+    componentDidUpdate(_prevProps, prevState) {
+        if (prevState.usuarios !== this.state.usuarios) {
+            this.$el = $(this.el);
+            this.$el.DataTable(CONF_DATATABLE);
+        }
     }
+
+    
     guardarPerfil(usuario) {
         swal({
             title: 'Estas seguro que deseas asignar el perfil de  a "' + usuario.nombre + ' ' + usuario.apellido_paterno + '" ?',
