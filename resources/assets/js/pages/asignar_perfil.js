@@ -198,23 +198,26 @@ class Index extends Component {
                 <h1 className="page-header">Listado de Usuarios</h1>
                 <div className="panel-body bg-white">
                     <div className="table-responsive">
-                        <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Correo</th>
-                                    <th>Rut</th>
-                                    <th>Perfil Actual</th>
-                                    <th>Cambiar Perfil</th>
-                                    <th>Guardar</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    this.listUsuarios(this.state.usuarios)
-                                }
-                            </tbody>
-                        </table>
+                        {
+                            this.state.usuarios && this.state.perfiles &&
+                            <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>
+                                <thead>
+                                    <tr>
+                                        <th>Nombre</th>
+                                        <th>Correo</th>
+                                        <th>Rut</th>
+                                        <th>Perfil Actual</th>
+                                        <th>Cambiar Perfil</th>
+                                        <th>Guardar</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        this.listUsuarios(this.state.usuarios)
+                                    }
+                                </tbody>
+                            </table>
+                        }
                     </div>
                 </div>
             </div>
