@@ -6,10 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Grado extends Model
 {
-    protected $fillable = ['nombre'];
+    protected $fillable = ['nombre', 'estado_id'];
 
-    public function plan_estudios()
+    public function estado()
     {
-        return $this->hasMany('App\PlanEstudio');
+        return $this->belongsTo('App\Estado');
+    }
+
+    public function carreras()
+    {
+        return $this->hasMany('App\Carrera');
     }
 }

@@ -69,7 +69,7 @@ export default class edit extends Component {
         //e.preventDefault();
         this.setState({ guardando: true })
         if (!this.props.niveles.some(nivel => nivel.id == this.state.nivel.id)) {
-            fetch('/api/niveles/', {
+            fetch('/api/niveles', {
                 method: 'post',
                 headers: {
                     'Accept': 'application/json',

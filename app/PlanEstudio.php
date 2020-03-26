@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlanEstudio extends Model
 {
     protected $fillable = ['nombre', 'observacion', 'proposito', 'objetivo', 'requisito_admision', 'mecanismo_retencion', 'requisito_obtencion', 'campo_desarrollo', 'nueva_oferta', 'perfil_egresado', 'perfil_licenciado', 'titulo_intermedio', 'minor', 'diploma',
-                            'carrera_id', 'tipo_plan_id', 'tipo_grado_id', 'tipo_ingreso_id', 'estado_id', 'modalidad_id', 'regimen_id', 'grado_id', 'tipo_formacion_id', 'jornada_id'];
+                            'carrera_id', 'tipo_plan_id', 'tipo_ingreso_id', 'estado_id', 'modalidad_id', 'regimen_id', 'tipo_formacion_id', 'jornada_id'];
     protected $appends = ['competencias_genericas', 'asignaturas', 'sct_totales', 'asesor_uic', 'coordinador'];
 
 
@@ -18,10 +18,6 @@ class PlanEstudio extends Model
     public function tipo_plan()
     {
         return $this->belongsTo('App\TipoPlan');
-    }
-    public function tipo_grado()
-    {
-        return $this->belongsTo('App\TipoGrado');
     }
     public function tipo_ingreso()
     {
@@ -34,10 +30,6 @@ class PlanEstudio extends Model
     public function regimen()
     {
         return $this->belongsTo('App\Regimen');
-    }
-    public function grado()
-    {
-        return $this->belongsTo('App\Grado');
     }
     public function tipo_formacion()
     {

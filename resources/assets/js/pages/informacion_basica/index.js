@@ -22,9 +22,8 @@ class Index extends Component {
             nueva_oferta: false,
             carrera_id: 0,
             tipo_plan_id: 0,
-            tipo_grado_id: 0,
-            grado_id: 0,
             tipo_formacion_id: 0,
+            tipo_grado_id: 0,
             modalidad_id: 0,
             jornada_id: 0,
             academico_id: 0,
@@ -35,8 +34,10 @@ class Index extends Component {
         nueva_carrera: {
             nombre: "",
             titulo: "",
-            escuela_id: 0
+            escuela_id: 0,
+            grado_id: 0,
         },
+        
         otros:{
             titulo_intermedio: false,
             minor: false,
@@ -67,10 +68,22 @@ class Index extends Component {
 
     handleInput(e, atributo)
     {
-        let plan_estudios = this.state.plan_estudios;
+        var plan_estudios = this.state.plan_estudios;
         if(atributo == "tipo_plan_id")
         {
-            plan_estudios["tipo_grado_id"] = 0
+            plan_estudios['tipo_grado_id'] = 0;
+            plan_estudios['nueva_oferta'] = false;
+            let nueva_carrera = {'nombre': "", 'titulo': "", 'escuela_id': 0, 'grado_id': 0}
+            this.setState({nueva_carrera: nueva_carrera})
+            plan_estudios['carrera_id'] = 0;
+        }
+        if(atributo == "tipo_grado_id")
+        {
+            plan_estudios['tipo_grado_id'] = 0;
+            plan_estudios['nueva_oferta'] = false;
+            let nueva_carrera = {'nombre': "", 'titulo': "", 'escuela_id': 0, 'grado_id': 0}
+            this.setState({nueva_carrera: nueva_carrera})
+            plan_estudios['carrera_id'] = 0;
         }
         if(e.target.type == "checkbox")
         {
@@ -83,7 +96,7 @@ class Index extends Component {
                 }
                 else
                 {
-                    let nueva_carrera = {'nombre': "", 'titulo': "", 'escuela_id': 0}
+                    let nueva_carrera = {'nombre': "", 'titulo': "", 'escuela_id': 0, 'grado_id': 0}
                     this.setState({nueva_carrera: nueva_carrera})
                 }
             }
@@ -130,7 +143,7 @@ class Index extends Component {
                         'Content-Type':'application/json'
                     },
                     body: JSON.stringify( 
-                        this.state.nueva_carrera
+                        {...this.state.nueva_carrera, tipo_grado_id: this.state.plan_estudios.tipo_grado_id}
                     )
                 })
                 .then(function(response) {
@@ -176,7 +189,7 @@ class Index extends Component {
                     .then(function(data) {
                         if(data)
                         {
-                            window.location.href = ("/" + data.id)
+                            window.location.href = ("/Plan/Editar/" + data)
                         }
                     })
                     .finally( () => {
@@ -215,7 +228,7 @@ class Index extends Component {
                 .then(function(data) {
                     if(data)
                     {
-                        window.location.href = ("/" + data.id)
+                        window.location.href = ("/Plan/Editar/" + data)
                     }
                 })
                 .finally( () => {
@@ -334,7 +347,10 @@ class Index extends Component {
     render() {
         let escuela = this.state.carreras.find( carrera => carrera.id == parseInt(this.state.plan_estudios.carrera_id)) ?
                                     this.state.carreras.find( carrera => carrera.id == parseInt(this.state.plan_estudios.carrera_id)).escuela
-                                    : null
+                                    : null;
+        let grado = this.state.carreras.find( carrera => carrera.id == parseInt(this.state.plan_estudios.carrera_id)) ?
+                                    this.state.carreras.find( carrera => carrera.id == parseInt(this.state.plan_estudios.carrera_id)).grado
+                                    : null;
         const HtmlTooltip = withStyles(theme => ({
         tooltip: {
             backgroundColor: '#f5f5f9',
@@ -392,91 +408,6 @@ class Index extends Component {
                             </div>
                             <div className="col row mb-2">
                                 <div className="col-4">
-                                    <HtmlTooltip
-                                        title={
-                                        <React.Fragment>
-                                            <Typography color="inherit">Información</Typography>
-                                            <p>Al seleccionar <b>Nueva Oferta</b> la carrera ingresada no será válida hasta finalizado el plan</p>
-                                        </React.Fragment>
-                                        }
-                                    >
-                                    <label>Nueva Oferta <i className="fas fa-info-circle"></i></label>
-                                    </HtmlTooltip>
-                                    <div className="checkbox checkbox-css">
-                                        <input type="checkbox" id="cssCheckboxnuevaoferta" 
-                                            checked={this.state.plan_estudios.nueva_oferta}
-                                            onChange={(e)=>this.handleInput(e, 'nueva_oferta')}/>
-                                        <label htmlFor="cssCheckboxnuevaoferta"></label>
-                                    </div>
-                                </div>
-                            </div>
-                            {
-                                this.state.plan_estudios.nueva_oferta == false ?
-                                <div className="col row mb-2">
-                                    <div className="col-4">
-                                        <label>Carrera</label>
-                                        <select defaultValue={""}
-                                            className={ "form-control " + (this.state.errores.plan.carrera_id && 'is-invalid')} 
-                                            onChange={(e)=>this.handleInput(e, 'carrera_id')}>
-                                            <option disabled value="">Seleccione una Opción</option>
-                                            {
-                                                this.state.carreras.map(carrera=>
-                                                <option value={carrera.id} key={carrera.id}>{carrera.nombre}</option>
-                                                )
-                                            }
-                                        </select>
-                                        {this.state.errores.plan.carrera_id &&
-                                        <div className="invalid-feedback">{this.state.errores.plan.carrera_id}</div>}
-                                    </div>
-                                    {
-                                        this.state.plan_estudios.carrera_id != 0 &&
-                                        <div className="col-4">
-                                            <label>Escuela</label>
-                                            <p>{escuela ? escuela.nombre : 'No posee'}</p>
-                                        </div>
-                                    }
-                                </div>
-                                :
-                                <div className="col row mb-2">
-                                    <div className="col-4">
-                                        <label data-toggle="tooltip" data-placement="top" title="Tooltip on top">Nombre de la Carrera</label>
-                                        <input type="text"
-                                            className={ "form-control " + (this.state.errores.carrera.nombre && 'is-invalid')} 
-                                            value={this.state.nueva_carrera.nombre || ''}
-                                            onChange={(e)=>this.handleInputCarrera(e, 'nombre')}>
-                                        </input>
-                                        {this.state.errores.carrera.nombre &&
-                                        <div className="invalid-feedback">{this.state.errores.carrera.nombre}</div>}
-                                    </div>
-                                    <div className="col-4">
-                                        <label>Título de la Carrera</label>
-                                        <input type="text"
-                                            className={ "form-control " + (this.state.errores.carrera.titulo && 'is-invalid')} 
-                                            value={this.state.nueva_carrera.titulo || ''}
-                                            onChange={(e)=>this.handleInputCarrera(e, 'titulo')}>
-                                        </input>
-                                        {this.state.errores.carrera.titulo &&
-                                        <div className="invalid-feedback">{this.state.errores.carrera.titulo}</div>}
-                                    </div>
-                                    <div className="col-4">
-                                        <label>Escuela de la Carrera</label>
-                                            <select defaultValue={""}
-                                            className={ "form-control " + (this.state.errores.carrera.escuela_id && 'is-invalid')} 
-                                            onChange={(e)=>this.handleInputCarrera(e, 'escuela_id')}>
-                                            <option disabled value="">Seleccione una Opción</option>
-                                            {
-                                                this.state.escuelas.map(escuela=>
-                                                <option value={escuela.id} key={escuela.id}>{escuela.nombre}</option>
-                                                )
-                                            }
-                                        </select>
-                                        {this.state.errores.carrera.escuela_id &&
-                                        <div className="invalid-feedback">{this.state.errores.carrera.escuela_id}</div>}
-                                    </div>
-                                </div>                            
-                            }
-                            <div className="col row mb-2">
-                                <div className="col-4">
                                     <label>Tipo de Plan</label>
                                     <select defaultValue={""}
                                         className={ "form-control " + (this.state.errores.plan.tipo_plan_id && 'is-invalid')} 
@@ -506,23 +437,122 @@ class Index extends Component {
                                         <div className="invalid-feedback">{this.state.errores.plan.tipo_grado_id}</div>}
                                     </div>
                                 }
-                                <div className="col-4">
-                                    <label>Grado Académico</label>
-                                    <select defaultValue={""}
-                                        className={ "form-control " + (this.state.errores.plan.grado_id && 'is-invalid')} 
-                                        onChange={(e)=>this.handleInput(e, 'grado_id')}>
-                                        <option disabled value="">Seleccione una Opción</option>
-                                        {
-                                            this.state.grados.map(grado=>
-                                            <option value={grado.id} key={grado.id}>{grado.nombre}</option>
-                                            )
-                                        }
-                                    </select>
-                                    {this.state.errores.plan.grado_id &&
-                                    <div className="invalid-feedback">{this.state.errores.plan.grado_id}</div>}
-                                </div> 
+                                {
+                                    this.state.plan_estudios.tipo_grado_id != 0 &&
+                                    <div className="col-4">
+                                        <HtmlTooltip
+                                            title={
+                                            <React.Fragment>
+                                                <Typography color="inherit">Información</Typography>
+                                                <p>Al seleccionar <b>Nueva Oferta</b> la carrera ingresada no será válida hasta finalizado el plan</p>
+                                            </React.Fragment>
+                                            }
+                                        >
+                                        <label>Nueva Oferta <i className="fas fa-info-circle"></i></label>
+                                        </HtmlTooltip>
+                                        <div className="checkbox checkbox-css">
+                                            <input type="checkbox" id="cssCheckboxnuevaoferta" 
+                                                checked={this.state.plan_estudios.nueva_oferta}
+                                                onChange={(e)=>this.handleInput(e, 'nueva_oferta')}/>
+                                            <label htmlFor="cssCheckboxnuevaoferta"></label>
+                                        </div>
+                                    </div>
+                                }
+                                
                                 
                             </div>
+                            <div className="col row mb-2">
+                                
+                            </div>
+                            {
+                                this.state.plan_estudios.tipo_grado_id != 0 &&
+                                    (this.state.plan_estudios.nueva_oferta == false ?
+                                    <div className="col row mb-2">
+                                        <div className="col-4">
+                                            <label>Carrera</label>
+                                            <select defaultValue={""}
+                                                className={ "form-control " + (this.state.errores.plan.carrera_id && 'is-invalid')} 
+                                                onChange={(e)=>this.handleInput(e, 'carrera_id')}>
+                                                <option disabled value="">Seleccione una Opción</option>
+                                                {
+                                                    this.state.carreras.filter(carrera => carrera.tipo_grado_id == this.state.plan_estudios.tipo_grado_id).map(carrera=>
+                                                    <option value={carrera.id} key={carrera.id}>{carrera.nombre}</option>
+                                                    )
+                                                }
+                                            </select>
+                                            {this.state.errores.plan.carrera_id &&
+                                            <div className="invalid-feedback">{this.state.errores.plan.carrera_id}</div>}
+                                        </div>
+                                        {
+                                            this.state.plan_estudios.carrera_id != 0 &&
+                                            <div className="col-4">
+                                                <label>Escuela</label>
+                                                <p>{escuela ? escuela.nombre : 'No posee'}</p>
+                                            </div>
+                                        }
+                                        {
+                                            this.state.plan_estudios.carrera_id != 0 &&
+                                            <div className="col-4">
+                                                <label>Grado Académico</label>
+                                                <p>{grado ? grado.nombre : 'No posee'}</p>
+                                            </div>
+                                        }
+                                    </div>
+                                    :
+                                    <div className="col row mb-2">
+                                        <div className="col-4">
+                                            <label data-toggle="tooltip" data-placement="top" title="Tooltip on top">Nombre de la Carrera</label>
+                                            <input type="text"
+                                                className={ "form-control " + (this.state.errores.carrera.nombre && 'is-invalid')} 
+                                                value={this.state.nueva_carrera.nombre || ''}
+                                                onChange={(e)=>this.handleInputCarrera(e, 'nombre')}>
+                                            </input>
+                                            {this.state.errores.carrera.nombre &&
+                                            <div className="invalid-feedback">{this.state.errores.carrera.nombre}</div>}
+                                        </div>
+                                        <div className="col-4">
+                                            <label>Título de la Carrera</label>
+                                            <input type="text"
+                                                className={ "form-control " + (this.state.errores.carrera.titulo && 'is-invalid')} 
+                                                value={this.state.nueva_carrera.titulo || ''}
+                                                onChange={(e)=>this.handleInputCarrera(e, 'titulo')}>
+                                            </input>
+                                            {this.state.errores.carrera.titulo &&
+                                            <div className="invalid-feedback">{this.state.errores.carrera.titulo}</div>}
+                                        </div>
+                                        <div className="col-4">
+                                            <label>Escuela de la Carrera</label>
+                                                <select defaultValue={""}
+                                                className={ "form-control " + (this.state.errores.carrera.escuela_id && 'is-invalid')} 
+                                                onChange={(e)=>this.handleInputCarrera(e, 'escuela_id')}>
+                                                <option disabled value="">Seleccione una Opción</option>
+                                                {
+                                                    this.state.escuelas.map(escuela=>
+                                                    <option value={escuela.id} key={escuela.id}>{escuela.nombre}</option>
+                                                    )
+                                                }
+                                            </select>
+                                            {this.state.errores.carrera.escuela_id &&
+                                            <div className="invalid-feedback">{this.state.errores.carrera.escuela_id}</div>}
+                                        </div>
+                                        <div className="col-4">
+                                            <label>Grado de la Carrera</label>
+                                                <select defaultValue={""}
+                                                className={ "form-control " + (this.state.errores.carrera.grado_id && 'is-invalid')} 
+                                                onChange={(e)=>this.handleInputCarrera(e, 'grado_id')}>
+                                                <option disabled value="">Seleccione una Opción</option>
+                                                {
+                                                    this.state.grados.map(grado=>
+                                                    <option value={grado.id} key={grado.id}>{grado.nombre}</option>
+                                                    )
+                                                }
+                                            </select>
+                                            {this.state.errores.carrera.grado_id &&
+                                            <div className="invalid-feedback">{this.state.errores.carrera.grado_id}</div>}
+                                        </div>
+                                    </div>
+                                    )                        
+                            }
                             <div className="col row mb-2">
                                 <div className="col-3">
                                     <label>Jornada</label>

@@ -144,7 +144,7 @@ class PlanEstudioController extends Controller
             $token = $_COOKIE['token'];
         }
         $perfil_id = JWTAuth::toUser($token)->perfil_id;
-        if($perfil_id == 2)
+        if($perfil_id == 1 || $perfil_id == 2)
         {
             $PlanEstudio = PlanEstudio::create(['estado_id' => 1]);
             $PlanEstudio->plan_estudio_usuarios()->create(['usuario_id' => $request->usuario_id, 'rol_id' => 1]);
@@ -232,7 +232,6 @@ class PlanEstudioController extends Controller
                     ->with('niveles')
                     ->with('nivel_genericas')
                     ->with('tipo_formacion')
-                    ->with('grado')
                     ->findOrFail($id);
                 return response()->json([$PlanEstudio, $PlanEstudioUsuario->rol_id], 200);
             }
@@ -283,8 +282,6 @@ class PlanEstudioController extends Controller
             'tipo_formacion_id' => 'required|numeric|min:1',  
             'carrera_id' => 'required|numeric|min:1',
             'tipo_plan_id' => 'required|numeric|min:1',
-            'tipo_grado_id' => 'required|numeric|min:1',
-            'grado_id' => 'required|numeric|min:1',
             'jornada_id' => 'required|numeric|min:1',
             'modalidad_id' => 'required|numeric|min:1',
             'academico_id' => 'required|numeric|min:1'
@@ -322,8 +319,6 @@ class PlanEstudioController extends Controller
                 "nueva_oferta" => $request['nueva_oferta'],
                 "carrera_id" => $request['carrera_id'],
                 "tipo_plan_id" => $request['tipo_plan_id'],
-                "tipo_grado_id" => $request['tipo_grado_id'],
-                "grado_id" => $request['grado_id'],
                 "tipo_formacion_id" => $request['tipo_formacion_id'],
                 "modalidad_id" => $request['modalidad_id'],
                 "jornada_id" => $request['jornada_id'],
@@ -334,7 +329,7 @@ class PlanEstudioController extends Controller
                 "tipo_ingreso_id" => 1,
                 "estado_id" => 2
             ]);
-            return response()->json($PlanEstudio, 201);
+            return response()->json($id, 201);
         }
         else
         {

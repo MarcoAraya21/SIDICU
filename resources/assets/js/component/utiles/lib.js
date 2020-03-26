@@ -964,11 +964,11 @@ export const CONF_DATATABLE = {
     buttons: ['copy', 'csv', 'excel'],
     "dom": '<"toolbar d-flex justify-content-end" f>rtip',
     "language": {
-        "lengthMenu": "Mostrando _MENU_ proyectos por página",
-        "zeroRecords": "Sin proyectos",
+        "lengthMenu": "Mostrando _MENU_ filas por página",
+        "zeroRecords": "Sin datos",
         "info": "Mostrando _PAGE_ de _PAGES_ páginas",
-        "infoEmpty": "Sin proyectos",
-        "infoFiltered": "(Filtrados de un total de _MAX_ proyectos)",
+        "infoEmpty": "Sin datos",
+        "infoFiltered": "(Filtrados de un total de _MAX_ filas)",
         "paginate": {
             "first": "Primero",
             "last": "Ultimo",

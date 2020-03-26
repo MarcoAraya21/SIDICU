@@ -16,6 +16,10 @@ class Estado extends Model
     {
         return $this->hasMany('App\Carrera');
     }
+    public function grados()
+    {
+        return $this->hasMany('App\Grado');
+    }
     public function usuarios()
     {
         return $this->hasMany('App\Usuario');

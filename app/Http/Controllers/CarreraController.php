@@ -16,7 +16,7 @@ class CarreraController extends Controller
      */
     public function index()
     {
-        $carreras = Carrera::with('escuela')->get();
+        $carreras = Carrera::with('escuela')->with('grado')->where('estado_id', 4)->get();
         return $carreras->toJson();
     }
 
@@ -42,8 +42,10 @@ class CarreraController extends Controller
             'nombre' => 'required',
             'titulo' => 'required',
             'escuela_id' => 'required|numeric|min:1',
-            
-        ]);        
+            'grado_id' => 'required|numeric|min:1',
+            'tipo_grado_id' => 'required|numeric|min:1',
+        ]);
+        $request['estado_id'] = 1;
         $Carrera = Carrera::Create($request->all());
         return response()->json($Carrera, 201);
     }

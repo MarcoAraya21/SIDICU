@@ -8,8 +8,8 @@ class TipoGrado extends Model
 {
     protected $fillable = ['nombre'];
 
-    public function plan_estudios()
+    public function carreras()
     {
-        return $this->hasMany('App\PlanEstudio');
+        return $this->hasMany('App\Carrera');
     }
 }
