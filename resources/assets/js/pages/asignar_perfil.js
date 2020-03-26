@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios'
+import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
@@ -139,24 +139,27 @@ class Index extends Component {
 
     }
     getUsuarios() {
-        axios.get('/api/usuarios').then((
-            response
-        ) =>{
-                this.setState({usuarios: response.data});
-            }            
-        );       
+        fetch('/api/usuarios', { signal: this.abortController.signal })
+            .then(response => response.json())
+            .then(data => this.setState({ usuarios: data}))
+            .catch(err => {
+                if (err.name === 'AbortError') return
+                throw error
+        });
+        //console.log(response.data)       
     }
     getPerfiles(){
-        axios.get('/api/perfiles').then((
-            response
-        ) =>{
-                this.setState({perfiles: response.data});
-            }            
-        );      
+        fetch('/api/perfiles', { signal: this.abortController.signal })
+            .then(response => response.json())
+            .then(data => this.setState({ perfiles: data }))
+            .catch(err => {
+                if (err.name === 'AbortError') return
+                throw error
+        });
     }
 
-    listUsuarios(usuarios) {
-        return usuarios.map(
+    listUsuarios() {
+        return this.state.usuarios.map(
             (usuario, i) =>
                 <tr key={i}>
                     <td>{usuario.nombre} {usuario.apellido_paterno}</td>
@@ -208,7 +211,7 @@ class Index extends Component {
                             </thead>
                             <tbody>
                                 {
-                                    this.listUsuarios(this.state.usuarios)
+                                    this.listUsuarios()
                                 }
                             </tbody>
                         </table>
