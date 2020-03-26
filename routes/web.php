@@ -53,6 +53,11 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/Administrador', function () {
             return view('/pages/welcome');
         });
+        // VISTAS ADMINISTRADOR
+        Route::get('/Carreras', function () {
+            return view('/pages/welcome');
+        });
+        // CIERRE VISTAS ADMINISTRADOR
         Route::get('/AsignarPerfil', function () {
             return view('/pages/welcome');
         });

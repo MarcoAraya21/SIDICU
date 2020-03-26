@@ -52,8 +52,14 @@ return [
 				'url' => 'javascript:;',
 				'sub_menu' => [
 					[
-						'url' => '/Administrador',
-						'title' => 'Editar Tablas'
+						'url' => 'javascript:;',
+						'title' => 'Editar Tablas',
+						'sub_menu' => [
+							[
+								'url' => '/Carreras',
+								'title' => 'Carreras'
+							]
+						]
 					],
 					[
 						'url' => 'AsignarPerfil',
