@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import axios from 'axios'
 import $ from 'jquery';
 import 'datatables.net';
 import 'datatables.net-bs4';
@@ -139,23 +139,20 @@ class Index extends Component {
 
     }
     getUsuarios() {
-        fetch('/api/usuarios', { signal: this.abortController.signal })
-            .then(response => response.json())
-            .then(data => this.setState({ usuarios: data}))
-            .catch(err => {
-                if (err.name === 'AbortError') return
-                throw error
-        });
-        //console.log(response.data)       
+        axios.get('/api/usuarios').then((
+            response
+        ) =>{
+                this.setState({usuarios: response.data});
+            }            
+        );       
     }
     getPerfiles(){
-        fetch('/api/perfiles', { signal: this.abortController.signal })
-            .then(response => response.json())
-            .then(data => this.setState({ perfiles: data }))
-            .catch(err => {
-                if (err.name === 'AbortError') return
-                throw error
-        });
+        axios.get('/api/perfiles').then((
+            response
+        ) =>{
+                this.setState({perfiles: response.data});
+            }            
+        );      
     }
 
     listUsuarios(usuarios) {
@@ -198,26 +195,23 @@ class Index extends Component {
                 <h1 className="page-header">Listado de Usuarios</h1>
                 <div className="panel-body bg-white">
                     <div className="table-responsive">
-                        {
-                            this.state.usuarios && this.state.perfiles &&
-                            <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Correo</th>
-                                        <th>Rut</th>
-                                        <th>Perfil Actual</th>
-                                        <th>Cambiar Perfil</th>
-                                        <th>Guardar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        this.listUsuarios(this.state.usuarios)
-                                    }
-                                </tbody>
-                            </table>
-                        }
+                        <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Rut</th>
+                                    <th>Perfil Actual</th>
+                                    <th>Cambiar Perfil</th>
+                                    <th>Guardar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    this.listUsuarios(this.state.usuarios)
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
