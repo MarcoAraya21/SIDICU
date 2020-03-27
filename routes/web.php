@@ -54,6 +54,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
             return view('/pages/welcome');
         });
         // VISTAS ADMINISTRADOR
+        Route::get('/CrearPlanAdm', function () {
+            return view('/pages/welcome');
+        });
         Route::get('/Carreras', function () {
             return view('/pages/welcome');
         });

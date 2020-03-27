@@ -20,16 +20,16 @@ return [
 				'url' => 'javascript:;',
 				'sub_menu' => [
 					[
+						'url' => '/CrearPlanAdm',
+						'title' => 'Crear Plan'
+					],
+					[
 						'url' => '/Listado',
 						'title' => 'Listado'
 					],
 					[
 						'url' => '/MisPlanes',
 						'title' => 'Mis Planes'
-					],
-					[
-						'url' => '/Pendientes',
-						'title' => 'Planes Pendientes'
 					],
 					[
 						'url' => '/AsignarPlan',
@@ -41,11 +41,11 @@ return [
 					]
 				]
 			],
-			[
-				'icon' => 'fa fa-chart-line',
-				'title' => 'Indicadores',
-				'url' => 'javascript:;',
-			],
+			// [
+			// 	'icon' => 'fa fa-chart-line',
+			// 	'title' => 'Indicadores',
+			// 	'url' => 'javascript:;',
+			// ],
 			[
 				'icon' => 'fa fa-user-secret',
 				'title' => 'Administrador',
@@ -90,11 +90,11 @@ return [
 					]
 				]
 			],
-			[
-				'icon' => 'fa fa-chart-line',
-				'title' => 'Indicadores',
-				'url' => 'javascript:;',
-			]
+			// [
+			// 	'icon' => 'fa fa-chart-line',
+			// 	'title' => 'Indicadores',
+			// 	'url' => 'javascript:;',
+			// ]
 		],
 
 		'menu_asesor' => 

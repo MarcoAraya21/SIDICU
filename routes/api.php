@@ -83,6 +83,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
 
     Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
         'usuarios' => 'usuario']]);
+
+    Route::post('crear_plan_adm', 'PlanEstudioController@createPlanAdm');
+
 });
 
 

@@ -27,7 +27,7 @@ class UserProfile
         $path_editar = '/^\b(Plan\/Editar\/)+([1-9][0-9]{0,3})$/';
         $path_ver = '/^\b(Plan\/Ver\/)+([1-9][0-9]{0,3})$/';
         $path_basica = '/^\b(InformacionBasica\/)+([1-9][0-9]{0,3})$/';
-        if($path == "Administrador" || $path == "AsignarPerfil" || $path == "Carreras")
+        if($path == "Administrador" || $path == "AsignarPerfil" || $path == "Carreras" || $path == "CrearPlanAdm")
         {
             if($perfil == 1)
             {

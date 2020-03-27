@@ -13,7 +13,7 @@ import Pendientes from './pages/pendientes'
 import Finalizados from './pages/finalizados'
 import InformacionBasica from './pages/informacion_basica/index'
 // import IndexAsignaturas from './component/asignaturas/index'
-
+import PlanAdm from './component/admin/crear_plan/index'
 import Carreras from './component/admin/carreras'
 
 const Router = () => {
@@ -32,7 +32,7 @@ const Router = () => {
                     <Route path='/Plan/Editar/:id' component={PlanEstudio} />
                     <Route path='/Plan/Ver/:id' component={PlanVer} />
                     <Route path='/MisPlanes' component={MisPlanes} />
-                    
+                    <Route path='/CrearPlanAdm' component={PlanAdm} />
                     <Route path='/Carreras' component={Carreras} />
                     <Route exact path='/home' component={Finalizados} />
                 </Switch>
