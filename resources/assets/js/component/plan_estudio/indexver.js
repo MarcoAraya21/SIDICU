@@ -66,7 +66,7 @@ export default class index extends Component {
 
     getPlanEstudio() {
         // console.log(projectId);
-        axios.get(`/api/plan_estudios/finalizado/${this.props.match.params.id}`).then((
+        axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({
@@ -163,8 +163,8 @@ export default class index extends Component {
                             </li>
                             <li className="nav-items">
                                 <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">Finalizar</span>
-                                    <span className="d-sm-block d-none">Finalizar plan</span>
+                                    <span className="d-sm-none">Resumen</span>
+                                    <span className="d-sm-block d-none">Resumen del plan</span>
                                 </a>
                             </li>
                         </ul>

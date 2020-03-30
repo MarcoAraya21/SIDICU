@@ -60,6 +60,15 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/Carreras', function () {
             return view('/pages/welcome');
         });
+        Route::get('/Escuelas', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/Facultades', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/Grados', function () {
+            return view('/pages/welcome');
+        });
         // CIERRE VISTAS ADMINISTRADOR
         Route::get('/AsignarPerfil', function () {
             return view('/pages/welcome');

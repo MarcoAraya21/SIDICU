@@ -58,6 +58,18 @@ return [
 							[
 								'url' => '/Carreras',
 								'title' => 'Carreras'
+							],
+							[
+								'url' => '/Escuelas',
+								'title' => 'Escuelas'
+							],
+							[
+								'url' => '/Facultades',
+								'title' => 'Facultades'
+							],
+							[
+								'url' => '/Grados',
+								'title' => 'Grados'
 							]
 						]
 					],

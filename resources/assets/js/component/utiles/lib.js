@@ -263,6 +263,22 @@ export function handleInputArraysAsignatura(e, objeto, propiedad, indice, idAsig
     this.setState({ asignaturas: asignaturas });
 }
 
+export function handleInputArraysAdmin(data, objeto) {
+    console.log('data', data);
+    let arreglo = this.state[objeto].map(elemento => {
+        if(elemento.id == data.id)
+        {
+            return data;
+        }
+        else
+        {
+            return elemento;
+        }
+    });
+    this.setState({ [objeto]: arreglo})
+}
+
+
 
 
 export function handleAddElement(key, elemento) {
@@ -981,6 +997,50 @@ export const CONF_DATATABLE = {
     responsive: true,
     columnDefs: [
         { responsivePriority: 1, targets: 0 },
-        { responsivePriority: 2, targets: -1 }
+        { responsivePriority: 2, targets: -1 },
+        { responsivePriority: 3, targets: -2 },
     ]
+}
+
+
+
+export function borrarElementoAdmin(objeto, id) {
+    //e.preventDefault();
+    fetch(`/api/${objeto}/${id}`, {
+        method: 'delete',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(function (response) {
+        if (!response.ok) {
+            throw "Error en la llamada Ajax";
+        }
+
+    })
+    .then(data  => {
+        // let arreglo = this.state[objeto].filter(elemento => 
+        //         elemento.id != id
+        //     )
+        // this.setState({ [objeto]: arreglo })
+        swal({
+            text: "Se ha Eliminado Correctamente!",
+            icon: "success",
+            timer: 2000,
+            button: false
+        })
+        .then(function() {
+            location.reload()
+        })
+    }
+    )
+    .catch(function(error) {
+        swal({
+            text: "No se ha podido eliminar, revise su conexión de internet y relaciones de lo que desea eliminar e intente nuevamente.",
+            icon: "error",
+            timer: 5000,
+            button: false
+        })
+    })
 }

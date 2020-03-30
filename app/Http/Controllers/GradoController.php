@@ -38,7 +38,12 @@ class GradoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if($request->nombre == "")
+        {
+            $request['nombre'] = "Sin Nombre";
+        }
+        $Grado = Grado::Create($request->all());
+        return response()->json($Grado, 201);
     }
 
     /**
@@ -70,9 +75,12 @@ class GradoController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Grado $Grado)
     {
-        //
+        if($Grado = $Grado->update($request->all()))
+        {
+            return response()->json(Grado::find($request->id), 201);
+        }
     }
 
     /**
@@ -83,6 +91,13 @@ class GradoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $Grado = Grado::find($id);
+        try{
+            $Grado->delete();
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            abort(400, 'No Permitido');
+        }
+        return response(null, 204);
     }
 }

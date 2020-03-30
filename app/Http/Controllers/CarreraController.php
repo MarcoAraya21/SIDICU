@@ -20,6 +20,12 @@ class CarreraController extends Controller
         return $carreras->toJson();
     }
 
+    public function allCarreras()
+    {
+        $carreras = Carrera::with('escuela')->with('grado')->get();
+        return $carreras->toJson();
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -46,6 +52,17 @@ class CarreraController extends Controller
             'tipo_grado_id' => 'required|numeric|min:1',
         ]);
         $request['estado_id'] = 1;
+        $Carrera = Carrera::Create($request->all());
+        return response()->json($Carrera, 201);
+    }
+
+    public function crearCarrera(Request $request)
+    {
+        $request['estado_id'] = 1;
+        if($request->nombre == "")
+        {
+            $request['nombre'] = "Sin Nombre";
+        }
         $Carrera = Carrera::Create($request->all());
         return response()->json($Carrera, 201);
     }
@@ -86,9 +103,12 @@ class CarreraController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Carrera $Carrera)
     {
-        //
+        if($Carrera = $Carrera->update($request->all()))
+        {
+            return response()->json(Carrera::with('escuela')->with('grado')->get()->find($request->id), 201);
+        }
     }
 
     /**
@@ -99,6 +119,13 @@ class CarreraController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $Carrera = Carrera::find($id);
+        try{
+            $Carrera->delete();
+        }
+        catch(\Illuminate\Database\QueryException $e){
+            abort(400, 'No Permitido');
+        }
+        return response(null, 204);
     }
 }

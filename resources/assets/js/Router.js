@@ -15,6 +15,9 @@ import InformacionBasica from './pages/informacion_basica/index'
 // import IndexAsignaturas from './component/asignaturas/index'
 import PlanAdm from './component/admin/crear_plan/index'
 import Carreras from './component/admin/carreras'
+import Escuelas from './component/admin/escuelas'
+import Facultades from './component/admin/facultades'
+import Grados from './component/admin/grados'
 
 const Router = () => {
     return (
@@ -34,6 +37,9 @@ const Router = () => {
                     <Route path='/MisPlanes' component={MisPlanes} />
                     <Route path='/CrearPlanAdm' component={PlanAdm} />
                     <Route path='/Carreras' component={Carreras} />
+                    <Route path='/Escuelas' component={Escuelas} />
+                    <Route path='/Facultades' component={Facultades} />
+                    <Route path='/Grados' component={Grados} />
                     <Route exact path='/home' component={Finalizados} />
                 </Switch>
             </div>

@@ -205,13 +205,11 @@ class PlanEstudioController extends Controller
         {
             $token = $_COOKIE['token'];
         }
-        $usuario_id = JWTAuth::toUser($token)->id;
+        $usuario = JWTAuth::toUser($token);
         $acceso = 'denegado';
-        $PlanEstudioUsuarios = PlanEstudio::with('plan_estudio_usuarios')->findOrFail($id)->plan_estudio_usuarios;
-        foreach ($PlanEstudioUsuarios as $key => $PlanEstudioUsuario) {
-            if($PlanEstudioUsuario->usuario_id == $usuario_id)
-            {
-                $PlanEstudio = PlanEstudio::
+        if($usuario->perfil_id == 1)
+        {
+            $PlanEstudio = PlanEstudio::
                     with(['dominios' => function ($query) {
                         $query
                         ->with('tipo_dominio')
@@ -238,7 +236,43 @@ class PlanEstudioController extends Controller
                     ->with('nivel_genericas')
                     ->with('tipo_formacion')
                     ->findOrFail($id);
-                return response()->json([$PlanEstudio, $PlanEstudioUsuario->rol_id], 200);
+            return response()->json($PlanEstudio, 200);
+        }
+        else
+        {
+            $PlanEstudioUsuarios = PlanEstudio::with('plan_estudio_usuarios')->findOrFail($id)->plan_estudio_usuarios;
+            foreach ($PlanEstudioUsuarios as $key => $PlanEstudioUsuario) {
+                if($PlanEstudioUsuario->usuario_id == $usuario->id)
+                {
+                    $PlanEstudio = PlanEstudio::
+                        with(['dominios' => function ($query) {
+                            $query
+                            ->with('tipo_dominio')
+                            ->with(['competencias' => function ($query) {
+                                $query
+                                ->with(['nivel_competencias' => function ($query) {
+                                    $query
+                                    ->with('logro_aprendizajes')
+                                    ->with(['nivel_competencia_asignaturas' => function ($query) {
+                                        $query
+                                        ->with('asignatura');
+                                    }]);
+                                }]);
+                            }]);
+                        }])
+                        ->with('carrera')
+                        ->with('tipo_plan')
+                        ->with('tipo_ingreso')
+                        ->with(['plan_estudio_usuarios' => function ($query) {
+                            $query
+                            ->with('usuario');
+                        }])
+                        ->with('niveles')
+                        ->with('nivel_genericas')
+                        ->with('tipo_formacion')
+                        ->findOrFail($id);
+                    return response()->json([$PlanEstudio, $PlanEstudioUsuario->rol_id], 200);
+                }
             }
         }
         return response()->json(['error' => 'Acceso no permitido.'],403);

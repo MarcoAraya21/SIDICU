@@ -74,10 +74,18 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     
     Route::get('plan_estudios/{plan_id}/datos', 'PlanEstudioController@datos');
     Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
-
-    Route::resource('carreras', 'CarreraController', ['only' => ['index', 'store']]);
-    Route::resource('escuelas', 'EscuelaController', ['only' => ['index']]);
-    Route::resource('grados', 'GradoController', ['only' => ['index']]);
+// ADMIN
+    Route::get('all_carreras', 'CarreraController@allCarreras');
+    Route::post('carreras_admin', 'CarreraController@crearCarrera');
+    Route::apiResource('carreras', 'CarreraController', ['parameters' => [
+        'carreras' => 'carrera']]);
+    Route::apiResource('escuelas', 'EscuelaController', ['parameters' => [
+        'escuelas' => 'escuela']]);
+    Route::apiResource('facultades', 'FacultadController', ['parameters' => [
+        'facultades' => 'facultad']]);
+    Route::apiResource('grados', 'GradoController', ['parameters' => [
+        'grados' => 'grado']]);
+// CIERRE ADMIN
 
 
 

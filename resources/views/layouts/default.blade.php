@@ -65,7 +65,11 @@
 					{
 						l.innerHTML = 'Tiempo Restante: ' + pad2(Math.trunc(restante/60)) + ':' + pad2(restante%60);;
 						restante--;
-					}
+						if(restante == 0)
+						{
+							window.location.href = "";
+						}
+					}	
 				},1000);
 	</script>
 	<script>
