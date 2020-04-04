@@ -57,8 +57,8 @@ export function handleInputArrays(e, objeto, propiedad, indice) {
                 ...dominio, competencias: dominio.competencias.map(competencia => {
                     return {
                         ...competencia,
-                        descripcion: (competencia.id == indice) ?
-                            (e.target ? e.target.value : e) : competencia.descripcion
+                        [propiedad]: (competencia.id == indice) ?
+                        (e.target ? e.target.value : e) : competencia[propiedad]
                     }
                 })
             }

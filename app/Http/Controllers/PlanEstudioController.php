@@ -236,7 +236,7 @@ class PlanEstudioController extends Controller
                     ->with('nivel_genericas')
                     ->with('tipo_formacion')
                     ->findOrFail($id);
-            return response()->json($PlanEstudio, 200);
+            return response()->json([$PlanEstudio, 1], 200);
         }
         else
         {

@@ -68,7 +68,13 @@ export default class edit extends Component {
                     value={this.props.competencia.descripcion || ''}
                     onChange={(e)=>this.props.handleInputArrays(e, 'competencias', 'descripcion', this.props.competencia.id)}>
                 </textarea>
-                
+                <p className="mb-0 mt-2">Ingrese Función Clave:</p>
+                <textarea rows="3"
+                    disabled={this.state.deshabilitado}
+                    className="form-control" 
+                    value={this.props.competencia.funcion_clave || ''}
+                    onChange={(e)=>this.props.handleInputArrays(e, 'competencias', 'funcion_clave', this.props.competencia.id)}>
+                </textarea>
                 <div className="col-12 text-right mt-2">
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.props.habilitareditdominios(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
