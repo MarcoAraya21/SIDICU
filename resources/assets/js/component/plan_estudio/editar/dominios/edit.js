@@ -4,6 +4,10 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            dominio: {
+                nombre: '',
+                descripcion: '',
+            },
             deshabilitado: true,
             editando: false,
         }
@@ -23,6 +27,11 @@ export default class edit extends Component {
         this.setState({deshabilitado: false});
     }
 
+    componentWillMount() {
+        this.setState({dominio: {nombre: this.props.dominio.nombre,
+                        descripcion: this.props.dominio.descripcion}})
+    }
+
     
     handleSubmit(){
         //e.preventDefault();
@@ -34,7 +43,7 @@ export default class edit extends Component {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(
-                this.props.dominio
+                this.state.dominio
             )
         })
         .then(function(response) {
@@ -45,14 +54,18 @@ export default class edit extends Component {
             }
          
          })
-        .then(data => {this.props.addNotification()} )
-        .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
+        .then(data => {[this.props.handleUpdate(this.state.dominio, "dominios", this.props.dominio.id), this.props.addNotification()]} )
+        .catch(error => {
+            [this.props.addNotificationAlert('No se ha podido guardar.'), 
+            this.setState({dominio: {...this.state.dominio, 
+                nombre: this.props.dominio.nombre,
+                descripcion: this.props.dominio.descripcion,}})
+            ]
+
         })
         .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
                         this.props.habilitarGeneral(true)
         ]});
-        //console.log('formulario enviado',this.state);
     }
     
 
@@ -65,8 +78,8 @@ export default class edit extends Component {
                     <input type="text"
                         disabled={this.state.deshabilitado}
                         className="form-control" 
-                        value={this.props.dominio.nombre || ''}
-                        onChange={(e)=>this.props.handleInputArrays(e, 'dominios', 'nombre', this.props.dominio.id)}>
+                        value={this.state.dominio.nombre || ''}
+                        onChange={(e)=>this.setState({dominio: {...this.state.dominio, nombre: e.target.value}})}>
                     </input>
                 </div>
                 <div className="mb-2">
@@ -74,8 +87,8 @@ export default class edit extends Component {
                     <textarea
                         disabled={this.state.deshabilitado}
                         className="form-control" rows="3"
-                        value={this.props.dominio.descripcion || ''}
-                        onChange={(e)=>this.props.handleInputArrays(e, 'dominios', 'descripcion', this.props.dominio.id)}>
+                        value={this.state.dominio.descripcion || ''}
+                        onChange={(e)=>this.setState({dominio: {...this.state.dominio, descripcion: e.target.value}})}>
                     </textarea>
                 </div>
                 <div className="col-12 text-right mt-2">

@@ -15,8 +15,6 @@ export default class show extends Component {
                 errores: {},
                 deshabilitado: true
         }
-        // this.handleInput = handleInput.bind(this);
-        // this.handleInputArrays = handleInputArrays.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
 
@@ -197,37 +195,7 @@ export default class show extends Component {
                         :                             
                             <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     }
-                    
                 </div>
-
-
-                {/* <ReactNotification ref={this.notificationDOMRef}/>
-                <ol className="breadcrumb pull-right">
-                    <li className="breadcrumb-item"><Link to="">Inicio</Link></li>
-                    <li className="breadcrumb-item active">Plan Estudio</li>
-                </ol>
-                <h1 className="page-header">Plan {this.props.match.params.id}</h1>
-                <div className="col-12">
-                    <div className="row p-b-10">
-                        <label className="col-3">Nombre</label>
-                        <input type="text" className="form-control col-9"
-                        value={this.state.plan_estudios.nombre || ''}
-                        onChange={(e)=>this.handleInputArrays(e, 'plan_estudios', 'nombre')}></input>
-                    </div>
-                    <div className="row">
-                        <label className="col-3">Observación</label>
-                        <textarea className="form-control col-9" rows="3"
-                        value={this.state.plan_estudios.observacion || ''}
-                        onChange={(e)=>this.handleInputArrays(e, 'plan_estudios', 'observacion')}></textarea>
-                    </div>
-                </div>
-                <div className="col-12 text-right mt-2">
-                    { this.state.guardando ?
-                    <button className="btn btn-primary disabled"><i className="fas fa-spinner fa-pulse"></i> Guardando</button>                                
-                    :
-                    <button type="button" className="btn btn-primary m-b-10" onClick={this.handleSubmit}>Guardar</button>
-                    }
-                </div> */}
             </div>
         );
     }

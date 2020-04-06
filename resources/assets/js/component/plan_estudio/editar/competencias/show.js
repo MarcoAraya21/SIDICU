@@ -71,12 +71,13 @@ export default class show extends Component {
                             <Edit key={competencia.id}
                             competencia = {competencia}
                             i={i}
-                            handleInputArrays={this.props.handleInputArrays}
+                            handleUpdate={this.props.handleUpdate}
                             borrarElemento={this.props.borrarElemento}
                             habilitarGeneral = {this.props.habilitarGeneral}
                             habilitadogeneral = {this.props.habilitadogeneral}
                             habilitareditdominios = {this.habilitareditdominios}
-                            addNotification = {this.props.addNotification}/>
+                            addNotification = {this.props.addNotification}
+                            addNotificationAlert={this.props.addNotificationAlert}/>
                             )
                         :
                         <p>No posee ninguna competencia</p>

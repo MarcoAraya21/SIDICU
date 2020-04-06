@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
+import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, handleUpdate, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
 import VerShow from './ver/show';
 import EditarShow from './editar/show'
 import VerDominios from './ver/dominios';
@@ -57,6 +57,7 @@ export default class index extends Component {
         this.handleInput = handleInput.bind(this);
         this.handleInputArrays = handleInputArrays.bind(this);
         this.handleInputArraysAsignatura = handleInputArraysAsignatura.bind(this);
+        this.handleUpdate = handleUpdate.bind(this);
         this.borrarElemento = borrarElemento.bind(this);
         this.borrarElementoAsignatura = borrarElementoAsignatura.bind(this);
         this.handleAddElement = handleAddElement.bind(this);
@@ -314,12 +315,13 @@ export default class index extends Component {
                                             id={this.state.id}
                                             dominios={this.state.dominios}
                                             handleInput={this.handleInput}
-                                            handleInputArrays={this.handleInputArrays}
+                                            handleUpdate={this.handleUpdate}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerDominios
@@ -336,12 +338,13 @@ export default class index extends Component {
                                             dominios={this.state.dominios}
                                             competencias_genericas={this.state.competencias_genericas}
                                             comp_genericas = {this.state.comp_genericas}
-                                            handleInputArrays={this.handleInputArrays}
+                                            handleUpdate={this.handleUpdate}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerCompetencias
@@ -360,12 +363,13 @@ export default class index extends Component {
                                             competencias_genericas={this.state.competencias_genericas}
                                             asignaturas={this.state.asignaturas}
                                             plan_genericas={this.state.plan_genericas}
-                                            handleInputArrays={this.handleInputArrays}
+                                            handleUpdate={this.handleUpdate}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerNivelCompetencias
@@ -382,7 +386,7 @@ export default class index extends Component {
                                         <EditarDiseno
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
-                                            handleInputArrays={this.handleInputArrays}
+                                            handleUpdate={this.handleUpdate}
                                             handleInputArraysAsignatura={this.handleInputArraysAsignatura}
                                             handleAddElement={this.handleAddElement}
                                             borrarElemento={this.borrarElemento}
@@ -391,6 +395,7 @@ export default class index extends Component {
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerDiseno
@@ -406,7 +411,8 @@ export default class index extends Component {
                                         <EditarAsignaturas
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
-                                            handleInputArrays={this.handleInputArrays}
+                                            dominios={this.state.dominios}
+                                            handleUpdate={this.handleUpdate}
                                             handleInputArraysAsignatura={this.handleInputArraysAsignatura}
                                             handleAddElement={this.handleAddElement}
                                             borrarElemento={this.borrarElemento}
@@ -415,6 +421,7 @@ export default class index extends Component {
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerAsignaturas

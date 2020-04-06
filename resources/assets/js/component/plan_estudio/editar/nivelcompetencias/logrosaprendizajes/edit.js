@@ -9,12 +9,19 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            logro_aprendizaje: {
+                descripcion : '',
+            },
             deshabilitado: true,
             editando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
 
+    }
+
+    componentWillMount() {
+        this.setState({logro_aprendizaje: {descripcion: this.props.logro_aprendizaje.descripcion}})
     }
 
     habilitar(){
@@ -39,7 +46,7 @@ export default class edit extends Component {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(
-                this.props.logro_aprendizaje
+                this.state.logro_aprendizaje
             )
         })
         .then(function(response) {
@@ -50,9 +57,13 @@ export default class edit extends Component {
             }
          
          })
-        .then(data => {this.props.addNotification()} )
+        .then(data => {[this.props.handleUpdate(this.state.logro_aprendizaje, "logro_aprendizajes", this.props.logro_aprendizaje.id), this.props.addNotification()]} )
         .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
+            [this.props.addNotificationAlert('No se ha podido guardar.'), 
+            this.setState({logro_aprendizaje: 
+                {...this.state.logro_aprendizaje, 
+                    descripcion: this.props.logro_aprendizaje.descripcion}})
+            ]
         })
         .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
                         this.props.habilitarGeneral(true)
@@ -69,8 +80,8 @@ export default class edit extends Component {
                 <textarea rows="3"
                     disabled={this.state.deshabilitado}
                     className="form-control" 
-                    value={this.props.logro_aprendizaje.descripcion || ''}
-                    onChange={(e)=>this.props.handleInputArrays(e, 'logro_aprendizajes', 'descripcion', this.props.logro_aprendizaje.id)}>
+                    value={this.state.logro_aprendizaje.descripcion || ''}
+                    onChange={(e)=>this.setState({logro_aprendizaje: {...this.state.logro_aprendizaje, descripcion: e.target.value}})}>
                 </textarea>
                 <div className="col-12 text-right mt-2">
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(), this.props.habilitarGeneral(false), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>

@@ -11,6 +11,9 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            nivel_competencia: {
+                descripcion: '',
+            },
             open: false,
             openAsignatura: false,
             deshabilitado: true,
@@ -27,7 +30,10 @@ export default class edit extends Component {
         
     }
 
-
+    componentWillMount() {
+        this.props.nivel_competencia &&
+        this.setState({nivel_competencia: {descripcion: this.props.nivel_competencia.descripcion}})
+    }
     
     irAsignatura(asignatura)
     {
@@ -80,7 +86,7 @@ export default class edit extends Component {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(
-                this.props.nivel_competencia
+                this.state.nivel_competencia
             )
         })
         .then(function(response) {
@@ -91,9 +97,9 @@ export default class edit extends Component {
             }
          
          })
-        .then(data => {this.props.addNotification()} )
-        .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
+        .then(data => {[this.props.handleUpdate(this.state.nivel_competencia, "nivel_competencias", this.props.nivel_competencia.id), this.props.addNotification()]} )
+        .catch(error => {
+            [this.props.addNotificationAlert('No se ha podido guardar.'), this.setState({nivel_competencia: {...this.state.nivel_competencia, descripcion: this.props.nivel_competencia.descripcion}})]
         })
         .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
                         this.props.habilitarGeneral(true),
@@ -115,9 +121,9 @@ export default class edit extends Component {
                     <textarea rows="3"
                         disabled={this.state.deshabilitado}
                         className="form-control" 
-                        value={this.props.nivel_competencia.descripcion || ''}
-                        onChange={(e)=>this.props.handleInputArrays(e, 'nivel_competencias', 'descripcion', this.props.nivel_competencia.id)}>
-                    </textarea>
+                        value={this.state.nivel_competencia.descripcion || ''}
+                        onChange={(e)=>this.setState({nivel_competencia: {...this.state.nivel_competencia, descripcion: e.target.value}})}>
+                        </textarea>
                     <div className="col-12 row mt-2">
                         <div className="col-6">
                             <strong>Logros de Aprendizaje</strong>
@@ -167,7 +173,7 @@ export default class edit extends Component {
                         <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5"
                         onClick={()=>{
                             var existe = false;
-                            var str = this.props.nivel_competencia.descripcion;
+                            var str = this.state.nivel_competencia.descripcion;
                             this.props.verbos.map(verbo =>{
                                 if(str.toLowerCase().includes(verbo.toLowerCase()))
                                 {
@@ -194,24 +200,25 @@ export default class edit extends Component {
                     open = {this.state.open}
                     handleClose={this.handleClose}
                     nivel_competencia = {this.props.nivel_competencia} 
-                    handleInputArrays = {this.props.handleInputArrays}
+                    handleUpdate = {this.props.handleUpdate}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
                     habilitarGeneral = {this.props.habilitarGeneral}
                     habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
+                    addNotificationAlert = {this.props.addNotificationAlert}
                     />
                     <Asignatura
                     openAsignatura = {this.state.openAsignatura}
                     handleCloseAsignatura={this.handleCloseAsignatura}
                     nivel_competencia = {this.props.nivel_competencia}
                     asignaturas={this.props.asignaturas}
-                    handleInputArrays = {this.props.handleInputArrays}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
                     habilitarGeneral = {this.props.habilitarGeneral}
                     habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
+                    addNotificationAlert = {this.props.addNotificationAlert}
                     />
                 </div>
                 :
@@ -275,12 +282,12 @@ export default class edit extends Component {
                     nivel_competencia_generica = {this.props.nivel_competencia_generica}
                     asignaturas={this.props.asignaturas}
                     plan_generica={this.props.plan_generica}
-                    handleInputArrays = {this.props.handleInputArrays}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
                     habilitarGeneral = {this.props.habilitarGeneral}
                     habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
+                    addNotificationAlert = {this.props.addNotificationAlert}
                     />
                 </div>
                 }

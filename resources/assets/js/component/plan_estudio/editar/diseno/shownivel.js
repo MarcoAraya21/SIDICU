@@ -17,35 +17,7 @@ export default class shownivel extends Component {
     habilitareditasignaturas(estado){
         this.setState({editandoasignatura: estado});
     }
-
-    // addElemento(variable){
-    //     //e.preventDefault();
-    //     fetch(`/api/${variable}/`, {
-    //         method: 'post',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type':'application/json'
-    //         }
-    //         ,
-    //         body: JSON.stringify(
-    //             {dominio_id:  this.props.dominio.id}
-    //         )
-    //     })
-    //     .then(function(response) {
-    //         if(response.ok) {
-    //             return response.json();
-    //         } else {
-    //             throw "Error en la llamada Ajax";
-    //         }
-         
-    //      })
-    //     .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
-    //     .catch(function(error) {
-    //         console.log('Hubo un problema con la petición Fetch:' + error.message);
-    //     })
-    // }
     
-
     
     render() {
         return (
@@ -61,7 +33,7 @@ export default class shownivel extends Component {
                                                 niveles = {this.props.niveles}
                                                 asignatura = {asignatura}
                                                 asignaturas={this.props.asignaturas}
-                                                handleInputArrays = {this.props.handleInputArrays}
+                                                handleUpdate = {this.props.handleUpdate}
                                                 handleAddElement={this.props.handleAddElement}
                                                 borrarElemento={this.props.borrarElemento}
                                                 handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
@@ -71,6 +43,7 @@ export default class shownivel extends Component {
                                                 habilitadogeneral={this.props.habilitadogeneral}
                                                 habilitareditasignaturas = {this.habilitareditasignaturas}
                                                 addNotification={this.props.addNotification}
+                                                addNotificationAlert={this.props.addNotificationAlert}
                                             />
                                             <div className="border-top my-4"></div>
                                         </React.Fragment>

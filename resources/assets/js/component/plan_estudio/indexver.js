@@ -3,19 +3,12 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
 import VerShow from './ver/show';
-import EditarShow from './editar/show'
 import VerDominios from './ver/dominios';
-import EditarDominios from './editar/dominios';
 import VerCompetencias from './ver/competencias';
-import EditarCompetencias from './editar/competencias';
 import VerNivelCompetencias from './ver/nivelcompetencias';
-import EditarNivelCompetencias from './editar/nivelcompetencias';
 import VerAsignaturas from './ver/asignaturas';
-import EditarAsignaturas from './editar/asignaturas';
 import VerDiseno from './ver/diseno';
-import EditarDiseno from './editar/diseno';
 import TreePlan from './tree';
 import Resumen from './resumen';
 

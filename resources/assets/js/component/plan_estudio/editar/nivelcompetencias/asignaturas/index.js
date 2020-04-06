@@ -49,7 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Asignatura({ openAsignatura, handleCloseAsignatura, nivel_competencia, nivel_competencia_generica, asignaturas, plan_generica, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Asignatura({ openAsignatura, handleCloseAsignatura, nivel_competencia, nivel_competencia_generica, asignaturas, plan_generica, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
   const classes = useStyles();
   const [openNew, setOpenNew] = useState(false);
 
@@ -88,12 +88,12 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
                     <Show key={nivel_competencia_asignatura.id}
                       nivel_competencia_asignatura={nivel_competencia_asignatura}
                       asignaturas={asignaturas}
-                      handleInputArrays={handleInputArrays}
                       borrarElemento={borrarElemento}
                       habilitarGeneral={habilitarGeneral}
                       habilitadogeneral={habilitadogeneral}
                       handleAddElement={handleAddElement}
-                      addNotification={addNotification} />
+                      addNotification={addNotification} 
+                      addNotificationAlert={addNotificationAlert}/>
                   )
                   :
                   <p>No posee ninguna asignatura asociada</p>
@@ -111,6 +111,7 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
                 asignaturas={asignaturas}
                 handleAddElement={handleAddElement}
                 addNotification={addNotification}
+                addNotificationAlert={addNotificationAlert}
               />
             </React.Fragment>
             :
@@ -131,12 +132,12 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
                       nivel_generica_asignatura={asignatura.nivel_generica_asignaturas.find(nivel_generica_asignatura => nivel_generica_asignatura.nivel_generica.nivel_competencia_id == nivel_competencia_generica.id)}
                       plan_generica_asignatura={asignatura}
                       asignaturas={asignaturas}
-                      handleInputArrays={handleInputArrays}
                       borrarElemento={borrarElemento}
                       habilitarGeneral={habilitarGeneral}
                       habilitadogeneral={habilitadogeneral}
                       handleAddElement={handleAddElement}
-                      addNotification={addNotification} />
+                      addNotification={addNotification}
+                      addNotificationAlert={addNotificationAlert}/>
                   )
                   :
                 <p>No posee ninguna asignatura asociada</p>
@@ -155,6 +156,7 @@ export default function Asignatura({ openAsignatura, handleCloseAsignatura, nive
                 plan_generica={plan_generica}
                 handleAddElement={handleAddElement}
                 addNotification={addNotification}
+                addNotificationAlert={addNotificationAlert}
               />
             </React.Fragment>
           }

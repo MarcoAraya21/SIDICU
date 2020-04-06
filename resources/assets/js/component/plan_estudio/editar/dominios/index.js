@@ -54,11 +54,12 @@ export default class index extends Component {
                                     <Edit key={dominio.id}
                                         dominio = {dominio}
                                         i={i}
-                                        handleInputArrays={this.props.handleInputArrays}
+                                        handleUpdate={this.props.handleUpdate}
                                         borrarElemento={this.props.borrarElemento}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}
+                                        addNotificationAlert = {this.props.addNotificationAlert}
                                     />
                                 )
                             }
@@ -67,20 +68,6 @@ export default class index extends Component {
                                     <i className="fas fa-plus p-r-5" ></i>Crear Dominio
                                 </button>
                             </div>
-                        {/* <h4>Dominio Generico</h4> */}
-                        {/*
-                        <div className="border p-3 mb-3">
-                            {
-                            this.props.dominios && this.props.dominios.filter(dominio =>
-                                dominio.tipo_dominio_id == 2).map( (dominio,i) =>
-                                <Edit key={dominio.id}
-                                dominio = {dominio} i={i}
-                                transversal={true}
-                                handleInputArrays={this.props.handleInputArrays}
-                                borrarElemento={this.props.borrarElemento}/>
-                                )
-                            }
-                        </div>*/}
                     </React.Fragment>
                 </div>  
             </div>

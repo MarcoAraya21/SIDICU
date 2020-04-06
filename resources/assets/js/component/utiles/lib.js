@@ -824,7 +824,12 @@ export function borrarElemento(objeto, propiedad, addNotification) {
 
                                         let asignaturas = this.state.asignaturas.filter(asignatura =>
                                             asignatura.id != propiedad
-                                        );
+                                        ).map( asignatura => {
+                                            return {
+                                                ...asignatura, requisitos: asignatura.requisitos.filter( requisito =>
+                                                    requisito.requisito_id != propiedad)
+                                            }
+                                        })
 
                                         this.setState({ asignaturas: asignaturas })
 
@@ -1043,4 +1048,134 @@ export function borrarElementoAdmin(objeto, id) {
             button: false
         })
     })
+}
+
+
+export function handleUpdate(data, objeto, indice)
+{
+    if(objeto == "dominios")
+    {
+        var dominios = this.state.dominios.map( dominio => {
+            if(dominio.id == indice)
+            {
+                return {...dominio, ...data};
+            }
+            else
+            {
+                return dominio;
+            }
+        })
+        this.setState({dominios: dominios})
+    }
+    if(objeto == "competencias")
+    {
+        var dominios = this.state['dominios'].map(dominio => {
+            return {
+                ...dominio, competencias: dominio.competencias.map(competencia => {
+                    if(competencia.id == indice)
+                    {
+                        return {...competencia, ...data};
+                    }
+                    else
+                    {
+                        return competencia;
+                    }
+                })
+            }
+        });
+        this.setState({ dominios: dominios });
+    }
+    if(objeto == "nivel_competencias")
+    {
+        var dominios = this.state['dominios'].map(dominio => {
+            return {
+                ...dominio, competencias: dominio.competencias.map(competencia => {
+                    return {
+                        ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
+                            if(nivel_competencia.id == indice)
+                            {
+                                return {...nivel_competencia, ...data};
+                            }
+                            else
+                            {
+                                return nivel_competencia;
+                            }
+                        })
+                    }
+                })
+            }
+        });
+        this.setState({ dominios: dominios });
+    }
+    if(objeto == "logro_aprendizajes")
+    {
+        var dominios = this.state['dominios'].map(dominio => {
+            return {
+                ...dominio, competencias: dominio.competencias.map(competencia => {
+                    return {
+                        ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
+                            return {
+                                ...nivel_competencia, logro_aprendizajes: nivel_competencia.logro_aprendizajes.map(logro_aprendizaje => {
+                                    if(logro_aprendizaje.id == indice)
+                                    {
+                                        return {...logro_aprendizaje, ...data};
+                                    }
+                                    else
+                                    {
+                                        return logro_aprendizaje;
+                                    }
+                                })
+                            }
+                            
+                        })
+                    }
+                })
+            }
+        });
+        this.setState({ dominios: dominios });
+    }
+    if(objeto == "asignaturas")
+    {
+        var asignaturas = this.state.asignaturas.map( asignatura => {
+            if(asignatura.id == indice)
+            {
+                if(data.nivel_id && (asignatura.nivel_id != data.nivel_id))
+                {
+                    data.nivel = this.state.niveles.find( nivel => 
+                        nivel.id == data.nivel_id
+                    )
+                }
+                return {...asignatura, ...data};
+            }
+            else
+            {
+                if(data.nivel_id && (this.state.asignaturas.find(asignatura => asignatura.id == indice).nivel_id != data.nivel_id))
+                {
+                    if(asignatura.requisitos.some(requisito => requisito.requisito_id == this.state.asignaturas.find(asignatura => asignatura.id == indice).id))
+                    {
+
+                        return {...asignatura, requisitos: asignatura.requisitos.map(requisito => {
+                            if(requisito.requisito_id == this.state.asignaturas.find(asignatura => asignatura.id == indice).id)
+                            {
+                                return {...requisito, requisito: {...this.state.asignaturas.find(asignatura => asignatura.id == indice), ...data, nivel: this.state.niveles.find( nivel => nivel.id == data.nivel_id) }};
+                            }
+                            else
+                            {
+                                return requisito;
+                            }
+                        })}
+                    }
+                    else
+                    {
+                        return asignatura;
+                    }
+                }
+                else
+                {
+                    return asignatura;
+                }
+            }
+        })
+        this.setState({asignaturas: asignaturas})
+    }
 }

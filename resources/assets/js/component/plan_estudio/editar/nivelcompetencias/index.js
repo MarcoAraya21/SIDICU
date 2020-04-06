@@ -36,18 +36,6 @@ export default class index extends Component {
                                         </a>
                                     </li>
                                     )
-                                /* <li className="nav-items">
-                                    <a href="#dominio-tab-1" data-toggle="tab" className="nav-link">
-                                        <span className="d-sm-none">Dominios</span>
-                                        <span className="d-sm-block d-none">Dominios del Plan</span>
-                                    </a>
-                                </li>
-                                <li className="nav-items">
-                                    <a href="#dominio-tab-2" data-toggle="tab" className="nav-link">
-                                        <span className="d-sm-none">Competencias</span>
-                                        <span className="d-sm-block d-none">Competencias del Plan</span>
-                                    </a>
-                                </li> */   
                             }
                                 <li className="nav-items">
                                     <a href="#dominio-transversal-tab" data-toggle="tab" className="nav-link">
@@ -65,12 +53,14 @@ export default class index extends Component {
                                         <Show
                                         dominio={dominio}
                                         asignaturas={this.props.asignaturas}
-                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleUpdate={this.props.handleUpdate}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
-                                        addNotification = {this.props.addNotification}                                      />
+                                        addNotification = {this.props.addNotification}
+                                        addNotificationAlert = {this.props.addNotificationAlert}
+                                        />
                                         }
                                     </div>
                                     :
@@ -78,12 +68,13 @@ export default class index extends Component {
                                         <Show
                                         dominio={dominio}
                                         asignaturas={this.props.asignaturas}
-                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleUpdate={this.props.handleUpdate}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}
+                                        addNotificationAlert = {this.props.addNotificationAlert}
                                         />
                                     </div>
                                     )
@@ -93,39 +84,15 @@ export default class index extends Component {
                                         competencias_genericas={this.props.competencias_genericas}
                                         asignaturas={this.props.asignaturas}
                                         plan_genericas={this.props.plan_genericas}
-                                        handleInputArrays = {this.props.handleInputArrays}
+                                        handleUpdate={this.props.handleUpdate}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}
+                                        addNotificationAlert = {this.props.addNotificationAlert}
                                         />
                                     </div>
-                            
-                            {/* <div className="tab-pane fade" id="dominio-tab-1">
-                                <Dominios
-                                id={this.state.id}
-                                dominios={this.state.dominios}
-                                handleInput = {this.handleInput}
-                                handleInputArrays = {this.handleInputArrays}
-                                borrarElemento = {this.borrarElemento}
-                                handleAddElement = {this.handleAddElement}
-                                />
-                            </div>
-                            <div className="tab-pane fade" id="plan-tab-2">
-                                <Competencias
-                                id={this.state.id}
-                                dominios={this.state.dominios}
-                                handleInputArrays = {this.handleInputArrays}
-                                borrarElemento = {this.borrarElemento}
-                                handleAddElement = {this.handleAddElement}
-                                />
-                            </div>
-                            <div className="tab-pane fade" id="dominio-tab-2">
-                                <NivelCompetencias
-                                dominios={this.state.dominios}
-                                />
-                            </div> */}
                         </div>			
                     </div>
                </div> 

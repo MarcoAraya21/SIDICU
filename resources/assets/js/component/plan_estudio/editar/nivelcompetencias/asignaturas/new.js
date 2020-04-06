@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, plan_generica, handleAddElement, addNotification }) {
+export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, plan_generica, handleAddElement, addNotification, addNotificationAlert }) {
     const classes = useStyles();
     const [value, setvalue] = useState('');
     const [suggestions, setsuggestions] = useState([]);
@@ -219,7 +219,7 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
             }
             )
             .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
+                addNotificationAlert('No se ha podido guardar.');
             })
     }
     const inputProps = {

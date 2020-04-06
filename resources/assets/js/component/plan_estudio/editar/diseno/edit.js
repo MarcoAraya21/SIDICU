@@ -6,7 +6,12 @@ export default class edit extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            nivel: {id:this.props.asignatura.nivel_id, nombre: this.props.asignatura.nivel.nombre},
+            asignatura: {
+                codigo: '',
+                ciclo_id: '',
+                nivel_id: '',
+            },
+            nivel_nombre: this.props.asignatura.nivel.nombre,
             openHoras: false,
             openRequisitos: false,
             deshabilitado: true,
@@ -21,6 +26,12 @@ export default class edit extends Component {
 
 
 
+    }
+
+    componentWillMount() {
+        this.setState({asignatura: {codigo: this.props.asignatura.codigo,
+                        ciclo_id: this.props.asignatura.ciclo_id,
+                        nivel_id: this.props.asignatura.nivel_id}})
     }
 
     habilitar() {
@@ -45,7 +56,7 @@ export default class edit extends Component {
     handleSubmit() {
         //e.preventDefault();
         this.setState({ guardando: true })
-        if (!this.props.niveles.some(nivel => nivel.id == this.state.nivel.id)) {
+        if (!this.props.niveles.some(nivel => nivel.id == this.state.asignatura.nivel_id)) {
             fetch('/api/niveles', {
                 method: 'post',
                 headers: {
@@ -56,7 +67,7 @@ export default class edit extends Component {
                 body: JSON.stringify(
                     {
                         plan_estudio_id: this.props.niveles[0].plan_estudio_id,
-                        nombre: (this.state.nivel.nombre)
+                        nombre: (this.state.nivel_nombre)
                     }
                 )
             })
@@ -70,52 +81,63 @@ export default class edit extends Component {
                 })
                 .then(data => {
                     [
-                        this.setState({ nivel: {id: data.id, nombre: data.nombre} }),
-                        alert('se ha creado el nivel ' + this.state.nivel.nombre),
+                        this.setState({ asignatura: {...this.state.asignatura, nivel_id: data.id}, nivel_nombre: data.nombre}),
+                        alert('se ha creado el nivel ' + this.state.nivel_nombre),
                         this.props.handleAddElement('niveles', data),
-                    ]
-                    return data;
-                })
-                .catch(function (error) {
-                    console.log('Hubo un problema con la petición Fetch:' + error.message);
-                })
-                .then(data => {
-                    fetch('/api/asignaturas/' + this.props.asignatura.id, {
-                        method: 'put',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(
-                            {
-                                ...this.props.asignatura, nivel_id: data.id
-                            }
-                        )
-                    })
+                        fetch('/api/asignaturas/' + this.props.asignatura.id, {
+                            method: 'put',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(
+                                {
+                                    ...this.state.asignatura, nivel_id: data.id
+                                }
+                            )
+                        })
                         .then(function (response) {
                             if (response.ok) {
                                 return response.json();
                             } else {
                                 throw "Error en la llamada Ajax";
                             }
-
+    
                         })
                         .then(data => {
                             [
                                 this.setState({ guardando: false, deshabilitado: true, editando: false }),
                                 this.props.habilitarGeneral(true),
                                 this.props.habilitareditasignaturas(false),
-                                this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
-                                this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
+                                this.state.asignatura.nivel_id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel_nombre),
+                                this.props.handleUpdate(this.state.asignatura, "asignaturas", this.props.asignatura.id),
                                 this.props.addNotification()
                             ]
                         })
-                        .catch(function (error) {
-                            console.log('Hubo un problema con la petición Fetch:' + error.message);
+                        .catch(error => {
+                            this.setState({asignatura: {...this.state.asignatura, 
+                                codigo: this.props.asignatura.codigo,
+                                ciclo_id: this.props.asignatura.ciclo_id,
+                                nivel_id: this.props.asignatura.nivel_id,}}),
+                            this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
+                            this.setState({ guardando: false, deshabilitado: true, editando: false }),
+                            this.props.habilitarGeneral(true),
+                            this.props.habilitareditasignaturas(false),
+                            this.props.addNotificationAlert('No se ha podido guardar.')
                         })
-
-                    })
-
+                    ]
+                })
+                .catch(error => {
+                    this.setState({asignatura: {...this.state.asignatura, 
+                        codigo: this.props.asignatura.codigo,
+                        ciclo_id: this.props.asignatura.ciclo_id,
+                        nivel_id: this.props.asignatura.nivel_id,}}),
+                    this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
+                    this.setState({ guardando: false, deshabilitado: true, editando: false }),
+                    this.props.habilitarGeneral(true),
+                    this.props.habilitareditasignaturas(false),
+                    this.props.addNotificationAlert('No se ha podido guardar.')
+                })
         }
         else {
             fetch('/api/asignaturas/' + this.props.asignatura.id, {
@@ -126,7 +148,7 @@ export default class edit extends Component {
                 },
                 body: JSON.stringify(
                     {
-                        ...this.props.asignatura, nivel_id: this.state.nivel.id
+                        ...this.state.asignatura
                     }
                 )
             })
@@ -143,14 +165,25 @@ export default class edit extends Component {
                         this.setState({ guardando: false, deshabilitado: true, editando: false }),
                         this.props.habilitarGeneral(true),
                         this.props.habilitareditasignaturas(false),
-                        this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
-                        this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
+                        this.state.asignatura.nivel_id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel_nombre),
+                        this.props.handleUpdate(this.state.asignatura, "asignaturas", this.props.asignatura.id),
                         this.props.addNotification()
                     ]
                 })
-                .catch(function (error) {
-                    console.log('Hubo un problema con la petición Fetch:' + error.message);
+                .catch(error => {
+                    [
+                        this.setState({asignatura: {...this.state.asignatura, 
+                            codigo: this.props.asignatura.codigo,
+                            ciclo_id: this.props.asignatura.ciclo_id,
+                            nivel_id: this.props.asignatura.nivel_id,}}),
+                        this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
+                        this.setState({ guardando: false, deshabilitado: true, editando: false }),
+                        this.props.habilitarGeneral(true),
+                        this.props.habilitareditasignaturas(false),
+                        this.props.addNotificationAlert('No se ha podido guardar.')
+                    ]
                 })
+                
         }
 
     }
@@ -226,16 +259,16 @@ export default class edit extends Component {
                             <label>Código</label>
                             <input type="text" className="form-control"
                                 disabled={this.state.deshabilitado}
-                                value={this.props.asignatura.codigo || ''}
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'codigo', this.props.asignatura.id)}>
-                            </input>
+                                value={this.state.asignatura.codigo || ''}
+                                onChange={(e)=>this.setState({asignatura: {...this.state.asignatura, codigo: e.target.value}})}>
+                                </input>
                         </div>
                         <div className="form-group col-4">
                             <label>Ciclo</label>
-                            <select defaultValue={this.props.asignatura.ciclo_id || ""}
+                            <select value={this.state.asignatura.ciclo_id || ""}
                                 disabled={this.state.deshabilitado}
                                 className="form-control "
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'ciclo_id', this.props.asignatura.id)}>
+                                onChange={(e)=>this.setState({asignatura: {...this.state.asignatura, ciclo_id: e.target.value}})}>
                                 <option disabled value="">Seleccione una Opción</option>
                                 <option value='1'>Ciclo Cientifico Tecnológico</option>
                                 <option value='2'>Ciclo de Especialización</option>
@@ -275,10 +308,10 @@ export default class edit extends Component {
                         </div>
                         <div className="form-group col-4">
                             <label>Cambiar Semestre</label>
-                            <select disabled={requisitosAsignatura.length == 0 || this.state.deshabilitado} defaultValue={""}
+                            <select disabled={requisitosAsignatura.length == 0 || this.state.deshabilitado} value={this.state.asignatura.nivel_id}
                                 className="form-control "
-                                onChange={(e) => this.setState({ nivel: {id: Number(e.target.value), nombre: Number(e.target.options[e.target.selectedIndex].text.slice(5)) }})}>
-                                <option disabled value="">Seleccione una Opción</option>
+                                onChange={(e) => this.setState({ asignatura: {...this.state.asignatura, nivel_id: Number(e.target.value) || this.props.asignatura.nivel_id}, nivel_nombre: Number(e.target.options[e.target.selectedIndex].text.slice(5)) || this.props.asignatura.nivel.nombre })}>
+                                <option value={this.props.asignatura.nivel_id}>Seleccione una Opción</option>
                                 {
                                     requisitosAsignatura.map((requisitoAsignatura, i) =>
                                         <option key={i} value={requisitoAsignatura.id}>Nivel {requisitoAsignatura.nombre}</option>
@@ -297,7 +330,6 @@ export default class edit extends Component {
                         asignatura_horas={this.props.asignatura.asignatura_horas}
                         asignaturaId={this.props.asignatura.id}
                         asignaturaNombre={this.props.asignatura.nombre}
-                        handleInputArrays={this.props.handleInputArrays}
                         handleInputArraysAsignatura={this.props.handleInputArraysAsignatura}
                         habilitarGeneral={this.props.habilitarGeneral}
                         habilitadogeneral={this.props.habilitadogeneral}

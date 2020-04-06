@@ -272,13 +272,14 @@ export default class showcompetencias extends Component {
                         verbos={nivel_competencia.nivel == 1 ? verbos.recordar.concat(verbos.comprender)
                         : nivel_competencia.nivel == 2 ? verbos.aplicar.concat(verbos.analizar)
                         : nivel_competencia.nivel == 3 && verbos.evaluar.concat(verbos.crear)}
-                        handleInputArrays = {this.props.handleInputArrays}
+                        handleUpdate={this.props.handleUpdate}
                         borrarElemento = {this.props.borrarElemento}
                         handleAddElement = {this.props.handleAddElement}
                         habilitarGeneral = {this.props.habilitarGeneral}
                         habilitadogeneral = {this.props.habilitadogeneral}
                         habilitareditcompetencias = {this.habilitareditcompetencias}
-                        addNotification = {this.props.addNotification}/>
+                        addNotification = {this.props.addNotification}
+                        addNotificationAlert = {this.props.addNotificationAlert}/>
                         )
                     :
                     <p>No posee ningun nivel de competencia</p>
@@ -295,13 +296,14 @@ export default class showcompetencias extends Component {
                         plan_generica={this.props.plan_genericas.find(plan_generica => 
                             plan_generica.nivel_competencia_id == nivel_competencia_generica.id)}
                         i={i}
-                        handleInputArrays = {this.props.handleInputArrays}
+                        handleUpdate={this.props.handleUpdate}
                         borrarElemento = {this.props.borrarElemento}
                         handleAddElement = {this.props.handleAddElement}
                         habilitarGeneral = {this.props.habilitarGeneral}
                         habilitadogeneral = {this.props.habilitadogeneral}
                         habilitareditcompetencias = {this.habilitareditcompetencias}
-                        addNotification = {this.props.addNotification}/>
+                        addNotification = {this.props.addNotification}
+                        addNotificationAlert = {this.props.addNotificationAlert}/>
                     )
                 }
                 </Panel>

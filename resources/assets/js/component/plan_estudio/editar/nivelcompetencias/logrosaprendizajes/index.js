@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Logros({ open, handleClose, nivel_competencia, nivel_competencia_generica, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Logros({ open, handleClose, nivel_competencia, handleUpdate, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
   const classes = useStyles();
 
 
@@ -101,11 +101,12 @@ export default function Logros({ open, handleClose, nivel_competencia, nivel_com
                   <Edit key={logro_aprendizaje.id}
                     logro_aprendizaje={logro_aprendizaje}
                     i={i}
-                    handleInputArrays={handleInputArrays}
+                    handleUpdate={handleUpdate}
                     borrarElemento={borrarElemento}
                     habilitarGeneral={habilitarGeneral}
                     habilitadogeneral={habilitadogeneral}
-                    addNotification={addNotification} />
+                    addNotification={addNotification}
+                    addNotificationAlert={addNotificationAlert} />
                 )
                 :
                 <p>No posee ningun logro de aprendizaje</p>

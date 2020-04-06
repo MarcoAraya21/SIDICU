@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function bibliografias({ openBibliografias, handleCloseBibliografias, bibliografias, asignaturaId, asignaturaNombre, handleInputArrays, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function bibliografias({ openBibliografias, handleCloseBibliografias, bibliografias, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
     const classes = useStyles();
     function addElemento(variable) {
         //e.preventDefault();
@@ -101,7 +101,6 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                                     <Edit key={bibliografia.id}
                                         bibliografia={bibliografia}
                                         asignaturaId={asignaturaId}
-                                        handleInputArrays={handleInputArrays}
                                         handleInputArraysAsignatura={handleInputArraysAsignatura}
                                         borrarElementoAsignatura={borrarElementoAsignatura}
                                         habilitarGeneral={habilitarGeneral}
@@ -119,7 +118,6 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                                     <Edit key={bibliografia.id}
                                         bibliografia={bibliografia}
                                         asignaturaId={asignaturaId}
-                                        handleInputArrays={handleInputArrays}
                                         handleInputArraysAsignatura={handleInputArraysAsignatura}
                                         borrarElementoAsignatura={borrarElementoAsignatura}
                                         habilitarGeneral={habilitarGeneral}

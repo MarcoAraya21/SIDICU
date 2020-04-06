@@ -9,7 +9,14 @@ export default class edit extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            nivel: {id:this.props.asignatura.nivel_id, nombre: this.props.asignatura.nivel.nombre},
+            asignatura: {
+                tipo_asignatura_id: '',
+                departamento_id: '',
+                descripcion: '',
+                ambientes: '',
+                perfil_ayudante: '',
+                perfil_docente: ''
+            },
             openUnidades: false,
             openEvaluaciones: false,
             openMetodologias: false,
@@ -30,6 +37,19 @@ export default class edit extends Component {
 
 
 
+    }
+
+    componentWillMount() {
+        this.setState({asignatura:
+            {
+                tipo_asignatura_id: this.props.asignatura.tipo_asignatura_id,
+                departamento_id: this.props.asignatura.departamento_id,
+                descripcion: this.props.asignatura.descripcion,
+                ambientes: this.props.asignatura.ambientes,
+                perfil_ayudante: this.props.asignatura.perfil_ayudante,
+                perfil_docente: this.props.asignatura.perfil_docente
+            }
+        })
     }
 
     habilitar() {
@@ -68,119 +88,78 @@ export default class edit extends Component {
     handleSubmit() {
         //e.preventDefault();
         this.setState({ guardando: true })
-        if (!this.props.niveles.some(nivel => nivel.id == this.state.nivel.id)) {
-            fetch('/api/niveles', {
-                method: 'post',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                }
-                ,
-                body: JSON.stringify(
+        fetch('/api/asignaturas/' + this.props.asignatura.id, {
+            method: 'put',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(
+                this.state.asignatura
+            )
+        })
+        .then(function (response) {
+            if (response.ok) {
+                return response.json();
+            } else {
+                throw "Error en la llamada Ajax";
+            }
+
+        })
+        .then(data => {[this.props.handleUpdate(this.state.asignatura, "asignaturas", this.props.asignatura.id), this.props.addNotification()]} )
+        .catch(error => {
+            [
+                this.props.addNotificationAlert('No se ha podido guardar.'),
+                this.setState({asignatura:
                     {
-                        plan_estudio_id: this.props.niveles[0].plan_estudio_id,
-                        nombre: (this.state.nivel.nombre)
+                        ...this.state.asignatura,
+                        tipo_asignatura_id: this.props.asignatura.tipo_asignatura_id,
+                        departamento_id: this.props.asignatura.departamento_id,
+                        descripcion: this.props.asignatura.descripcion,
+                        ambientes: this.props.asignatura.ambientes,
+                        perfil_ayudante: this.props.asignatura.perfil_ayudante,
+                        perfil_docente: this.props.asignatura.perfil_docente
                     }
-                )
-            })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw "Error en la llamada Ajax";
-                    }
-
                 })
-                .then(data => {
-                    [
-                        this.setState({ nivel: {id: data.id, nombre: data.nombre} }),
-                        alert('se ha creado el nivel ' + this.state.nivel.nombre),
-                        this.props.handleAddElement('niveles', data),
-                    ]
-                    return data;
-                })
-                .catch(function (error) {
-                    console.log('Hubo un problema con la petición Fetch:' + error.message);
-                })
-                .then(data => {
-                    fetch('/api/asignaturas/' + this.props.asignatura.id, {
-                        method: 'put',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify(
-                            {
-                                ...this.props.asignatura, nivel_id: data.id
-                            }
-                        )
-                    })
-                        .then(function (response) {
-                            if (response.ok) {
-                                return response.json();
-                            } else {
-                                throw "Error en la llamada Ajax";
-                            }
+            ]
 
-                        })
-                        .then(data => {
-                            [
-                                this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                                this.props.habilitarGeneral(true),
-                                this.props.habilitareditasignaturas(false),
-                                this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
-                                this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
-                                this.props.addNotification()
-                            ]
-                        })
-                        .catch(function (error) {
-                            console.log('Hubo un problema con la petición Fetch:' + error.message);
-                        })
-
-                    })
-
-        }
-        else {
-            fetch('/api/asignaturas/' + this.props.asignatura.id, {
-                method: 'put',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(
-                    {
-                        ...this.props.asignatura, nivel_id: this.state.nivel.id
-                    }
-                )
-            })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw "Error en la llamada Ajax";
-                    }
-
-                })
-                .then(data => {
-                    [
-                        this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                        this.props.habilitarGeneral(true),
-                        this.props.habilitareditasignaturas(false),
-                        this.state.nivel.id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel.nombre),
-                        this.props.handleInputArrays(this.state.nivel.id, 'asignaturas', 'nivel_id', this.props.asignatura.id),
-                        this.props.addNotification()
-                    ]
-                })
-                .catch(function (error) {
-                    console.log('Hubo un problema con la petición Fetch:' + error.message);
-                })
-        }
-
+        })
+        .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
+            this.props.habilitarGeneral(true),
+            this.props.habilitareditasignaturas(false),
+        ]});
     }
 
 
 
     render() {
+        let asignatura_nivel_competencias = [...new Set(this.props.asignatura.nivel_competencia_asignaturas.map( nivel_competencia_asignatura => 
+                nivel_competencia_asignatura.nivel_competencia
+        ))];
+        let asignatura_dominios = this.props.dominios.filter( dominio =>
+            dominio.competencias.some( competencia => 
+                asignatura_nivel_competencias.some(asignatura_nivel_competencia =>
+                    asignatura_nivel_competencia.competencia_id == competencia.id
+                )
+            )
+        ).map( dominio => {
+            return {
+                ...dominio, competencias: dominio.competencias.filter( competencia => 
+                    asignatura_nivel_competencias.some( asignatura_nivel_competencia =>
+                        asignatura_nivel_competencia.competencia_id == competencia.id
+                    )
+                ).map( competencia => {
+                    return {
+                        ...competencia, nivel_competencias: competencia.nivel_competencias.filter( nivel_competencia =>
+                            asignatura_nivel_competencias.some( asignatura_nivel_competencia => 
+                                asignatura_nivel_competencia.id == nivel_competencia.id 
+                            )
+                        )
+                    }
+                })
+            }
+        })
+        console.log(asignatura_dominios)
         return (
             <Panel key = {'asignatura-' + this.props.asignatura.id} titulo={this.props.asignatura.nombre} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
                 <div className="col-12 mb-2">
@@ -197,10 +176,10 @@ export default class edit extends Component {
                         </div>
                         <div className="col-6">
                             <label>Tipo de Asignatura</label>
-                            <select defaultValue={""}
+                            <select value={this.state.asignatura.tipo_asignatura_id || ""}
                                 disabled={this.state.deshabilitado}
                                 className="form-control "
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'tipo_asignatura_id', this.props.asignatura.id)}>
+                                onChange={(e)=>this.setState({asignatura: {...this.state.asignatura, tipo_asignatura_id: e.target.value}})}>
                                 <option disabled value="">Seleccione una Opción</option>
                                 <option value='1'>Obligatoria</option>
                                 <option value='2'>Opcional</option>
@@ -210,10 +189,10 @@ export default class edit extends Component {
                     <div className="col row mb-2">
                         <div className="col-6">
                             <label>Departamento</label>
-                            <select defaultValue={""}
+                            <select value={this.state.asignatura.departamento_id || ""}
                                 disabled={this.state.deshabilitado}
                                 className="form-control "
-                                onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'departamento_id', this.props.asignatura.id)}>
+                                onChange={(e)=>this.setState({asignatura: {...this.state.asignatura, departamento_id: e.target.value}})}>
                                 <option disabled value="">Seleccione una Opción</option>
                                 <option value='1'>Contabilidad y Gestión Financiera</option>
                                 <option value='2'>Economía, Recursos Naturales y Comercio Internacional</option>
@@ -244,13 +223,109 @@ export default class edit extends Component {
                         <textarea rows="3"
                             disabled={this.state.deshabilitado}
                             className="form-control"
-                            value={this.props.asignatura.descripcion || ''}
-                            onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'descripcion', this.props.asignatura.id)}>
-                        </textarea>
+                            value={this.state.asignatura.descripcion || ''}
+                            onChange={(e)=>this.setState({asignatura: {...this.state.asignatura, descripcion: e.target.value}})}>
+                            </textarea>
                     </div>
                     <div className="col mb-2">
                         <label>Relación con el perfil de egreso</label>
-                        <textarea value={'Rellenar Texto'} disabled className="form-control" rows="3">
+                        <textarea 
+                            value={
+                                asignatura_dominios.length > 0 ?
+                                    (
+                                        'La asignatura está relacionada con el perfil de egreso a través de sus logros de aprendizaje, los cuales tributan '+
+                                        (
+                                            asignatura_dominios.length == 1 ? 
+                                            (
+                                                'al dominio:\n' + '1.- "' + asignatura_dominios[0].nombre + '", por medio de ' + 
+                                                (
+                                                    asignatura_dominios[0].competencias.length  == 1 ?
+                                                    (
+                                                        'la competencia:\n' + '1.1.- "' + asignatura_dominios[0].competencias[0].descripcion + '", en ' +
+                                                        (
+                                                            asignatura_dominios[0].competencias[0].nivel_competencias.length == 1 ? 
+                                                            (
+                                                                'su  nivel ' + asignatura_dominios[0].competencias[0].nivel_competencias[0].nivel + ': ' + asignatura_dominios[0].competencias[0].nivel_competencias[0].descripcion
+                                                            )
+                                                            :
+                                                            (
+                                                                'sus niveles ' + asignatura_dominios[0].competencias[0].nivel_competencias.map( (nivel_competencia, i) => nivel_competencia.nivel + ': ' + nivel_competencia.descripcion + (i != (asignatura_dominios[0].competencias[0].nivel_competencias.length - 1) ? ', ' : ''))
+                                                            )
+                                                        )
+                                                        + '.'
+                                                    )
+                                                    :
+                                                    (
+                                                        'las competencias:\n' + asignatura_dominios[0].competencias.map( (competencia, i) => 
+                                                        '1.' + (i+1) + '.- "' + competencia.descripcion + '", en ' +
+                                                        (
+                                                            competencia.nivel_competencias.length == 1 ?
+                                                            (
+                                                                'su  nivel ' + competencia.nivel_competencias[0].nivel + ': ' + competencia.nivel_competencias[0].descripcion
+                                                            )
+                                                            :
+                                                            (
+                                                                'sus niveles ' + competencia.nivel_competencias.map( (nivel_competencia, j) => 
+                                                                nivel_competencia.nivel + ': ' + nivel_competencia.descripcion + (j != (competencia.nivel_competencias.length - 1) ? ', ' : '')).join('')
+                                                            )
+                                                        )
+                                                        + '.' + (i != (asignatura_dominios[0].competencias.length - 1) ? '\n' : '')
+                                                        ).join('')
+                                                    )
+                                                )
+                                            )
+                                            :
+                                            // MUCHOS DOMINIOS
+                                            (
+                                                'a los dominios:\n' + asignatura_dominios.map ( (dominio, i) => 
+                                                    (i+1) + '.- "' + dominio.nombre + '", por medio de ' + 
+                                                    (
+                                                        dominio.competencias.length  == 1 ?
+                                                        (
+                                                            'la competencia:\n' + (i+1) + '.1.- "' + dominio.competencias[0].descripcion + '", en ' +
+                                                            (
+                                                                dominio.competencias[0].nivel_competencias.length == 1 ? 
+                                                                (
+                                                                    'su  nivel ' + dominio.competencias[0].nivel_competencias[0].nivel + ': ' + dominio.competencias[0].nivel_competencias[0].descripcion
+                                                                )
+                                                                :
+                                                                (
+                                                                    'sus niveles ' + dominio.competencias[0].nivel_competencias.map( (nivel_competencia, j) => nivel_competencia.nivel + ': ' + nivel_competencia.descripcion + (j != (dominio.competencias[0].nivel_competencias.length - 1) ? ', ' : '')).join('')
+                                                                )
+                                                            )
+                                                            + '.'
+                                                        )
+                                                        :
+                                                        (
+                                                            'las competencias:\n' + dominio.competencias.map( (competencia, j) => 
+                                                            (i+1) + '.' + (j+1) + '.- "' + competencia.descripcion + '", en ' +
+                                                            (
+                                                                competencia.nivel_competencias.length == 1 ?
+                                                                (
+                                                                    'su  nivel ' + competencia.nivel_competencias[0].nivel + ': ' + competencia.nivel_competencias[0].descripcion
+                                                                )
+                                                                :
+                                                                (
+                                                                    'sus niveles ' + competencia.nivel_competencias.map( (nivel_competencia, k) => 
+                                                                    nivel_competencia.nivel + ': ' + nivel_competencia.descripcion + (k != (competencia.nivel_competencias.length - 1) ? ', ' : '')).join('')
+                                                                )
+                                                            )
+                                                            + '.' + (j != (dominio.competencias.length - 1) ? '\n' : '')
+                                                            ).join('')
+                                                        )
+                                                    )
+                                                    + (i != (dominio.competencias.length - 1) ? '\n' : '')
+                                                ).join('')
+                                            )
+                                        )
+                                    )
+                                    :
+                                    (
+                                        ''
+                                    )
+                            }
+                            disabled className="form-control"
+                            rows="3">
                         </textarea>
                     </div>
                     <div className="col mb-2">
@@ -258,8 +333,8 @@ export default class edit extends Component {
                         <textarea rows="3"
                             disabled={this.state.deshabilitado}
                             className="form-control"
-                            value={this.props.asignatura.ambientes || ''}
-                            onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'ambientes', this.props.asignatura.id)}>
+                            value={this.state.asignatura.ambientes || ''}
+                            onChange={(e)=>this.setState({asignatura: {...this.state.asignatura, ambientes: e.target.value}})}>
                         </textarea>
                     </div>
                     <div className="col mb-2">
@@ -267,8 +342,8 @@ export default class edit extends Component {
                         <textarea rows="3"
                             disabled={this.state.deshabilitado}
                             className="form-control"
-                            value={this.props.asignatura.perfil_docente || ''}
-                            onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'perfil_docente', this.props.asignatura.id)}>
+                            value={this.state.asignatura.perfil_docente || ''}
+                            onChange={(e)=>this.setState({asignatura: {...this.state.asignatura, perfil_docente: e.target.value}})}>
                         </textarea>
                     </div>
                     <div className="col mb-2">
@@ -276,8 +351,8 @@ export default class edit extends Component {
                         <textarea rows="3"
                             disabled={this.state.deshabilitado}
                             className="form-control"
-                            value={this.props.asignatura.perfil_ayudante || ''}
-                            onChange={(e) => this.props.handleInputArrays(e, 'asignaturas', 'perfil_ayudante', this.props.asignatura.id)}>
+                            value={this.state.asignatura.perfil_ayudante || ''}
+                            onChange={(e)=>this.setState({asignatura: {...this.state.asignatura, perfil_ayudante: e.target.value}})}>
                         </textarea>
                     </div>
                     <div className="col row mb-2">
@@ -443,7 +518,6 @@ export default class edit extends Component {
                     bibliografias={this.props.asignatura.bibliografias}
                     asignaturaId={this.props.asignatura.id}
                     asignaturaNombre={this.props.asignatura.nombre}
-                    handleInputArrays={this.props.handleInputArrays}
                     handleInputArraysAsignatura={this.props.handleInputArraysAsignatura}
                     handleAddElementAsignatura={this.props.handleAddElementAsignatura}
                     borrarElementoAsignatura={this.props.borrarElementoAsignatura}

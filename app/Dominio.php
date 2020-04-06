@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Dominio extends Model
 {
     protected $fillable = ['nombre', 'descripcion', 'plan_estudio_id', 'tipo_dominio_id'];
+    protected $hidden = ['created_at', 'updated_at'];
+
 
     public function plan_estudio()
     {
