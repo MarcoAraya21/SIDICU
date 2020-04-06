@@ -71,7 +71,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         'unidades' => 'unidad']]);
     Route::apiResource('contenidos', 'ContenidoController', ['parameters' => [
         'contenidos' => 'contenido']]);
-    
+        
+        Route::get('plan_estudios/ver/{plan_id}', 'PlanEstudioController@ver');
     Route::get('plan_estudios/{plan_id}/datos', 'PlanEstudioController@datos');
     Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
 // ADMIN

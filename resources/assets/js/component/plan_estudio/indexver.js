@@ -66,7 +66,7 @@ export default class index extends Component {
 
     getPlanEstudio() {
         // console.log(projectId);
-        axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
+        axios.get(`/api/plan_estudios/ver/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({

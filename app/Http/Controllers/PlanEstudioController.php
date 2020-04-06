@@ -279,6 +279,46 @@ class PlanEstudioController extends Controller
     }
 
 
+    public function ver($id)
+    {
+        $usuario = JWTAuth::authenticate();
+        $acceso = 'denegado';
+        if($usuario->perfil_id == 1 || $usuario->perfil == 2 || PlanEstudio::find($id)->estado_id == 4)
+        {
+            $PlanEstudio = PlanEstudio::
+                    with(['dominios' => function ($query) {
+                        $query
+                        ->with('tipo_dominio')
+                        ->with(['competencias' => function ($query) {
+                            $query
+                            ->with(['nivel_competencias' => function ($query) {
+                                $query
+                                ->with('logro_aprendizajes')
+                                ->with(['nivel_competencia_asignaturas' => function ($query) {
+                                    $query
+                                    ->with('asignatura');
+                                }]);
+                            }]);
+                        }]);
+                    }])
+                    ->with('carrera')
+                    ->with('tipo_plan')
+                    ->with('tipo_ingreso')
+                    ->with(['plan_estudio_usuarios' => function ($query) {
+                        $query
+                        ->with('usuario');
+                    }])
+                    ->with('niveles')
+                    ->with('nivel_genericas')
+                    ->with('tipo_formacion')
+                    ->findOrFail($id);
+            return response()->json($PlanEstudio, 200);
+        }
+        
+        return response()->json(['error' => 'Acceso no permitido.'],403);
+    }
+
+
 
     public function store(Request $request)
     {
