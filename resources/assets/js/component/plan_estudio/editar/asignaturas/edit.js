@@ -158,8 +158,22 @@ export default class edit extends Component {
                     }
                 })
             }
-        })
-        console.log(asignatura_dominios)
+        });
+
+        let asignatura_competencia_generica_id = [...new Set(this.props.asignatura.              nivel_generica_asignaturas.map( nivel_generica_asignatura => 
+            nivel_generica_asignatura.nivel_generica.nivel_competencia.competencia_id
+        ))];
+        let asignatura_competencia_genericas = this.props.comp_genericas.filter( comp_generica =>
+                asignatura_competencia_generica_id.some( elemento => elemento == comp_generica.id) 
+            ).map( comp_generica => {
+                return {
+                    ...comp_generica, nivel_competencias: this.props.asignatura.nivel_generica_asignaturas.filter( nivel_generica_asignatura => 
+                        nivel_generica_asignatura.nivel_generica.nivel_competencia.competencia_id == comp_generica.id
+                    ).map( nivel_generica_asignatura => {
+                        return nivel_generica_asignatura.nivel_generica.nivel_competencia;
+                    })
+                }
+            })
         return (
             <Panel key = {'asignatura-' + this.props.asignatura.id} titulo={this.props.asignatura.nombre} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && this.state.deshabilitado)}>
                 <div className="col-12 mb-2">
@@ -231,7 +245,8 @@ export default class edit extends Component {
                         <label>Relación con el perfil de egreso</label>
                         <textarea 
                             value={
-                                asignatura_dominios.length > 0 ?
+                                (
+                                    asignatura_dominios.length > 0 ?
                                     (
                                         'La asignatura está relacionada con el perfil de egreso a través de sus logros de aprendizaje, los cuales tributan '+
                                         (
@@ -323,9 +338,58 @@ export default class edit extends Component {
                                     (
                                         ''
                                     )
+                                )
+                                +
+                                (
+                                    asignatura_competencia_genericas.length > 0 ? 
+                                    (
+                                        '\n' + 
+                                        'Esta asignatura contribuye al desarrollo de ' + 
+                                        (
+                                            asignatura_competencia_genericas.length == 1 ? 
+                                            (
+                                                'la competencia genérica siguiente:\n' + '1.- "' + asignatura_competencia_genericas[0].descripcion + '", en ' +
+                                                (
+                                                    asignatura_competencia_genericas[0].nivel_competencias.length == 1 ? 
+                                                    (
+                                                        'su  nivel ' + asignatura_competencia_genericas[0].nivel_competencias[0].nivel + ': ' + asignatura_competencia_genericas[0].nivel_competencias[0].descripcion
+                                                    )
+                                                    :
+                                                    (
+                                                        'sus niveles ' + asignatura_competencia_genericas[0].nivel_competencias.map( (nivel_competencia, i) => nivel_competencia.nivel + ': ' + nivel_competencia.descripcion + (i != (asignatura_competencia_genericas[0].nivel_competencias.length - 1) ? ', ' : '')).join('')
+                                                    )
+                                                    + '.'
+                                                )
+                                            )
+                                            :
+                                            (
+                                                'las competencias genéricas siguientes:\n' + asignatura_competencia_genericas.map( (competencia_generica, i) => 
+                                                    (i+1) + '.- "' + competencia_generica.descripcion + '", en ' +
+                                                    (
+                                                        competencia_generica.nivel_competencias.length == 1 ?
+                                                        (
+                                                            'su  nivel ' + competencia_generica.nivel_competencias[0].nivel + ': ' + competencia_generica.nivel_competencias[0].descripcion
+                                                        )
+                                                        :
+                                                        (
+                                                            'sus niveles ' + competencia_generica.nivel_competencias.map( (nivel_competencia, j) => 
+                                                            nivel_competencia.nivel + ': ' + nivel_competencia.descripcion + (j != (competencia_generica.nivel_competencias.length - 1) ? ', ' : '')).join('')
+                                                        )
+                                                    )
+                                                    + (i != (competencia_generica.length - 1) ? '\n' : '')
+                                                ).join('')
+                                            )
+                                        )
+                                    )
+                                    :
+                                    (
+                                        ''
+                                    )
+                                )
+                                
                             }
                             disabled className="form-control"
-                            rows="3">
+                            rows="6">
                         </textarea>
                     </div>
                     <div className="col mb-2">

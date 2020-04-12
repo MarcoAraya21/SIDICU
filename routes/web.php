@@ -98,6 +98,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
             return view('/pages/welcome');
         });
     });
+    
     Route::get('/Plan/Ver/{id}', function () {
         return view('/pages/welcome');
     });

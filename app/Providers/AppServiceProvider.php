@@ -18,6 +18,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // dd(date('Y-m-d H:i:s',JWTAuth::getPayload($_COOKIE['token'])['exp']));
+        // dd(JWTAuth::getPayload($_COOKIE['token']));
         if(isset($_COOKIE['token']))
         {
             try{
@@ -35,8 +37,9 @@ class AppServiceProvider extends ServiceProvider
             // $tiempo_restante = 
             $minutos = intval($segundos/60) . ':' . $segundos%60;
             // dd(JWTAuth::getPayload($_COOKIE['token'])['exp']);
+            View::share('inicial', $time_unix);
             View::share('key', $user);
-            View::share('restante', $segundos);
+            // View::share('restante', $segundos);
         }
     }
 

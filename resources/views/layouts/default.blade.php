@@ -57,9 +57,10 @@
 		function pad2(number) {   
 			return (number < 10 ? '0' : '') + number;
 		}
-			var restante = {{ $restante }};
+			var inicial = {{ $inicial }};
 			var l = document.getElementById("restante");
-			
+			var fecha_actual = Math.floor(Date.now() / 1000);
+			var restante = inicial - fecha_actual;
 				window.setInterval(function(){
 					if(restante >= 0)
 					{

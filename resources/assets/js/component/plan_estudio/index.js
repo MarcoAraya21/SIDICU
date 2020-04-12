@@ -412,6 +412,7 @@ export default class index extends Component {
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
                                             dominios={this.state.dominios}
+                                            comp_genericas = {this.state.comp_genericas}
                                             handleUpdate={this.handleUpdate}
                                             handleInputArraysAsignatura={this.handleInputArraysAsignatura}
                                             handleAddElement={this.handleAddElement}

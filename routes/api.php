@@ -21,78 +21,77 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('auth/register', 'UsuarioController@register');
 Route::post('auth/login', 'UsuarioController@login');
 Route::post('auth/forgot', 'UsuarioController@forgot');
+
 Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('auth/authenticate', 'UsuarioController@getAuthUser');
     Route::post('auth/change', 'UsuarioController@change');
     Route::get('auth/logout', 'UsuarioController@logout');
-    Route::get('asesores', 'UsuarioController@getAsesores');
-    Route::get('academicos', 'UsuarioController@getAcademicos');
-    Route::get('informacion_basica/{plan_id}', 'PlanEstudioController@getInformacionBasica');
-    Route::put('informacion_basica/{plan_id}', 'PlanEstudioController@updateInformacionBasica');
-    Route::get('listado_planes', 'PlanEstudioController@listado');
-    Route::get('mis_planes', 'PlanEstudioController@misPlanes');
+
     Route::get('plan_estudios/finalizado/{plan_id}', 'PlanEstudioController@finalizado');
     Route::get('finalizados', 'PlanEstudioController@finalizados');
-    Route::get('pendientes', 'PlanEstudioController@misPendientes');
-    Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
-        'plan_estudios' => 'plan_estudio']]);
+    
 
-    Route::resource('perfiles', 'PerfilController', ['only' => ['index']]);
-    // SEPARACION
-    Route::apiResource('dominios', 'DominioController', ['parameters' => [
-        'dominios' => 'dominio']]);
-    Route::apiResource('competencias', 'CompetenciaController', ['parameters' => [
-        'competencias' => 'competencia']]);
+    // VALIDACIONES POR USUARIO
+    Route::group(['middleware' => 'userprofile'], function () {
+
+        Route::apiResource('plan_estudios', 'PlanEstudioController', ['parameters' => [
+            'plan_estudios' => 'plan_estudio']]);
+        Route::get('competencias_genericas', 'CompetenciaController@genericas');
+        Route::apiResource('dominios', 'DominioController', ['parameters' => [
+            'dominios' => 'dominio']]);
+        Route::apiResource('competencias', 'CompetenciaController', ['parameters' => [
+            'competencias' => 'competencia']]);
+        Route::apiResource('nivel_competencias', 'NivelCompetenciaController', ['parameters' => [
+            'nivel_competencias' => 'nivel_competencia']]);
+        Route::apiResource('logro_aprendizajes', 'LogroAprendizajeController', ['parameters' => [
+            'logro_aprendizajes' => 'logro_aprendizaje']]);
+
+        Route::resource('nivel_competencia_asignaturas', 'NivelCompetenciaAsignaturaController', ['only' => ['store', 'destroy']]);
+        Route::resource('nivel_genericas', 'NivelGenericaController', ['only' => ['store', 'destroy']]);
+        Route::resource('nivel_generica_asignaturas', 'NivelGenericaAsignaturaController', ['only' => ['store', 'destroy']]);
+        Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [
+            'asignaturas' => 'asignatura']]);
+        Route::resource('asignatura_horas', 'AsignaturaHoraController', ['only' => ['update']]);
+        Route::resource('bibliografias', 'BibliografiaController', ['only' => ['store', 'update', 'destroy']]);
+        Route::resource('requisitos', 'RequisitoController', ['only' => ['store', 'destroy']]);
+        Route::resource('niveles', 'NivelController', ['only' => ['store', 'destroy']]);
+        Route::resource('asignatura_metodologias', 'AsignaturaMetodologiaController', ['only' => ['store', 'destroy']]);
+        Route::resource('asignatura_evaluaciones', 'AsignaturaEvaluacionController', ['only' => ['store', 'destroy']]);
+        Route::resource('unidades', 'UnidadController', ['only' => ['store', 'update', 'destroy']]);
+        Route::resource('contenidos', 'ContenidoController', ['only' => ['store', 'update', 'destroy']]);
+
+        // ADMIN
+        Route::get('all_carreras', 'CarreraController@allCarreras');
+        Route::post('carreras_admin', 'CarreraController@crearCarrera');
+        Route::apiResource('carreras', 'CarreraController', ['parameters' => [
+            'carreras' => 'carrera']]);
+        Route::apiResource('escuelas', 'EscuelaController', ['parameters' => [
+            'escuelas' => 'escuela']]);
+        Route::apiResource('facultades', 'FacultadController', ['parameters' => [
+            'facultades' => 'facultad']]);
+        Route::apiResource('grados', 'GradoController', ['parameters' => [
+            'grados' => 'grado']]);
+        Route::resource('perfiles', 'PerfilController', ['only' => ['index']]);
+        Route::post('crear_plan_adm', 'PlanEstudioController@createPlanAdm');
+        Route::resource('usuarios', 'UsuarioController', ['only' => ['index', 'update', 'destroy']]);
+        // CIERRE ADMIN
+
+        Route::get('asesores', 'UsuarioController@getAsesores');
+        Route::get('academicos', 'UsuarioController@getAcademicos');
+        Route::get('informacion_basica/{plan_id}', 'PlanEstudioController@getInformacionBasica');
+        Route::put('informacion_basica/{plan_id}', 'PlanEstudioController@updateInformacionBasica');
+        Route::get('listado_planes', 'PlanEstudioController@listado');
+        Route::get('mis_planes', 'PlanEstudioController@misPlanes');
+        Route::get('pendientes', 'PlanEstudioController@misPendientes');
+
+    });
+    
     Route::get('competencias_genericas', 'CompetenciaController@genericas');
-    Route::apiResource('nivel_competencias', 'NivelCompetenciaController', ['parameters' => [
-        'nivel_competencias' => 'nivel_competencia']]);
-    Route::apiResource('logro_aprendizajes', 'LogroAprendizajeController', ['parameters' => [
-        'logro_aprendizajes' => 'logro_aprendizaje']]);
-    Route::apiResource('nivel_competencia_asignaturas', 'NivelCompetenciaAsignaturaController', ['parameters' => [
-        'nivel_competencia_asignaturas' => 'nivel_competencia_asignatura']]);
-    Route::resource('nivel_genericas', 'NivelGenericaController', ['only' => ['store', 'destroy']]);
-    Route::apiResource('nivel_generica_asignaturas', 'NivelGenericaAsignaturaController', ['parameters' => [
-        'nivel_generica_asignaturas' => 'nivel_generica_asignatura']]);
-    Route::apiResource('asignaturas', 'AsignaturaController', ['parameters' => [
-        'asignaturas' => 'asignatura']]);
-    Route::resource('asignatura_horas', 'AsignaturaHoraController', ['only' => ['update']]);
-    Route::resource('bibliografias', 'BibliografiaController', ['only' => ['store', 'update', 'destroy']]);
-    Route::resource('requisitos', 'RequisitoController', ['only' => ['store', 'destroy']]);
-    
-    Route::resource('niveles', 'NivelController', ['only' => ['store', 'destroy']]);
-    
-    Route::resource('metodologias', 'MetodologiaController', ['only' => ['index']]);
-    Route::resource('asignatura_metodologias', 'AsignaturaMetodologiaController', ['only' => ['store', 'destroy']]);
-    
+    Route::resource('metodologias', 'MetodologiaController', ['only' => ['index']]);    
     Route::resource('evaluaciones', 'EvaluacionController', ['only' => ['index']]);
-    Route::resource('asignatura_evaluaciones', 'AsignaturaEvaluacionController', ['only' => ['store', 'destroy']]);
-    
-    Route::apiResource('unidades', 'UnidadController', ['parameters' => [
-        'unidades' => 'unidad']]);
-    Route::apiResource('contenidos', 'ContenidoController', ['parameters' => [
-        'contenidos' => 'contenido']]);
     
     Route::get('plan_estudios/{plan_id}/datos', 'PlanEstudioController@datos');
     Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
-// ADMIN
-    Route::get('all_carreras', 'CarreraController@allCarreras');
-    Route::post('carreras_admin', 'CarreraController@crearCarrera');
-    Route::apiResource('carreras', 'CarreraController', ['parameters' => [
-        'carreras' => 'carrera']]);
-    Route::apiResource('escuelas', 'EscuelaController', ['parameters' => [
-        'escuelas' => 'escuela']]);
-    Route::apiResource('facultades', 'FacultadController', ['parameters' => [
-        'facultades' => 'facultad']]);
-    Route::apiResource('grados', 'GradoController', ['parameters' => [
-        'grados' => 'grado']]);
-// CIERRE ADMIN
-
-
-
-    Route::apiResource('usuarios', 'UsuarioController', ['parameters' => [
-        'usuarios' => 'usuario']]);
-
-    Route::post('crear_plan_adm', 'PlanEstudioController@createPlanAdm');
 
 });
 

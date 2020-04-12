@@ -47,6 +47,7 @@ export default class index extends Component {
                                         niveles={this.props.niveles}
                                         asignaturas={this.props.asignaturas}
                                         dominios={this.props.dominios}
+                                        comp_genericas = {this.props.comp_genericas}
                                         handleUpdate = {this.props.handleUpdate}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                                         borrarElemento = {this.props.borrarElemento}
@@ -67,6 +68,7 @@ export default class index extends Component {
                                         niveles={this.props.niveles}
                                         asignaturas={this.props.asignaturas}
                                         dominios={this.props.dominios}
+                                        comp_genericas = {this.props.comp_genericas}
                                         handleUpdate = {this.props.handleUpdate}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                                         borrarElemento = {this.props.borrarElemento}
