@@ -48,9 +48,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Unidades({ openUnidades, handleCloseUnidades, unidades, horas, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Unidades({ openUnidades, handleCloseUnidades, unidades, horas, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
     const classes = useStyles();
     const [descripcion, setdescripcion] = useState('');
+    const [guardando, setguardando] = useState(false);
+
     // const restantes = {
     //     aula: horas.aula - unidades.reduce((previous, current) => {
     //     return Number(previous) + Number(current.horas_aula);}, 0),
@@ -61,6 +63,8 @@ export default function Unidades({ openUnidades, handleCloseUnidades, unidades, 
 
     function addElemento(variable) {
         //e.preventDefault();
+        setguardando(true);
+
         fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
@@ -73,18 +77,25 @@ export default function Unidades({ openUnidades, handleCloseUnidades, unidades, 
                   nombre: descripcion}
             )
         })
-            .then(function (response) {
-                if (response.ok) {
+        .then(function(response) {
+            if(response.redirected)
+            {
+                window.location.href = "/";
+            }
+            else
+            {
+                if(response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }
-
-            })
-            .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setdescripcion("")] })
-            .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            })
+                }   
+            }
+        })
+        .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setdescripcion("")] })
+        .catch(error => {
+            addNotificationAlert('No se ha podido guardar.')
+        })
+        .finally(() => setguardando(false));
     }
     return (
         <div>
@@ -121,6 +132,7 @@ export default function Unidades({ openUnidades, handleCloseUnidades, unidades, 
                                             habilitarGeneral={habilitarGeneral}
                                             habilitadogeneral={habilitadogeneral}
                                             addNotification={addNotification}
+                                            addNotificationAlert={addNotificationAlert}
                                         />
                                     )
                                     :
@@ -138,9 +150,14 @@ export default function Unidades({ openUnidades, handleCloseUnidades, unidades, 
                                 </div>
                                 <div className="col-6 p-0">
                                     <div align="right">
-                                        <button type="button" disabled={!habilitadogeneral || descripcion == ""} className="btn btn-primary" onClick={() => { addElemento('unidades') }}>
-                                            <i className="fas fa-plus p-r-5" ></i>Crear Unidad
-                                        </button>
+                                    {
+                                        guardando ?
+                                            <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
+                                        :
+                                            <button type="button" disabled={!habilitadogeneral || descripcion == ""} className="btn btn-primary" onClick={() => { addElemento('unidades') }}>
+                                                <i className="fas fa-plus p-r-5" ></i>Crear Unidad
+                                            </button>
+                                    }
                                     </div>
                                 </div>
                             </div>

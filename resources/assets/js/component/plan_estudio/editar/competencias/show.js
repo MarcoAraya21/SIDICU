@@ -8,6 +8,7 @@ export default class show extends Component {
         this.state = {
             editandodominio: false,
             generica: "",
+            guardando: false
         }
 
         this.habilitareditdominios = this.habilitareditdominios.bind(this);
@@ -30,6 +31,8 @@ export default class show extends Component {
             var form = {dominio_id:  this.props.dominio.id};
         }
         //e.preventDefault();
+        this.setState({guardando: true})
+
         fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
@@ -42,18 +45,24 @@ export default class show extends Component {
             )
         })
         .then(function(response) {
-            if(response.ok) {
-                return response.json();
-            } else {
-                throw "Error en la llamada Ajax";
+            if(response.redirected)
+            {
+                window.location.href = "/";
             }
-         
-         })
-        .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
-        .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
+            else
+            {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    throw "Error en la llamada Ajax";
+                }   
+            }
         })
-        .finally(() => {this.setState({generica: ""})});
+        .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
+        .catch(error => {
+            this.props.addNotificationAlert('No se ha podido guardar.')
+        })
+        .finally(() => {this.setState({generica: "", guardando: false})});
 
     }
     
@@ -83,9 +92,14 @@ export default class show extends Component {
                         <p>No posee ninguna competencia</p>
                     }
                     <div align="right" className="mt-2 mb-1">
-                        <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('competencias')}}>      
-                            <i className="fas fa-plus p-r-5" ></i>Crear Competencia
-                        </button>
+                    {
+                            this.state.guardando ?
+                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
+                            :
+                                <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('competencias')}}>      
+                                    <i className="fas fa-plus p-r-5" ></i>Crear Competencia
+                                </button>
+                    }
                     </div> 
                 </Panel>
             )
@@ -105,7 +119,7 @@ export default class show extends Component {
                         </div>
                         <button type="button" disabled={!this.props.habilitadogeneral} className="btn btn-danger ml-auto"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                        this.props.borrarElemento('nivel_genericas', competencia_generica.id,this.props.addNotification)}}>
+                        this.props.borrarElemento('nivel_genericas', competencia_generica.id,this.props.addNotification, this.props.addNotificationAlert)}}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
                     </div>
                     )
@@ -129,9 +143,14 @@ export default class show extends Component {
                         </div>
                         <div className="col-6 p-0">
                             <div align="right" className="mt-2 mb-1">
-                                <button disabled={!this.props.habilitadogeneral || this.state.generica == ""} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_genericas')}}>      
-                                    <i className="fas fa-plus p-r-5" ></i>Asociar Competencia Generica
-                                </button>
+                            {
+                                this.state.guardando ?
+                                    <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Asociando</button>                      
+                                :
+                                    <button disabled={!this.props.habilitadogeneral || this.state.generica == ""} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_genericas')}}>      
+                                        <i className="fas fa-plus p-r-5" ></i>Asociar Competencia Generica
+                                    </button>
+                            }
                             </div> 
                         </div>
                     </div>

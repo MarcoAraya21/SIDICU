@@ -10,9 +10,6 @@ import VerNivelCompetencias from './ver/nivelcompetencias';
 import VerAsignaturas from './ver/asignaturas';
 import VerDiseno from './ver/diseno';
 import TreePlan from './tree';
-import Resumen from './resumen';
-
-
 
 
 export default class index extends Component {
@@ -42,9 +39,10 @@ export default class index extends Component {
         }
     }
 
+
     getPlanEstudio() {
         // console.log(projectId);
-        axios.get(`/api/ver/${this.props.match.params.id}`).then((
+        axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({
@@ -139,12 +137,6 @@ export default class index extends Component {
                                     <span className="d-sm-block d-none">Gráficos y Tablas</span>
                                 </a>
                             </li>
-                            <li className="nav-items">
-                                <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">Resumen</span>
-                                    <span className="d-sm-block d-none">Resumen del plan</span>
-                                </a>
-                            </li>
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane fade active show" id="plan-tab-show">
@@ -207,8 +199,6 @@ export default class index extends Component {
                         </div>
                     </div>
                 </div>
-
-
                 <div className="col-12 text-right t-2">
                     <a href="#" className="btn btn-primary">Ver Plan</a>
                     {/* <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
@@ -216,11 +206,6 @@ export default class index extends Component {
                 </div>
             </div>
             );
-        }
-        else
-        {
-            return 'Acceso Denegado';
-        }
-        
+        }        
     }
 }

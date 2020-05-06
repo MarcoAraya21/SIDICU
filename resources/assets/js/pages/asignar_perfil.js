@@ -75,60 +75,62 @@ class Index extends Component {
                         }
                     )
                 })
-                    .then(function (response) {
-                        if (response.ok) {
-                            return response.json();
-                        } else {
-                            throw "Error en la llamada Ajax";
-                        }
-
-                    })
-                    .then((data) => {
-                        console.log(data);
-                        if(data)
+                .then(function(response) {
+                    if(response.ok) {
+                        return response.json();
+                    } else {
+                        if(response.redirected)
                         {
-                            
-                            swal({
-                                title: "Se ha asignado correctamente!",
-                                icon: "success",
-                                closeOnEsc: false,
-                                allowOutsideClick: false
-                            });
-                            
-                            let usuarios = this.state.usuarios.map(usuario2 => {
-                                if(usuario2.id == usuario.id)
-                                {
-                                    return {...usuario2, perfil_id: usuario.nuevo_perfil, perfil: this.state.perfiles.find( perfil => perfil.id == usuario.nuevo_perfil)}
-                                }
-                                else
-                                {
-                                    return usuario2;
-                                }
-                            });
-                            
-                            this.setState({ usuarios: usuarios })
+                            window.location.href = "/";
                         }
-                        else
-                        {
-                            swal({
-                                title: "Oops...",
-                                text: "No se ha podido editar el perfil.",
-                                icon: "danger",
-                                closeOnEsc: false,
-                                allowOutsideClick: false
-                            });
-                            
-                        }
-                    })
-                    .catch(function (error) {
+                        throw "Error en la llamada Ajax";
+                    }
+                })
+                .then((data) => {
+                    if(data)
+                    {
+                        
+                        swal({
+                            title: "Se ha asignado correctamente!",
+                            icon: "success",
+                            closeOnEsc: false,
+                            allowOutsideClick: false
+                        });
+                        
+                        let usuarios = this.state.usuarios.map(usuario2 => {
+                            if(usuario2.id == usuario.id)
+                            {
+                                return {...usuario2, perfil_id: usuario.nuevo_perfil, perfil: this.state.perfiles.find( perfil => perfil.id == usuario.nuevo_perfil)}
+                            }
+                            else
+                            {
+                                return usuario2;
+                            }
+                        });
+                        
+                        this.setState({ usuarios: usuarios })
+                    }
+                    else
+                    {
                         swal({
                             title: "Oops...",
-                            text: "Ha ocurrido un error en el servidor, intente nuevamente!",
+                            text: "No se ha podido editar el perfil.",
                             icon: "error",
                             closeOnEsc: false,
                             allowOutsideClick: false
-                        })
+                        });
+                        
+                    }
+                })
+                .catch(function (error) {
+                    swal({
+                        title: "Oops...",
+                        text: "Ha ocurrido un error en el servidor, intente nuevamente!",
+                        icon: "error",
+                        closeOnEsc: false,
+                        allowOutsideClick: false
                     })
+                })
             }
         });
 

@@ -15,7 +15,8 @@ export default class edit extends Component {
             openHoras: false,
             openRequisitos: false,
             deshabilitado: true,
-            editando: false
+            editando: false,
+            guardando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpenHoras = this.handleOpenHoras.bind(this);
@@ -71,73 +72,79 @@ export default class edit extends Component {
                     }
                 )
             })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw "Error en la llamada Ajax";
+            .then(function(response) {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    if(response.redirected)
+                    {
+                        window.location.href = "/";
                     }
-
-                })
-                .then(data => {
-                    [
-                        this.setState({ asignatura: {...this.state.asignatura, nivel_id: data.id}, nivel_nombre: data.nombre}),
-                        alert('se ha creado el nivel ' + this.state.nivel_nombre),
-                        this.props.handleAddElement('niveles', data),
-                        fetch('/api/asignaturas/' + this.props.asignatura.id, {
-                            method: 'put',
-                            headers: {
-                                'Accept': 'application/json',
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify(
-                                {
-                                    ...this.state.asignatura, nivel_id: data.id
-                                }
-                            )
-                        })
-                        .then(function (response) {
-                            if (response.ok) {
-                                return response.json();
-                            } else {
-                                throw "Error en la llamada Ajax";
+                    throw "Error en la llamada Ajax";
+                }
+            })
+            .then(data => {
+                [
+                    this.setState({ asignatura: {...this.state.asignatura, nivel_id: data.id}, nivel_nombre: data.nombre}),
+                    alert('se ha creado el nivel ' + this.state.nivel_nombre),
+                    this.props.handleAddElement('niveles', data),
+                    fetch('/api/asignaturas/' + this.props.asignatura.id, {
+                        method: 'put',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(
+                            {
+                                ...this.state.asignatura, nivel_id: data.id
                             }
-    
-                        })
-                        .then(data => {
-                            [
-                                this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                                this.props.habilitarGeneral(true),
-                                this.props.habilitareditasignaturas(false),
-                                this.state.asignatura.nivel_id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel_nombre),
-                                this.props.handleUpdate(this.state.asignatura, "asignaturas", this.props.asignatura.id),
-                                this.props.addNotification()
-                            ]
-                        })
-                        .catch(error => {
-                            this.setState({asignatura: {...this.state.asignatura, 
-                                codigo: this.props.asignatura.codigo,
-                                ciclo_id: this.props.asignatura.ciclo_id,
-                                nivel_id: this.props.asignatura.nivel_id,}}),
-                            this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
+                        )
+                    })
+                    .then(function(response) {
+                        if(response.ok) {
+                            return response.json();
+                        } else {
+                            if(response.redirected)
+                            {
+                                window.location.href = "/";
+                            }
+                            throw "Error en la llamada Ajax";
+                        }
+                    })
+                    .then(data => {
+                        [
                             this.setState({ guardando: false, deshabilitado: true, editando: false }),
                             this.props.habilitarGeneral(true),
                             this.props.habilitareditasignaturas(false),
-                            this.props.addNotificationAlert('No se ha podido guardar.')
-                        })
-                    ]
-                })
-                .catch(error => {
-                    this.setState({asignatura: {...this.state.asignatura, 
-                        codigo: this.props.asignatura.codigo,
-                        ciclo_id: this.props.asignatura.ciclo_id,
-                        nivel_id: this.props.asignatura.nivel_id,}}),
-                    this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
-                    this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                    this.props.habilitarGeneral(true),
-                    this.props.habilitareditasignaturas(false),
-                    this.props.addNotificationAlert('No se ha podido guardar.')
-                })
+                            this.state.asignatura.nivel_id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel_nombre),
+                            this.props.handleUpdate(this.state.asignatura, "asignaturas", this.props.asignatura.id),
+                            this.props.addNotification()
+                        ]
+                    })
+                    .catch(error => {
+                        this.setState({asignatura: {...this.state.asignatura, 
+                            codigo: this.props.asignatura.codigo,
+                            ciclo_id: this.props.asignatura.ciclo_id,
+                            nivel_id: this.props.asignatura.nivel_id,}}),
+                        this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
+                        this.setState({ guardando: false, deshabilitado: true, editando: false }),
+                        this.props.habilitarGeneral(true),
+                        this.props.habilitareditasignaturas(false),
+                        this.props.addNotificationAlert('No se ha podido guardar.')
+                    })
+                ]
+            })
+            .catch(error => {
+                this.setState({asignatura: {...this.state.asignatura, 
+                    codigo: this.props.asignatura.codigo,
+                    ciclo_id: this.props.asignatura.ciclo_id,
+                    nivel_id: this.props.asignatura.nivel_id,}}),
+                this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
+                this.setState({ guardando: false, deshabilitado: true, editando: false }),
+                this.props.habilitarGeneral(true),
+                this.props.habilitareditasignaturas(false),
+                this.props.addNotificationAlert('No se ha podido guardar.')
+            })
         }
         else {
             fetch('/api/asignaturas/' + this.props.asignatura.id, {
@@ -152,37 +159,40 @@ export default class edit extends Component {
                     }
                 )
             })
-                .then(function (response) {
-                    if (response.ok) {
-                        return response.json();
-                    } else {
-                        throw "Error en la llamada Ajax";
+            .then(function(response) {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    if(response.redirected)
+                    {
+                        window.location.href = "/";
                     }
-
-                })
-                .then(data => {
-                    [
-                        this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                        this.props.habilitarGeneral(true),
-                        this.props.habilitareditasignaturas(false),
-                        this.state.asignatura.nivel_id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel_nombre),
-                        this.props.handleUpdate(this.state.asignatura, "asignaturas", this.props.asignatura.id),
-                        this.props.addNotification()
-                    ]
-                })
-                .catch(error => {
-                    [
-                        this.setState({asignatura: {...this.state.asignatura, 
-                            codigo: this.props.asignatura.codigo,
-                            ciclo_id: this.props.asignatura.ciclo_id,
-                            nivel_id: this.props.asignatura.nivel_id,}}),
-                        this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
-                        this.setState({ guardando: false, deshabilitado: true, editando: false }),
-                        this.props.habilitarGeneral(true),
-                        this.props.habilitareditasignaturas(false),
-                        this.props.addNotificationAlert('No se ha podido guardar.')
-                    ]
-                })
+                    throw "Error en la llamada Ajax";
+                }
+            })
+            .then(data => {
+                [
+                    this.setState({ guardando: false, deshabilitado: true, editando: false }),
+                    this.props.habilitarGeneral(true),
+                    this.props.habilitareditasignaturas(false),
+                    this.state.asignatura.nivel_id != this.props.asignatura.nivel_id && alert('se ha trasladado al nivel ' + this.state.nivel_nombre),
+                    this.props.handleUpdate(this.state.asignatura, "asignaturas", this.props.asignatura.id),
+                    this.props.addNotification()
+                ]
+            })
+            .catch(error => {
+                [
+                    this.setState({asignatura: {...this.state.asignatura, 
+                        codigo: this.props.asignatura.codigo,
+                        ciclo_id: this.props.asignatura.ciclo_id,
+                        nivel_id: this.props.asignatura.nivel_id,}}),
+                    this.setState({nivel_nombre: this.props.asignatura.nivel.nombre}),
+                    this.setState({ guardando: false, deshabilitado: true, editando: false }),
+                    this.props.habilitarGeneral(true),
+                    this.props.habilitareditasignaturas(false),
+                    this.props.addNotificationAlert('No se ha podido guardar.')
+                ]
+            })
                 
         }
 
@@ -322,7 +332,12 @@ export default class edit extends Component {
                     </div>
                     <div className="col-12 text-right mt-2">
                         <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.props.habilitareditasignaturas(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                        {
+                            this.state.guardando ?
+                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>                      
+                            :
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                        }
                     </div>
                     <Horas
                         openHoras={this.state.openHoras}
@@ -334,6 +349,7 @@ export default class edit extends Component {
                         habilitarGeneral={this.props.habilitarGeneral}
                         habilitadogeneral={this.props.habilitadogeneral}
                         addNotification={this.props.addNotification}
+                        addNotificationAlert={this.props.addNotificationAlert}
                     />
                     <Requisitos
                         openRequisitos={this.state.openRequisitos}
@@ -348,6 +364,7 @@ export default class edit extends Component {
                         habilitarGeneral={this.props.habilitarGeneral}
                         habilitadogeneral={this.props.habilitadogeneral}
                         addNotification={this.props.addNotification}
+                        addNotificationAlert={this.props.addNotificationAlert}
                     />
                 </div>            
                 

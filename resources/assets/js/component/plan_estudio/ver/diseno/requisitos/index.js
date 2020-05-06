@@ -47,7 +47,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function requisitos({ openRequisitos, handleCloseRequisitos, requisitos, opcionRequisitos, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function requisitos({ openRequisitos, handleCloseRequisitos, requisitos, opcionRequisitos, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
     const classes = useStyles();
     const [addrequisito, setaddrequisito] = useState('');
     function addElemento(variable) {
@@ -64,18 +64,24 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                   requisito_id: addrequisito}
             )
         })
-            .then(function (response) {
-                if (response.ok) {
+        .then(function(response) {
+            if(response.redirected)
+            {
+                window.location.href = "/";
+            }
+            else
+            {
+                if(response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }
-
-            })
-            .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddrequisito("")] })
-            .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            })
+                }   
+            }
+        })
+        .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddrequisito("")] })
+        .catch(error => {
+            addNotificationAlert('No se ha podido guardar.')
+        })
     }
 
     const requisitosSelect = opcionRequisitos.filter(opcionRequisito => 

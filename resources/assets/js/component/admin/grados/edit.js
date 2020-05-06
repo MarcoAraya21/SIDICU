@@ -76,9 +76,13 @@ export default function edit({ openGrado, handleCloseGrado, grado, handleInputAr
             if(response.ok) {
                 return response.json();
             } else {
+                if(response.redirected)
+                {
+                    window.location.href = "/";
+                }
                 throw "Error en la llamada Ajax";
             }
-         })
+        })
         .then(data => {
             [
                 handleInputArraysAdmin(data, 'grados'),

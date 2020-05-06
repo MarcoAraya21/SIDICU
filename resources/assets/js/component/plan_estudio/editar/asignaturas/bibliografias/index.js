@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -48,10 +48,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function bibliografias({ openBibliografias, handleCloseBibliografias, bibliografias, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function bibliografias({ openBibliografias, handleCloseBibliografias, bibliografias, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
     const classes = useStyles();
+    const [guardando, setguardando] = useState(false);
+
     function addElemento(variable) {
         //e.preventDefault();
+        setguardando(true);
         fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
@@ -63,18 +66,25 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                 { asignatura_id: asignaturaId }
             )
         })
-            .then(function (response) {
-                if (response.ok) {
+        .then(function(response) {
+            if(response.redirected)
+            {
+                window.location.href = "/";
+            }
+            else
+            {
+                if(response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }
-
-            })
-            .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification()] })
-            .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            })
+                }   
+            }
+        })
+        .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification()] })
+        .catch(error => {
+            addNotificationAlert('No se ha podido guardar.')
+        })
+        .finally(() => setguardando(false));
     }
     const basica = bibliografias.filter(bibliografia => bibliografia.tipo_bibliografia_id == 1);
     const complementaria = bibliografias.filter(bibliografia => bibliografia.tipo_bibliografia_id == 2);
@@ -106,6 +116,7 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                                         habilitarGeneral={habilitarGeneral}
                                         habilitadogeneral={habilitadogeneral}
                                         addNotification={addNotification}
+                                        addNotificationAlert={addNotificationAlert}
                                     />
                                 )   
                             :
@@ -123,6 +134,7 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                                         habilitarGeneral={habilitarGeneral}
                                         habilitadogeneral={habilitadogeneral}
                                         addNotification={addNotification}
+                                        addNotificationAlert={addNotificationAlert}
                                     />
                                 )   
                             :
@@ -130,9 +142,14 @@ export default function bibliografias({ openBibliografias, handleCloseBibliograf
                         }     
                                     
                         <div align="right" className="mt-2 mb-1">
-                            <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('bibliografias') }}>
-                                <i className="fas fa-plus p-r-5" ></i>Crear Bibliografia
-                            </button>
+                        {
+                            guardando ?
+                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
+                            :
+                                <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('bibliografias') }}>
+                                    <i className="fas fa-plus p-r-5" ></i>Crear Bibliografia
+                                </button>
+                        }
                         </div>
                     </div>
                 </DialogContent>

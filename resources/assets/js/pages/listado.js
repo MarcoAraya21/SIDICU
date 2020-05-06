@@ -14,11 +14,9 @@ class Index extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            plan_estudios: []
+            plan_estudios: [],
         }
-        // this.handleAddElement = this.handleAddElement.bind(this);
-        // this.addElemento = this.addElemento.bind(this);
-        // this.borrarElemento = borrarElemento.bind(this);
+
         this.abortController = new AbortController()
 
 
@@ -30,35 +28,91 @@ class Index extends Component {
     
     }
 
+    evaluar(plan) {
+        swal({
+            icon: "info",
+            buttons: {
+                cancel: 'Cancelar',
+                rechazar: 'Rechazar',
+                aprobar: 'Aprobar'
+            },
+            closeOnEsc: false,
+            allowOutsideClick: false
+            // dangerMode: true,
+        })
+        .then((value) => {
+            if (value) {
+                fetch(`/api/revisar/${plan}`, {
+                    method: 'put',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(
+                        value
+                    )
+                })
+                .then(function(response) {
+                    if(response.ok) {
+                        return response.json();
+                    } else {
+                        if(response.redirected)
+                        {
+                            window.location.href = "/";
+                        }
+                        throw "Error en la llamada Ajax";
+                    }
+                })
+                .then((data) => {
+                    if(data)
+                    {
+                        
+                        swal({
+                            title: "Se ha cambiado el estado correctamente!",
+                            icon: "success",
+                            closeOnEsc: false,
+                            allowOutsideClick: false
+                        });
+                        
+                        let plan_estudios = this.state.plan_estudios.map(plan_estudio => {
+                            if(plan_estudio.id == plan)
+                            {
+                                return {...plan_estudio, estado_id: value == "aprobar" ? 4 : 2}
+                            }
+                            else
+                            {
+                                return plan_estudio;
+                            }
+                        });
+                        
+                        this.setState({ plan_estudios: plan_estudios })
+                    }
+                    else
+                    {
+                        swal({
+                            title: "Oops...",
+                            text: "No se ha podido cambiar el estado.",
+                            icon: "error",
+                            closeOnEsc: false,
+                            allowOutsideClick: false
+                        });
+                        
+                    }
+                })
+                .catch(function (error) {
+                    swal({
+                        title: "Oops...",
+                        text: "Ha ocurrido un error en el servidor, intente nuevamente!",
+                        icon: "error",
+                        closeOnEsc: false,
+                        allowOutsideClick: false
+                    })
+                })
+            }
+        });
 
-    // handleAddElement(key, elemento) {
-    //     console.log(key);
-    //     console.log(elemento);
-    //     var state = this.state[key];
-    //     state.push(elemento);
-    //     this.setState({ [key]: state });
+    }
 
-    // }
-
-    // addElemento() {
-    //     //e.preventDefault();
-    //     fetch(`/api/plan_estudios/`, {
-    //         method: 'post',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json'
-    //         }
-    //     })
-    //     .then(function (response) {
-    //         if (response.ok) {
-    //             return response.json();
-    //         } else {
-    //             throw "Error en la llamada Ajax";
-    //         }
-
-    //     })
-    //     .then(data => this.handleAddElement('plan_estudios', data));
-    // }
 
     componentWillMount() {
         this.getPlanEstudios();
@@ -100,13 +154,28 @@ class Index extends Component {
                                 <i className="fas fa-pencil-alt p-r-10"></i>En Proceso
                             </Link>
                             :
-                            plan_estudio.estado_id == 3 &&
+                            (plan_estudio.estado_id == 3 ?
                             <Link to={`Plan/Ver/${plan_estudio.id}`} className="btn btn-lime p-5 m-l-5">
                                 <i className="fas fa-search p-r-10"></i>En Revisión
                             </Link>
+                            :
+                            plan_estudio.estado_id == 4 &&
+                            <Link to={`Plan/Ver/${plan_estudio.id}`} className="btn btn-success p-5 m-l-5">
+                                <i className="fas fa-check p-r-10"></i>Finalizado
+                            </Link>
+                            )
                             )
                         }
                         
+                    </td>
+                    <td>
+                        {
+                            plan_estudio.estado_id == 3 &&
+                            <button type="button" className="btn btn-primary p-5 m-l-5"
+                                onClick={() => this.evaluar(plan_estudio.id)}>
+                                <i className="fas fa-edit p-r-10"></i>Evaluar
+                            </button>
+                        }
                     </td>
                     {/* <td><Link to={`${plan_estudio.id}`} className='btn btn-primary'>Abrir</Link></td> */}
                 </tr>
@@ -131,6 +200,7 @@ class Index extends Component {
                                     <th>Asesor Uic</th>
                                     <th>Coordinador</th>
                                     <th>Ver</th>
+                                    <th>Evaluar</th>
                                 </tr>
                             </thead>
                             <tbody>

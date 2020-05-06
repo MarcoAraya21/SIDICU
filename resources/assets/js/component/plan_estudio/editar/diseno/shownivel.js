@@ -58,16 +58,11 @@ export default class shownivel extends Component {
                     <button type="button" disabled={!this.state.deshabilitado && this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0} className="btn btn-danger p-5 m-l-5"
                         onClick={() => {
                             if (window.confirm('¿Estas Seguro?'))
-                                this.props.borrarElemento('niveles', this.props.nivelAsignatura.id, this.props.addNotification)
+                                this.props.borrarElemento('niveles', this.props.nivelAsignatura.id, this.props.addNotification, this.props.addNotificationAlert)
                         }}>
                         <i className="fas fa-times p-r-10"></i>Eliminar Nivel</button>
                 </div>
             }
-            {/* <div align="right" className="mt-2 mb-1">
-                <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('competencias')}}>      
-                    <i className="fas fa-plus p-r-5" ></i>Crear Competencia
-                </button>
-            </div>  */}
             </Panel>
         );
     }

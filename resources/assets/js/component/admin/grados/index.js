@@ -51,13 +51,19 @@ export default class grados extends Component {
             }
         })
         .then(function(response) {
-            if(response.ok) {
-                return response.json();
-            } else {
-                throw "Error en la llamada Ajax";
+            if(response.redirected)
+            {
+                window.location.href = "/";
             }
-         
-         })
+            else
+            {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    throw "Error en la llamada Ajax";
+                }   
+            }
+        })
         .then(data => {[
             swal({
                 text: "Se ha Agregado Correctamente!",

@@ -4,7 +4,8 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            deshabilitado: true
+            deshabilitado: true,
+            guardando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
@@ -33,13 +34,16 @@ export default class edit extends Component {
             if(response.ok) {
                 return response.json();
             } else {
+                if(response.redirected)
+                {
+                    window.location.href = "/";
+                }
                 throw "Error en la llamada Ajax";
             }
-         
-         })
+        })
         .then(data => {this.props.addNotification()} )
-        .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
+        .catch(error => {
+            this.props.addNotificationAlert('No se ha podido guardar.')
         })
         .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
             this.props.habilitarGeneral(true)
@@ -63,7 +67,12 @@ export default class edit extends Component {
                 </input>
                 <div className="col-12 text-right mt-2">
                     <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    {
+                        this.state.guardando ?
+                            <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>                      
+                        :
+                            <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    }
                 </div>
             </div>
         );

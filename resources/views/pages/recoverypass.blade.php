@@ -82,7 +82,7 @@
 					</div>
 					<hr />
 					<p class="text-center text-grey-darker">
-						&copy; Color Admin All Right Reserved 2018
+						<!-- &copy; Color Admin All Right Reserved 2018 -->
 					</p>
 				</form>
 			</div>

@@ -48,10 +48,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function evaluaciones({ openEvaluaciones, handleCloseEvaluaciones, asignatura_evaluaciones, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function evaluaciones({ openEvaluaciones, handleCloseEvaluaciones, asignatura_evaluaciones, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
     const classes = useStyles();
     const [evaluaciones, setevaluaciones] = useState([]);
     const [addevaluacion, setaddevaluacion] = useState('');
+    const [guardando, setguardando] = useState(false);
 
     function getEvaluaciones() {
         axios.get('/api/evaluaciones').then((
@@ -65,6 +66,7 @@ export default function evaluaciones({ openEvaluaciones, handleCloseEvaluaciones
 
     function addElemento(variable) {
         //e.preventDefault();
+        setguardando(true);
         fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
@@ -77,18 +79,25 @@ export default function evaluaciones({ openEvaluaciones, handleCloseEvaluaciones
                   evaluacion_id: addevaluacion}
             )
         })
-            .then(function (response) {
-                if (response.ok) {
+        .then(function(response) {
+            if(response.redirected)
+            {
+                window.location.href = "/";
+            }
+            else
+            {
+                if(response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }
-
-            })
-            .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddevaluacion("")] })
-            .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            })
+                }   
+            }
+        })
+        .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddevaluacion("")] })
+        .catch(error => {
+            addNotificationAlert('No se ha podido guardar.')
+        })
+        .finally(() => setguardando(false));
     }
     const evaluacionesSelect = evaluaciones.filter(evaluacion => !asignatura_evaluaciones.some(asignatura_evaluacion => 
         asignatura_evaluacion.evaluacion_id == evaluacion.id
@@ -120,10 +129,10 @@ export default function evaluaciones({ openEvaluaciones, handleCloseEvaluaciones
                                                     onClick={() => {
                                                     if (window.confirm('¿Estas Seguro?'))
                                                     {                                                    
-                                                        borrarElementoAsignatura('asignatura_evaluaciones', asignatura_evaluacion.id, addNotification, asignaturaId)   
+                                                        borrarElementoAsignatura('asignatura_evaluaciones', asignatura_evaluacion.id, addNotification, addNotificationAlert, asignaturaId)   
                                                     }
                                                     }}>
-                                                    <i className="fas fa-times p-r-10" ></i>Eliminar Metodología
+                                                    <i className="fas fa-times p-r-10" ></i>Eliminar Evaluación
                                                 </button>
                                             </div>
                                         </ListItem >
@@ -143,17 +152,22 @@ export default function evaluaciones({ openEvaluaciones, handleCloseEvaluaciones
                                             <option value="">Seleccione una Opción</option>
                                             
                                             {
-                                                evaluacionesSelect.map((opcionMetodologia,i) =>
-                                                        <option key={i} value={opcionMetodologia.id}>{opcionMetodologia.nombre}</option>
+                                                evaluacionesSelect.map((opcionEvaluacion,i) =>
+                                                        <option key={i} value={opcionEvaluacion.id}>{opcionEvaluacion.nombre}</option>
                                                     )
                                             }
                                         </select>
                                     </div>
                                     <div className="col-6 p-0">
                                         <div align="right">
-                                            <button type="button" disabled={!habilitadogeneral || addevaluacion == ""} className="btn btn-primary" onClick={() => { addElemento('asignatura_evaluaciones') }}>
-                                                <i className="fas fa-plus p-r-5" ></i>Crear Metodología
-                                            </button>
+                                        {
+                                            guardando ?
+                                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
+                                            :
+                                                <button type="button" disabled={!habilitadogeneral || addevaluacion == ""} className="btn btn-primary" onClick={() => { addElemento('asignatura_evaluaciones') }}>
+                                                    <i className="fas fa-plus p-r-5" ></i>Crear Evaluación
+                                                </button>
+                                        }
                                         </div>
                                     </div>
                                 </div>

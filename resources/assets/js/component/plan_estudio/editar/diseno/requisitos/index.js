@@ -47,11 +47,14 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function requisitos({ openRequisitos, handleCloseRequisitos, requisitos, opcionRequisitos, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function requisitos({ openRequisitos, handleCloseRequisitos, requisitos, opcionRequisitos, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
     const classes = useStyles();
     const [addrequisito, setaddrequisito] = useState('');
+    const [guardando, setguardando] = useState(false);
+
     function addElemento(variable) {
         //e.preventDefault();
+        setguardando(true);
         fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
@@ -64,18 +67,25 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                   requisito_id: addrequisito}
             )
         })
-            .then(function (response) {
-                if (response.ok) {
+        .then(function(response) {
+            if(response.redirected)
+            {
+                window.location.href = "/";
+            }
+            else
+            {
+                if(response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }
-
-            })
-            .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddrequisito("")] })
-            .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            })
+                }   
+            }
+        })
+        .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddrequisito("")] })
+        .catch(error => {
+            addNotificationAlert('No se ha podido guardar.')
+        })
+        .finally(() => setguardando(false));
     }
 
     const requisitosSelect = opcionRequisitos.filter(opcionRequisito => 
@@ -131,7 +141,7 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                                                             onClick={() => {
                                                             if (window.confirm('¿Estas Seguro?'))
                                                             {                                                    
-                                                                borrarElementoAsignatura('requisitos', requisito.id, addNotification, asignaturaId)   
+                                                                borrarElementoAsignatura('requisitos', requisito.id, addNotification, addNotificationAlert, asignaturaId)   
                                                             }
                                                             }}>
                                                             <i className="fas fa-times p-r-10" ></i>Eliminar Requisito
@@ -173,9 +183,14 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                                     {
                                         <div className="col-6 p-0">
                                             <div align="right">
-                                                <button type="button" disabled={!habilitadogeneral || addrequisito == ""} className="btn btn-primary" onClick={() => { addElemento('requisitos') }}>
-                                                    <i className="fas fa-plus p-r-5" ></i>Crear Requisito
-                                                </button>
+                                            {
+                                                guardando ?
+                                                    <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
+                                                :
+                                                    <button type="button" disabled={!habilitadogeneral || addrequisito == ""} className="btn btn-primary" onClick={() => { addElemento('requisitos') }}>
+                                                        <i className="fas fa-plus p-r-5" ></i>Crear Requisito
+                                                    </button>
+                                            }
                                             </div>
                                         </div>
                                     }

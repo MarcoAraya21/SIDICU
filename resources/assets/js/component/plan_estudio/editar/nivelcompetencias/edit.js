@@ -17,7 +17,8 @@ export default class edit extends Component {
             open: false,
             openAsignatura: false,
             deshabilitado: true,
-            editando: false
+            editando: false,
+            guardando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
@@ -93,10 +94,13 @@ export default class edit extends Component {
             if(response.ok) {
                 return response.json();
             } else {
+                if(response.redirected)
+                {
+                    window.location.href = "/";
+                }
                 throw "Error en la llamada Ajax";
             }
-         
-         })
+        })
         .then(data => {[this.props.handleUpdate(this.state.nivel_competencia, "nivel_competencias", this.props.nivel_competencia.id), this.props.addNotification()]} )
         .catch(error => {
             [this.props.addNotificationAlert('No se ha podido guardar.'), this.setState({nivel_competencia: {...this.state.nivel_competencia, descripcion: this.props.nivel_competencia.descripcion}})]
@@ -170,31 +174,35 @@ export default class edit extends Component {
                     </div>
                     <div className="col-12 text-right mt-2">
                         <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.props.habilitareditcompetencias(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5"
-                        onClick={()=>{
-                            var existe = false;
-                            var str = this.state.nivel_competencia.descripcion;
-                            this.props.verbos.map(verbo =>{
-                                if(str.toLowerCase().includes(verbo.toLowerCase()))
-                                {
-                                    existe = true;
-                                }
-                            })
-                            if(existe == false)
-                            {
-                                if(window.confirm('No ha usado ningun verbo recomendado, esta seguro de querer guardar ?'))
-                                    this.handleSubmit()
-                            }
-                            else
-                            {
-                                this.handleSubmit()
-                            }
-                        }}>
-                        <i className="fas fa-save p-r-10"></i>Guardar</button>
-                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                        {
+                            this.state.guardando ?
+                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>                      
+                            :
+                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5"
+                                onClick={()=>{
+                                    var existe = false;
+                                    var str = this.state.nivel_competencia.descripcion;
+                                    this.props.verbos.map(verbo =>{
+                                        if(str.toLowerCase().includes(verbo.toLowerCase()))
+                                        {
+                                            existe = true;
+                                        }
+                                    })
+                                    if(existe == false)
+                                    {
+                                        if(window.confirm('No ha usado ningun verbo recomendado, esta seguro de querer guardar ?'))
+                                            this.handleSubmit()
+                                    }
+                                    else
+                                    {
+                                        this.handleSubmit()
+                                    }
+                                }}>
+                                <i className="fas fa-save p-r-10"></i>Guardar</button>                        }
+                        {/* <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                        this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification)}}>
-                        <i className="fas fa-times p-r-10"></i>Eliminar</button>         
+                        this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification, this.props.addNotificationAlert)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>          */}
                     </div>
                     <Logros
                     open = {this.state.open}
@@ -258,9 +266,9 @@ export default class edit extends Component {
                                     ).map((asignatura, i) =>
                                         <li key={i}>
                                             {asignatura.nombre}
-                                            <a className="m-l-5" href="" target="_blank">
+                                            {/* <a className="m-l-5" href="" target="_blank">
                                                 <span className="badge badge-info">Ver</span>
-                                            </a>
+                                            </a> */}
                                         </li>
                                     )
                                 }

@@ -657,7 +657,7 @@ export function handleInputOtros(e, id, object = 'tipo_resultado_id', key = 'tip
     // console.info(id)
 }
 
-export function borrarElemento(objeto, propiedad, addNotification) {
+export function borrarElemento(objeto, propiedad, addNotification, addNotificationAlert) {
     //e.preventDefault();
     fetch(`/api/${objeto}/${propiedad}`, {
         method: 'delete',
@@ -666,40 +666,64 @@ export function borrarElemento(objeto, propiedad, addNotification) {
             'Content-Type': 'application/json'
         }
     })
-        .then(function (response) {
-            if (!response.ok) {
-                throw "Error en la llamada Ajax";
+    .then(function(response) {
+        if(!response.ok) {
+            if(response.redirected)
+            {
+                window.location.href = "/";
             }
+            throw "Error en la llamada Ajax";
+        }
+    })
+    .then(() => {
+        if (objeto == 'dominios') {
+            let dominios1 = this.state.dominios.filter(dominio => 
+                dominio.id != propiedad
+            );
 
-        })
-        .then(() => {
-            if (objeto == 'dominios') {
-                let dominios1 = this.state.dominios.filter(dominio => 
-                    dominio.id != propiedad
-                );
+            this.setState({ dominios: dominios1 })
+        }
+        else
+        {
+            if (objeto == 'competencias') {
+                let dominios1 = this.state.dominios.map(dominio => {
+                    return {
+                        ...dominio, competencias: dominio.competencias.filter(competencia =>
+                            competencia.id != propiedad)
+                    }
+                });
 
                 this.setState({ dominios: dominios1 })
             }
-            else
-            {
-                if (objeto == 'competencias') {
+            else {
+                if (objeto == 'nivel_competencias') {
                     let dominios1 = this.state.dominios.map(dominio => {
                         return {
-                            ...dominio, competencias: dominio.competencias.filter(competencia =>
-                                competencia.id != propiedad)
+                            ...dominio, competencias: dominio.competencias.map(competencia => {
+                                return {
+                                    ...competencia, nivel_competencias: competencia.nivel_competencias.filter(nivel_competencia =>
+                                        nivel_competencia.id != propiedad)
+                                }
+                            }
+                            )
                         }
                     });
 
                     this.setState({ dominios: dominios1 })
                 }
                 else {
-                    if (objeto == 'nivel_competencias') {
+                    if (objeto == 'logro_aprendizajes') {
                         let dominios1 = this.state.dominios.map(dominio => {
                             return {
                                 ...dominio, competencias: dominio.competencias.map(competencia => {
                                     return {
-                                        ...competencia, nivel_competencias: competencia.nivel_competencias.filter(nivel_competencia =>
-                                            nivel_competencia.id != propiedad)
+                                        ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
+                                            return {
+                                                ...nivel_competencia, logro_aprendizajes: nivel_competencia.logro_aprendizajes.filter(logro_aprendizaje =>
+                                                    logro_aprendizaje.id != propiedad)
+                                            }
+                                        }
+                                        )
                                     }
                                 }
                                 )
@@ -709,15 +733,15 @@ export function borrarElemento(objeto, propiedad, addNotification) {
                         this.setState({ dominios: dominios1 })
                     }
                     else {
-                        if (objeto == 'logro_aprendizajes') {
+                        if (objeto == 'nivel_competencia_asignaturas') {
                             let dominios1 = this.state.dominios.map(dominio => {
                                 return {
                                     ...dominio, competencias: dominio.competencias.map(competencia => {
                                         return {
                                             ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
                                                 return {
-                                                    ...nivel_competencia, logro_aprendizajes: nivel_competencia.logro_aprendizajes.filter(logro_aprendizaje =>
-                                                        logro_aprendizaje.id != propiedad)
+                                                    ...nivel_competencia, nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.filter(nivel_competencia_asignatura =>
+                                                        nivel_competencia_asignatura.id != propiedad)
                                                 }
                                             }
                                             )
@@ -726,40 +750,63 @@ export function borrarElemento(objeto, propiedad, addNotification) {
                                     )
                                 }
                             });
-
                             this.setState({ dominios: dominios1 })
+
+                            let asignaturas = this.state.asignaturas.map(asignatura => {
+                                return {
+                                    ...asignatura, nivel_competencia_asignaturas: asignatura.nivel_competencia_asignaturas.filter(nivel_competencia_asignatura =>
+                                        nivel_competencia_asignatura.id != propiedad)
+                                }
+                            });
+
+                            this.setState({ asignaturas: asignaturas })
                         }
                         else {
-                            if (objeto == 'nivel_competencia_asignaturas') {
-                                let dominios1 = this.state.dominios.map(dominio => {
-                                    return {
-                                        ...dominio, competencias: dominio.competencias.map(competencia => {
-                                            return {
-                                                ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
-                                                    return {
-                                                        ...nivel_competencia, nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.filter(nivel_competencia_asignatura =>
-                                                            nivel_competencia_asignatura.id != propiedad)
-                                                    }
-                                                }
-                                                )
-                                            }
-                                        }
-                                        )
-                                    }
-                                });
-                                this.setState({ dominios: dominios1 })
+                            if (objeto == 'nivel_generica_asignaturas') {
+                                // let competencias_genericas = this.state.competencias_genericas.map(competencias_generica => {
+                                //     return {
+                                //         ...competencias_generica, nivel_competencias: competencias_generica.nivel_competencias.map(nivel_competencia => {
+                                //             return {
+                                //                 ...nivel_competencia, nivel_genericas: nivel_competencia.nivel_genericas.map(nivel_generica => {
+                                //                     return {
+                                //                         ...nivel_generica, nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.filter(nivel_generica_asignatura =>
+                                //                             nivel_generica_asignatura.id != propiedad)
+                                //                     }
+
+                                //                 })
+                                //             }
+                                //         })
+                                //     }
+                                // });
+                                // this.setState({ competencias_genericas: competencias_genericas })
 
                                 let asignaturas = this.state.asignaturas.map(asignatura => {
                                     return {
-                                        ...asignatura, nivel_competencia_asignaturas: asignatura.nivel_competencia_asignaturas.filter(nivel_competencia_asignatura =>
-                                            nivel_competencia_asignatura.id != propiedad)
+                                        ...asignatura, nivel_generica_asignaturas: asignatura.nivel_generica_asignaturas.filter(nivel_generica_asignatura =>
+                                            nivel_generica_asignatura.id != propiedad)
                                     }
                                 });
 
                                 this.setState({ asignaturas: asignaturas })
                             }
                             else {
-                                if (objeto == 'nivel_generica_asignaturas') {
+                                if (objeto == 'asignaturas') {
+                                    let dominios1 = this.state.dominios.map(dominio => {
+                                        return {
+                                            ...dominio, competencias: dominio.competencias.map(competencia => {
+                                                return {
+                                                    ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
+                                                        return {
+                                                            ...nivel_competencia, nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.filter(nivel_competencia_asignatura =>
+                                                                nivel_competencia_asignatura.asignatura.id != propiedad)
+                                                        }
+                                                    })
+                                                }
+                                            })
+                                        }
+                                    });
+                                    this.setState({ dominios: dominios1 })
+
                                     // let competencias_genericas = this.state.competencias_genericas.map(competencias_generica => {
                                     //     return {
                                     //         ...competencias_generica, nivel_competencias: competencias_generica.nivel_competencias.map(nivel_competencia => {
@@ -767,7 +814,7 @@ export function borrarElemento(objeto, propiedad, addNotification) {
                                     //                 ...nivel_competencia, nivel_genericas: nivel_competencia.nivel_genericas.map(nivel_generica => {
                                     //                     return {
                                     //                         ...nivel_generica, nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.filter(nivel_generica_asignatura =>
-                                    //                             nivel_generica_asignatura.id != propiedad)
+                                    //                             nivel_generica_asignatura.asignatura.id != propiedad)
                                     //                     }
 
                                     //                 })
@@ -777,142 +824,97 @@ export function borrarElemento(objeto, propiedad, addNotification) {
                                     // });
                                     // this.setState({ competencias_genericas: competencias_genericas })
 
-                                    let asignaturas = this.state.asignaturas.map(asignatura => {
+
+                                    let asignaturas = this.state.asignaturas.filter(asignatura =>
+                                        asignatura.id != propiedad
+                                    ).map( asignatura => {
                                         return {
-                                            ...asignatura, nivel_generica_asignaturas: asignatura.nivel_generica_asignaturas.filter(nivel_generica_asignatura =>
-                                                nivel_generica_asignatura.id != propiedad)
+                                            ...asignatura, requisitos: asignatura.requisitos.filter( requisito =>
+                                                requisito.requisito_id != propiedad)
                                         }
-                                    });
+                                    })
 
                                     this.setState({ asignaturas: asignaturas })
+
                                 }
                                 else {
-                                    if (objeto == 'asignaturas') {
+                                    if (objeto == 'competencia_evaluaciones') {
                                         let dominios1 = this.state.dominios.map(dominio => {
                                             return {
                                                 ...dominio, competencias: dominio.competencias.map(competencia => {
                                                     return {
                                                         ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
                                                             return {
-                                                                ...nivel_competencia, nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.filter(nivel_competencia_asignatura =>
-                                                                    nivel_competencia_asignatura.asignatura.id != propiedad)
-                                                            }
-                                                        })
-                                                    }
-                                                })
-                                            }
-                                        });
-                                        this.setState({ dominios: dominios1 })
-
-                                        // let competencias_genericas = this.state.competencias_genericas.map(competencias_generica => {
-                                        //     return {
-                                        //         ...competencias_generica, nivel_competencias: competencias_generica.nivel_competencias.map(nivel_competencia => {
-                                        //             return {
-                                        //                 ...nivel_competencia, nivel_genericas: nivel_competencia.nivel_genericas.map(nivel_generica => {
-                                        //                     return {
-                                        //                         ...nivel_generica, nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.filter(nivel_generica_asignatura =>
-                                        //                             nivel_generica_asignatura.asignatura.id != propiedad)
-                                        //                     }
-
-                                        //                 })
-                                        //             }
-                                        //         })
-                                        //     }
-                                        // });
-                                        // this.setState({ competencias_genericas: competencias_genericas })
-
-
-                                        let asignaturas = this.state.asignaturas.filter(asignatura =>
-                                            asignatura.id != propiedad
-                                        ).map( asignatura => {
-                                            return {
-                                                ...asignatura, requisitos: asignatura.requisitos.filter( requisito =>
-                                                    requisito.requisito_id != propiedad)
-                                            }
-                                        })
-
-                                        this.setState({ asignaturas: asignaturas })
-
-                                    }
-                                    else {
-                                        if (objeto == 'competencia_evaluaciones') {
-                                            let dominios1 = this.state.dominios.map(dominio => {
-                                                return {
-                                                    ...dominio, competencias: dominio.competencias.map(competencia => {
-                                                        return {
-                                                            ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
-                                                                return {
-                                                                    ...nivel_competencia, nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.map(nivel_competencia_asignatura => {
-                                                                        return {
-                                                                            ...nivel_competencia_asignatura, competencia_evaluaciones: nivel_competencia_asignatura.competencia_evaluaciones.filter(competencia_evaluacion =>
-                                                                                competencia_evaluacion.id != propiedad)
-                                                                        }
-                                                                    })
-                                                                }
-                                                            }
-                                                            )
-                                                        }
-                                                    }
-                                                    )
-                                                }
-                                            });
-
-                                            this.setState({ dominios: dominios1 })
-                                        }
-                                        else {
-                                            if (objeto == 'generica_evaluaciones') {
-                                                let competencias_genericas = this.state.competencias_genericas.map(competencias_generica => {
-                                                    return {
-                                                        ...competencias_generica, nivel_competencias: competencias_generica.nivel_competencias.map(nivel_competencia => {
-                                                            return {
-                                                                ...nivel_competencia, nivel_genericas: nivel_competencia.nivel_genericas.map(nivel_generica => {
+                                                                ...nivel_competencia, nivel_competencia_asignaturas: nivel_competencia.nivel_competencia_asignaturas.map(nivel_competencia_asignatura => {
                                                                     return {
-                                                                        ...nivel_generica, nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.map(nivel_generica_asignatura => {
-                                                                            return {
-                                                                                ...nivel_generica_asignatura, generica_evaluaciones: nivel_generica_asignatura.generica_evaluaciones.filter(generica_evaluacion =>
-                                                                                    generica_evaluacion.id != propiedad)
-                                                                            }
-                                                                        })
+                                                                        ...nivel_competencia_asignatura, competencia_evaluaciones: nivel_competencia_asignatura.competencia_evaluaciones.filter(competencia_evaluacion =>
+                                                                            competencia_evaluacion.id != propiedad)
                                                                     }
                                                                 })
                                                             }
-                                                        })
+                                                        }
+                                                        )
                                                     }
-                                                });
-                                                this.setState({ competencias_genericas: competencias_genericas })
+                                                }
+                                                )
+                                            }
+                                        });
+
+                                        this.setState({ dominios: dominios1 })
+                                    }
+                                    else {
+                                        if (objeto == 'generica_evaluaciones') {
+                                            let competencias_genericas = this.state.competencias_genericas.map(competencias_generica => {
+                                                return {
+                                                    ...competencias_generica, nivel_competencias: competencias_generica.nivel_competencias.map(nivel_competencia => {
+                                                        return {
+                                                            ...nivel_competencia, nivel_genericas: nivel_competencia.nivel_genericas.map(nivel_generica => {
+                                                                return {
+                                                                    ...nivel_generica, nivel_generica_asignaturas: nivel_generica.nivel_generica_asignaturas.map(nivel_generica_asignatura => {
+                                                                        return {
+                                                                            ...nivel_generica_asignatura, generica_evaluaciones: nivel_generica_asignatura.generica_evaluaciones.filter(generica_evaluacion =>
+                                                                                generica_evaluacion.id != propiedad)
+                                                                        }
+                                                                    })
+                                                                }
+                                                            })
+                                                        }
+                                                    })
+                                                }
+                                            });
+                                            this.setState({ competencias_genericas: competencias_genericas })
+                                        }
+                                        else {
+                                            if (objeto == 'niveles') {
+                                                let niveles = this.state.niveles.filter(nivel => 
+                                                    nivel.id != propiedad
+                                                );
+                                
+                                                this.setState({ niveles: niveles })
                                             }
                                             else {
-                                                if (objeto == 'niveles') {
-                                                    let niveles = this.state.niveles.filter(nivel => 
-                                                        nivel.id != propiedad
-                                                    );
-                                    
-                                                    this.setState({ niveles: niveles })
+                                                if(objeto = 'nivel_genericas') {
+                                                    let plan_genericas = this.state.plan_genericas.filter( plan_generica =>
+                                                        !this.state.competencias_genericas.filter( competencia_generica =>
+                                                            competencia_generica.id == propiedad
+                                                        ).some( competencia_generica =>
+                                                            competencia_generica.nivel_competencias.some( nivel_competencia =>
+                                                                nivel_competencia.id == plan_generica.nivel_competencia_id
+                                                            )
+                                                        )
+                                                        // plan_generica.nivel_competencia_id != propiedad
+                                                    )
+                                                    let competencias_genericas = this.state.competencias_genericas.filter( competencia_generica =>
+                                                        competencia_generica.id != propiedad
+                                                    )
+
+                                                    this.setState({ plan_genericas: plan_genericas, competencias_genericas: competencias_genericas })
                                                 }
                                                 else {
-                                                    if(objeto = 'nivel_genericas') {
-                                                        let plan_genericas = this.state.plan_genericas.filter( plan_generica =>
-                                                            !this.state.competencias_genericas.filter( competencia_generica =>
-                                                                competencia_generica.id == propiedad
-                                                            ).some( competencia_generica =>
-                                                                competencia_generica.nivel_competencias.some( nivel_competencia =>
-                                                                    nivel_competencia.id == plan_generica.nivel_competencia_id
-                                                                )
-                                                            )
-                                                            // plan_generica.nivel_competencia_id != propiedad
-                                                        )
-                                                        let competencias_genericas = this.state.competencias_genericas.filter( competencia_generica =>
-                                                            competencia_generica.id != propiedad
-                                                        )
-
-                                                        this.setState({ plan_genericas: plan_genericas, competencias_genericas: competencias_genericas })
-                                                    }
-                                                    else {
-                                                        let newstate = this.state[objeto].filter((el) => el.id != propiedad)
-                                                        this.setState({ [objeto]: newstate })
-                                                    }
-                                                    
+                                                    let newstate = this.state[objeto].filter((el) => el.id != propiedad)
+                                                    this.setState({ [objeto]: newstate })
                                                 }
+                                                
                                             }
                                         }
                                     }
@@ -923,11 +925,13 @@ export function borrarElemento(objeto, propiedad, addNotification) {
                 }
             }
         }
-        )
-        .finally(() => { addNotification() });
+        addNotification()
+    }
+    )
+    .catch(error => { addNotificationAlert('No se ha podido guardar.')})
 }
 
-export function borrarElementoAsignatura(objeto, propiedad, addNotification, idAsignatura) {
+export function borrarElementoAsignatura(objeto, propiedad, addNotification, addNotificationAlert, idAsignatura) {
     //e.preventDefault();
     fetch(`/api/${objeto}/${propiedad}`, {
         method: 'delete',
@@ -936,49 +940,53 @@ export function borrarElementoAsignatura(objeto, propiedad, addNotification, idA
             'Content-Type': 'application/json'
         }
     })
-        .then(function (response) {
-            if (!response.ok) {
-                throw "Error en la llamada Ajax";
-            }
-
-        })
-        .then(() => {
-            if(objeto == "contenidos")
+    .then(function(response) {
+        if(!response.ok) {
+            if(response.redirected)
             {
-                var asignaturas = this.state.asignaturas.map(asignatura => {
-                    if (asignatura.id == idAsignatura) {
-                        return {
-                            ...asignatura, unidades: asignatura.unidades.map(unidad => {
-                                return {...unidad, contenidos: unidad.contenidos.filter(contenido => 
-                                    contenido.id != propiedad
-                                    )};
-                                // return {...unidad, contenidos: [...unidad.contenidos, elemento]};
-                            })
-                        }
-                    }
-                    else {
-                        return asignatura;
-                    }
-                });
+                window.location.href = "/";
             }
-            else
-            {
-                var asignaturas = this.state.asignaturas.map(asignatura => {
-                    if (asignatura.id == idAsignatura) {
-                        return {
-                            ...asignatura, [objeto]: asignatura[objeto].filter(objetoSingle =>
-                                objetoSingle.id != propiedad
-                            )
-                        }
+            throw "Error en la llamada Ajax";
+        }
+    })
+    .then(() => {
+        if(objeto == "contenidos")
+        {
+            var asignaturas = this.state.asignaturas.map(asignatura => {
+                if (asignatura.id == idAsignatura) {
+                    return {
+                        ...asignatura, unidades: asignatura.unidades.map(unidad => {
+                            return {...unidad, contenidos: unidad.contenidos.filter(contenido => 
+                                contenido.id != propiedad
+                                )};
+                            // return {...unidad, contenidos: [...unidad.contenidos, elemento]};
+                        })
                     }
-                    else {
-                        return asignatura;
+                }
+                else {
+                    return asignatura;
+                }
+            });
+        }
+        else
+        {
+            var asignaturas = this.state.asignaturas.map(asignatura => {
+                if (asignatura.id == idAsignatura) {
+                    return {
+                        ...asignatura, [objeto]: asignatura[objeto].filter(objetoSingle =>
+                            objetoSingle.id != propiedad
+                        )
                     }
-                })
-            }     
-            this.setState({ asignaturas: asignaturas })
-        })
-        .finally(() => { addNotification() });
+                }
+                else {
+                    return asignatura;
+                }
+            })
+        }     
+        this.setState({ asignaturas: asignaturas })
+        addNotification()
+    })
+    .catch(error => { addNotificationAlert('No se ha podido guardar.')})
 }
 
 export const CONF_DATATABLE = {
@@ -1018,11 +1026,14 @@ export function borrarElementoAdmin(objeto, id) {
             'Content-Type': 'application/json'
         }
     })
-    .then(function (response) {
-        if (!response.ok) {
+    .then(function(response) {
+        if(!response.ok) {
+            if(response.redirected)
+            {
+                window.location.href = "/";
+            }
             throw "Error en la llamada Ajax";
         }
-
     })
     .then(data  => {
         // let arreglo = this.state[objeto].filter(elemento => 

@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import MisPlanes from './pages/mis_planes'
 import PlanEstudio from './component/plan_estudio/index'
 import PlanVer from './component/plan_estudio/indexver'
+import PlanFinalizado from './component/plan_estudio/indexfinalizado'
 // import CrearPlan from './component/crear_plan/index'
 import AsignarPerfil from './pages/asignar_perfil'
 import AsignarPlan from './pages/asignar_plan'
@@ -34,6 +35,7 @@ const Router = () => {
                     <Route path='/InformacionBasica/:id' component={InformacionBasica} />
                     <Route path='/Plan/Editar/:id' component={PlanEstudio} />
                     <Route path='/Plan/Ver/:id' component={PlanVer} />
+                    <Route path='/Plan/Finalizado/:id' component={PlanFinalizado} />
                     <Route path='/MisPlanes' component={MisPlanes} />
                     <Route path='/CrearPlanAdm' component={PlanAdm} />
                     <Route path='/Carreras' component={Carreras} />

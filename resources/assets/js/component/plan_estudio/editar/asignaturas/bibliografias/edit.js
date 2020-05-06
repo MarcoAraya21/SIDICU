@@ -7,7 +7,8 @@ export default class edit extends Component {
         this.state = {
             tipo_bibliografia: this.props.bibliografia.tipo_bibliografia_id,
             deshabilitado: true,
-            editando: false
+            editando: false,
+            guardando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
@@ -36,10 +37,13 @@ export default class edit extends Component {
             if(response.ok) {
                 return response.json();
             } else {
+                if(response.redirected)
+                {
+                    window.location.href = "/";
+                }
                 throw "Error en la llamada Ajax";
             }
-         
-         })
+        })
         .then(data => {
             [
                 this.setState({guardando: false, deshabilitado: true, editando: false}),
@@ -49,8 +53,10 @@ export default class edit extends Component {
                 this.props.addNotification()
             ]
         })
-        .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
+        .catch(error => {[
+            this.setState({guardando: false}),
+            this.props.addNotificationAlert('No se ha podido guardar.')
+        ]
         })
         //console.log('formulario enviado',this.state);
     }
@@ -144,10 +150,15 @@ export default class edit extends Component {
                 </div>
                 <div className="col-12 text-right mt-2">
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    {
+                        this.state.guardando ?
+                            <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>                      
+                        :
+                            <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    }
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                     onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElementoAsignatura('bibliografias', this.props.bibliografia.id, this.props.addNotification, this.props.asignaturaId)}}>
+                    this.props.borrarElementoAsignatura('bibliografias', this.props.bibliografia.id, this.props.addNotification, this.props.addNotificationAlert, this.props.asignaturaId)}}>
                     <i className="fas fa-times p-r-10"></i>Eliminar</button>
                 </div>
             </Panel>

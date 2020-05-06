@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -50,10 +50,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Logros({ open, handleClose, nivel_competencia, handleUpdate, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
   const classes = useStyles();
-
+  const [guardando, setguardando] = useState(false);
 
   function addElemento(variable) {
     //e.preventDefault();
+    setguardando(true);
     fetch(`/api/${variable}`, {
       method: 'post',
       headers: {
@@ -65,18 +66,25 @@ export default function Logros({ open, handleClose, nivel_competencia, handleUpd
         { nivel_competencia_id: nivel_competencia.id }
       )
     })
-      .then(function (response) {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw "Error en la llamada Ajax";
-        }
-
-      })
-      .then(data => { [handleAddElement(variable, data), addNotification()] })
-      .catch(function (error) {
-        console.log('Hubo un problema con la petición Fetch:' + error.message);
-      })
+    .then(function(response) {
+      if(response.redirected)
+      {
+          window.location.href = "/";
+      }
+      else
+      {
+          if(response.ok) {
+              return response.json();
+          } else {
+              throw "Error en la llamada Ajax";
+          }   
+      }
+    })
+    .then(data => { [handleAddElement(variable, data), addNotification()] })
+    .catch(error => {
+      addNotificationAlert('No se ha podido guardar.')
+    })
+    .finally(() => setguardando(false));
   }
 
   return (
@@ -112,9 +120,14 @@ export default function Logros({ open, handleClose, nivel_competencia, handleUpd
                 <p>No posee ningun logro de aprendizaje</p>
             }
             <div align="right" className="mt-2 mb-1">
-              <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('logro_aprendizajes') }}>
-                <i className="fas fa-plus p-r-5" ></i>Crear Logro de Aprendizaje
-              </button>
+            {
+              guardando ?
+                  <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
+              :
+                  <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('logro_aprendizajes') }}>
+                    <i className="fas fa-plus p-r-5" ></i>Crear Logro de Aprendizaje
+                  </button>
+            }
             </div>
           </div>
         </DialogContent>

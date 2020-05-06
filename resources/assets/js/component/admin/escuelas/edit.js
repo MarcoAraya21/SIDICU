@@ -75,9 +75,13 @@ export default function edit({ openEscuela, handleCloseEscuela, escuela, faculta
             if(response.ok) {
                 return response.json();
             } else {
+                if(response.redirected)
+                {
+                    window.location.href = "/";
+                }
                 throw "Error en la llamada Ajax";
             }
-         })
+        })
         .then(data => {
             [
                 handleInputArraysAdmin(data, 'escuelas'),

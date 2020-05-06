@@ -129,7 +129,7 @@
 					</div>
 					<hr />
 					<p class="text-center">
-						&copy; Color Admin All Right Reserved 2018
+						<!-- &copy; Color Admin All Right Reserved 2018 -->
 					</p>
 				</form>
 			</div>

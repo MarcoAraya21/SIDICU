@@ -134,18 +134,19 @@ class Index extends Component {
                     )
                 })
                 .then(function(response) {
-                    console.log('response', response)
                     if(response.ok) {
                         return response.json();
                     } else {
+                        if(response.redirected)
+                        {
+                            window.location.href = "/";
+                        }
                         throw "Error en la llamada Ajax";
                     }
-                
                 })
                 .catch( error => {
                     this.addNotificationAlert()
                     this.setState({guardando: false})
-                    console.log('Hubo un problema con la petición Fetch:' + error.message);
                 })
                 .then(data => {
                     fetch(`/api/informacion_basica/${this.props.match.params.id}`,{
@@ -161,17 +162,19 @@ class Index extends Component {
                             {...this.state.plan_estudios, carrera_id: data.id}
                         )
                     })
-                    .then(function (response) {
-                        if (response.ok) {
+                    .then(function(response) {
+                        if(response.ok) {
                             return response.json();
                         } else {
+                            if(response.redirected)
+                            {
+                                window.location.href = "/";
+                            }
                             throw "Error en la llamada Ajax";
                         }
-
                     })
                     .catch(error => {
                         this.addNotificationAlert()
-                        console.log('Hubo un problema con la petición Fetch:' + error.message);
                     })
                     .then(function(data) {
                         if(data)
@@ -200,17 +203,18 @@ class Index extends Component {
                     )
                 })
                 .then(function(response) {
-                    console.log('response', response)
                     if(response.ok) {
                         return response.json();
                     } else {
+                        if(response.redirected)
+                        {
+                            window.location.href = "/";
+                        }
                         throw "Error en la llamada Ajax";
                     }
-                
                 })
                 .catch( error => {
                     this.addNotificationAlert()
-                    console.log(error);
                 })
                 .then(function(data) {
                     if(data)

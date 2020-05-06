@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
+export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, asignaturaId, asignaturaNombre, handleInputArraysAsignatura, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
   const classes = useStyles();
   let horas_aula = asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id != 4).reduce((previous, current) => {
         return Number(previous) + Number(current.cantidad);
@@ -87,7 +87,8 @@ export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, a
                   handleInputArraysAsignatura= {handleInputArraysAsignatura}
                   habilitarGeneral={habilitarGeneral}
                   habilitadogeneral={habilitadogeneral}
-                  addNotification={addNotification} />
+                  addNotification={addNotification}
+                  addNotificationAlert={addNotificationAlert} />
               )
             }
             <legend>Horas Extra Aula Pedagógicas</legend>
@@ -100,7 +101,8 @@ export default function Horas({ openHoras, handleCloseHoras, asignatura_horas, a
                   handleInputArraysAsignatura= {handleInputArraysAsignatura}
                   habilitarGeneral={habilitarGeneral}
                   habilitadogeneral={habilitadogeneral}
-                  addNotification={addNotification} />
+                  addNotification={addNotification}
+                  addNotificationAlert={addNotificationAlert} />
               )
             }
           </div>

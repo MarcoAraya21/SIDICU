@@ -29,6 +29,7 @@ class UserProfile
         {
             $path_editar = '/^\b(Plan\/Editar\/)+([1-9][0-9]{0,3})$/';
             $path_ver = '/^\b(Plan\/Ver\/)+([1-9][0-9]{0,3})$/';
+            $path_finalizado = '/^\b(Plan\/Finalizado\/)+([1-9][0-9]{0,3})$/';
             $path_basica = '/^\b(InformacionBasica\/)+([1-9][0-9]{0,3})$/';
             if($path == "Administrador" || 
             $path == "AsignarPerfil" || 
@@ -42,20 +43,12 @@ class UserProfile
                 {
                     return $next($request);
                 }
-                else
-                {
-                    return redirect('/home');
-                }
             }
             if($path == "AsignarPlan")
             {
                 if($perfil == 1 || $perfil == 2)
                 {
                     return $next($request);
-                }
-                else
-                {
-                    return redirect('/home');
                 }
             }
             if($path == "Listado" || $path == "Indicadores")
@@ -64,20 +57,13 @@ class UserProfile
                 {
                     return $next($request);
                 }
-                else
-                {
-                    return redirect('/home');
-                }
+
             }
             if($path == "Pendientes" || preg_match($path_basica, $path))
             {
                 if($perfil == 1 || $perfil == 3)
                 {
                     return $next($request);
-                }
-                else
-                {
-                    return redirect('/home');
                 }
             }
             if($path == "MisPlanes" || preg_match($path_editar, $path))
@@ -86,10 +72,6 @@ class UserProfile
                 {
                     return $next($request);
                 }
-                else
-                {
-                    return redirect('/home');
-                }
             }
             if(preg_match($path_ver, $path))
             {
@@ -97,15 +79,8 @@ class UserProfile
                 {
                     return $next($request);
                 }
-                else
-                {
-                    return redirect('/home');
-                }
             }
-            else
-            {
-                return redirect('/home');
-            }
+            return redirect('/home');
         }
         // PATHS API
         else
@@ -215,7 +190,7 @@ class UserProfile
                     return $next($request);
                 }
             }
-            if($elemento == "asignatura_horas")
+            if($elemento == "asignatura_horas" || $elemento == "finalizar")
             {
                 if($metodo == "PUT")
                 {
@@ -403,7 +378,7 @@ class UserProfile
                     }
                 }
             }
-            if($elemento == "mis_planes")
+            if($elemento == "mis_planes" || $elemento == "editar")
             {
                 if($metodo == "GET")
                 {
@@ -431,7 +406,34 @@ class UserProfile
                     }
                 }
             }
-
+            if($elemento == "ver")
+            {
+                if($metodo == "GET")
+                {
+                    if($perfil == 1 || $perfil == 2 || $perfil == 3 || $perfil == 4)
+                    {
+                        return $next($request);
+                    }
+                    else
+                    {
+                        return response()->json(['error' => 'No Autorizado.'], 401);
+                    }
+                }
+            }
+            if($elemento == "revisar")
+            {
+                if($metodo == "PUT")
+                {
+                    if($perfil == 1 || $perfil == 2)
+                    {
+                        return $next($request);
+                    }
+                    else
+                    {
+                        return response()->json(['error' => 'No Autorizado.'], 401);
+                    }
+                }
+            }
             return response()->json(['error' => 'No Autorizado.'], 401);
         }
     }

@@ -4,6 +4,7 @@ export default class index extends Component {
     constructor (props) {
         super(props)
         this.state = {
+            guardando: false
         }
         
         this.addElemento = this.addElemento.bind(this);
@@ -12,6 +13,7 @@ export default class index extends Component {
 
     addElemento(variable){
         //e.preventDefault();
+        this.setState({guardando: true})
         fetch(`/api/${variable}`, {
             method: 'post',
             headers: {
@@ -24,17 +26,24 @@ export default class index extends Component {
             )
         })
         .then(function(response) {
-            if(response.ok) {
-                return response.json();
-            } else {
-                throw "Error en la llamada Ajax";
+            if(response.redirected)
+            {
+                window.location.href = "/";
             }
-         
-         })
-        .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
-        .catch(function(error) {
-            console.log('Hubo un problema con la petición Fetch:' + error.message);
+            else
+            {
+                if(response.ok) {
+                    return response.json();
+                } else {
+                    throw "Error en la llamada Ajax";
+                }   
+            }
         })
+        .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
+        .catch(error => {
+            this.props.addNotificationAlert('No se ha podido guardar.')
+        })
+        .finally(() => {this.setState({guardando: false})});
          
         
     }
@@ -64,9 +73,14 @@ export default class index extends Component {
                                 )
                             }
                             <div align="right" className="mt-2 mb-1">
-                                <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('dominios')}}>      
-                                    <i className="fas fa-plus p-r-5" ></i>Crear Dominio
-                                </button>
+                            {
+                                this.state.guardando ?
+                                    <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
+                                :
+                                    <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('dominios')}}>      
+                                        <i className="fas fa-plus p-r-5" ></i>Crear Dominio
+                                    </button>
+                            }
                             </div>
                     </React.Fragment>
                 </div>  

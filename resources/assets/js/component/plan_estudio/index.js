@@ -138,7 +138,7 @@ export default class index extends Component {
 
     getPlanEstudio() {
         // console.log(projectId);
-        axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
+        axios.get(`/api/editar/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({
@@ -440,10 +440,22 @@ export default class index extends Component {
                                 </div> */}
                                 <div className="tab-pane fade" id="plan-tab-7">
                                     <Resumen
+                                        params={this.props.match.params.id}
+                                        proposito={this.state.proposito}
+                                        objetivo={this.state.objetivo}
+                                        requisito_admision={this.state.requisito_admision}
+                                        mecanismo_retencion={this.state.mecanismo_retencion}
+                                        requisito_obtencion={this.state.requisito_obtencion}
+                                        campo_desarrollo={this.state.campo_desarrollo}
+
                                         dominios={this.state.dominios}
                                         competencias_genericas={this.state.competencias_genericas}
                                         asignaturas={this.state.asignaturas}
-                                    />
+
+                                        acceso={this.state.acceso}
+                                        addNotification={this.addNotification}
+                                        addNotificationAlert={this.addNotificationAlert}
+                                    />                                        
                                 </div>
                             </div>
                         </div>

@@ -35,10 +35,10 @@ export default class show extends Component {
 
     handleSubmit(){
         //e.preventDefault();
-        let validaciones2 = validaciones(this.state, show)
-        this.setState({errores: validaciones2})
-        if(Object.keys(validaciones2).length == 0)
-        {
+        // let validaciones2 = validaciones(this.state, show)
+        // this.setState({errores: validaciones2})
+        // if(Object.keys(validaciones2).length == 0)
+        // {
             this.setState({guardando: true})
             fetch('/api/plan_estudios/' + this.props.params, {
                 method: 'put',
@@ -54,9 +54,12 @@ export default class show extends Component {
                 if(response.ok) {
                     return response.json();
                 } else {
+                    if(response.redirected)
+                    {
+                        window.location.href = "/";
+                    }
                     throw "Error en la llamada Ajax";
                 }
-            
             })
             .then(data => {this.props.addNotification()} )
             .catch(error => {
@@ -65,12 +68,11 @@ export default class show extends Component {
             .finally(() => {[this.setState({guardando: false, deshabilitado: true}),
                 this.props.habilitarGeneral(true)
             ]});
-        }
-        else
-        {
-            this.props.addNotificationWarning('Debe rellenar los campos.');
-        }
-        //console.log('formulario enviado',this.state);
+        // }
+        // else
+        // {
+        //     this.props.addNotificationWarning('Debe rellenar los campos.');
+        // }
     }
 
     componentWillMount() {
@@ -191,7 +193,7 @@ export default class show extends Component {
                     <button type="button" disabled={!this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
                     {
                         this.state.guardando ?
-                            <button className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse"></i> Guardando</button>
+                            <button className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>
                         :                             
                             <button type="button" disabled={this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={this.handleSubmit}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     }

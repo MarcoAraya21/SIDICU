@@ -97,9 +97,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/Indicadores', function () {
             return view('/pages/welcome');
         });
+        Route::get('/Plan/Ver/{id}', function () {
+            return view('/pages/welcome');
+        });
     });
     
-    Route::get('/Plan/Ver/{id}', function () {
+    Route::get('/Plan/Finalizado/{id}', function () {
         return view('/pages/welcome');
     });
     Route::get('/home', function () {

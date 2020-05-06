@@ -115,7 +115,7 @@ class PlanEstudioController extends Controller
         $usuario_id = JWTAuth::toUser($token)->id;
         // $PlanEstudio = PlanEstudioUsuario::where([['usuario_id', $usuario_id], ['rol_id', 1]])->plan_estudio()->where('estado_id', 1)->get();
         // $PlanEstudio = PlanEstudio::where('estado_id', 1)->plan_estudio_usuarios()->where('usuario_id',$usuario_id);
-        $PlanEstudio = Usuario::find($usuario_id)->plan_estudios()->where('estado_id', 2)->get();
+        $PlanEstudio = Usuario::find($usuario_id)->plan_estudios()->whereIn('estado_id', [2, 3])->get();
         // ->get();
         return $PlanEstudio->toJson();
     }
@@ -198,7 +198,7 @@ class PlanEstudioController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function editar($id)
     {
         $token = '';
         if(isset($_COOKIE['token']))
@@ -236,7 +236,10 @@ class PlanEstudioController extends Controller
                     ->with('nivel_genericas')
                     ->with('tipo_formacion')
                     ->findOrFail($id);
-            return response()->json([$PlanEstudio, 1], 200);
+            if($PlanEstudio->estado_id == 2)
+            {
+                return response()->json([$PlanEstudio, 1], 200);
+            }
         }
         else
         {
@@ -271,14 +274,80 @@ class PlanEstudioController extends Controller
                         ->with('nivel_genericas')
                         ->with('tipo_formacion')
                         ->findOrFail($id);
-                    return response()->json([$PlanEstudio, $PlanEstudioUsuario->rol_id], 200);
+                    if($PlanEstudio->estado_id == 2)
+                    {
+                        return response()->json([$PlanEstudio, $PlanEstudioUsuario->rol_id], 200);
+                    }
                 }
             }
         }
         return response()->json(['error' => 'Acceso no permitido.'],403);
     }
 
+    public function ver($id)
+    {
+        $PlanEstudio = PlanEstudio::
+            with(['dominios' => function ($query) {
+                $query
+                ->with('tipo_dominio')
+                ->with(['competencias' => function ($query) {
+                    $query
+                    ->with(['nivel_competencias' => function ($query) {
+                        $query
+                        ->with('logro_aprendizajes')
+                        ->with(['nivel_competencia_asignaturas' => function ($query) {
+                            $query
+                            ->with('asignatura');
+                        }]);
+                    }]);
+                }]);
+            }])
+            ->with('carrera')
+            ->with('tipo_plan')
+            ->with('tipo_ingreso')
+            ->with(['plan_estudio_usuarios' => function ($query) {
+                $query
+                ->with('usuario');
+            }])
+            ->with('niveles')
+            ->with('nivel_genericas')
+            ->with('tipo_formacion')
+            ->findOrFail($id);
+        return response()->json($PlanEstudio, 200);
+    }
 
+    // FINALIZADOS
+    Public function show($id)
+    {
+        $PlanEstudio = PlanEstudio::
+            with(['dominios' => function ($query) {
+                $query
+                ->with('tipo_dominio')
+                ->with(['competencias' => function ($query) {
+                    $query
+                    ->with(['nivel_competencias' => function ($query) {
+                        $query
+                        ->with('logro_aprendizajes')
+                        ->with(['nivel_competencia_asignaturas' => function ($query) {
+                            $query
+                            ->with('asignatura');
+                        }]);
+                    }]);
+                }]);
+            }])
+            ->with('carrera')
+            ->with('tipo_plan')
+            ->with('tipo_ingreso')
+            ->with(['plan_estudio_usuarios' => function ($query) {
+                $query
+                ->with('usuario');
+            }])
+            ->with('niveles')
+            ->with('nivel_genericas')
+            ->with('tipo_formacion')
+            ->findOrFail($id);
+        return response()->json($PlanEstudio, 200);
+    }
 
     public function store(Request $request)
     {
@@ -500,16 +569,37 @@ class PlanEstudioController extends Controller
      */
     public function update(Request $request, PlanEstudio $PlanEstudio)
     {
-        $this->validate($request, [
-            'proposito' => 'required',
-            'objetivo' => 'required',
-            'requisito_admision' => 'required',
-            'mecanismo_retencion' => 'required',
-            'requisito_obtencion' => 'required',
-            'campo_desarrollo' => 'required'
-        ]);
+        // $this->validate($request, [
+        //     'proposito' => 'required',
+        //     'objetivo' => 'required',
+        //     'requisito_admision' => 'required',
+        //     'mecanismo_retencion' => 'required',
+        //     'requisito_obtencion' => 'required',
+        //     'campo_desarrollo' => 'required'
+        // ]);
         
         $PlanEstudio = $PlanEstudio->update($request->all());
+        return response()->json($PlanEstudio, 201);
+    }
+
+    public function finalizar(Request $request, PlanEstudio $PlanEstudio, $id)
+    {
+        $PlanEstudio = $PlanEstudio->find($id);
+        $PlanEstudio = $PlanEstudio->update(['estado_id' => 3]);
+        return response()->json($PlanEstudio, 201);
+    }
+
+    public function revisar(Request $request, PlanEstudio $PlanEstudio, $id)
+    {
+        $PlanEstudio = $PlanEstudio->find($id);
+        if($request[0] == "aprobar")
+        {
+            $PlanEstudio = $PlanEstudio->update(['estado_id' => 4]);
+        }
+        if($request[0] == "rechazar")
+        {
+            $PlanEstudio = $PlanEstudio->update(['estado_id' => 2]);
+        }
         return response()->json($PlanEstudio, 201);
     }
 

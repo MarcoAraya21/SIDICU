@@ -5,7 +5,8 @@ export default class edit extends Component {
         super(props)
         this.state = {
             deshabilitado: true,
-            editando: false
+            editando: false,
+            guardando: false
 
         }
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,24 +31,27 @@ export default class edit extends Component {
                 elemento
             )
         })
-            .then(function (response) {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw "Error en la llamada Ajax";
+        .then(function(response) {
+            if(response.ok) {
+                return response.json();
+            } else {
+                if(response.redirected)
+                {
+                    window.location.href = "/";
                 }
-
-            })
-            .then(data => { this.props.addNotification() })
-            .catch(function (error) {
-                console.log('Hubo un problema con la petición Fetch:' + error.message);
-            })
-            .finally(() => {
-                [this.setState({ guardando: false, deshabilitado: true, editando: false  }),
-                this.props.habilitarGeneral(true),
-                this.props.habilitareditunidades(false)
-                ]
-            });
+                throw "Error en la llamada Ajax";
+            }
+        })
+        .then(data => { this.props.addNotification() })
+        .catch(error => {
+            this.props.addNotificationAlert('No se ha podido guardar.')
+        })
+        .finally(() => {
+            [this.setState({ guardando: false, deshabilitado: true, editando: false  }),
+            this.props.habilitarGeneral(true),
+            this.props.habilitareditunidades(false)
+            ]
+        });
         //console.log('formulario enviado',this.state);
     }
 
@@ -66,11 +70,16 @@ export default class edit extends Component {
                 </div>
                 <div className="col-6 text-right">
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false), this.props.habilitareditunidades(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('contenidos', this.props.contenido)}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    {
+                        this.state.guardando ?
+                            <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>                      
+                        :
+                            <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('contenidos', this.props.contenido)}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    }
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={() => {
                             if (window.confirm('¿Estas Seguro?'))
-                                this.props.borrarElementoAsignatura('contenidos', this.props.contenido.id, this.props.addNotification, this.props.asignaturaId)
+                                this.props.borrarElementoAsignatura('contenidos', this.props.contenido.id, this.props.addNotification, this.props.addNotificationAlert, this.props.asignaturaId)
                         }}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
                 </div>

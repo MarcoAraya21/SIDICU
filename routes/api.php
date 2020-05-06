@@ -84,6 +84,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('mis_planes', 'PlanEstudioController@misPlanes');
         Route::get('pendientes', 'PlanEstudioController@misPendientes');
 
+        Route::get('editar/{plan_id}', 'PlanEstudioController@editar');
+        Route::get('ver/{plan_id}', 'PlanEstudioController@ver');
+        Route::put('finalizar/{plan_id}', 'PlanEstudioController@finalizar');
+        Route::put('revisar/{plan_id}', 'PlanEstudioController@revisar');
+
+
     });
     
     Route::get('competencias_genericas', 'CompetenciaController@genericas');
