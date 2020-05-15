@@ -46,9 +46,7 @@ export default class index extends Component {
                                         nivelAsignatura={nivelAsignatura}
                                         niveles={this.props.niveles}
                                         asignaturas={this.props.asignaturas}
-                                        dominios={this.props.dominios}
-                                        comp_genericas = {this.props.comp_genericas}
-                                        handleUpdate = {this.props.handleUpdate}
+                                        handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                                         borrarElemento = {this.props.borrarElemento}
                                         handleAddElement = {this.props.handleAddElement}
@@ -56,9 +54,7 @@ export default class index extends Component {
                                         borrarElementoAsignatura={this.props.borrarElementoAsignatura}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
-                                        addNotification = {this.props.addNotification}
-                                        addNotificationAlert = {this.props.addNotificationAlert}
-                                        />
+                                        addNotification = {this.props.addNotification}                                      />
                                         }
                                     </div>
                                     :
@@ -67,9 +63,7 @@ export default class index extends Component {
                                         nivelAsignatura={nivelAsignatura}
                                         niveles={this.props.niveles}
                                         asignaturas={this.props.asignaturas}
-                                        dominios={this.props.dominios}
-                                        comp_genericas = {this.props.comp_genericas}
-                                        handleUpdate = {this.props.handleUpdate}
+                                        handleInputArrays = {this.props.handleInputArrays}
                                         handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                                         borrarElemento = {this.props.borrarElemento}
                                         handleAddElement = {this.props.handleAddElement}
@@ -78,7 +72,6 @@ export default class index extends Component {
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}
-                                        addNotificationAlert = {this.props.addNotificationAlert}
                                         ultimoNivel={nivelAsignatura.id == this.props.niveles[this.props.niveles.length - 1].id}
                                         />
                                     </div>

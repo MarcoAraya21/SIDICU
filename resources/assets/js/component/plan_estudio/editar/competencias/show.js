@@ -8,7 +8,6 @@ export default class show extends Component {
         this.state = {
             editandodominio: false,
             generica: "",
-            guardando: false
         }
 
         this.habilitareditdominios = this.habilitareditdominios.bind(this);
@@ -31,39 +30,29 @@ export default class show extends Component {
             var form = {dominio_id:  this.props.dominio.id};
         }
         //e.preventDefault();
-        this.setState({guardando: true})
-
-        fetch(`/api/${variable}`, {
+        fetch(`/api/${variable}/`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
                 'Content-Type':'application/json'
-            },
-            mode: 'cors',
+            }
+            ,
             body: JSON.stringify(
                 form
             )
         })
         .then(function(response) {
-            if(response.redirected)
-            {
-                window.location.href = "/";
+            if(response.ok) {
+                return response.json();
+            } else {
+                throw "Error en la llamada Ajax";
             }
-            else
-            {
-                if(response.ok) {
-                    return response.json();
-                } else {
-                    throw "Error en la llamada Ajax";
-                }   
-            }
-        })
+         
+         })
         .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
-        .catch(error => {
-            this.props.addNotificationAlert('No se ha podido guardar.')
+        .catch(function(error) {
+            console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
-        .finally(() => {this.setState({generica: "", guardando: false})});
-
     }
     
 
@@ -80,82 +69,61 @@ export default class show extends Component {
                             <Edit key={competencia.id}
                             competencia = {competencia}
                             i={i}
-                            handleUpdate={this.props.handleUpdate}
+                            handleInputArrays={this.props.handleInputArrays}
                             borrarElemento={this.props.borrarElemento}
                             habilitarGeneral = {this.props.habilitarGeneral}
                             habilitadogeneral = {this.props.habilitadogeneral}
                             habilitareditdominios = {this.habilitareditdominios}
-                            addNotification = {this.props.addNotification}
-                            addNotificationAlert={this.props.addNotificationAlert}/>
+                            addNotification = {this.props.addNotification}/>
                             )
                         :
                         <p>No posee ninguna competencia</p>
                     }
                     <div align="right" className="mt-2 mb-1">
-                    {
-                            this.state.guardando ?
-                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
-                            :
-                                <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('competencias')}}>      
-                                    <i className="fas fa-plus p-r-5" ></i>Crear Competencia
-                                </button>
-                    }
+                        <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('competencias')}}>      
+                            <i className="fas fa-plus p-r-5" ></i>Crear Competencia
+                        </button>
                     </div> 
                 </Panel>
             )
         }
         else
         {
-            const genericasSelect = this.props.comp_genericas.filter(generica => !this.props.competencias_genericas.some(competencia_generica => 
+            const genericasSelect = this.props.comp_genericas && this.props.comp_genericas.filter(generica => !this.props.competencias_genericas.some(competencia_generica => 
                 competencia_generica.id == generica.id
             ))
             return (
                 <Panel key={'dominio-generico'} titulo={'Dominio: Generico'} border={true} collapse={true} expand={true} habilitado={(!this.props.habilitadogeneral && !this.state.habilitareditdominios)}>
                 {
                     this.props.competencias_genericas.map((competencia_generica,i) =>
-                    <div className="row mb-3"key={i}>
-                        <div className="col-md-9 border px-2 py-2 ">
-                            {competencia_generica.sigla + ": " + competencia_generica.descripcion}
-                        </div>
-                        <button type="button" disabled={!this.props.habilitadogeneral} className="btn btn-danger ml-auto"
-                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                        this.props.borrarElemento('nivel_genericas', competencia_generica.id,this.props.addNotification, this.props.addNotificationAlert)}}>
-                        <i className="fas fa-times p-r-10"></i>Eliminar</button>
+                    <div key={i} className="border px-2 py-2 mb-3">
+                        {competencia_generica.sigla + ": " + competencia_generica.descripcion}
                     </div>
                     )
                 }
-                {
-                    genericasSelect.length > 0 &&
-                    <div className="row">
-                        <div className="col-6 p-0">
-                            <select
-                                value={this.state.generica}
-                                className="form-control"
-                                onChange={(e)=> this.setState({generica: e.target.value})}>
-                                <option value="">Seleccione una Opción</option>
-                                
-                                {
-                                    genericasSelect.map((opcionGenerica,i) =>
-                                            <option key={i} value={opcionGenerica.id}>{opcionGenerica.sigla + " " + opcionGenerica.descripcion}</option>
-                                        )
-                                }
-                            </select>
-                        </div>
-                        <div className="col-6 p-0">
-                            <div align="right" className="mt-2 mb-1">
+                <div className="row">
+                    <div className="col-6 p-0">
+                        <select
+                            value={this.state.generica}
+                            className="form-control"
+                            onChange={(e)=> this.setState({generica: e.target.value})}>
+                            <option value="">Seleccione una Opción</option>
+                            
                             {
-                                this.state.guardando ?
-                                    <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Asociando</button>                      
-                                :
-                                    <button disabled={!this.props.habilitadogeneral || this.state.generica == ""} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_genericas')}}>      
-                                        <i className="fas fa-plus p-r-5" ></i>Asociar Competencia Generica
-                                    </button>
+                                genericasSelect && genericasSelect.map((opcionGenerica,i) =>
+                                        <option key={i} value={opcionGenerica.id}>{opcionGenerica.sigla + " " + opcionGenerica.descripcion}</option>
+                                    )
                             }
-                            </div> 
-                        </div>
+                        </select>
                     </div>
-                }
-                
+                    <div className="col-6 p-0">
+                        <div align="right" className="mt-2 mb-1">
+                            <button disabled={!this.props.habilitadogeneral} type="button" className="btn btn-primary" onClick={()=>{this.addElemento('nivel_genericas')}}>      
+                                <i className="fas fa-plus p-r-5" ></i>Asociar Competencia Generica
+                            </button>
+                        </div> 
+                    </div>
+                </div>
             </Panel>
             )
         };                        

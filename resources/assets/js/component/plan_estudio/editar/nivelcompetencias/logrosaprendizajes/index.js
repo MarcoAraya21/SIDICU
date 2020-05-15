@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -48,14 +48,13 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Logros({ open, handleClose, nivel_competencia, handleUpdate, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
+export default function Logros({ open, handleClose, nivel_competencia, nivel_competencia_generica, handleInputArrays, borrarElemento, handleAddElement, habilitarGeneral, habilitadogeneral, addNotification }) {
   const classes = useStyles();
-  const [guardando, setguardando] = useState(false);
+
 
   function addElemento(variable) {
     //e.preventDefault();
-    setguardando(true);
-    fetch(`/api/${variable}`, {
+    fetch(`/api/${variable}/`, {
       method: 'post',
       headers: {
         'Accept': 'application/json',
@@ -66,25 +65,18 @@ export default function Logros({ open, handleClose, nivel_competencia, handleUpd
         { nivel_competencia_id: nivel_competencia.id }
       )
     })
-    .then(function(response) {
-      if(response.redirected)
-      {
-          window.location.href = "/";
-      }
-      else
-      {
-          if(response.ok) {
-              return response.json();
-          } else {
-              throw "Error en la llamada Ajax";
-          }   
-      }
-    })
-    .then(data => { [handleAddElement(variable, data), addNotification()] })
-    .catch(error => {
-      addNotificationAlert('No se ha podido guardar.')
-    })
-    .finally(() => setguardando(false));
+      .then(function (response) {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw "Error en la llamada Ajax";
+        }
+
+      })
+      .then(data => { [handleAddElement(variable, data), addNotification()] })
+      .catch(function (error) {
+        console.log('Hubo un problema con la petición Fetch:' + error.message);
+      })
   }
 
   return (
@@ -109,25 +101,19 @@ export default function Logros({ open, handleClose, nivel_competencia, handleUpd
                   <Edit key={logro_aprendizaje.id}
                     logro_aprendizaje={logro_aprendizaje}
                     i={i}
-                    handleUpdate={handleUpdate}
+                    handleInputArrays={handleInputArrays}
                     borrarElemento={borrarElemento}
                     habilitarGeneral={habilitarGeneral}
                     habilitadogeneral={habilitadogeneral}
-                    addNotification={addNotification}
-                    addNotificationAlert={addNotificationAlert} />
+                    addNotification={addNotification} />
                 )
                 :
                 <p>No posee ningun logro de aprendizaje</p>
             }
             <div align="right" className="mt-2 mb-1">
-            {
-              guardando ?
-                  <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
-              :
-                  <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('logro_aprendizajes') }}>
-                    <i className="fas fa-plus p-r-5" ></i>Crear Logro de Aprendizaje
-                  </button>
-            }
+              <button type="button" disabled={!habilitadogeneral} className="btn btn-primary" onClick={() => { addElemento('logro_aprendizajes') }}>
+                <i className="fas fa-plus p-r-5" ></i>Crear Logro de Aprendizaje
+              </button>
             </div>
           </div>
         </DialogContent>

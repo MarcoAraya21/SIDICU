@@ -95,6 +95,8 @@ class PdfController extends Controller
         // pass view file
         $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
 
+
+
         // $PlanEstudio = PlanEstudio::
         // with('carrera')
         // ->with('tipo_plan')

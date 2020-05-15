@@ -15,12 +15,40 @@ export default class show extends Component {
     habilitareditasignaturas(estado){
         this.setState({editandoasignaturas: estado});
     }
- 
+    // addElemento(variable){
+    //     //e.preventDefault();
+    //     fetch(`/api/${variable}/`, {
+    //         method: 'post',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type':'application/json'
+    //         }
+    //         ,
+    //         body: JSON.stringify(
+    //             {dominio_id:  this.props.dominio.id}
+    //         )
+    //     })
+    //     .then(function(response) {
+    //         if(response.ok) {
+    //             return response.json();
+    //         } else {
+    //             throw "Error en la llamada Ajax";
+    //         }
+         
+    //      })
+    //     .then(data => {[this.props.handleAddElement(variable, data),this.props.addNotification()]} )
+    //     .catch(function(error) {
+    //         console.log('Hubo un problema con la petición Fetch:' + error.message);
+    //     })
+    // }
+    
+
+    
     render() {
         return (
             <div className="border p-3 mb-3">
                 <div className="col ui-sortable-disabled">
-                    <legend>Asignaturas del Semestre {this.props.nivelAsignatura.nombre}</legend>
+                    <legend>Asignaturas del Nivel {this.props.nivelAsignatura.nombre}</legend>
                     {
                         this.props.asignaturas && 
                         this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0 ?
@@ -30,9 +58,7 @@ export default class show extends Component {
                                     asignatura={asignatura}
                                     asignaturas={this.props.asignaturas}
                                     niveles={this.props.niveles}
-                                    dominios={this.props.dominios}
-                                    comp_genericas = {this.props.comp_genericas}
-                                    handleUpdate = {this.props.handleUpdate}
+                                    handleInputArrays = {this.props.handleInputArrays}
                                     handleInputArraysAsignatura = {this.props.handleInputArraysAsignatura}
                                     handleAddElement = {this.props.handleAddElement}
                                     handleAddElementAsignatura = {this.props.handleAddElementAsignatura}
@@ -41,7 +67,6 @@ export default class show extends Component {
                                     habilitadogeneral = {this.props.habilitadogeneral}
                                     habilitareditasignaturas = {this.habilitareditasignaturas}
                                     addNotification = {this.props.addNotification}
-                                    addNotificationAlert = {this.props.addNotificationAlert}
                                 />
                             )
                         :
@@ -54,7 +79,7 @@ export default class show extends Component {
                         <button type="button" disabled={!this.state.deshabilitado && this.props.asignaturas.filter(asignatura => asignatura.nivel_id == this.props.nivelAsignatura.id).length > 0} className="btn btn-danger p-5 m-l-5"
                             onClick={() => {
                                 if (window.confirm('¿Estas Seguro?'))
-                                    this.props.borrarElemento('niveles', this.props.nivelAsignatura.id, this.props.addNotification, this.props.addNotificationAlert)
+                                    this.props.borrarElemento('niveles', this.props.nivelAsignatura.id, this.props.addNotification)
                             }}>
                             <i className="fas fa-times p-r-10"></i>Eliminar Nivel</button>
                     </div>

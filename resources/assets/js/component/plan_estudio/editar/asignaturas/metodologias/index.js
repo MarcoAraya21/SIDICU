@@ -48,11 +48,10 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function metodologias({ openMetodologias, handleCloseMetodologias, asignatura_metodologias, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
+export default function metodologias({ openMetodologias, handleCloseMetodologias, asignatura_metodologias, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
     const classes = useStyles();
     const [metodologias, setmetodologias] = useState([]);
     const [addmetodologia, setaddmetodologia] = useState('');
-    const [guardando, setguardando] = useState(false);
 
     function getMetodologias() {
         axios.get('/api/metodologias').then((
@@ -66,8 +65,7 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
 
     function addElemento(variable) {
         //e.preventDefault();
-        setguardando(true);
-        fetch(`/api/${variable}`, {
+        fetch(`/api/${variable}/`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -79,25 +77,18 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
                   metodologia_id: addmetodologia}
             )
         })
-        .then(function(response) {
-            if(response.redirected)
-            {
-                window.location.href = "/";
-            }
-            else
-            {
-                if(response.ok) {
+            .then(function (response) {
+                if (response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }   
-            }
-        })
-        .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddmetodologia("")] })
-        .catch(error => {
-            addNotificationAlert('No se ha podido guardar.')
-        })
-        .finally(() => setguardando(false));
+                }
+
+            })
+            .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddmetodologia("")] })
+            .catch(function (error) {
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
+            })
     }
     const metodologiasSelect = metodologias.filter(metodologia => !asignatura_metodologias.some(asignatura_metodologia => 
         asignatura_metodologia.metodologia_id == metodologia.id
@@ -129,7 +120,7 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
                                                     onClick={() => {
                                                     if (window.confirm('¿Estas Seguro?'))
                                                     {                                                    
-                                                        borrarElementoAsignatura('asignatura_metodologias', asignatura_metodologia.id, addNotification, addNotificationAlert, asignaturaId)   
+                                                        borrarElementoAsignatura('asignatura_metodologias', asignatura_metodologia.id, addNotification, asignaturaId)   
                                                     }
                                                     }}>
                                                     <i className="fas fa-times p-r-10" ></i>Eliminar Metodología
@@ -160,14 +151,9 @@ export default function metodologias({ openMetodologias, handleCloseMetodologias
                                     </div>
                                     <div className="col-6 p-0">
                                         <div align="right">
-                                        {
-                                            guardando ?
-                                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
-                                            :
-                                                <button type="button" disabled={!habilitadogeneral || addmetodologia == ""} className="btn btn-primary" onClick={() => { addElemento('asignatura_metodologias') }}>
-                                                    <i className="fas fa-plus p-r-5" ></i>Crear Metodología
-                                                </button>
-                                        }
+                                            <button type="button" disabled={!habilitadogeneral || addmetodologia == ""} className="btn btn-primary" onClick={() => { addElemento('asignatura_metodologias') }}>
+                                                <i className="fas fa-plus p-r-5" ></i>Crear Metodología
+                                            </button>
                                         </div>
                                     </div>
                                 </div>

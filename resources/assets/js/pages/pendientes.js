@@ -16,7 +16,9 @@ class Index extends Component {
         this.state = {
             plan_estudios: []
         }
-
+        // this.handleAddElement = this.handleAddElement.bind(this);
+        // this.addElemento = this.addElemento.bind(this);
+        // this.borrarElemento = borrarElemento.bind(this);
         this.abortController = new AbortController()
 
 
@@ -27,6 +29,36 @@ class Index extends Component {
         this.$el.DataTable(CONF_DATATABLE);
     
     }
+
+
+    // handleAddElement(key, elemento) {
+    //     console.log(key);
+    //     console.log(elemento);
+    //     var state = this.state[key];
+    //     state.push(elemento);
+    //     this.setState({ [key]: state });
+
+    // }
+
+    // addElemento() {
+    //     //e.preventDefault();
+    //     fetch(`/api/plan_estudios/`, {
+    //         method: 'post',
+    //         headers: {
+    //             'Accept': 'application/json',
+    //             'Content-Type': 'application/json'
+    //         }
+    //     })
+    //     .then(function (response) {
+    //         if (response.ok) {
+    //             return response.json();
+    //         } else {
+    //             throw "Error en la llamada Ajax";
+    //         }
+
+    //     })
+    //     .then(data => this.handleAddElement('plan_estudios', data));
+    // }
 
     componentWillMount() {
         this.getPlanEstudios();

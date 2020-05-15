@@ -48,7 +48,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 
 
-export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, plan_generica, handleAddElement, addNotification, addNotificationAlert }) {
+export default function NewAsignatura({ openNew, handleCloseNew, nivel_competencia, nivel_competencia_generica, asignaturas, plan_generica, handleAddElement, addNotification }) {
     const classes = useStyles();
     const [value, setvalue] = useState('');
     const [suggestions, setsuggestions] = useState([]);
@@ -163,7 +163,7 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
             }
         }
 
-        fetch(`/api/${variable}`, {
+        fetch(`/api/${variable}/`, {
 
             method: 'post',
             headers: {
@@ -175,58 +175,52 @@ export default function NewAsignatura({ openNew, handleCloseNew, nivel_competenc
                 form
             )
         })
-        .then(function(response) {
-            if(response.redirected)
-            {
-                window.location.href = "/";
-            }
-            else
-            {
-                if(response.ok) {
+            .then(function (response) {
+                if (response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }   
-            }
-        })
-        .then(function (data) {
-            if (existe) {
-                if (data.nivel_competencia_id) {
-                    handleAddElement(variable, data);
-                    addNotification();
-                    handleCloseNew();
-                    setvalue("");
                 }
-                else {
-                    if (data.nivel_generica_id) {
+
+            })
+            .then(function (data) {
+                if (existe) {
+                    if (data.nivel_competencia_id) {
                         handleAddElement(variable, data);
                         addNotification();
                         handleCloseNew();
                         setvalue("");
                     }
-                }
-            }
-            else {
-                if (data[1].nivel_competencia_id) {
-                    handleAddElement(variable, data);
-                    addNotification();
-                    handleCloseNew();
-                    setvalue("");
+                    else {
+                        if (data.nivel_generica_id) {
+                            handleAddElement(variable, data);
+                            addNotification();
+                            handleCloseNew();
+                            setvalue("");
+                        }
+                    }
                 }
                 else {
-                    if (data[1].nivel_generica_id) {
+                    if (data[1].nivel_competencia_id) {
                         handleAddElement(variable, data);
                         addNotification();
                         handleCloseNew();
                         setvalue("");
                     }
+                    else {
+                        if (data[1].nivel_generica_id) {
+                            handleAddElement(variable, data);
+                            addNotification();
+                            handleCloseNew();
+                            setvalue("");
+                        }
+                    }
                 }
             }
-        }
-        )
-        .catch(error => {
-            addNotificationAlert('No se ha podido guardar.');
-        })
+            )
+            .catch(function (error) {
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
+            })
     }
     const inputProps = {
         placeholder: "Type 'c'",

@@ -18,6 +18,8 @@ class AddForeignKeysPlanEstudiosTable extends Migration
             $table->foreign('carrera_id')->references('id')->on('carreras');
             $table->unsignedInteger('tipo_plan_id')->nullable(); 
             $table->foreign('tipo_plan_id')->references('id')->on('tipo_planes');
+            $table->unsignedInteger('tipo_grado_id')->nullable(); 
+            $table->foreign('tipo_grado_id')->references('id')->on('tipo_grados');
             $table->unsignedInteger('tipo_ingreso_id')->nullable(); 
             $table->foreign('tipo_ingreso_id')->references('id')->on('tipo_ingresos');
             $table->unsignedInteger('estado_id')->nullable(); 
@@ -26,6 +28,8 @@ class AddForeignKeysPlanEstudiosTable extends Migration
             $table->foreign('modalidad_id')->references('id')->on('modalidades');
             $table->unsignedInteger('regimen_id')->nullable(); 
             $table->foreign('regimen_id')->references('id')->on('regimenes');
+            $table->unsignedInteger('grado_id')->nullable(); 
+            $table->foreign('grado_id')->references('id')->on('grados');
             $table->unsignedInteger('tipo_formacion_id')->nullable(); 
             $table->foreign('tipo_formacion_id')->references('id')->on('tipo_formaciones');
             $table->unsignedInteger('jornada_id')->nullable(); 
@@ -43,12 +47,15 @@ class AddForeignKeysPlanEstudiosTable extends Migration
         Schema::table('plan_estudios', function (Blueprint $table) {
             $table->dropForeign('plan_estudios_carrera_id_foreign');
             $table->dropForeign('plan_estudios_tipo_plan_id_foreign');
+            $table->dropForeign('plan_estudios_tipo_grado_id_foreign');
             $table->dropForeign('plan_estudios_tipo_ingreso_id_foreign');
             $table->dropForeign('plan_estudios_estado_id_foreign');
             $table->dropForeign('plan_estudios_modalidad_id_foreign');
             $table->dropForeign('plan_estudios_regimen_id_foreign');
+            $table->dropForeign('plan_estudios_grado_id_foreign');
             $table->dropForeign('plan_estudios_tipo_formacion_id_foreign');
             $table->dropForeign('plan_estudios_jornada_id_foreign');
+
         });
     }
 }

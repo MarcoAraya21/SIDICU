@@ -43,12 +43,6 @@ class Index extends Component {
         this.$el.DataTable(CONF_DATATABLE);
     
     }
-    // componentDidUpdate(_prevProps, prevState) {
-    //     if (prevState.usuarios !== this.state.usuarios) {
-    //         this.$el = $(this.el);
-    //         this.$el.DataTable(CONF_DATATABLE);
-    //     }
-    // }
     guardarPerfil(usuario) {
         swal({
             title: 'Estas seguro que deseas asignar el perfil de  a "' + usuario.nombre + ' ' + usuario.apellido_paterno + '" ?',
@@ -75,62 +69,60 @@ class Index extends Component {
                         }
                     )
                 })
-                .then(function(response) {
-                    if(response.ok) {
-                        return response.json();
-                    } else {
-                        if(response.redirected)
-                        {
-                            window.location.href = "/";
+                    .then(function (response) {
+                        if (response.ok) {
+                            return response.json();
+                        } else {
+                            throw "Error en la llamada Ajax";
                         }
-                        throw "Error en la llamada Ajax";
-                    }
-                })
-                .then((data) => {
-                    if(data)
-                    {
-                        
-                        swal({
-                            title: "Se ha asignado correctamente!",
-                            icon: "success",
-                            closeOnEsc: false,
-                            allowOutsideClick: false
-                        });
-                        
-                        let usuarios = this.state.usuarios.map(usuario2 => {
-                            if(usuario2.id == usuario.id)
-                            {
-                                return {...usuario2, perfil_id: usuario.nuevo_perfil, perfil: this.state.perfiles.find( perfil => perfil.id == usuario.nuevo_perfil)}
-                            }
-                            else
-                            {
-                                return usuario2;
-                            }
-                        });
-                        
-                        this.setState({ usuarios: usuarios })
-                    }
-                    else
-                    {
+
+                    })
+                    .then((data) => {
+                        console.log(data);
+                        if(data)
+                        {
+                            
+                            swal({
+                                title: "Se ha asignado correctamente!",
+                                icon: "success",
+                                closeOnEsc: false,
+                                allowOutsideClick: false
+                            });
+                            
+                            let usuarios = this.state.usuarios.map(usuario2 => {
+                                if(usuario2.id == usuario.id)
+                                {
+                                    return {...usuario2, perfil_id: usuario.nuevo_perfil, perfil: this.state.perfiles.find( perfil => perfil.id == usuario.nuevo_perfil)}
+                                }
+                                else
+                                {
+                                    return usuario2;
+                                }
+                            });
+                            
+                            this.setState({ usuarios: usuarios })
+                        }
+                        else
+                        {
+                            swal({
+                                title: "Oops...",
+                                text: "No se ha podido editar el perfil.",
+                                icon: "danger",
+                                closeOnEsc: false,
+                                allowOutsideClick: false
+                            });
+                            
+                        }
+                    })
+                    .catch(function (error) {
                         swal({
                             title: "Oops...",
-                            text: "No se ha podido editar el perfil.",
+                            text: "Ha ocurrido un error en el servidor, intente nuevamente!",
                             icon: "error",
                             closeOnEsc: false,
                             allowOutsideClick: false
-                        });
-                        
-                    }
-                })
-                .catch(function (error) {
-                    swal({
-                        title: "Oops...",
-                        text: "Ha ocurrido un error en el servidor, intente nuevamente!",
-                        icon: "error",
-                        closeOnEsc: false,
-                        allowOutsideClick: false
+                        })
                     })
-                })
             }
         });
 
@@ -166,8 +158,8 @@ class Index extends Component {
         });
     }
 
-    listUsuarios() {
-        return this.state.usuarios.map(
+    listUsuarios(usuarios) {
+        return usuarios.map(
             (usuario, i) =>
                 <tr key={i}>
                     <td>{usuario.nombre} {usuario.apellido_paterno}</td>
@@ -198,41 +190,35 @@ class Index extends Component {
     }
 
     render() {
-        if(this.state.usuarios.length == 0){
-            return null;
-        }
-        else
-        {
-            return (
-                <div className='container py-4'>
-                    <ol className="breadcrumb pull-right">
-                        <li className="breadcrumb-item active">Inicio</li>
-                    </ol>
-                    <h1 className="page-header">Listado de Usuarios</h1>
-                    <div className="panel-body bg-white">
-                        <div className="table-responsive">
-                            <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>
-                                <thead>
-                                    <tr>
-                                        <th>Nombre</th>
-                                        <th>Correo</th>
-                                        <th>Rut</th>
-                                        <th>Perfil Actual</th>
-                                        <th>Cambiar Perfil</th>
-                                        <th>Guardar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {
-                                        this.listUsuarios()
-                                    }
-                                </tbody>
-                            </table>
-                        </div>
+        return (
+            <div className='container py-4'>
+                <ol className="breadcrumb pull-right">
+                    <li className="breadcrumb-item active">Inicio</li>
+                </ol>
+                <h1 className="page-header">Listado de Usuarios</h1>
+                <div className="panel-body bg-white">
+                    <div className="table-responsive">
+                        <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Correo</th>
+                                    <th>Rut</th>
+                                    <th>Perfil Actual</th>
+                                    <th>Cambiar Perfil</th>
+                                    <th>Guardar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    this.listUsuarios(this.state.usuarios)
+                                }
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            );
-        }
+            </div>
+        );
     }
 }
 

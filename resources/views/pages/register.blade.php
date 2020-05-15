@@ -28,11 +28,11 @@
 	<div class="register register-with-news-feed">
 		<!-- begin news-feed -->
 		<div class="news-feed">
-			<div class="news-image" style="background-image: url(../assets/img/utem/patio-casa-central.jpg)"></div>
+			<div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg-9.jpg)"></div>
 			<div class="news-caption">
-				<h4 class="caption-title"><b>Registrate en SIDECU</b></h4>
+				<h4 class="caption-title"><b>Color</b> Admin App</h4>
 				<p>
-					<!-- As a Color Admin app administrator, you use the Color Admin console to manage your organization’s account, such as add new users, manage security settings, and turn on the services you want your team to access. -->
+					As a Color Admin app administrator, you use the Color Admin console to manage your organization’s account, such as add new users, manage security settings, and turn on the services you want your team to access.
 				</p>
 			</div>
 		</div>
@@ -41,8 +41,8 @@
 		<div class="right-content">
 			<!-- begin register-header -->
 			<h1 class="register-header">
-				Registrarse
-				<!-- <small>Create your Color Admin Account. It’s free and always will be.</small> -->
+				Sign Up
+				<small>Create your Color Admin Account. It’s free and always will be.</small>
 			</h1>
 			<!-- end register-header -->
 			<!-- begin register-content -->
@@ -129,7 +129,7 @@
 					</div>
 					<hr />
 					<p class="text-center">
-						<!-- &copy; Color Admin All Right Reserved 2018 -->
+						&copy; Color Admin All Right Reserved 2018
 					</p>
 				</form>
 			</div>
@@ -270,8 +270,7 @@
 		{
 			var errores = [];
 			var regexLetras = /^[a-zA-ZÀ-ÿ\u00f1\u00d1]+$/;
-			// var regexCorreo = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-			var regexCorreo = /^[\w.+\-]+@utem\.cl$/;
+			var regexCorreo = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
 			var regexPassword = /^((?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]))(?=.{8,})/;
 			var regexDate = /^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[13-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$/;
 			var regexRut = /^[1-9][0-9]{6,7}$/
@@ -293,7 +292,7 @@
 				else
 				{
 					$('input[name="nombre"]').addClass("is-invalid");
-					$('div[name="nombre"]').html("Debe tener entre 3 y 20 caracteres, sin espacios.");
+					$('div[name="nombre"]').html("Debe tener entre 3 y 20 caracteres.");
 					$('input[name="nombre"]').removeClass("is-valid");
 					errores.push($('input[name="nombre"]').attr('name'));
 				}

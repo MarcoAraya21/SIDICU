@@ -27,13 +27,12 @@ export default class show extends Component {
                                             key={i}
                                             competencia={competencia}
                                             asignaturas={this.props.asignaturas}
-                                            handleUpdate={this.props.handleUpdate}
+                                            handleInputArrays = {this.props.handleInputArrays}
                                             handleAddElement = {this.props.handleAddElement}
                                             borrarElemento={this.props.borrarElemento}
                                             habilitarGeneral = {this.props.habilitarGeneral}
                                             habilitadogeneral = {this.props.habilitadogeneral}
                                             addNotification = {this.props.addNotification}
-                                            addNotificationAlert = {this.props.addNotificationAlert}
                                         />
                                     )
                                 :
@@ -45,13 +44,12 @@ export default class show extends Component {
                                         competencia_generica={competencia_generica}
                                         asignaturas={this.props.asignaturas}
                                         plan_genericas={this.props.plan_genericas}
-                                        handleUpdate={this.props.handleUpdate}
+                                        handleInputArrays = {this.props.handleInputArrays}
                                         handleAddElement = {this.props.handleAddElement}
                                         borrarElemento={this.props.borrarElemento}
                                         habilitarGeneral = {this.props.habilitarGeneral}
                                         habilitadogeneral = {this.props.habilitadogeneral}
                                         addNotification = {this.props.addNotification}
-                                        addNotificationAlert = {this.props.addNotificationAlert}
                                     />
                             )
                         }

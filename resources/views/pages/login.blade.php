@@ -7,11 +7,11 @@
 	<div class="login login-with-news-feed">
 		<!-- begin news-feed -->
 		<div class="news-feed">
-			<div class="news-image" style="background-image: url(../assets/img/utem/macul.jpg)"></div>
+			<div class="news-image" style="background-image: url(../assets/img/login-bg/login-bg-11.jpg)"></div>
 			<div class="news-caption">
-				<h4 class="caption-title"><b>Bienvenido a SIDECU</b></h4>
+				<h4 class="caption-title"><b>Color</b> Admin App</h4>
 				<p>
-					Sistema de Desarrollo Curricular
+					Download the Color Admin app for iPhone®, iPad®, and Android™. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
 				</p>
 			</div>
 		</div>
@@ -21,8 +21,8 @@
 			<!-- begin login-header -->
 			<div class="login-header">
 				<div class="brand">
-					<span class="logo"></span> <b>SIDECU</b> 
-					<small>Sistema de Desarrollo Curricular</small>
+					<span class="logo"></span> <b>Color</b> Admin
+					<small>responsive bootstrap 3 admin template</small>
 				</div>
 				<div class="icon">
 					<i class="fa fa-sign-in"></i>
@@ -44,6 +44,10 @@
 							<div class="invalid-feedback" name="password"></div>
 						</div>
 					</div>
+					<div class="m-b-10">
+						<div class="g-recaptcha" data-sitekey="6Lf-htoUAAAAAAFXTHj0QP-V_OQrfPe5hRMXewPa"></div>
+						<div class="text-danger" name="captcha"></div>
+					</div>
 					<div class="login-buttons">
 						<button type="button" onClick="enviar();" value="submit" id="button-send" class="btn btn-success btn-block btn-lg">Iniciar Sesión</button>
 					</div>
@@ -54,7 +58,7 @@
 					</div>
 					<hr />
 					<p class="text-center text-grey-darker">
-						<!-- &copy; Color Admin All Right Reserved 2018 -->
+						&copy; Color Admin All Right Reserved 2018
 					</p>
 				</form>
 			</div>
@@ -174,6 +178,19 @@
 				$('input[name="password"]').addClass("is-valid");
 				$('div[name="password"]').html("");
 				$('input[name="password"]').removeClass("is-invalid");
+			}
+			if(grecaptcha.getResponse() == "")
+			{
+				$('.g-recaptcha').addClass("is-invalid");
+				$('div[name="captcha"]').html("Valide el Captcha.");
+				$('.g-recaptcha').removeClass("is-valid");
+				errores.push('captcha');
+			}
+			else
+			{
+				$('.g-recaptcha').addClass("is-valid");
+				$('.g-recaptcha').removeClass("is-invalid");
+				$('div[name="captcha"]').html("");
 			}
 			console.log(errores)
 			// console.log(errores.length > 0)

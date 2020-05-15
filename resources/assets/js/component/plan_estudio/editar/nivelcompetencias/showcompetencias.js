@@ -61,6 +61,32 @@ export default class showcompetencias extends Component {
         this.setState({editandocompetencias: estado});
     }
 
+    addElemento(variable){
+        //e.preventDefault();
+        fetch(`/api/${variable}/`, {
+            method: 'post',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type':'application/json'
+            }
+            ,
+            body: JSON.stringify(
+                {competencia_id:  this.props.competencia.id}
+            )
+        })
+        .then(function(response) {
+            if(response.ok) {
+                return response.json();
+            } else {
+                throw "Error en la llamada Ajax";
+            }
+         
+         })
+         .then( data => this.props.handleAddElement(variable, data));
+         
+        
+    }
+    
     render() {
         let verbos = {
             recordar: [
@@ -272,14 +298,13 @@ export default class showcompetencias extends Component {
                         verbos={nivel_competencia.nivel == 1 ? verbos.recordar.concat(verbos.comprender)
                         : nivel_competencia.nivel == 2 ? verbos.aplicar.concat(verbos.analizar)
                         : nivel_competencia.nivel == 3 && verbos.evaluar.concat(verbos.crear)}
-                        handleUpdate={this.props.handleUpdate}
+                        handleInputArrays = {this.props.handleInputArrays}
                         borrarElemento = {this.props.borrarElemento}
                         handleAddElement = {this.props.handleAddElement}
                         habilitarGeneral = {this.props.habilitarGeneral}
                         habilitadogeneral = {this.props.habilitadogeneral}
                         habilitareditcompetencias = {this.habilitareditcompetencias}
-                        addNotification = {this.props.addNotification}
-                        addNotificationAlert = {this.props.addNotificationAlert}/>
+                        addNotification = {this.props.addNotification}/>
                         )
                     :
                     <p>No posee ningun nivel de competencia</p>
@@ -296,14 +321,13 @@ export default class showcompetencias extends Component {
                         plan_generica={this.props.plan_genericas.find(plan_generica => 
                             plan_generica.nivel_competencia_id == nivel_competencia_generica.id)}
                         i={i}
-                        handleUpdate={this.props.handleUpdate}
+                        handleInputArrays = {this.props.handleInputArrays}
                         borrarElemento = {this.props.borrarElemento}
                         handleAddElement = {this.props.handleAddElement}
                         habilitarGeneral = {this.props.habilitarGeneral}
                         habilitadogeneral = {this.props.habilitadogeneral}
                         habilitareditcompetencias = {this.habilitareditcompetencias}
-                        addNotification = {this.props.addNotification}
-                        addNotificationAlert = {this.props.addNotificationAlert}/>
+                        addNotification = {this.props.addNotification}/>
                     )
                 }
                 </Panel>

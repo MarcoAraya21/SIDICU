@@ -4,13 +4,8 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            dominio: {
-                nombre: '',
-                descripcion: '',
-            },
             deshabilitado: true,
             editando: false,
-            guardando: false,
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.habilitar = this.habilitar.bind(this);
@@ -28,11 +23,6 @@ export default class edit extends Component {
         this.setState({deshabilitado: false});
     }
 
-    componentWillMount() {
-        this.setState({dominio: {nombre: this.props.dominio.nombre,
-                        descripcion: this.props.dominio.descripcion}})
-    }
-
     
     handleSubmit(){
         //e.preventDefault();
@@ -44,32 +34,25 @@ export default class edit extends Component {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(
-                this.state.dominio
+                this.props.dominio
             )
         })
         .then(function(response) {
             if(response.ok) {
                 return response.json();
             } else {
-                if(response.redirected)
-                {
-                    window.location.href = "/";
-                }
                 throw "Error en la llamada Ajax";
             }
-        })
-        .then(data => {[this.props.handleUpdate(this.state.dominio, "dominios", this.props.dominio.id), this.props.addNotification()]} )
-        .catch(error => {
-            [this.props.addNotificationAlert('No se ha podido guardar.'), 
-            this.setState({dominio: {...this.state.dominio, 
-                nombre: this.props.dominio.nombre,
-                descripcion: this.props.dominio.descripcion,}})
-            ]
-
+         
+         })
+        .then(data => {this.props.addNotification()} )
+        .catch(function(error) {
+            console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
         .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
                         this.props.habilitarGeneral(true)
         ]});
+        //console.log('formulario enviado',this.state);
     }
     
 
@@ -82,8 +65,8 @@ export default class edit extends Component {
                     <input type="text"
                         disabled={this.state.deshabilitado}
                         className="form-control" 
-                        value={this.state.dominio.nombre || ''}
-                        onChange={(e)=>this.setState({dominio: {...this.state.dominio, nombre: e.target.value}})}>
+                        value={this.props.dominio.nombre || ''}
+                        onChange={(e)=>this.props.handleInputArrays(e, 'dominios', 'nombre', this.props.dominio.id)}>
                     </input>
                 </div>
                 <div className="mb-2">
@@ -91,22 +74,19 @@ export default class edit extends Component {
                     <textarea
                         disabled={this.state.deshabilitado}
                         className="form-control" rows="3"
-                        value={this.state.dominio.descripcion || ''}
-                        onChange={(e)=>this.setState({dominio: {...this.state.dominio, descripcion: e.target.value}})}>
+                        value={this.props.dominio.descripcion || ''}
+                        onChange={(e)=>this.props.handleInputArrays(e, 'dominios', 'descripcion', this.props.dominio.id)}>
                     </textarea>
                 </div>
                 <div className="col-12 text-right mt-2">
                     <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    {
-                        this.state.guardando ?
-                            <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>                      
-                        :
-                            <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>                      
+                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit()}><i className="fas fa-save p-r-10"></i>Guardar</button>
+                    {!this.props.transversal && 
+                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                        onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
+                        this.props.borrarElemento('dominios', this.props.dominio.id, this.props.addNotification)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>
                     }
-                    <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
-                    onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                    this.props.borrarElemento('dominios', this.props.dominio.id, this.props.addNotification, this.props.addNotificationAlert)}}>
-                    <i className="fas fa-times p-r-10"></i>Eliminar</button>
                 </div>
             </Panel>
         );

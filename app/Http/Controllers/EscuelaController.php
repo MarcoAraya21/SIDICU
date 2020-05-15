@@ -16,7 +16,7 @@ class EscuelaController extends Controller
      */
     public function index()
     {
-        $escuelas = Escuela::with('facultad')->get();
+        $escuelas = Escuela::all();
         return $escuelas->toJson();
     }
 
@@ -38,12 +38,7 @@ class EscuelaController extends Controller
      */
     public function store(Request $request)
     {
-        if($request->nombre == "")
-        {
-            $request['nombre'] = "Sin Nombre";
-        }
-        $Escuela = Escuela::Create($request->all());
-        return response()->json($Escuela, 201);
+        //
     }
 
     /**
@@ -75,12 +70,9 @@ class EscuelaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Escuela $Escuela)
+    public function update(Request $request, $id)
     {
-        if($Escuela = $Escuela->update($request->all()))
-        {
-            return response()->json(Escuela::with('facultad')->get()->find($request->id), 201);
-        }
+        //
     }
 
     /**
@@ -91,13 +83,6 @@ class EscuelaController extends Controller
      */
     public function destroy($id)
     {
-        $Escuela = Escuela::find($id);
-        try{
-            $Escuela->delete();
-        }
-        catch(\Illuminate\Database\QueryException $e){
-            abort(400, 'No Permitido');
-        }
-        return response(null, 204);
+        //
     }
 }

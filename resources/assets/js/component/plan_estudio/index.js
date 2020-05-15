@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, handleUpdate, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
+import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
 import VerShow from './ver/show';
 import EditarShow from './editar/show'
 import VerDominios from './ver/dominios';
@@ -16,10 +16,10 @@ import VerAsignaturas from './ver/asignaturas';
 import EditarAsignaturas from './editar/asignaturas';
 import VerDiseno from './ver/diseno';
 import EditarDiseno from './editar/diseno';
-import TreePlan from './tree';
 import Resumen from './resumen';
 import Tabla from './graficos/tabla';
 import Grafico from './graficos/grafico';
+import Indicadores from './indicadores/indicadores';
 
 
 
@@ -48,16 +48,13 @@ export default class index extends Component {
             habilitadogeneral: true,
             plan_genericas: [],
             acceso: 0,
-            comp_genericas: [],
             openGrafico:false,
             openTabla:false,
-
         }
 
         this.handleInput = handleInput.bind(this);
         this.handleInputArrays = handleInputArrays.bind(this);
         this.handleInputArraysAsignatura = handleInputArraysAsignatura.bind(this);
-        this.handleUpdate = handleUpdate.bind(this);
         this.borrarElemento = borrarElemento.bind(this);
         this.borrarElementoAsignatura = borrarElementoAsignatura.bind(this);
         this.handleAddElement = handleAddElement.bind(this);
@@ -138,7 +135,7 @@ export default class index extends Component {
 
     getPlanEstudio() {
         // console.log(projectId);
-        axios.get(`/api/editar/${this.props.match.params.id}`).then((
+        axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({
@@ -248,16 +245,16 @@ export default class index extends Component {
                                         <span className="d-sm-block d-none">Asignaturas del Plan</span>
                                     </a>
                                 </li>
-                                {/* <li className="nav-items">
-                                    <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
-                                        <span className="d-sm-none">Gráficos</span>
-                                        <span className="d-sm-block d-none">Gráficos y Tablas</span>
-                                    </a>
-                                </li> */}
                                 <li className="nav-items">
-                                    <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
+                                    <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Finalizar</span>
                                         <span className="d-sm-block d-none">Finalizar plan</span>
+                                    </a>
+                                </li>
+                                <li className="nav-items">
+                                    <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
+                                        <span className="d-sm-none">Indicadores</span>
+                                        <span className="d-sm-block d-none">Indicadores del Plan</span>
                                     </a>
                                 </li>
                             </ul>
@@ -315,13 +312,12 @@ export default class index extends Component {
                                             id={this.state.id}
                                             dominios={this.state.dominios}
                                             handleInput={this.handleInput}
-                                            handleUpdate={this.handleUpdate}
+                                            handleInputArrays={this.handleInputArrays}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
-                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerDominios
@@ -338,13 +334,12 @@ export default class index extends Component {
                                             dominios={this.state.dominios}
                                             competencias_genericas={this.state.competencias_genericas}
                                             comp_genericas = {this.state.comp_genericas}
-                                            handleUpdate={this.handleUpdate}
+                                            handleInputArrays={this.handleInputArrays}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
-                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerCompetencias
@@ -363,13 +358,12 @@ export default class index extends Component {
                                             competencias_genericas={this.state.competencias_genericas}
                                             asignaturas={this.state.asignaturas}
                                             plan_genericas={this.state.plan_genericas}
-                                            handleUpdate={this.handleUpdate}
+                                            handleInputArrays={this.handleInputArrays}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
-                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerNivelCompetencias
@@ -386,7 +380,7 @@ export default class index extends Component {
                                         <EditarDiseno
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
-                                            handleUpdate={this.handleUpdate}
+                                            handleInputArrays={this.handleInputArrays}
                                             handleInputArraysAsignatura={this.handleInputArraysAsignatura}
                                             handleAddElement={this.handleAddElement}
                                             borrarElemento={this.borrarElemento}
@@ -395,7 +389,6 @@ export default class index extends Component {
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
-                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerDiseno
@@ -411,9 +404,7 @@ export default class index extends Component {
                                         <EditarAsignaturas
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
-                                            dominios={this.state.dominios}
-                                            comp_genericas = {this.state.comp_genericas}
-                                            handleUpdate={this.handleUpdate}
+                                            handleInputArrays={this.handleInputArrays}
                                             handleInputArraysAsignatura={this.handleInputArraysAsignatura}
                                             handleAddElement={this.handleAddElement}
                                             borrarElemento={this.borrarElemento}
@@ -422,7 +413,6 @@ export default class index extends Component {
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
-                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerAsignaturas
@@ -432,30 +422,15 @@ export default class index extends Component {
                                     }
                                     
                                 </div>
-                                {/* <div className="tab-pane fade" id="plan-tab-6">
-                                    <TreePlan id={this.state.id}
-                                nombre={this.state.nombre}
-                                dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}/>
-                                </div> */}
-                                <div className="tab-pane fade" id="plan-tab-7">
+                                <div className="tab-pane fade" id="plan-tab-6">
                                     <Resumen
-                                        params={this.props.match.params.id}
-                                        proposito={this.state.proposito}
-                                        objetivo={this.state.objetivo}
-                                        requisito_admision={this.state.requisito_admision}
-                                        mecanismo_retencion={this.state.mecanismo_retencion}
-                                        requisito_obtencion={this.state.requisito_obtencion}
-                                        campo_desarrollo={this.state.campo_desarrollo}
-
                                         dominios={this.state.dominios}
                                         competencias_genericas={this.state.competencias_genericas}
                                         asignaturas={this.state.asignaturas}
+                                    />
+                                </div>
+                                <div className="tab-pane fade" id="plan-tab-7">
 
-                                        acceso={this.state.acceso}
-                                        addNotification={this.addNotification}
-                                        addNotificationAlert={this.addNotificationAlert}
-                                    />                                        
                                 </div>
                             </div>
                         </div>

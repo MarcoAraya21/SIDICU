@@ -11,14 +11,10 @@ export default class edit extends Component {
     constructor (props) {
         super(props)
         this.state = {
-            nivel_competencia: {
-                descripcion: '',
-            },
             open: false,
             openAsignatura: false,
             deshabilitado: true,
-            editando: false,
-            guardando: false
+            editando: false
         }
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleOpen = this.handleOpen.bind(this);
@@ -31,10 +27,7 @@ export default class edit extends Component {
         
     }
 
-    componentWillMount() {
-        this.props.nivel_competencia &&
-        this.setState({nivel_competencia: {descripcion: this.props.nivel_competencia.descripcion}})
-    }
+
     
     irAsignatura(asignatura)
     {
@@ -87,23 +80,20 @@ export default class edit extends Component {
                 'Content-Type':'application/json'
             },
             body: JSON.stringify(
-                this.state.nivel_competencia
+                this.props.nivel_competencia
             )
         })
         .then(function(response) {
             if(response.ok) {
                 return response.json();
             } else {
-                if(response.redirected)
-                {
-                    window.location.href = "/";
-                }
                 throw "Error en la llamada Ajax";
             }
-        })
-        .then(data => {[this.props.handleUpdate(this.state.nivel_competencia, "nivel_competencias", this.props.nivel_competencia.id), this.props.addNotification()]} )
-        .catch(error => {
-            [this.props.addNotificationAlert('No se ha podido guardar.'), this.setState({nivel_competencia: {...this.state.nivel_competencia, descripcion: this.props.nivel_competencia.descripcion}})]
+         
+         })
+        .then(data => {this.props.addNotification()} )
+        .catch(function(error) {
+            console.log('Hubo un problema con la petición Fetch:' + error.message);
         })
         .finally(() => {[this.setState({guardando: false, deshabilitado: true, editando: false}),
                         this.props.habilitarGeneral(true),
@@ -125,9 +115,9 @@ export default class edit extends Component {
                     <textarea rows="3"
                         disabled={this.state.deshabilitado}
                         className="form-control" 
-                        value={this.state.nivel_competencia.descripcion || ''}
-                        onChange={(e)=>this.setState({nivel_competencia: {...this.state.nivel_competencia, descripcion: e.target.value}})}>
-                        </textarea>
+                        value={this.props.nivel_competencia.descripcion || ''}
+                        onChange={(e)=>this.props.handleInputArrays(e, 'nivel_competencias', 'descripcion', this.props.nivel_competencia.id)}>
+                    </textarea>
                     <div className="col-12 row mt-2">
                         <div className="col-6">
                             <strong>Logros de Aprendizaje</strong>
@@ -174,59 +164,54 @@ export default class edit extends Component {
                     </div>
                     <div className="col-12 text-right mt-2">
                         <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={()=> [this.habilitar(),this.props.habilitarGeneral(false), this.props.habilitareditcompetencias(true), this.setState({editando: true})]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                        {
-                            this.state.guardando ?
-                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>                      
-                            :
-                                <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5"
-                                onClick={()=>{
-                                    var existe = false;
-                                    var str = this.state.nivel_competencia.descripcion;
-                                    this.props.verbos.map(verbo =>{
-                                        if(str.toLowerCase().includes(verbo.toLowerCase()))
-                                        {
-                                            existe = true;
-                                        }
-                                    })
-                                    if(existe == false)
-                                    {
-                                        if(window.confirm('No ha usado ningun verbo recomendado, esta seguro de querer guardar ?'))
-                                            this.handleSubmit()
-                                    }
-                                    else
-                                    {
-                                        this.handleSubmit()
-                                    }
-                                }}>
-                                <i className="fas fa-save p-r-10"></i>Guardar</button>                        }
-                        {/* <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
+                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5"
+                        onClick={()=>{
+                            var existe = false;
+                            var str = this.props.nivel_competencia.descripcion;
+                            this.props.verbos.map(verbo =>{
+                                if(str.toLowerCase().includes(verbo.toLowerCase()))
+                                {
+                                    existe = true;
+                                }
+                            })
+                            if(existe == false)
+                            {
+                                if(window.confirm('No ha usado ningun verbo recomendado, esta seguro de querer guardar ?'))
+                                    this.handleSubmit()
+                            }
+                            else
+                            {
+                                this.handleSubmit()
+                            }
+                        }}>
+                        <i className="fas fa-save p-r-10"></i>Guardar</button>
+                        <button type="button" disabled={(!this.state.editando && !this.props.habilitadogeneral) || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={()=>{ if(window.confirm('¿Estas Seguro?'))
-                        this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification, this.props.addNotificationAlert)}}>
-                        <i className="fas fa-times p-r-10"></i>Eliminar</button>          */}
+                        this.props.borrarElemento('nivel_competencias', this.props.nivel_competencia.id, this.props.addNotification)}}>
+                        <i className="fas fa-times p-r-10"></i>Eliminar</button>         
                     </div>
                     <Logros
                     open = {this.state.open}
                     handleClose={this.handleClose}
                     nivel_competencia = {this.props.nivel_competencia} 
-                    handleUpdate = {this.props.handleUpdate}
+                    handleInputArrays = {this.props.handleInputArrays}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
                     habilitarGeneral = {this.props.habilitarGeneral}
                     habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
-                    addNotificationAlert = {this.props.addNotificationAlert}
                     />
                     <Asignatura
                     openAsignatura = {this.state.openAsignatura}
                     handleCloseAsignatura={this.handleCloseAsignatura}
                     nivel_competencia = {this.props.nivel_competencia}
                     asignaturas={this.props.asignaturas}
+                    handleInputArrays = {this.props.handleInputArrays}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
                     habilitarGeneral = {this.props.habilitarGeneral}
                     habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
-                    addNotificationAlert = {this.props.addNotificationAlert}
                     />
                 </div>
                 :
@@ -266,9 +251,9 @@ export default class edit extends Component {
                                     ).map((asignatura, i) =>
                                         <li key={i}>
                                             {asignatura.nombre}
-                                            {/* <a className="m-l-5" href="" target="_blank">
+                                            <a className="m-l-5" href="" target="_blank">
                                                 <span className="badge badge-info">Ver</span>
-                                            </a> */}
+                                            </a>
                                         </li>
                                     )
                                 }
@@ -290,12 +275,12 @@ export default class edit extends Component {
                     nivel_competencia_generica = {this.props.nivel_competencia_generica}
                     asignaturas={this.props.asignaturas}
                     plan_generica={this.props.plan_generica}
+                    handleInputArrays = {this.props.handleInputArrays}
                     handleAddElement = {this.props.handleAddElement}
                     borrarElemento = {this.props.borrarElemento}
                     habilitarGeneral = {this.props.habilitarGeneral}
                     habilitadogeneral = {this.props.habilitadogeneral}
                     addNotification = {this.props.addNotification}
-                    addNotificationAlert = {this.props.addNotificationAlert}
                     />
                 </div>
                 }

@@ -47,12 +47,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function requisitos({ openRequisitos, handleCloseRequisitos, requisitos, opcionRequisitos, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification, addNotificationAlert }) {
+export default function requisitos({ openRequisitos, handleCloseRequisitos, requisitos, opcionRequisitos, asignaturaId, asignaturaNombre, handleAddElementAsignatura, borrarElementoAsignatura, habilitarGeneral, habilitadogeneral, addNotification }) {
     const classes = useStyles();
     const [addrequisito, setaddrequisito] = useState('');
     function addElemento(variable) {
         //e.preventDefault();
-        fetch(`/api/${variable}`, {
+        fetch(`/api/${variable}/`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -64,24 +64,18 @@ export default function requisitos({ openRequisitos, handleCloseRequisitos, requ
                   requisito_id: addrequisito}
             )
         })
-        .then(function(response) {
-            if(response.redirected)
-            {
-                window.location.href = "/";
-            }
-            else
-            {
-                if(response.ok) {
+            .then(function (response) {
+                if (response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }   
-            }
-        })
-        .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddrequisito("")] })
-        .catch(error => {
-            addNotificationAlert('No se ha podido guardar.')
-        })
+                }
+
+            })
+            .then(data => { [handleAddElementAsignatura(variable, data, asignaturaId), addNotification(), setaddrequisito("")] })
+            .catch(function (error) {
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
+            })
     }
 
     const requisitosSelect = opcionRequisitos.filter(opcionRequisito => 

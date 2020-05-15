@@ -7,9 +7,7 @@ export default class show extends Component {
         super(props)
         this.state = {
             deshabilitado: true,
-            editandounidades: false,
-            guardando: false,
-            creando: false,
+            editandounidades: false
         }
         this.addElemento = this.addElemento.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -29,8 +27,7 @@ export default class show extends Component {
 
     addElemento(variable) {
         //e.preventDefault();
-        this.setState({creando: true})
-        fetch(`/api/${variable}`, {
+        fetch(`/api/${variable}/`, {
             method: 'post',
             headers: {
                 'Accept': 'application/json',
@@ -43,25 +40,18 @@ export default class show extends Component {
                 }
             )
         })
-        .then(function(response) {
-            if(response.redirected)
-            {
-                window.location.href = "/";
-            }
-            else
-            {
-                if(response.ok) {
+            .then(function (response) {
+                if (response.ok) {
                     return response.json();
                 } else {
                     throw "Error en la llamada Ajax";
-                }   
-            }
-        })
-        .then(data => { [this.props.handleAddElementAsignatura(variable, data, this.props.asignaturaId), this.props.addNotification()] })
-        .catch(error => {
-            this.props.addNotificationAlert('No se ha podido guardar.')
-        })
-        .finally(() => {this.setState({creando: false})});
+                }
+
+            })
+            .then(data => { [this.props.handleAddElementAsignatura(variable, data, this.props.asignaturaId), this.props.addNotification()] })
+            .catch(function (error) {
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
+            })
     }
 
     handleSubmit(variable, elemento) {
@@ -77,26 +67,23 @@ export default class show extends Component {
                 elemento
             )
         })
-        .then(function(response) {
-            if(response.ok) {
-                return response.json();
-            } else {
-                if(response.redirected)
-                {
-                    window.location.href = "/";
+            .then(function (response) {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw "Error en la llamada Ajax";
                 }
-                throw "Error en la llamada Ajax";
-            }
-        })
-        .then(data => { this.props.addNotification() })
-        .catch(error => {
-            this.props.addNotificationAlert('No se ha podido guardar.')
-        })
-        .finally(() => {
-            [this.setState({ guardando: false, deshabilitado: true }),
-            this.props.habilitarGeneral(true)
-            ]
-        });
+
+            })
+            .then(data => { this.props.addNotification() })
+            .catch(function (error) {
+                console.log('Hubo un problema con la petición Fetch:' + error.message);
+            })
+            .finally(() => {
+                [this.setState({ guardando: false, deshabilitado: true }),
+                this.props.habilitarGeneral(true)
+                ]
+            });
         //console.log('formulario enviado',this.state);
     }
 
@@ -154,8 +141,7 @@ export default class show extends Component {
                                             habilitarGeneral={this.props.habilitarGeneral}
                                             habilitadogeneral={this.props.habilitadogeneral}
                                             habilitareditunidades = {this.habilitareditunidades}
-                                            addNotification={this.props.addNotification}
-                                            addNotificationAlert={this.props.addNotificationAlert} />
+                                            addNotification={this.props.addNotification} />
                                         )
                                     }
                                 </ol>
@@ -163,29 +149,19 @@ export default class show extends Component {
                                 ' Sin Contenidos'
                         }
                         <div className="text-right">
-                        {
-                            this.state.creando ?
-                                <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Creando</button>                      
-                            :
-                                <button type="button" disabled={!this.props.habilitadogeneral} className="btn btn-primary" onClick={() => { this.addElemento('contenidos') }}>
-                                    <i className="fas fa-plus p-r-5" ></i>Crear Contenido
-                                </button>
-                        }
+                            <button type="button" disabled={!this.props.habilitadogeneral} className="btn btn-primary" onClick={() => { this.addElemento('contenidos') }}>
+                                <i className="fas fa-plus p-r-5" ></i>Crear Contenido
+                            </button>
                         </div>
                     </div>
                 </div>
                 <div className="col-12 text-right">
                     <button type="button" disabled={this.state.editandounidades || !this.state.deshabilitado} className="btn btn-lime p-5" onClick={() => [this.habilitar(), this.props.habilitarGeneral(false)]}><i className="fas fa-pencil-alt p-r-10"></i>Editar</button>
-                    {
-                        this.state.guardando ?
-                            <button type="button" className="btn btn-primary p-5 m-l-5 disabled"><i className="fas fa-spinner fa-pulse p-r-10"></i>Guardando</button>                      
-                        :
-                            <button type="button" disabled={this.state.editandounidades || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('unidades', this.props.unidad)}><i className="fas fa-save p-r-10"></i>Guardar</button>
-                    }
+                    <button type="button" disabled={this.state.editandounidades || this.state.deshabilitado} className="btn btn-primary p-5 m-l-5" onClick={() => this.handleSubmit('unidades', this.props.unidad)}><i className="fas fa-save p-r-10"></i>Guardar</button>
                     <button type="button" disabled={this.state.editandounidades || !this.state.deshabilitado} className="btn btn-danger p-5 m-l-5"
                         onClick={() => {
                             if (window.confirm('¿Estas Seguro?'))
-                                this.props.borrarElementoAsignatura('unidades', this.props.unidad.id, this.props.addNotification, this.props.addNotificationAlert, this.props.asignaturaId)
+                                this.props.borrarElementoAsignatura('unidades', this.props.unidad.id, this.props.addNotification, this.props.asignaturaId)
                         }}>
                         <i className="fas fa-times p-r-10"></i>Eliminar</button>
                 </div>

@@ -35,13 +35,13 @@ class NivelGenericaController extends Controller
 
     public function destroy($id)
     {
-        $nivel_genericas = NivelGenerica::join('nivel_competencias', 'nivel_genericas.nivel_competencia_id', '=', 'nivel_competencias.id')
-        ->select('nivel_genericas.*')
-        ->where('nivel_competencias.competencia_id', $id)->get();  
-        foreach ($nivel_genericas as $key => $nivel_generica) {
-            $NivelGenerica = NivelGenerica::find($nivel_generica->id);
-            $NivelGenerica->delete();
-        }
+        // $NivelGenericaAsignaturas = NivelGenericaAsignaturas::where('asignatura_id', $idasignatura);
+        // $NivelGenericaAsignaturas.length() = 0
+        // {
+        //     $Asignatura::find($idasignatura)->delete();
+        // }
+        $NivelGenericaAsignatura = NivelGenericaAsignatura::find($id);
+        $NivelGenericaAsignatura->delete();
     }
 
 

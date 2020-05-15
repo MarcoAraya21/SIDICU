@@ -57,8 +57,8 @@ export function handleInputArrays(e, objeto, propiedad, indice) {
                 ...dominio, competencias: dominio.competencias.map(competencia => {
                     return {
                         ...competencia,
-                        [propiedad]: (competencia.id == indice) ?
-                        (e.target ? e.target.value : e) : competencia[propiedad]
+                        descripcion: (competencia.id == indice) ?
+                            (e.target ? e.target.value : e) : competencia.descripcion
                     }
                 })
             }
@@ -262,22 +262,6 @@ export function handleInputArraysAsignatura(e, objeto, propiedad, indice, idAsig
     }
     this.setState({ asignaturas: asignaturas });
 }
-
-export function handleInputArraysAdmin(data, objeto) {
-    console.log('data', data);
-    let arreglo = this.state[objeto].map(elemento => {
-        if(elemento.id == data.id)
-        {
-            return data;
-        }
-        else
-        {
-            return elemento;
-        }
-    });
-    this.setState({ [objeto]: arreglo})
-}
-
 
 
 
@@ -531,9 +515,9 @@ export function handleAddElement(key, elemento) {
                                         if(key == "nivel_genericas")
                                         {
                                             var plan_genericas = this.state["plan_genericas"];
-                                            plan_genericas.push(...elemento[0]);
+                                            plan_genericas.push(data[0]);
                                             var competencias_genericas = this.state["competencias_genericas"];
-                                            competencias_genericas.push(elemento[1]);
+                                            competencias_genericas.push(data[1]);
                                             this.setState({plan_genericas: plan_genericas, competencias_genericas: competencias_genericas})
                                         }
                                         else
@@ -657,34 +641,22 @@ export function handleInputOtros(e, id, object = 'tipo_resultado_id', key = 'tip
     // console.info(id)
 }
 
-export function borrarElemento(objeto, propiedad, addNotification, addNotificationAlert) {
+export function borrarElemento(objeto, propiedad, addNotification) {
     //e.preventDefault();
-    fetch(`/api/${objeto}/${propiedad}`, {
+    fetch(`/api/${objeto}/${propiedad}/`, {
         method: 'delete',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
     })
-    .then(function(response) {
-        if(!response.ok) {
-            if(response.redirected)
-            {
-                window.location.href = "/";
+        .then(function (response) {
+            if (!response.ok) {
+                throw "Error en la llamada Ajax";
             }
-            throw "Error en la llamada Ajax";
-        }
-    })
-    .then(() => {
-        if (objeto == 'dominios') {
-            let dominios1 = this.state.dominios.filter(dominio => 
-                dominio.id != propiedad
-            );
 
-            this.setState({ dominios: dominios1 })
-        }
-        else
-        {
+        })
+        .then(() => {
             if (objeto == 'competencias') {
                 let dominios1 = this.state.dominios.map(dominio => {
                     return {
@@ -827,12 +799,7 @@ export function borrarElemento(objeto, propiedad, addNotification, addNotificati
 
                                     let asignaturas = this.state.asignaturas.filter(asignatura =>
                                         asignatura.id != propiedad
-                                    ).map( asignatura => {
-                                        return {
-                                            ...asignatura, requisitos: asignatura.requisitos.filter( requisito =>
-                                                requisito.requisito_id != propiedad)
-                                        }
-                                    })
+                                    );
 
                                     this.setState({ asignaturas: asignaturas })
 
@@ -893,28 +860,8 @@ export function borrarElemento(objeto, propiedad, addNotification, addNotificati
                                                 this.setState({ niveles: niveles })
                                             }
                                             else {
-                                                if(objeto = 'nivel_genericas') {
-                                                    let plan_genericas = this.state.plan_genericas.filter( plan_generica =>
-                                                        !this.state.competencias_genericas.filter( competencia_generica =>
-                                                            competencia_generica.id == propiedad
-                                                        ).some( competencia_generica =>
-                                                            competencia_generica.nivel_competencias.some( nivel_competencia =>
-                                                                nivel_competencia.id == plan_generica.nivel_competencia_id
-                                                            )
-                                                        )
-                                                        // plan_generica.nivel_competencia_id != propiedad
-                                                    )
-                                                    let competencias_genericas = this.state.competencias_genericas.filter( competencia_generica =>
-                                                        competencia_generica.id != propiedad
-                                                    )
-
-                                                    this.setState({ plan_genericas: plan_genericas, competencias_genericas: competencias_genericas })
-                                                }
-                                                else {
-                                                    let newstate = this.state[objeto].filter((el) => el.id != propiedad)
-                                                    this.setState({ [objeto]: newstate })
-                                                }
-                                                
+                                                let newstate = this.state[objeto].filter((el) => el.id != propiedad)
+                                                this.setState({ [objeto]: newstate })
                                             }
                                         }
                                     }
@@ -925,79 +872,73 @@ export function borrarElemento(objeto, propiedad, addNotification, addNotificati
                 }
             }
         }
-        addNotification()
-    }
-    )
-    .catch(error => { addNotificationAlert('No se ha podido guardar.')})
+        )
+        .finally(() => { addNotification() });
 }
 
-export function borrarElementoAsignatura(objeto, propiedad, addNotification, addNotificationAlert, idAsignatura) {
+export function borrarElementoAsignatura(objeto, propiedad, addNotification, idAsignatura) {
     //e.preventDefault();
-    fetch(`/api/${objeto}/${propiedad}`, {
+    fetch(`/api/${objeto}/${propiedad}/`, {
         method: 'delete',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
         }
     })
-    .then(function(response) {
-        if(!response.ok) {
-            if(response.redirected)
-            {
-                window.location.href = "/";
+        .then(function (response) {
+            if (!response.ok) {
+                throw "Error en la llamada Ajax";
             }
-            throw "Error en la llamada Ajax";
-        }
-    })
-    .then(() => {
-        if(objeto == "contenidos")
-        {
-            var asignaturas = this.state.asignaturas.map(asignatura => {
-                if (asignatura.id == idAsignatura) {
-                    return {
-                        ...asignatura, unidades: asignatura.unidades.map(unidad => {
-                            return {...unidad, contenidos: unidad.contenidos.filter(contenido => 
-                                contenido.id != propiedad
-                                )};
-                            // return {...unidad, contenidos: [...unidad.contenidos, elemento]};
-                        })
+
+        })
+        .then(() => {
+            if(objeto == "contenidos")
+            {
+                var asignaturas = this.state.asignaturas.map(asignatura => {
+                    if (asignatura.id == idAsignatura) {
+                        return {
+                            ...asignatura, unidades: asignatura.unidades.map(unidad => {
+                                return {...unidad, contenidos: unidad.contenidos.filter(contenido => 
+                                    contenido.id != propiedad
+                                    )};
+                                // return {...unidad, contenidos: [...unidad.contenidos, elemento]};
+                            })
+                        }
                     }
-                }
-                else {
-                    return asignatura;
-                }
-            });
-        }
-        else
-        {
-            var asignaturas = this.state.asignaturas.map(asignatura => {
-                if (asignatura.id == idAsignatura) {
-                    return {
-                        ...asignatura, [objeto]: asignatura[objeto].filter(objetoSingle =>
-                            objetoSingle.id != propiedad
-                        )
+                    else {
+                        return asignatura;
                     }
-                }
-                else {
-                    return asignatura;
-                }
-            })
-        }     
-        this.setState({ asignaturas: asignaturas })
-        addNotification()
-    })
-    .catch(error => { addNotificationAlert('No se ha podido guardar.')})
+                });
+            }
+            else
+            {
+                var asignaturas = this.state.asignaturas.map(asignatura => {
+                    if (asignatura.id == idAsignatura) {
+                        return {
+                            ...asignatura, [objeto]: asignatura[objeto].filter(objetoSingle =>
+                                objetoSingle.id != propiedad
+                            )
+                        }
+                    }
+                    else {
+                        return asignatura;
+                    }
+                })
+            }     
+            this.setState({ asignaturas: asignaturas })
+        })
+        .finally(() => { addNotification() });
 }
 
 export const CONF_DATATABLE = {
     buttons: ['copy', 'csv', 'excel'],
     "dom": '<"toolbar d-flex justify-content-end" f>rtip',
     "language": {
-        "lengthMenu": "Mostrando _MENU_ filas por página",
-        "zeroRecords": "Sin datos",
+        "lengthMenu": "Mostrando _MENU_ proyectos por página",
+        "zeroRecords": "Sin proyectos",
         "info": "Mostrando _PAGE_ de _PAGES_ páginas",
-        "infoEmpty": "Sin datos",
-        "infoFiltered": "(Filtrados de un total de _MAX_ filas)",
+        "infoEmpty": "Sin proyectos",
+        "infoFiltered": "(Filtrados de un total de _MAX_ proyectos)",
         "paginate": {
             "first": "Primero",
             "last": "Ultimo",
@@ -1010,183 +951,6 @@ export const CONF_DATATABLE = {
     responsive: true,
     columnDefs: [
         { responsivePriority: 1, targets: 0 },
-        { responsivePriority: 2, targets: -1 },
-        { responsivePriority: 3, targets: -2 },
+        { responsivePriority: 2, targets: -1 }
     ]
-}
-
-
-
-export function borrarElementoAdmin(objeto, id) {
-    //e.preventDefault();
-    fetch(`/api/${objeto}/${id}`, {
-        method: 'delete',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        }
-    })
-    .then(function(response) {
-        if(!response.ok) {
-            if(response.redirected)
-            {
-                window.location.href = "/";
-            }
-            throw "Error en la llamada Ajax";
-        }
-    })
-    .then(data  => {
-        // let arreglo = this.state[objeto].filter(elemento => 
-        //         elemento.id != id
-        //     )
-        // this.setState({ [objeto]: arreglo })
-        swal({
-            text: "Se ha Eliminado Correctamente!",
-            icon: "success",
-            timer: 2000,
-            button: false
-        })
-        .then(function() {
-            location.reload()
-        })
-    }
-    )
-    .catch(function(error) {
-        swal({
-            text: "No se ha podido eliminar, revise su conexión de internet y relaciones de lo que desea eliminar e intente nuevamente.",
-            icon: "error",
-            timer: 5000,
-            button: false
-        })
-    })
-}
-
-
-export function handleUpdate(data, objeto, indice)
-{
-    if(objeto == "dominios")
-    {
-        var dominios = this.state.dominios.map( dominio => {
-            if(dominio.id == indice)
-            {
-                return {...dominio, ...data};
-            }
-            else
-            {
-                return dominio;
-            }
-        })
-        this.setState({dominios: dominios})
-    }
-    if(objeto == "competencias")
-    {
-        var dominios = this.state['dominios'].map(dominio => {
-            return {
-                ...dominio, competencias: dominio.competencias.map(competencia => {
-                    if(competencia.id == indice)
-                    {
-                        return {...competencia, ...data};
-                    }
-                    else
-                    {
-                        return competencia;
-                    }
-                })
-            }
-        });
-        this.setState({ dominios: dominios });
-    }
-    if(objeto == "nivel_competencias")
-    {
-        var dominios = this.state['dominios'].map(dominio => {
-            return {
-                ...dominio, competencias: dominio.competencias.map(competencia => {
-                    return {
-                        ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
-                            if(nivel_competencia.id == indice)
-                            {
-                                return {...nivel_competencia, ...data};
-                            }
-                            else
-                            {
-                                return nivel_competencia;
-                            }
-                        })
-                    }
-                })
-            }
-        });
-        this.setState({ dominios: dominios });
-    }
-    if(objeto == "logro_aprendizajes")
-    {
-        var dominios = this.state['dominios'].map(dominio => {
-            return {
-                ...dominio, competencias: dominio.competencias.map(competencia => {
-                    return {
-                        ...competencia, nivel_competencias: competencia.nivel_competencias.map(nivel_competencia => {
-                            return {
-                                ...nivel_competencia, logro_aprendizajes: nivel_competencia.logro_aprendizajes.map(logro_aprendizaje => {
-                                    if(logro_aprendizaje.id == indice)
-                                    {
-                                        return {...logro_aprendizaje, ...data};
-                                    }
-                                    else
-                                    {
-                                        return logro_aprendizaje;
-                                    }
-                                })
-                            }
-                            
-                        })
-                    }
-                })
-            }
-        });
-        this.setState({ dominios: dominios });
-    }
-    if(objeto == "asignaturas")
-    {
-        var asignaturas = this.state.asignaturas.map( asignatura => {
-            if(asignatura.id == indice)
-            {
-                if(data.nivel_id && (asignatura.nivel_id != data.nivel_id))
-                {
-                    data.nivel = this.state.niveles.find( nivel => 
-                        nivel.id == data.nivel_id
-                    )
-                }
-                return {...asignatura, ...data};
-            }
-            else
-            {
-                if(data.nivel_id && (this.state.asignaturas.find(asignatura => asignatura.id == indice).nivel_id != data.nivel_id))
-                {
-                    if(asignatura.requisitos.some(requisito => requisito.requisito_id == this.state.asignaturas.find(asignatura => asignatura.id == indice).id))
-                    {
-
-                        return {...asignatura, requisitos: asignatura.requisitos.map(requisito => {
-                            if(requisito.requisito_id == this.state.asignaturas.find(asignatura => asignatura.id == indice).id)
-                            {
-                                return {...requisito, requisito: {...this.state.asignaturas.find(asignatura => asignatura.id == indice), ...data, nivel: this.state.niveles.find( nivel => nivel.id == data.nivel_id) }};
-                            }
-                            else
-                            {
-                                return requisito;
-                            }
-                        })}
-                    }
-                    else
-                    {
-                        return asignatura;
-                    }
-                }
-                else
-                {
-                    return asignatura;
-                }
-            }
-        })
-        this.setState({asignaturas: asignaturas})
-    }
 }

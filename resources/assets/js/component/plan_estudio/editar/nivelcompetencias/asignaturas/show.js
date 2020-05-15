@@ -41,12 +41,12 @@ export default class show extends Component {
                                             if (window.confirm('¿Estas Seguro?')) {
                                                 let asignaturaAsociada = this.props.asignaturas.find(asignatura => asignatura.id == this.props.nivel_competencia_asignatura.asignatura.id)
                                                 if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length > 1) {
-                                                    this.props.borrarElemento('nivel_competencia_asignaturas', this.props.nivel_competencia_asignatura.id, this.props.addNotification, this.props.addNotificationAlert)
+                                                    this.props.borrarElemento('nivel_competencia_asignaturas', this.props.nivel_competencia_asignatura.id, this.props.addNotification)
                                                 }
                                                 else {
                                                     if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length == 1) {
                                                         if (window.confirm('Si elimina esta asociación, tambien se eliminara la asignatura \n ¿Estas Seguro?'))
-                                                            this.props.borrarElemento('asignaturas', asignaturaAsociada.id, this.props.addNotification, this.props.addNotificationAlert)
+                                                            this.props.borrarElemento('asignaturas', asignaturaAsociada.id, this.props.addNotification)
                                                     }
                                                 }
                                             }
@@ -74,12 +74,12 @@ export default class show extends Component {
                                         if (window.confirm('¿Estas Seguro?')) {
                                             let asignaturaAsociada = this.props.asignaturas.find(asignatura => asignatura.id == this.props.plan_generica_asignatura.id)
                                             if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length > 1) {
-                                                this.props.borrarElemento('nivel_generica_asignaturas', this.props.nivel_generica_asignatura.id, this.props.addNotification, this.props.addNotificationAlert)
+                                                this.props.borrarElemento('nivel_generica_asignaturas', this.props.nivel_generica_asignatura.id, this.props.addNotification)
                                             }
                                             else {
                                                 if (asignaturaAsociada.nivel_competencia_asignaturas.length + asignaturaAsociada.nivel_generica_asignaturas.length == 1) {
                                                     if (window.confirm('Si elimina esta asociación, tambien se eliminara la asignatura \n ¿Estas Seguro?'))
-                                                        this.props.borrarElemento('asignaturas', asignaturaAsociada.id, this.props.addNotification, this.props.addNotificationAlert)
+                                                        this.props.borrarElemento('asignaturas', asignaturaAsociada.id, this.props.addNotification)
                                                 }
                                             }
                                         }

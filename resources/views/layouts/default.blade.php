@@ -57,20 +57,15 @@
 		function pad2(number) {   
 			return (number < 10 ? '0' : '') + number;
 		}
-			var inicial = {{ $inicial }};
+			var restante = {{ $restante }};
 			var l = document.getElementById("restante");
-			var fecha_actual = Math.floor(Date.now() / 1000);
-			var restante = inicial - fecha_actual;
+			
 				window.setInterval(function(){
 					if(restante >= 0)
 					{
 						l.innerHTML = 'Tiempo Restante: ' + pad2(Math.trunc(restante/60)) + ':' + pad2(restante%60);;
 						restante--;
-						if(restante == 0)
-						{
-							window.location.href = "";
-						}
-					}	
+					}
 				},1000);
 	</script>
 	<script>

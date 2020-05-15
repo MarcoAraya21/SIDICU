@@ -159,7 +159,7 @@ class UsuarioController extends Controller
         $correo = $request->get('correo');
         $rut = $request->get('rut');
         $password = $request->get('password');
-        $asunto = 'Registro SIDECU';
+        $asunto = 'ATENCION PLAZOS DEUDORES CAE';
         Mail::send('email.verify', ['name' => $nombre, 'rut' => $rut, 'password' => $password, 'verification_code' => $verification_code],
             function($mail) use ($correo, $nombre, $asunto){
                 $mail->to($correo, $nombre);

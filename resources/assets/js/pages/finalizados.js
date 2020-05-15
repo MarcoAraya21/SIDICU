@@ -71,7 +71,7 @@ class Index extends Component {
                 <ol className="breadcrumb pull-right">
                     <li className="breadcrumb-item active">Inicio</li>
                 </ol>
-                <h1 className="page-header">Planes de Estudio Finalizados</h1>
+                <h1 className="page-header">Planes de Estudio</h1>
                 <div className="panel-body bg-white">
                     <div className="table-responsive">
                         <table className="table table-condensed m-b-0 text-inverse" ref={el => this.el = el}>

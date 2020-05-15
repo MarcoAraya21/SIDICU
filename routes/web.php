@@ -53,23 +53,6 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/Administrador', function () {
             return view('/pages/welcome');
         });
-        // VISTAS ADMINISTRADOR
-        Route::get('/CrearPlanAdm', function () {
-            return view('/pages/welcome');
-        });
-        Route::get('/Carreras', function () {
-            return view('/pages/welcome');
-        });
-        Route::get('/Escuelas', function () {
-            return view('/pages/welcome');
-        });
-        Route::get('/Facultades', function () {
-            return view('/pages/welcome');
-        });
-        Route::get('/Grados', function () {
-            return view('/pages/welcome');
-        });
-        // CIERRE VISTAS ADMINISTRADOR
         Route::get('/AsignarPerfil', function () {
             return view('/pages/welcome');
         });
@@ -97,12 +80,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/Indicadores', function () {
             return view('/pages/welcome');
         });
-        Route::get('/Plan/Ver/{id}', function () {
-            return view('/pages/welcome');
-        });
     });
-    
-    Route::get('/Plan/Finalizado/{id}', function () {
+    Route::get('/Plan/Ver/{id}', function () {
         return view('/pages/welcome');
     });
     Route::get('/home', function () {

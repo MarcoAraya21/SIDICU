@@ -3,12 +3,19 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
+import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
 import VerShow from './ver/show';
+import EditarShow from './editar/show'
 import VerDominios from './ver/dominios';
+import EditarDominios from './editar/dominios';
 import VerCompetencias from './ver/competencias';
+import EditarCompetencias from './editar/competencias';
 import VerNivelCompetencias from './ver/nivelcompetencias';
+import EditarNivelCompetencias from './editar/nivelcompetencias';
 import VerAsignaturas from './ver/asignaturas';
+import EditarAsignaturas from './editar/asignaturas';
 import VerDiseno from './ver/diseno';
+import EditarDiseno from './editar/diseno';
 import TreePlan from './tree';
 import Resumen from './resumen';
 
@@ -42,9 +49,24 @@ export default class index extends Component {
         }
     }
 
+    addNotification() {
+        this.notificationDOMRef.current.addNotification({
+            title: "Guardado",
+            message: "La Información ha sido almacenada",
+            type: "info",
+            insert: "top",
+            container: "top-right",
+            animationIn: ["animated", "zoomIn"],
+            animationOut: ["animated", "zoomOut"],
+            dismiss: { duration: 3000 },
+            dismissable: { click: true }
+        });
+    }
+
+
     getPlanEstudio() {
         // console.log(projectId);
-        axios.get(`/api/ver/${this.props.match.params.id}`).then((
+        axios.get(`/api/plan_estudios/finalizado/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({
@@ -141,8 +163,8 @@ export default class index extends Component {
                             </li>
                             <li className="nav-items">
                                 <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">Resumen</span>
-                                    <span className="d-sm-block d-none">Resumen del plan</span>
+                                    <span className="d-sm-none">Finalizar</span>
+                                    <span className="d-sm-block d-none">Finalizar plan</span>
                                 </a>
                             </li>
                         </ul>
@@ -203,6 +225,13 @@ export default class index extends Component {
                             nombre={this.state.nombre}
                             dominios={this.state.dominios}
                             competencias_genericas={this.state.competencias_genericas}/> */}
+                            </div>
+                            <div className="tab-pane fade" id="plan-tab-7">
+                                <Resumen
+                                    dominios={this.state.dominios}
+                                    competencias_genericas={this.state.competencias_genericas}
+                                    asignaturas={this.state.asignaturas}
+                                />
                             </div>
                         </div>
                     </div>
