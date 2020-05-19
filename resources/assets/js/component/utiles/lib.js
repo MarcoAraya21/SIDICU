@@ -1061,6 +1061,17 @@ export function borrarElementoAdmin(objeto, id) {
     })
 }
 
+export function handleUpdateOtros(data)
+{
+    this.setState({proposito: data.proposito});
+    this.setState({objetivo: data.objetivo});
+    this.setState({requisito_admision: data.requisito_admision});
+    this.setState({mecanismo_retencion: data.mecanismo_retencion});
+    this.setState({requisito_obtencion: data.requisito_obtencion});
+    this.setState({campo_desarrollo: data.campo_desarrollo});
+    this.setState({perfil_egresado: data.perfil_egresado});
+    this.setState({perfil_licenciado: data.perfil_licenciado});
+}
 
 export function handleUpdate(data, objeto, indice)
 {

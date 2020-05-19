@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, handleUpdate, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
+import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, handleUpdate, handleUpdateOtros, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
 import VerShow from './ver/show';
 import EditarShow from './editar/show'
 import VerDominios from './ver/dominios';
@@ -36,6 +36,8 @@ export default class index extends Component {
             mecanismo_retencion: '',
             requisito_obtencion: '',
             campo_desarrollo: '',
+            perfil_egresado: '',
+            perfil_licenciado: '',
             carrera: {},
             tipo_plan: {},
             tipo_ingreso: {},
@@ -58,6 +60,7 @@ export default class index extends Component {
         this.handleInputArrays = handleInputArrays.bind(this);
         this.handleInputArraysAsignatura = handleInputArraysAsignatura.bind(this);
         this.handleUpdate = handleUpdate.bind(this);
+        this.handleUpdateOtros = handleUpdateOtros.bind(this);
         this.borrarElemento = borrarElemento.bind(this);
         this.borrarElementoAsignatura = borrarElementoAsignatura.bind(this);
         this.handleAddElement = handleAddElement.bind(this);
@@ -151,6 +154,8 @@ export default class index extends Component {
                 mecanismo_retencion: response.data[0].mecanismo_retencion,
                 requisito_obtencion: response.data[0].requisito_obtencion,
                 campo_desarrollo: response.data[0].campo_desarrollo,
+                perfil_egresado: response.data[0].perfil_egresado,
+                perfil_licenciado: response.data[0].perfil_licenciado,
                 carrera: response.data[0].carrera,
                 tipo_plan: response.data[0].tipo_plan,
                 tipo_ingreso: response.data[0].tipo_ingreso,
@@ -276,6 +281,8 @@ export default class index extends Component {
                                                 mecanismo_retencion={this.state.mecanismo_retencion}
                                                 requisito_obtencion={this.state.requisito_obtencion}
                                                 campo_desarrollo={this.state.campo_desarrollo}
+                                                perfil_egresado={this.state.perfil_egresado}
+                                                perfil_licenciado={this.state.perfil_licenciado}
                                                 carrera={this.state.carrera}
                                                 tipo_plan={this.state.tipo_plan}
                                                 tipo_ingreso={this.state.tipo_ingreso}
@@ -287,6 +294,7 @@ export default class index extends Component {
                                                 addNotification={this.addNotification}
                                                 addNotificationAlert={this.addNotificationAlert}
                                                 addNotificationWarning={this.addNotificationWarning}
+                                                handleUpdateOtros={this.handleUpdateOtros}
                                             />
                                         :
                                             <VerShow
@@ -299,6 +307,8 @@ export default class index extends Component {
                                                 mecanismo_retencion={this.state.mecanismo_retencion}
                                                 requisito_obtencion={this.state.requisito_obtencion}
                                                 campo_desarrollo={this.state.campo_desarrollo}
+                                                perfil_egresado={this.state.perfil_egresado}
+                                                perfil_licenciado={this.state.perfil_licenciado}
                                                 carrera={this.state.carrera}
                                                 tipo_plan={this.state.tipo_plan}
                                                 tipo_ingreso={this.state.tipo_ingreso}
@@ -447,6 +457,8 @@ export default class index extends Component {
                                         mecanismo_retencion={this.state.mecanismo_retencion}
                                         requisito_obtencion={this.state.requisito_obtencion}
                                         campo_desarrollo={this.state.campo_desarrollo}
+                                        perfil_egresado={this.state.perfil_egresado}
+                                        perfil_licenciado={this.state.perfil_licenciado}
 
                                         dominios={this.state.dominios}
                                         competencias_genericas={this.state.competencias_genericas}

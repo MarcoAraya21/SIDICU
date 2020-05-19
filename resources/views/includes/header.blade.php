@@ -31,9 +31,9 @@
 	
 	<!-- begin header-nav -->
 	<ul class="navbar-nav navbar-right">
-		<li>
+		<!-- <li>
 			<div id="restante" style="padding: 15px;"></div>
-		</li>
+		</li> -->
 		<!-- <li class="{{ $hiddenSearch }}">
 			<form class="navbar-form">
 				<div class="form-group">

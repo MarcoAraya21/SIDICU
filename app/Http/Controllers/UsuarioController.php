@@ -217,7 +217,7 @@ class UsuarioController extends Controller
         {
             if(JWTAuth::toUser(JWTAuth::attempt($credentials))->validado == 1)
             {
-                return response()->json(['status'=>'success'])->withCookie('token', compact('token')['token'], 120);
+                return response()->json(['status'=>'success'])->withCookie('token', compact('token')['token']);
                 // return redirect('/home')->withCookie('token', compact('token')['token'], 120);
             }
         }

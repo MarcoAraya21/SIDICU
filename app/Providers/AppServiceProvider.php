@@ -31,13 +31,13 @@ class AppServiceProvider extends ServiceProvider
             }
             
             $user = JWTAuth::toUser($_COOKIE['token']);
-            $time_unix = JWTAuth::getPayload($_COOKIE['token'])['exp'];
+            // $time_unix = JWTAuth::getPayload($_COOKIE['token'])['exp'];
             // dd(($time_unix - time())/) ;
-            $segundos = $time_unix - time();
+            // $segundos = $time_unix - time();
             // $tiempo_restante = 
-            $minutos = intval($segundos/60) . ':' . $segundos%60;
+            // $minutos = intval($segundos/60) . ':' . $segundos%60;
             // dd(JWTAuth::getPayload($_COOKIE['token'])['exp']);
-            View::share('inicial', $time_unix);
+            // View::share('inicial', $time_unix);
             View::share('key', $user);
             // View::share('restante', $segundos);
         }

@@ -10,7 +10,6 @@ import VerNivelCompetencias from './ver/nivelcompetencias';
 import VerAsignaturas from './ver/asignaturas';
 import VerDiseno from './ver/diseno';
 import TreePlan from './tree';
-import Resumen from './resumen';
 
 
 
@@ -28,6 +27,8 @@ export default class index extends Component {
             mecanismo_retencion: '',
             requisito_obtencion: '',
             campo_desarrollo: '',
+            perfil_egresado: '',
+            perfil_licenciado: '',
             carrera: {},
             tipo_plan: {},
             tipo_ingreso: {},
@@ -57,6 +58,8 @@ export default class index extends Component {
                 mecanismo_retencion: response.data.mecanismo_retencion,
                 requisito_obtencion: response.data.requisito_obtencion,
                 campo_desarrollo: response.data.campo_desarrollo,
+                perfil_egresado: response.data.perfil_egresado,
+                perfil_licenciado: response.data.perfil_licenciado,
                 carrera: response.data.carrera,
                 tipo_plan: response.data.tipo_plan,
                 tipo_ingreso: response.data.tipo_ingreso,
@@ -139,12 +142,6 @@ export default class index extends Component {
                                     <span className="d-sm-block d-none">Gráficos y Tablas</span>
                                 </a>
                             </li>
-                            <li className="nav-items">
-                                <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">Resumen</span>
-                                    <span className="d-sm-block d-none">Resumen del plan</span>
-                                </a>
-                            </li>
                         </ul>
                         <div className="tab-content">
                             <div className="tab-pane fade active show" id="plan-tab-show">
@@ -158,6 +155,8 @@ export default class index extends Component {
                                     mecanismo_retencion={this.state.mecanismo_retencion}
                                     requisito_obtencion={this.state.requisito_obtencion}
                                     campo_desarrollo={this.state.campo_desarrollo}
+                                    perfil_egresado={this.state.perfil_egresado}
+                                    perfil_licenciado={this.state.perfil_licenciado}
                                     carrera={this.state.carrera}
                                     tipo_plan={this.state.tipo_plan}
                                     tipo_ingreso={this.state.tipo_ingreso}

@@ -25,6 +25,12 @@ export function validaciones(values, show){
         if (!values.campo_desarrollo) {
             errors.campo_desarrollo = campo_mensaje;
         }
+        if (!values.perfil_egresado) {
+            errors.perfil_egresado = campo_mensaje;
+        }
+        if (!values.perfil_licenciado) {
+            errors.perfil_licenciado = campo_mensaje;
+        }
     }
     else{
         if (!values.nombre) {

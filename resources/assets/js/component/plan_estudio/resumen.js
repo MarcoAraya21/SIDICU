@@ -128,7 +128,9 @@ export default class resumen extends Component {
                             || this.props.requisito_admision == "" || this.props.requisito_admision == null
                             || this.props.mecanismo_retencion == "" || this.props.mecanismo_retencion == null
                             || this.props.requisito_obtencion == "" || this.props.requisito_obtencion == null
-                            || this.props.campo_desarrollo == "" || this.props.campo_desarrollo == null)
+                            || this.props.campo_desarrollo == "" || this.props.campo_desarrollo == null
+                            || this.props.perfil_egresado == "" || this.props.perfil_egresado == null
+                            || this.props.perfil_licenciado == "" || this.props.perfil_licenciado == null)
                             &&
                             (advertencias = true,
                             <div className="card">
@@ -139,12 +141,14 @@ export default class resumen extends Component {
                                     <div className="card-body">
                                         Debe llenar lo siguiente:
                                         <ul>
-                                        {(this.props.proposito == "" || this.props.proposito == null) && <li>Proposito</li>}
+                                        {(this.props.proposito == "" || this.props.proposito == null) && <li>Propósito</li>}
                                         {(this.props.objetivo == "" || this.props.objetivo == null) && <li>Objetivo</li>}
                                         {(this.props.requisito_admision == "" || this.props.requisito_admision == null) && <li>Requisito de Admisión</li>}
                                         {(this.props.mecanismo_retencion == "" || this.props.mecanismo_retencion == null) && <li>Mecanismo de Retención</li>}
-                                        {(this.props.requisito_obtencion == "" || this.props.requisito_obtencion == null) && <li>Requisito de Obtención</li>}
-                                        {(this.props.campo_desarrollo == "" || this.props.campo_desarrollo == null) && <li>Campo de Desarrollo</li>}                            
+                                        {(this.props.requisito_obtencion == "" || this.props.requisito_obtencion == null) && <li>Requisito de Obtención de Título</li>}
+                                        {(this.props.campo_desarrollo == "" || this.props.campo_desarrollo == null) && <li>Campo de Desarrollo Profesional </li>}
+                                        {(this.props.perfil_egresado == "" || this.props.perfil_egresado == null) && <li>Perfil del Egresado</li>}                            
+                                        {(this.props.perfil_licenciado == "" || this.props.perfil_licenciado == null) && <li>Perfil del Licenciado</li>}
                                         </ul>
                                     </div>
                                 </div>
@@ -172,7 +176,7 @@ export default class resumen extends Component {
                                                     (
                                                         'Descripción' + 
                                                         (
-                                                            (dominio.competencias.length == 0) ? 'Competencias' : ''
+                                                            (dominio.competencias.length == 0) ? ', Competencias' : ''
                                                         )
                                                     ) 
                                                     :
@@ -180,7 +184,7 @@ export default class resumen extends Component {
                                                         (dominio.competencias.length == 0) ? 'Competencias' : ''
                                                     )
                                                 )
-                                                + ''
+                                                + ' '
                                             }
                                             del dominio <b>"{dominio.nombre}"</b>
                                             </li>

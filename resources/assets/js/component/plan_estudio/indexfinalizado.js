@@ -25,6 +25,8 @@ export default class index extends Component {
             mecanismo_retencion: '',
             requisito_obtencion: '',
             campo_desarrollo: '',
+            perfil_egresado: '',
+            perfil_licenciado: '',
             carrera: {},
             tipo_plan: {},
             tipo_ingreso: {},
@@ -55,6 +57,8 @@ export default class index extends Component {
                 mecanismo_retencion: response.data.mecanismo_retencion,
                 requisito_obtencion: response.data.requisito_obtencion,
                 campo_desarrollo: response.data.campo_desarrollo,
+                perfil_egresado: response.data.perfil_egresado,
+                perfil_licenciado: response.data.perfil_licenciado,
                 carrera: response.data.carrera,
                 tipo_plan: response.data.tipo_plan,
                 tipo_ingreso: response.data.tipo_ingreso,
@@ -150,6 +154,8 @@ export default class index extends Component {
                                     mecanismo_retencion={this.state.mecanismo_retencion}
                                     requisito_obtencion={this.state.requisito_obtencion}
                                     campo_desarrollo={this.state.campo_desarrollo}
+                                    perfil_egresado={this.state.perfil_egresado}
+                                    perfil_licenciado={this.state.perfil_licenciado}
                                     carrera={this.state.carrera}
                                     tipo_plan={this.state.tipo_plan}
                                     tipo_ingreso={this.state.tipo_ingreso}
