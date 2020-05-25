@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import VerShow from './ver/show';
+import VerRedaccion from './ver/redaccion';
 import VerDominios from './ver/dominios';
 import VerCompetencias from './ver/competencias';
 import VerNivelCompetencias from './ver/nivelcompetencias';
@@ -25,6 +26,7 @@ export default class index extends Component {
             mecanismo_retencion: '',
             requisito_obtencion: '',
             campo_desarrollo: '',
+            redaccion: '',
             perfil_egresado: '',
             perfil_licenciado: '',
             carrera: {},
@@ -57,6 +59,7 @@ export default class index extends Component {
                 mecanismo_retencion: response.data.mecanismo_retencion,
                 requisito_obtencion: response.data.requisito_obtencion,
                 campo_desarrollo: response.data.campo_desarrollo,
+                redaccion: response.data.redaccion,
                 perfil_egresado: response.data.perfil_egresado,
                 perfil_licenciado: response.data.perfil_licenciado,
                 carrera: response.data.carrera,
@@ -107,36 +110,42 @@ export default class index extends Component {
                             </li>
                             <li className="nav-items">
                                 <a href="#plan-tab-1" data-toggle="tab" className="nav-link">
+                                    <span className="d-sm-none">Redacción</span>
+                                    <span className="d-sm-block d-none">Redacción del Plan</span>
+                                </a>
+                            </li>
+                            <li className="nav-items">
+                                <a href="#plan-tab-2" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Dominios</span>
                                     <span className="d-sm-block d-none">Dominios del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-2" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-3" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Competencias</span>
                                     <span className="d-sm-block d-none">Competencias del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-3" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Nivel Competencias</span>
                                     <span className="d-sm-block d-none">Niveles de Competencias del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Diseño</span>
                                     <span className="d-sm-block d-none">Diseño del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Asignaturas</span>
                                     <span className="d-sm-block d-none">Asignaturas del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Gráficos</span>
                                     <span className="d-sm-block d-none">Gráficos y Tablas</span>
                                 </a>
@@ -165,38 +174,44 @@ export default class index extends Component {
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-1">
+                                <VerRedaccion
+                                    id={this.state.id}
+                                    redaccion={this.state.redaccion}
+                                />
+                            </div>
+                            <div className="tab-pane fade" id="plan-tab-2">
                                 <VerDominios
                                     id={this.state.id}
                                     dominios={this.state.dominios}
                                 />
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-2">
+                            <div className="tab-pane fade" id="plan-tab-3">
                                 <VerCompetencias
                                     id={this.state.id}
                                     dominios={this.state.dominios}
                                     competencias_genericas={this.state.competencias_genericas}
                                 />                                
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-3">
+                            <div className="tab-pane fade" id="plan-tab-4">
                                 <VerNivelCompetencias
                                     dominios={this.state.dominios}
                                     competencias_genericas={this.state.competencias_genericas}
                                     asignaturas={this.state.asignaturas}
                                 />                                
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-4">
+                            <div className="tab-pane fade" id="plan-tab-5">
                                 <VerDiseno
                                     asignaturas={this.state.asignaturas}
                                     niveles={this.state.niveles}
                                 />                                
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-5">
+                            <div className="tab-pane fade" id="plan-tab-6">
                                 <VerAsignaturas
                                     asignaturas={this.state.asignaturas}
                                     niveles={this.state.niveles}
                                 />
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-6">
+                            <div className="tab-pane fade" id="plan-tab-7">
                                 {/* <TreePlan id={this.state.id}
                             nombre={this.state.nombre}
                             dominios={this.state.dominios}

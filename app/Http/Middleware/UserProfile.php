@@ -30,7 +30,7 @@ class UserProfile
             $path_editar = '/^\b(Plan\/Editar\/)+([1-9][0-9]{0,3})$/';
             $path_ver = '/^\b(Plan\/Ver\/)+([1-9][0-9]{0,3})$/';
             $path_finalizado = '/^\b(Plan\/Finalizado\/)+([1-9][0-9]{0,3})$/';
-            $path_basica = '/^\b(InformacionBasica\/)+([1-9][0-9]{0,3})$/';
+            $path_editar_info_basica = '/^\b(EditarInfoBasica\/)+([1-9][0-9]{0,3})$/';
             if($path == "Administrador" || 
             $path == "AsignarPerfil" || 
             $path == "Carreras" || 
@@ -51,20 +51,13 @@ class UserProfile
                     return $next($request);
                 }
             }
-            if($path == "Listado" || $path == "Indicadores")
+            if($path == "Listado" || $path == "Indicadores" || $path == "CrearPlan" || preg_match($path_editar_info_basica, $path))
             {
                 if($perfil == 1 || $perfil == 2)
                 {
                     return $next($request);
                 }
 
-            }
-            if($path == "Pendientes" || preg_match($path_basica, $path))
-            {
-                if($perfil == 1 || $perfil == 3)
-                {
-                    return $next($request);
-                }
             }
             if($path == "MisPlanes" || preg_match($path_editar, $path))
             {
@@ -109,7 +102,7 @@ class UserProfile
             }
             if($elemento == "plan_estudios")
             {
-                if($metodo == "POST")
+                if($metodo == "POST" || $metodo == "PUT" || $metodo == "DELETE")
                 {
                     if($perfil == 1 || $perfil == 2)
                     {
@@ -336,7 +329,7 @@ class UserProfile
                     }
                 }
             }
-            if($elemento == "asesores" || $elemento == "listado_planes")
+            if($elemento == "asesores" || $elemento == "listado_planes" || $elemento == "all_asesores")
             {
                 if($metodo == "GET")
                 {
@@ -364,39 +357,11 @@ class UserProfile
                     }
                 }
             }
-            if($elemento == "informacion_basica")
-            {
-                if($metodo == "GET" || $metodo == "PUT")
-                {
-                    if($perfil == 3)
-                    {
-                        return $next($request);
-                    }
-                    else
-                    {
-                        return response()->json(['error' => 'No Autorizado.'], 401);
-                    }
-                }
-            }
             if($elemento == "mis_planes" || $elemento == "editar")
             {
                 if($metodo == "GET")
                 {
                     if($perfil == 1 || $perfil == 3 || $perfil == 4)
-                    {
-                        return $next($request);
-                    }
-                    else
-                    {
-                        return response()->json(['error' => 'No Autorizado.'], 401);
-                    }
-                }
-            }
-            if($elemento == "pendientes")
-            {
-                if($metodo == "GET")
-                {
-                    if($perfil == 3)
                     {
                         return $next($request);
                     }
@@ -423,6 +388,20 @@ class UserProfile
             if($elemento == "revisar")
             {
                 if($metodo == "PUT")
+                {
+                    if($perfil == 1 || $perfil == 2)
+                    {
+                        return $next($request);
+                    }
+                    else
+                    {
+                        return response()->json(['error' => 'No Autorizado.'], 401);
+                    }
+                }
+            }
+            if($elemento == "informacion_basica")
+            {
+                if($metodo == "GET" || $metodo == "PUT")
                 {
                     if($perfil == 1 || $perfil == 2)
                     {

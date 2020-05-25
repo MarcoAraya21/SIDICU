@@ -316,7 +316,7 @@ class Index extends Component {
                 <ol className="breadcrumb pull-right">
                     <li className="breadcrumb-item active">Inicio</li>
                 </ol>
-                <h1 className="page-header">Plan {this.state.plan_estudios.id} - Información Básica</h1>
+                <h1 className="page-header">Crear Plan como Administrador</h1>
                 <div className="panel-body bg-white">
                     <div className="col-12">
                         <div className="col mb-2">

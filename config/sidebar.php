@@ -21,6 +21,10 @@ return [
 				'sub_menu' => [
 					[
 						'url' => '/CrearPlanAdm',
+						'title' => 'Crear Plan/Administrador'
+					],
+					[
+						'url' => '/CrearPlan',
 						'title' => 'Crear Plan'
 					],
 					[
@@ -75,7 +79,7 @@ return [
 					],
 					[
 						'url' => 'AsignarPerfil',
-						'title' => 'Asignar Perfil'
+						'title' => 'Usuarios'
 					]
 				]
 			]
@@ -88,6 +92,10 @@ return [
 				'title' => 'Planes de Estudio',
 				'url' => 'javascript:;',
 				'sub_menu' => [
+					[
+						'url' => '/CrearPlan',
+						'title' => 'Crear Plan'
+					],
 					[
 						'url' => '/Listado',
 						'title' => 'Listado'
@@ -119,10 +127,6 @@ return [
 					[
 						'url' => '/MisPlanes',
 						'title' => 'Mis Planes'
-					],
-					[
-						'url' => '/Pendientes',
-						'title' => 'Planes Pendientes'
 					],
 					[
 						'url' => '/home',

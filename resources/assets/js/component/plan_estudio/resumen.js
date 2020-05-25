@@ -155,6 +155,24 @@ export default class resumen extends Component {
                             </div>)
                         }
                         {
+                            (this.props.redaccion == "" || this.props.redaccion == null)
+                            &&
+                            (advertencias = true,
+                            <div className="card">
+                                <div className="card-header bg-danger text-white pointer-cursor collapsed" data-toggle="collapse" data-target="#redaccion">
+                                    Redacción del Plan
+                                </div>
+                                <div id="redaccion" className="collapse" data-parent="#accordion">
+                                    <div className="card-body">
+                                        Debe llenar lo siguiente:
+                                        <ul>
+                                            {(this.props.redaccion == "" || this.props.redaccion == null) && <li>Texto de la Redacción</li>}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>)
+                        }
+                        {
                             (this.props.dominios.some( dominio => dominio.descripcion == "" || dominio.descripcion == null || dominio.competencias.length == 0)) &&
                             (advertencias = true,
                             <div className="card">

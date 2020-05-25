@@ -76,13 +76,14 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::resource('usuarios', 'UsuarioController', ['only' => ['index', 'update', 'destroy']]);
         // CIERRE ADMIN
 
+        Route::get('all_asesores', 'UsuarioController@allAsesores');
         Route::get('asesores', 'UsuarioController@getAsesores');
         Route::get('academicos', 'UsuarioController@getAcademicos');
-        Route::get('informacion_basica/{plan_id}', 'PlanEstudioController@getInformacionBasica');
-        Route::put('informacion_basica/{plan_id}', 'PlanEstudioController@updateInformacionBasica');
         Route::get('listado_planes', 'PlanEstudioController@listado');
         Route::get('mis_planes', 'PlanEstudioController@misPlanes');
-        Route::get('pendientes', 'PlanEstudioController@misPendientes');
+
+        Route::get('informacion_basica/{plan_id}', 'PlanEstudioController@getInformacionBasica');
+        Route::put('informacion_basica/{plan_id}', 'PlanEstudioController@updateInformacionBasica');
 
         Route::get('editar/{plan_id}', 'PlanEstudioController@editar');
         Route::get('ver/{plan_id}', 'PlanEstudioController@ver');

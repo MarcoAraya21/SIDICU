@@ -136,6 +136,79 @@ class Index extends Component {
 
     }
 
+    eliminar(usuario) {
+        swal({
+            title: '¿Esta seguro de eliminar el usuario de "' + usuario.nombre + ' ' + usuario.apellido_paterno + '" ?',
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            closeOnEsc: false,
+            allowOutsideClick: false
+            // dangerMode: true,
+        })
+        .then((value) => {
+            if (value) {
+                fetch(`/api/usuarios/${usuario.id}`, {
+                    method: 'delete',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function(response) {
+                    console.log("response", response)
+                    if(!response.ok) {
+                        if(response.redirected)
+                        {
+                            window.location.href = "/";
+                        }
+                        throw "Error en la llamada Ajax";
+                    }
+                    else
+                    {
+                        if(response.status == 202)
+                        {
+                            return "No Cumplida";
+                        }
+                    }
+                })
+                .then(function(data) {
+                    if(data)
+                    {
+                        swal({
+                            title: "No se ha podido eliminar.",
+                            text: "Para poder eliminar, el usuario debe ser académico o invitado y no tener planes asociados.",
+                            icon: "warning",
+                            closeOnEsc: false,
+                            allowOutsideClick: false
+                        });
+                    }
+                    else
+                    {
+                        swal({
+                            title: "Se ha eliminado correctamente!",
+                            icon: "success",
+                            closeOnEsc: false,
+                            allowOutsideClick: false
+                        }).then(() => 
+                            location.reload()
+                        );
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    swal({
+                        title: "Oops...",
+                        text: "Ha ocurrido un error en el servidor, intente nuevamente!",
+                        icon: "error",
+                        closeOnEsc: false,
+                        allowOutsideClick: false
+                    })
+                })
+            }
+        });
+    }
+
 
     componentWillMount() {
         this.getUsuarios();
@@ -192,6 +265,12 @@ class Index extends Component {
                             <i className="fas fa-save p-r-10"></i>Guardar
                         </button>
                     </td>
+                    <td>
+                        <button type="button" className="btn btn-danger p-5 m-l-5"
+                            onClick={() => this.eliminar(usuario)}>
+                            <i className="fas fa-times p-r-10"></i>Eliminar
+                        </button>
+                    </td>
                 </tr>
 
         )
@@ -220,6 +299,7 @@ class Index extends Component {
                                         <th>Perfil Actual</th>
                                         <th>Cambiar Perfil</th>
                                         <th>Guardar</th>
+                                        <th>Eliminar Usuario</th>
                                     </tr>
                                 </thead>
                                 <tbody>

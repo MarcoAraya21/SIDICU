@@ -1073,6 +1073,13 @@ export function handleUpdateOtros(data)
     this.setState({perfil_licenciado: data.perfil_licenciado});
 }
 
+export function handleUpdateRedaccion(data)
+{
+    console.log(data)
+    this.setState({redaccion: data.redaccion});
+}
+
+
 export function handleUpdate(data, objeto, indice)
 {
     if(objeto == "dominios")

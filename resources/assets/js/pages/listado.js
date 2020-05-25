@@ -113,6 +113,64 @@ class Index extends Component {
 
     }
 
+    eliminar(plan) {
+
+        swal({
+            title: "¿Esta seguro de eliminar este plan?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            closeOnEsc: false,
+            allowOutsideClick: false
+            // dangerMode: true,
+        })
+        .then((value) => {
+            if (value) {
+                fetch(`/api/plan_estudios/${plan}`, {
+                    method: 'delete',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(function(response) {
+                    if(!response.ok) {
+                        if(response.redirected)
+                        {
+                            window.location.href = "/";
+                        }
+                        throw "Error en la llamada Ajax";
+                    }
+                })
+                .then(() => {
+                    swal({
+                        title: "Se ha eliminado correctamente!",
+                        icon: "success",
+                        closeOnEsc: false,
+                        allowOutsideClick: false
+                    }).then(() => 
+                        location.reload()
+                    );
+
+                    // let plan_estudios = this.state.plan_estudios.filter(plan_estudio => 
+                    //     plan_estudio.id != plan
+                    // );
+                    
+                    // this.setState({ plan_estudios: plan_estudios })
+                })
+                .catch(function (error) {
+                    swal({
+                        title: "Oops...",
+                        text: "Ha ocurrido un error en el servidor, intente nuevamente!",
+                        icon: "error",
+                        closeOnEsc: false,
+                        allowOutsideClick: false
+                    })
+                })
+            }
+        });
+    }
+
 
     componentWillMount() {
         this.getPlanEstudios();
@@ -177,6 +235,17 @@ class Index extends Component {
                             </button>
                         }
                     </td>
+                    <td>
+                        <Link to={`EditarInfoBasica/${plan_estudio.id}`} className="btn btn-success p-5 m-l-5">
+                            <i className="fas fa-edit p-r-10"></i>Editar
+                        </Link>
+                    </td>
+                    <td>
+                        <button type="button" className="btn btn-danger p-5 m-l-5"
+                            onClick={() => this.eliminar(plan_estudio.id)}>
+                            <i className="fas fa-times p-r-10"></i>Eliminar
+                        </button>
+                    </td>
                     {/* <td><Link to={`${plan_estudio.id}`} className='btn btn-primary'>Abrir</Link></td> */}
                 </tr>
 
@@ -201,6 +270,8 @@ class Index extends Component {
                                     <th>Coordinador</th>
                                     <th>Ver</th>
                                     <th>Evaluar</th>
+                                    <th>Editar Info. Basica</th>
+                                    <th>Eliminar</th>
                                 </tr>
                             </thead>
                             <tbody>

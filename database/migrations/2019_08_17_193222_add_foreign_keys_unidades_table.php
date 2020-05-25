@@ -15,7 +15,7 @@ class AddForeignKeysUnidadesTable extends Migration
     {
         Schema::table('unidades', function (Blueprint $table) {
             $table->unsignedInteger('asignatura_id')->nullable(); 
-            $table->foreign('asignatura_id')->references('id')->on('asignaturas');
+            $table->foreign('asignatura_id')->references('id')->on('asignaturas')->onDelete('cascade');
         });
     }
 

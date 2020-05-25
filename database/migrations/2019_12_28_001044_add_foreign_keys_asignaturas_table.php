@@ -21,7 +21,7 @@ class AddForeignKeysAsignaturasTable extends Migration
             $table->unsignedInteger('departamento_id')->nullable(); 
             $table->foreign('departamento_id')->references('id')->on('departamentos');
             $table->unsignedInteger('nivel_id')->nullable(); 
-            $table->foreign('nivel_id')->references('id')->on('niveles');
+            $table->foreign('nivel_id')->references('id')->on('niveles')->onDelete('cascade');
         });
     }
 
