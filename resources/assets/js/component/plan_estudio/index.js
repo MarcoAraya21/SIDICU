@@ -18,10 +18,11 @@ import VerAsignaturas from './ver/asignaturas';
 import EditarAsignaturas from './editar/asignaturas';
 import VerDiseno from './ver/diseno';
 import EditarDiseno from './editar/diseno';
+import TreePlan from './tree';
 import Resumen from './resumen';
+// import Indicadores from './indicadores'
 import Tabla from './graficos/tabla';
 import Grafico from './graficos/grafico';
-import Indicadores from './indicadores/indicadores';
 
 
 
@@ -56,6 +57,7 @@ export default class index extends Component {
             comp_genericas: [],
             openGrafico:false,
             openTabla:false,
+
         }
 
         this.handleInput = handleInput.bind(this);
@@ -272,15 +274,15 @@ export default class index extends Component {
                                 <li className="nav-items">
                                     <a href="#plan-tab-8" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Finalizar</span>
-                                        <span className="d-sm-block d-none">Finalizar plan</span>
+                                        <span className="d-sm-block d-none">Finalizar Plan</span>
                                     </a>
                                 </li>
-                                <li className="nav-items">
-                                    <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
+                                {/* <li className="nav-items">
+                                    <a href="#plan-tab-9" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Indicadores</span>
                                         <span className="d-sm-block d-none">Indicadores del Plan</span>
                                     </a>
-                                </li>
+                                </li> */}
                             </ul>
                             <div className="tab-content">
                                 <div className="tab-pane fade active show" id="plan-tab-show">
@@ -500,15 +502,22 @@ export default class index extends Component {
                                         dominios={this.state.dominios}
                                         competencias_genericas={this.state.competencias_genericas}
                                         asignaturas={this.state.asignaturas}
-                                    />
-                                </div>
-                                <div className="tab-pane fade" id="plan-tab-7">
 
                                         acceso={this.state.acceso}
                                         addNotification={this.addNotification}
                                         addNotificationAlert={this.addNotificationAlert}
                                     />                                        
                                 </div>
+                                {/* <div className="tab-pane fade" id="plan-tab-9">
+                                    <Indicadores
+                                        dominios={this.state.dominios}
+                                        competencias_genericas={this.state.competencias_genericas}
+                                        asignaturas={this.state.asignaturas}
+
+                                        addNotification={this.addNotification}
+                                        addNotificationAlert={this.addNotificationAlert}
+                                    />                                        
+                                </div> */}
                             </div>
                         </div>
                     </div>

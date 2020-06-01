@@ -415,6 +415,20 @@ class UserProfile
                     }
                 }
             }
+            if($elemento == "indicadores")
+            {
+                if($metodo == "GET")
+                {
+                    if($perfil == 1 || $perfil == 2)
+                    {
+                        return $next($request);
+                    }
+                    else
+                    {
+                        return response()->json(['error' => 'No Autorizado.'], 401);
+                    }
+                }
+            }
             return response()->json(['error' => 'No Autorizado.'], 401);
         }
     }

@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import MisPlanes from './pages/mis_planes'
 import PlanEstudio from './component/plan_estudio/index'
 import PlanVer from './component/plan_estudio/indexver'
+import PlanFinalizado from './component/plan_estudio/indexfinalizado'
 // import CrearPlan from './component/crear_plan/index'
 import AsignarPerfil from './pages/asignar_perfil'
 import Admin from './component/admin/index'
@@ -12,8 +13,12 @@ import Finalizados from './pages/finalizados'
 import CrearPlan from './pages/crear_plan/index'
 import EditarInfoBasica from './pages/editar_plan/index'
 // import IndexAsignaturas from './component/asignaturas/index'
-
-
+import PlanAdm from './component/admin/crear_plan/index'
+import Carreras from './component/admin/carreras'
+import Escuelas from './component/admin/escuelas'
+import Facultades from './component/admin/facultades'
+import Grados from './component/admin/grados'
+import Indicadores from './pages/indicadores'
 
 const Router = () => {
     return (
@@ -29,7 +34,14 @@ const Router = () => {
                     <Route path='/EditarInfoBasica/:id' component={EditarInfoBasica} />
                     <Route path='/Plan/Editar/:id' component={PlanEstudio} />
                     <Route path='/Plan/Ver/:id' component={PlanVer} />
+                    <Route path='/Plan/Finalizado/:id' component={PlanFinalizado} />
                     <Route path='/MisPlanes' component={MisPlanes} />
+                    <Route path='/CrearPlanAdm' component={PlanAdm} />
+                    <Route path='/Carreras' component={Carreras} />
+                    <Route path='/Escuelas' component={Escuelas} />
+                    <Route path='/Facultades' component={Facultades} />
+                    <Route path='/Grados' component={Grados} />
+                    <Route exact path='/Indicadores' component={Indicadores} />
                     <Route exact path='/home' component={Finalizados} />
                 </Switch>
             </div>

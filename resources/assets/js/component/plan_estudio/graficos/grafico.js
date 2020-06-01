@@ -23,9 +23,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 
-import styled from "@emotion/styled";
-import { Tree, TreeNode } from "react-organizational-chart";
-
 const useStyles = makeStyles(theme => ({
   appBar: {
     position: 'relative',
@@ -45,28 +42,25 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const StyledNode = styled.div`
-  padding: 10px;
-  border-radius: 5px;
-  display: inline-block;
-  border: 1px solid blue;
-  min-width: 200px;
-  max-width: 350px;
-`;
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Tabla({ openGrafico, handleCloseGrafico, id, nombre, dominios, competencias_genericas}) {
+export default function Diseño({ openDiseño, handleCloseDiseño, id, nombre, asignaturas}) {
   const classes = useStyles();
+
+  let aux = []
+  asignaturas.forEach(element => {
+    aux.push(element)    
+  });
 
   return (
     <div>
-      <Dialog fullScreen open={openGrafico} onClose={handleCloseGrafico} TransitionComponent={Transition} disableEscapeKeyDown>
+      <Dialog fullScreen open={openDiseño} onClose={handleCloseDiseño} TransitionComponent={Transition} disableEscapeKeyDown>
         <AppBar className={classes.appBar}>
           <Toolbar>
-            <IconButton edge="start" color="inherit" onClick={handleCloseGrafico} aria-label="close">
+            <IconButton edge="start" color="inherit" onClick={handleCloseDiseño} aria-label="close">
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
@@ -76,67 +70,68 @@ export default function Tabla({ openGrafico, handleCloseGrafico, id, nombre, dom
           </Toolbar>
         </AppBar>
         <DialogContent>
-          <div>
-          <Tree
-        lineWidth={"1px"}
-        lineColor={"gray"}
-        lineBorderRadius={"5px"}
-        label={<StyledNode><b>{nombre}</b></StyledNode>}
-      >
-       
-       
-       {dominios.map((dominio,i) =>
-          <TreeNode key={i} label={<StyledNode><h6>Dominio {i+1}</h6>{dominio.nombre}</StyledNode>}>
-            {dominio.competencias.map((competencia,i) =>
-                <TreeNode key={i} label={<StyledNode><h6>Competencia {i+1}</h6>{competencia.descripcion}</StyledNode>}>
-                    {competencia.nivel_competencias.map((nivel_competencia,i) =>
-                        <TreeNode key={i} label={<StyledNode>
-                            <h6 data-toggle="collapse" className="pointer-cursor" data-target={`#nivel${nivel_competencia.id}`}>
-                              Nivel {i+1}
-                            </h6>
-                            <p id={`nivel${nivel_competencia.id}`} className="collapse">
-                              
-                                {nivel_competencia.descripcion}
-                            </p>
-                        </StyledNode>}>
-                            {nivel_competencia.logro_aprendizajes.map((logro_aprendizaje,i) =>
-                                <TreeNode key={i} label={<StyledNode>
-                                				
-                                          <h6 data-toggle="collapse" className="pointer-cursor" data-target={`#logro${logro_aprendizaje.id}`}>
-                                            Logro de Aprendizaje {i+1}
-                                          </h6>
-                                          <div id={`logro${logro_aprendizaje.id}`} className="collapse">
-                                            
-                                             {logro_aprendizaje.descripcion}
-                                            
-                                          </div>
-                                        
-                                </StyledNode>}>
-                                </TreeNode>
-                            )}
-                        </TreeNode>
-                    )}
-                </TreeNode>
-            )}
-        </TreeNode>
-    )}
-        <TreeNode label={<StyledNode><h6>Dominio Generico</h6></StyledNode>}>
-          {competencias_genericas.map((generica,i) =>
-            <TreeNode key={i} label={<StyledNode><h6>Competencia Generica {i+1}</h6> {generica.descripcion}</StyledNode>}> 
-            {generica.nivel_competencias.map((nivel_competencia,i) =>
-              <TreeNode key={i} label={<StyledNode><h6>Nivel {i+1}</h6> {nivel_competencia.descripcion}</StyledNode>}>
-                  {nivel_competencia.logro_aprendizajes.map((logro_aprendizaje,i) =>
-                      <TreeNode key={i} label={<StyledNode><h6>Logro de aprendizaje {i+1}</h6> {logro_aprendizaje.descripcion}</StyledNode>}>
-                      </TreeNode>
-                  )}
-              </TreeNode>
-          )}
-      </TreeNode>
-          )}
-        </TreeNode>
-    </Tree>
+        <div className="table-responsive">
+        
+        <table className="table table-bordered">
+				<tr>
+					<td rowspan="2"></td>
+					<td rowspan="2"></td>
+					<td rowspan="2"></td>
+					<td rowspan="2"></td>
+					<th class="txt-ver" rowspan="3">Duración en semanas</th>
+					<td colspan="7">Horas Semanales</td>
+					<td colspan="2"></td>
+				</tr>
+				<tr>
+					<td colspan="6">Horas Pedagógicas</td>
+					<td colspan="3"></td>
+				</tr>
+				<tr>
+					<th class="txt-ver">Nivel</th>
+					<th class="txt-ver">CICLOS Y PROGRAMAS</th>
+					<th class="txt-ver">CÓDIGO</th>
+					<th>ASIGNATURA</th>
+					<td class="txt-ver">Teoría</td>
+					<td class="txt-ver">Laboratorio</td>
+					<td class="txt-ver">Taller</td>
+					<td class="txt-ver">Total aula</td>
+					<td class="txt-ver">Extra aula</td>
+					<td class="txt-ver">Total horas</td>
+					<th class="txt-ver">Total horas Cronológica</th>
+					<th class="txt-ver">SCT</th>
+					<th class="txt-ver">REQUISITO</th>
+				</tr>
+
+        {aux.length > 0 && aux.map((nivel,i) =>
+
+          asignaturas.length > 0 && asignaturas.filter(asignatura => asignatura.nivel.nombre === i+1).map((asignatura,j) =>
+           
+            <tr key={j}>
+                <td>{i+1}{j+1}</td>
+                <td></td>
+                <td>{asignatura.codigo}</td>
+                <td>{asignatura.nombre}</td>
+                <td>18</td>
+                <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)}</td>
+                <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)}</td>
+                <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)}</td>
+                <td>{Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad))}</td>
+                <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)}</td>
+                <td>{Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad))}</td>
+                <td>{Math.round((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)}</td>
+                <td>{Math.round((((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)*18)/27 || 0)}</td>
+                <td></td>
+            </tr>
+          )
+
+        )}
+        
+
+                
+			</table>
             
           </div>
+          
         </DialogContent>
       </Dialog>
     </div>

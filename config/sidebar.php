@@ -45,11 +45,11 @@ return [
 					]
 				]
 			],
-			// [
-			// 	'icon' => 'fa fa-chart-line',
-			// 	'title' => 'Indicadores',
-			// 	'url' => 'javascript:;',
-			// ],
+			[
+				'icon' => 'fa fa-chart-line',
+				'title' => 'Indicadores',
+				'url' => '/Indicadores',
+			],
 			[
 				'icon' => 'fa fa-user-secret',
 				'title' => 'Administrador',
@@ -110,11 +110,11 @@ return [
 					]
 				]
 			],
-			// [
-			// 	'icon' => 'fa fa-chart-line',
-			// 	'title' => 'Indicadores',
-			// 	'url' => 'javascript:;',
-			// ]
+			[
+				'icon' => 'fa fa-chart-line',
+				'title' => 'Indicadores',
+				'url' => '/Indicadores',
+			]
 		],
 
 		'menu_asesor' => 

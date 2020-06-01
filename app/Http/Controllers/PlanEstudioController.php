@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use DB;
 use App\PlanEstudio;
 use App\Competencia;
 use JWTAuth;
@@ -597,4 +598,131 @@ class PlanEstudioController extends Controller
         return response()->json($id, 201);        
     }
 
+
+    public function indicadores()
+    {
+        $indicadores = [];
+        $indicadores["EnProceso"] = PlanEstudio::where("estado_id", 2)->count();
+        $indicadores["EnRevision"] = PlanEstudio::where("estado_id", 3)->count();
+        $indicadores["Finalizados"] = PlanEstudio::where("estado_id", 4)->count();
+        $indicadores["sinGenericas"] = [];
+        foreach (PlanEstudio::get() as $key => $plan) {
+            if(sizeof($plan->competencias_genericas) == 0)
+            {
+                array_push($indicadores["sinGenericas"], (object) ['id' => $plan->id, 'nombre' => $plan->nombre, 'asesor' => $plan->asesor_uic->nombre." ".$plan->asesor_uic->apellido_paterno]);
+            }
+
+        }
+        $indicadores["CompetenciaMasUsada"] = DB::table('nivel_genericas as ng')
+        ->select('c.id', 'c.descripcion', DB::raw('count(*) as total'))
+        ->leftJoin('nivel_competencias as nc', 'ng.nivel_competencia_id', '=', 'nc.id')
+        ->leftJoin('competencias as c', 'nc.competencia_id', '=', 'c.id')
+        ->groupBy('c.id', 'c.descripcion')
+        ->first();
+        $indicadores["MetodologiaMasUsada"] = DB::table('asignatura_metodologias as am')
+        ->select('m.id', 'm.nombre', DB::raw('count(*) as total'))
+        ->leftJoin('metodologias as m', 'am.metodologia_id', '=', 'm.id')
+        ->groupBy('m.id','m.nombre')
+        ->first();
+        $indicadores["EvaluacionMasUsada"] = DB::table('asignatura_evaluaciones as ae')
+        ->select('e.id', 'e.nombre', DB::raw('count(*) as total'))
+        ->leftJoin('evaluaciones as e', 'ae.evaluacion_id', '=', 'e.id')
+        ->groupBy('e.id','e.nombre')
+        ->first();
+
+
+        $sub_query = DB::table('plan_estudios as p')
+        ->select('p.id as plan_id', 'c.id as competencia_id', 'c.descripcion', 'c.sigla')
+        ->leftJoin('nivel_genericas as ng', 'ng.plan_estudio_id', '=', 'p.id')
+        ->leftJoin('nivel_competencias as nc', 'ng.nivel_competencia_id', '=', 'nc.id')
+        ->rightJoin('competencias as c', 'nc.competencia_id', '=', 'c.id')
+        ->whereRaw('c.dominio_id = 1')
+        ->distinct();
+
+        $indicadores["UsoCompetencias"] = DB::table( DB::raw("({$sub_query->toSql()}) as t") )
+        ->select('competencia_id', 'descripcion', 'sigla', DB::raw('(count(*) - sum(case when plan_id is null then 1 else 0 end)) as total '))
+        ->groupBy('competencia_id', 'descripcion', 'sigla')
+        ->get();
+        // $indicadores["UsoCompetencias"] = DB::table('(select distinct p.id, c.id, c.descripcion
+        // from plan_estudios as p 
+        // left join nivel_genericas as ng on p.id = ng.plan_estudio_id 
+        // left join nivel_competencias as nc on ng.nivel_competencia_id = nc.id 
+        // right join competencias as c on nc.competencia_id = c.id where c.dominio_id = 1) as t')
+        // ->select('competencia_id', 'descripcion', DB::raw('(count(*) - sum(case when plan_id is null then 1 else 0 end)) as total '))
+        // ->groupBy('competencia_id', 'descripcion')
+        // ->get();
+        // select competencia_id, descripcion, (count(*) - sum(case when plan_id is null then 1 else 0 end)) as total 
+        // from (select distinct p.id plan_id, c.id as competencia_id, c.descripcion 
+        // from plan_estudios p 
+        // left join nivel_genericas ng on p.id = ng.plan_estudio_id 
+        // left join nivel_competencias nc on ng.nivel_competencia_id = nc.id 
+        // right join competencias c on nc.competencia_id = c.id where c.dominio_id = 1) as t 
+        // group by competencia_id
+        return response()->json($indicadores, 200); 
+
+
+        // $arreglo = [];
+        // $proyectos = Proyecto::with('presupuesto_items')->get();
+        // $indicadores = [];
+        // $indicadores['monto_total_adjudicado'] = 0;
+        // $indicadores['monto_L3'] = 0;
+        // $indicadores['monto_L_1_2'] = 0;
+        // $monto_linea3 = 0;
+        // //calcula monto adjudicado total por cada proyecto
+        // // foreach ($proyectos as $key => $proyecto) {
+        // //     $arreglo[$proyecto->id] = 0;
+        // //     foreach ($proyecto->presupuesto_items as $key => $presupuesto) {
+        // //         $arreglo[$proyecto->id] = $presupuesto->monto_adjudicado + $arreglo[$proyecto->id];
+        // //     }
+        // // };
+
+        // foreach ($proyectos as $key => $proyecto) {
+        //     foreach ($proyecto->presupuesto_items as $key => $presupuesto) {
+        //         $indicadores['monto_total_adjudicado'] += $presupuesto->monto_adjudicado;
+        //         if($proyecto->base->concurso->sigla == "L3")
+        //         {
+        //             $indicadores['monto_L3'] += $presupuesto->monto_adjudicado;
+        //         }
+        //         else{
+        //             $indicadores['monto_L_1_2'] += $presupuesto->monto_adjudicado;
+        //         }
+        //     }
+        // };
+        // //-------------------------------------------------------------//
+        // $adjudicados = [];
+        // $i = 0;
+
+        // foreach ($proyectos as $key => $proyecto) {
+        //     if($proyecto->adjudicado)
+        //     {
+        //         $adjudicados[$i] = $proyecto;
+        //         $i = $i + 1;
+        //     }
+        // }        
+        // $arreglo2 = json_decode(file_get_contents('../public/assets/doc_sistema/internos.json'));
+        // $alladjudicados = array_merge($adjudicados, $arreglo2);
+        // $año = [];
+        // $facultad = [];
+        // $j = 0;
+        // foreach ($alladjudicados as $key => $adjudicado) {
+        //     $año[$j] = $adjudicado->adjudicado;
+        //     $facultad[$j] = $adjudicado->equipos[0]->departamento->facultad->sigla;
+        //     $j = $j + 1;
+        // }
+        // // $indicadores['asd'] = $alladjudicados['adjudicado']; 
+        // $indicadores['adjudicadosXaño'] = array_count_values($año);
+        // $indicadores['facultades'] = array_count_values($facultad);
+        // //-------------------------------------------------//
+        // $añoext = [];
+        // $z = 0;
+        // foreach(json_decode(file_get_contents('../public/assets/doc_sistema/externos.json'))  as $key => $externo)
+        // {
+        //     if($externo->Año != 2011 and $externo->Año != 2012 and $externo->Año != 2013 and $externo->Año != 2019)
+        //     {
+        //         $añoext[$z] = $externo->Año;
+        //         $z = $z + 1;
+        //     }
+        // }
+        // $indicadores['adjudicadosXañoExt'] = array_count_values($añoext);
+    }
 }
