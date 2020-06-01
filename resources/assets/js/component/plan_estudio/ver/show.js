@@ -46,7 +46,7 @@ export default class show extends Component {
                     </div>
                     <legend>Otros Datos</legend>
                     <div className="form-group">
-                        <label>Proposito</label>
+                        <label>Propósito</label>
                         <p className="px-2 py-2 border">
                             {this.props.proposito || ''}
                         </p>
@@ -60,25 +60,37 @@ export default class show extends Component {
                     <div className="form-group">
                         <label>Requisito de Admisión</label>
                         <p className="px-2 py-2 border">
-                            {this.props.requisito_admisin || ''}
+                            {this.props.requisito_admision || ''}
                         </p>
                     </div>
                     <div className="form-group">
                         <label>Mecanismo de Retención</label>
                         <p className="px-2 py-2 border">
-                            {this.props.mecanismo_retencon || ''}
+                            {this.props.mecanismo_retencion || ''}
                         </p>
                     </div>
                     <div className="form-group">
-                        <label>Requisito de Obtención</label>
+                        <label>Requisito de Obtención de Título</label>
                         <p className="px-2 py-2 border">
-                            {this.props.requisito_obtencon || ''}
+                            {this.props.requisito_obtencion || ''}
                         </p>
                     </div>
                     <div className="form-group">
-                        <label>Campo de Desarrollo</label>
+                        <label>Campo de Desarrollo Profesional</label>
                         <p className="px-2 py-2 border">
-                            {this.props.campo_desarrollo|| ''}
+                            {this.props.campo_desarrollo || ''}
+                        </p>
+                    </div>
+                    <div className="form-group">
+                        <label>Perfil del Egresado</label>
+                        <p className="px-2 py-2 border">
+                            {this.props.perfil_egresado || ''}
+                        </p>
+                    </div>
+                    <div className="form-group">
+                        <label>Perfil del Licenciado</label>
+                        <p className="px-2 py-2 border">
+                            {this.props.perfil_licenciado || ''}
                         </p>
                     </div>
                 </div>

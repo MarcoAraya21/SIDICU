@@ -11,6 +11,8 @@ export default class show extends Component {
                 mecanismo_retencion: '',
                 requisito_obtencion: '',
                 campo_desarrollo: '',
+                perfil_egresado: '',
+                perfil_licenciado: '',
                 guardando: false,
                 errores: {},
                 deshabilitado: true
@@ -60,7 +62,7 @@ export default class show extends Component {
                 }
             
             })
-            .then(data => {this.props.addNotification()} )
+            .then(data => {[this.props.handleUpdateOtros(this.state), this.props.addNotification()]} )
             .catch(error => {
                 this.props.addNotificationAlert('No se ha podido guardar.')
             })
@@ -81,7 +83,9 @@ export default class show extends Component {
                         requisito_admision: this.props.requisito_admision,
                         mecanismo_retencion: this.props.mecanismo_retencion,
                         requisito_obtencion: this.props.requisito_obtencion,
-                        campo_desarrollo: this.props.campo_desarrollo})
+                        campo_desarrollo: this.props.campo_desarrollo,
+                        perfil_egresado: this.props.perfil_egresado,
+                        perfil_licenciado: this.props.perfil_licenciado})
     }
     
     render() {
@@ -123,7 +127,7 @@ export default class show extends Component {
                     </div>
                     <legend>Otros Datos</legend>
                     <div className="form-group">
-                        <label>Proposito</label>
+                        <label>Propósito</label>
                         <textarea
                             disabled={this.state.deshabilitado}
                             className={ "form-control " + (this.state.errores.proposito && 'is-invalid')}  rows="3"
@@ -167,7 +171,7 @@ export default class show extends Component {
                             <div className="invalid-feedback" align="right">{this.state.errores.mecanismo_retencion}</div>}
                     </div>
                     <div className="form-group">
-                        <label>Requisito de Obtención</label>
+                        <label>Requisito de Obtención de Título</label>
                         <textarea
                             disabled={this.state.deshabilitado}
                             className={ "form-control " + (this.state.errores.requisito_obtencion && 'is-invalid')}  rows="3"
@@ -178,7 +182,7 @@ export default class show extends Component {
                             <div className="invalid-feedback" align="right" >{this.state.errores.requisito_obtencion}</div>}
                     </div>
                     <div className="form-group">
-                        <label>Campo de Desarrollo</label>
+                        <label>Campo de Desarrollo Profesional</label>
                         <textarea
                             disabled={this.state.deshabilitado}
                             className={ "form-control " + (this.state.errores.campo_desarrollo && 'is-invalid')}  rows="3"
@@ -187,6 +191,28 @@ export default class show extends Component {
                         </textarea>
                         {this.state.errores.campo_desarrollo &&
                             <div className="invalid-feedback" align="right">{this.state.errores.campo_desarrollo}</div>}
+                    </div>
+                    <div className="form-group">
+                        <label>Perfil del Egresado</label>
+                        <textarea
+                            disabled={this.state.deshabilitado}
+                            className={ "form-control " + (this.state.errores.perfil_egresado && 'is-invalid')}  rows="3"
+                            value={this.state.perfil_egresado || ''}
+                            onChange={(e)=>this.handleInput(e, 'perfil_egresado')}>
+                        </textarea>
+                        {this.state.errores.perfil_egresado &&
+                            <div className="invalid-feedback" align="right">{this.state.errores.perfil_egresado}</div>}
+                    </div>
+                    <div className="form-group">
+                        <label>Perfil del Licenciado</label>
+                        <textarea
+                            disabled={this.state.deshabilitado}
+                            className={ "form-control " + (this.state.errores.perfil_licenciado && 'is-invalid')}  rows="3"
+                            value={this.state.perfil_licenciado || ''}
+                            onChange={(e)=>this.handleInput(e, 'perfil_licenciado')}>
+                        </textarea>
+                        {this.state.errores.perfil_licenciado &&
+                            <div className="invalid-feedback" align="right">{this.state.errores.perfil_licenciado}</div>}
                     </div>
                 </div>
                 <div className="col-12 text-right mt-2">

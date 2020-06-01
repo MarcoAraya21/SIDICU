@@ -3,9 +3,11 @@ import axios from 'axios'
 import { Link } from 'react-router-dom'
 import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
-import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
+import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, handleUpdate, handleUpdateOtros, handleUpdateRedaccion, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
 import VerShow from './ver/show';
-import EditarShow from './editar/show'
+import EditarShow from './editar/show';
+import VerRedaccion from './ver/redaccion'
+import EditarRedaccion from './editar/redaccion'
 import VerDominios from './ver/dominios';
 import EditarDominios from './editar/dominios';
 import VerCompetencias from './ver/competencias';
@@ -36,6 +38,9 @@ export default class index extends Component {
             mecanismo_retencion: '',
             requisito_obtencion: '',
             campo_desarrollo: '',
+            redaccion: '',
+            perfil_egresado: '',
+            perfil_licenciado: '',
             carrera: {},
             tipo_plan: {},
             tipo_ingreso: {},
@@ -48,6 +53,7 @@ export default class index extends Component {
             habilitadogeneral: true,
             plan_genericas: [],
             acceso: 0,
+            comp_genericas: [],
             openGrafico:false,
             openTabla:false,
         }
@@ -55,6 +61,9 @@ export default class index extends Component {
         this.handleInput = handleInput.bind(this);
         this.handleInputArrays = handleInputArrays.bind(this);
         this.handleInputArraysAsignatura = handleInputArraysAsignatura.bind(this);
+        this.handleUpdate = handleUpdate.bind(this);
+        this.handleUpdateOtros = handleUpdateOtros.bind(this);
+        this.handleUpdateRedaccion = handleUpdateRedaccion.bind(this);
         this.borrarElemento = borrarElemento.bind(this);
         this.borrarElementoAsignatura = borrarElementoAsignatura.bind(this);
         this.handleAddElement = handleAddElement.bind(this);
@@ -135,7 +144,7 @@ export default class index extends Component {
 
     getPlanEstudio() {
         // console.log(projectId);
-        axios.get(`/api/plan_estudios/${this.props.match.params.id}`).then((
+        axios.get(`/api/editar/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({
@@ -148,6 +157,9 @@ export default class index extends Component {
                 mecanismo_retencion: response.data[0].mecanismo_retencion,
                 requisito_obtencion: response.data[0].requisito_obtencion,
                 campo_desarrollo: response.data[0].campo_desarrollo,
+                redaccion: response.data[0].redaccion,
+                perfil_egresado: response.data[0].perfil_egresado,
+                perfil_licenciado: response.data[0].perfil_licenciado,
                 carrera: response.data[0].carrera,
                 tipo_plan: response.data[0].tipo_plan,
                 tipo_ingreso: response.data[0].tipo_ingreso,
@@ -217,36 +229,48 @@ export default class index extends Component {
                                 </li>
                                 <li className="nav-items">
                                     <a href="#plan-tab-1" data-toggle="tab" className="nav-link">
+                                        <span className="d-sm-none">Redacción</span>
+                                        <span className="d-sm-block d-none">Redacción del Plan</span>
+                                    </a>
+                                </li>
+                                <li className="nav-items">
+                                    <a href="#plan-tab-2" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Dominios</span>
                                         <span className="d-sm-block d-none">Dominios del Plan</span>
                                     </a>
                                 </li>
                                 <li className="nav-items">
-                                    <a href="#plan-tab-2" data-toggle="tab" className="nav-link">
+                                    <a href="#plan-tab-3" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Competencias</span>
                                         <span className="d-sm-block d-none">Competencias del Plan</span>
                                     </a>
                                 </li>
                                 <li className="nav-items">
-                                    <a href="#plan-tab-3" data-toggle="tab" className="nav-link">
+                                    <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Nivel Competencias</span>
                                         <span className="d-sm-block d-none">Niveles de Competencias del Plan</span>
                                     </a>
                                 </li>
                                 <li className="nav-items">
-                                    <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
+                                    <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Diseño</span>
                                         <span className="d-sm-block d-none">Diseño del Plan</span>
                                     </a>
                                 </li>
                                 <li className="nav-items">
-                                    <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
+                                    <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Asignaturas</span>
                                         <span className="d-sm-block d-none">Asignaturas del Plan</span>
                                     </a>
                                 </li>
+                                {/* <li className="nav-items">
+                                    <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
+                                        <span className="d-sm-none">Gráficos</span>
+                                        <span className="d-sm-block d-none">Gráficos y Tablas</span>
+                                    </a>
+                                </li> */}
                                 <li className="nav-items">
-                                    <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
+                                    <a href="#plan-tab-8" data-toggle="tab" className="nav-link">
                                         <span className="d-sm-none">Finalizar</span>
                                         <span className="d-sm-block d-none">Finalizar plan</span>
                                     </a>
@@ -273,6 +297,8 @@ export default class index extends Component {
                                                 mecanismo_retencion={this.state.mecanismo_retencion}
                                                 requisito_obtencion={this.state.requisito_obtencion}
                                                 campo_desarrollo={this.state.campo_desarrollo}
+                                                perfil_egresado={this.state.perfil_egresado}
+                                                perfil_licenciado={this.state.perfil_licenciado}
                                                 carrera={this.state.carrera}
                                                 tipo_plan={this.state.tipo_plan}
                                                 tipo_ingreso={this.state.tipo_ingreso}
@@ -284,6 +310,7 @@ export default class index extends Component {
                                                 addNotification={this.addNotification}
                                                 addNotificationAlert={this.addNotificationAlert}
                                                 addNotificationWarning={this.addNotificationWarning}
+                                                handleUpdateOtros={this.handleUpdateOtros}
                                             />
                                         :
                                             <VerShow
@@ -296,6 +323,8 @@ export default class index extends Component {
                                                 mecanismo_retencion={this.state.mecanismo_retencion}
                                                 requisito_obtencion={this.state.requisito_obtencion}
                                                 campo_desarrollo={this.state.campo_desarrollo}
+                                                perfil_egresado={this.state.perfil_egresado}
+                                                perfil_licenciado={this.state.perfil_licenciado}
                                                 carrera={this.state.carrera}
                                                 tipo_plan={this.state.tipo_plan}
                                                 tipo_ingreso={this.state.tipo_ingreso}
@@ -308,16 +337,37 @@ export default class index extends Component {
                                 <div className="tab-pane fade" id="plan-tab-1">
                                     {
                                         this.state.acceso == 1 ?
+                                        <EditarRedaccion
+                                            redaccion={this.state.redaccion}
+                                            params={this.props.match.params.id}
+                                            habilitarGeneral={this.habilitarGeneral}
+                                            habilitadogeneral={this.state.habilitadogeneral}
+                                            addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
+                                            addNotificationWarning={this.addNotificationWarning}
+                                            handleUpdateRedaccion={this.handleUpdateRedaccion}
+                                        />
+                                        :
+                                        <VerRedaccion
+                                            id={this.state.id}
+                                            redaccion={this.state.redaccion}
+                                        />
+                                    }
+                                </div>
+                                <div className="tab-pane fade" id="plan-tab-2">
+                                    {
+                                        this.state.acceso == 1 ?
                                         <EditarDominios
                                             id={this.state.id}
                                             dominios={this.state.dominios}
                                             handleInput={this.handleInput}
-                                            handleInputArrays={this.handleInputArrays}
+                                            handleUpdate={this.handleUpdate}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerDominios
@@ -326,7 +376,7 @@ export default class index extends Component {
                                         />
                                     }
                                 </div>
-                                <div className="tab-pane fade" id="plan-tab-2">
+                                <div className="tab-pane fade" id="plan-tab-3">
                                     {
                                         this.state.acceso == 1 ?
                                         <EditarCompetencias
@@ -334,12 +384,13 @@ export default class index extends Component {
                                             dominios={this.state.dominios}
                                             competencias_genericas={this.state.competencias_genericas}
                                             comp_genericas = {this.state.comp_genericas}
-                                            handleInputArrays={this.handleInputArrays}
+                                            handleUpdate={this.handleUpdate}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerCompetencias
@@ -350,7 +401,7 @@ export default class index extends Component {
                                     }
                                     
                                 </div>
-                                <div className="tab-pane fade" id="plan-tab-3">
+                                <div className="tab-pane fade" id="plan-tab-4">
                                     {
                                         this.state.acceso == 1 ?
                                         <EditarNivelCompetencias
@@ -358,12 +409,13 @@ export default class index extends Component {
                                             competencias_genericas={this.state.competencias_genericas}
                                             asignaturas={this.state.asignaturas}
                                             plan_genericas={this.state.plan_genericas}
-                                            handleInputArrays={this.handleInputArrays}
+                                            handleUpdate={this.handleUpdate}
                                             borrarElemento={this.borrarElemento}
                                             handleAddElement={this.handleAddElement}
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerNivelCompetencias
@@ -374,13 +426,13 @@ export default class index extends Component {
                                     }
                                     
                                 </div>
-                                <div className="tab-pane fade" id="plan-tab-4">
+                                <div className="tab-pane fade" id="plan-tab-5">
                                     {
                                         this.state.acceso == 1 ?
                                         <EditarDiseno
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
-                                            handleInputArrays={this.handleInputArrays}
+                                            handleUpdate={this.handleUpdate}
                                             handleInputArraysAsignatura={this.handleInputArraysAsignatura}
                                             handleAddElement={this.handleAddElement}
                                             borrarElemento={this.borrarElemento}
@@ -389,6 +441,7 @@ export default class index extends Component {
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerDiseno
@@ -398,13 +451,15 @@ export default class index extends Component {
                                     }
                                     
                                 </div>
-                                <div className="tab-pane fade" id="plan-tab-5">
+                                <div className="tab-pane fade" id="plan-tab-6">
                                     {
                                         this.state.acceso == 1 || this.state.acceso == 2 ?
                                         <EditarAsignaturas
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
-                                            handleInputArrays={this.handleInputArrays}
+                                            dominios={this.state.dominios}
+                                            comp_genericas = {this.state.comp_genericas}
+                                            handleUpdate={this.handleUpdate}
                                             handleInputArraysAsignatura={this.handleInputArraysAsignatura}
                                             handleAddElement={this.handleAddElement}
                                             borrarElemento={this.borrarElemento}
@@ -413,6 +468,7 @@ export default class index extends Component {
                                             habilitarGeneral={this.habilitarGeneral}
                                             habilitadogeneral={this.state.habilitadogeneral}
                                             addNotification={this.addNotification}
+                                            addNotificationAlert={this.addNotificationAlert}
                                         />
                                         :
                                         <VerAsignaturas
@@ -422,8 +478,25 @@ export default class index extends Component {
                                     }
                                     
                                 </div>
-                                <div className="tab-pane fade" id="plan-tab-6">
+                                {/* <div className="tab-pane fade" id="plan-tab-7">
+                                    <TreePlan id={this.state.id}
+                                nombre={this.state.nombre}
+                                dominios={this.state.dominios}
+                                competencias_genericas={this.state.competencias_genericas}/>
+                                </div> */}
+                                <div className="tab-pane fade" id="plan-tab-8">
                                     <Resumen
+                                        params={this.props.match.params.id}
+                                        proposito={this.state.proposito}
+                                        objetivo={this.state.objetivo}
+                                        requisito_admision={this.state.requisito_admision}
+                                        mecanismo_retencion={this.state.mecanismo_retencion}
+                                        requisito_obtencion={this.state.requisito_obtencion}
+                                        campo_desarrollo={this.state.campo_desarrollo}
+                                        redaccion={this.state.redaccion}
+                                        perfil_egresado={this.state.perfil_egresado}
+                                        perfil_licenciado={this.state.perfil_licenciado}
+
                                         dominios={this.state.dominios}
                                         competencias_genericas={this.state.competencias_genericas}
                                         asignaturas={this.state.asignaturas}
@@ -431,6 +504,10 @@ export default class index extends Component {
                                 </div>
                                 <div className="tab-pane fade" id="plan-tab-7">
 
+                                        acceso={this.state.acceso}
+                                        addNotification={this.addNotification}
+                                        addNotificationAlert={this.addNotificationAlert}
+                                    />                                        
                                 </div>
                             </div>
                         </div>

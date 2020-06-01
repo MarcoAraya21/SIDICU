@@ -5,19 +5,13 @@ import ReactNotification from "react-notifications-component";
 import "react-notifications-component/dist/theme.css";
 import { handleInput, handleAddElement, handleAddElementAsignatura, handleInputArrays, handleInputArraysAsignatura, borrarElemento, borrarElementoAsignatura } from '../utiles/lib'
 import VerShow from './ver/show';
-import EditarShow from './editar/show'
+import VerRedaccion from './ver/redaccion';
 import VerDominios from './ver/dominios';
-import EditarDominios from './editar/dominios';
 import VerCompetencias from './ver/competencias';
-import EditarCompetencias from './editar/competencias';
 import VerNivelCompetencias from './ver/nivelcompetencias';
-import EditarNivelCompetencias from './editar/nivelcompetencias';
 import VerAsignaturas from './ver/asignaturas';
-import EditarAsignaturas from './editar/asignaturas';
 import VerDiseno from './ver/diseno';
-import EditarDiseno from './editar/diseno';
 import TreePlan from './tree';
-import Resumen from './resumen';
 
 
 
@@ -35,6 +29,9 @@ export default class index extends Component {
             mecanismo_retencion: '',
             requisito_obtencion: '',
             campo_desarrollo: '',
+            redaccion: '',
+            perfil_egresado: '',
+            perfil_licenciado: '',
             carrera: {},
             tipo_plan: {},
             tipo_ingreso: {},
@@ -49,24 +46,9 @@ export default class index extends Component {
         }
     }
 
-    addNotification() {
-        this.notificationDOMRef.current.addNotification({
-            title: "Guardado",
-            message: "La Información ha sido almacenada",
-            type: "info",
-            insert: "top",
-            container: "top-right",
-            animationIn: ["animated", "zoomIn"],
-            animationOut: ["animated", "zoomOut"],
-            dismiss: { duration: 3000 },
-            dismissable: { click: true }
-        });
-    }
-
-
     getPlanEstudio() {
         // console.log(projectId);
-        axios.get(`/api/plan_estudios/finalizado/${this.props.match.params.id}`).then((
+        axios.get(`/api/ver/${this.props.match.params.id}`).then((
             response // console.log(response.data.tasks)
         ) => {
             this.setState({
@@ -79,6 +61,9 @@ export default class index extends Component {
                 mecanismo_retencion: response.data.mecanismo_retencion,
                 requisito_obtencion: response.data.requisito_obtencion,
                 campo_desarrollo: response.data.campo_desarrollo,
+                redaccion: response.data.redaccion,
+                perfil_egresado: response.data.perfil_egresado,
+                perfil_licenciado: response.data.perfil_licenciado,
                 carrera: response.data.carrera,
                 tipo_plan: response.data.tipo_plan,
                 tipo_ingreso: response.data.tipo_ingreso,
@@ -127,44 +112,44 @@ export default class index extends Component {
                             </li>
                             <li className="nav-items">
                                 <a href="#plan-tab-1" data-toggle="tab" className="nav-link">
+                                    <span className="d-sm-none">Redacción</span>
+                                    <span className="d-sm-block d-none">Redacción del Plan</span>
+                                </a>
+                            </li>
+                            <li className="nav-items">
+                                <a href="#plan-tab-2" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Dominios</span>
                                     <span className="d-sm-block d-none">Dominios del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-2" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-3" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Competencias</span>
                                     <span className="d-sm-block d-none">Competencias del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-3" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Nivel Competencias</span>
                                     <span className="d-sm-block d-none">Niveles de Competencias del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-4" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Diseño</span>
                                     <span className="d-sm-block d-none">Diseño del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-5" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Asignaturas</span>
                                     <span className="d-sm-block d-none">Asignaturas del Plan</span>
                                 </a>
                             </li>
                             <li className="nav-items">
-                                <a href="#plan-tab-6" data-toggle="tab" className="nav-link">
+                                <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
                                     <span className="d-sm-none">Gráficos</span>
                                     <span className="d-sm-block d-none">Gráficos y Tablas</span>
-                                </a>
-                            </li>
-                            <li className="nav-items">
-                                <a href="#plan-tab-7" data-toggle="tab" className="nav-link">
-                                    <span className="d-sm-none">Finalizar</span>
-                                    <span className="d-sm-block d-none">Finalizar plan</span>
                                 </a>
                             </li>
                         </ul>
@@ -180,6 +165,8 @@ export default class index extends Component {
                                     mecanismo_retencion={this.state.mecanismo_retencion}
                                     requisito_obtencion={this.state.requisito_obtencion}
                                     campo_desarrollo={this.state.campo_desarrollo}
+                                    perfil_egresado={this.state.perfil_egresado}
+                                    perfil_licenciado={this.state.perfil_licenciado}
                                     carrera={this.state.carrera}
                                     tipo_plan={this.state.tipo_plan}
                                     tipo_ingreso={this.state.tipo_ingreso}
@@ -189,49 +176,48 @@ export default class index extends Component {
                                 />
                             </div>
                             <div className="tab-pane fade" id="plan-tab-1">
+                                <VerRedaccion
+                                    id={this.state.id}
+                                    redaccion={this.state.redaccion}
+                                />
+                            </div>
+                            <div className="tab-pane fade" id="plan-tab-2">
                                 <VerDominios
                                     id={this.state.id}
                                     dominios={this.state.dominios}
                                 />
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-2">
+                            <div className="tab-pane fade" id="plan-tab-3">
                                 <VerCompetencias
                                     id={this.state.id}
                                     dominios={this.state.dominios}
                                     competencias_genericas={this.state.competencias_genericas}
                                 />                                
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-3">
+                            <div className="tab-pane fade" id="plan-tab-4">
                                 <VerNivelCompetencias
                                     dominios={this.state.dominios}
                                     competencias_genericas={this.state.competencias_genericas}
                                     asignaturas={this.state.asignaturas}
                                 />                                
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-4">
+                            <div className="tab-pane fade" id="plan-tab-5">
                                 <VerDiseno
                                     asignaturas={this.state.asignaturas}
                                     niveles={this.state.niveles}
                                 />                                
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-5">
+                            <div className="tab-pane fade" id="plan-tab-6">
                                 <VerAsignaturas
                                     asignaturas={this.state.asignaturas}
                                     niveles={this.state.niveles}
                                 />
                             </div>
-                            <div className="tab-pane fade" id="plan-tab-6">
+                            <div className="tab-pane fade" id="plan-tab-7">
                                 {/* <TreePlan id={this.state.id}
                             nombre={this.state.nombre}
                             dominios={this.state.dominios}
                             competencias_genericas={this.state.competencias_genericas}/> */}
-                            </div>
-                            <div className="tab-pane fade" id="plan-tab-7">
-                                <Resumen
-                                    dominios={this.state.dominios}
-                                    competencias_genericas={this.state.competencias_genericas}
-                                    asignaturas={this.state.asignaturas}
-                                />
                             </div>
                         </div>
                     </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Usuario;
+use App\PlanEstudioUsuario;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 use JWTAuth;
@@ -41,6 +42,12 @@ class UsuarioController extends Controller
     public function getAsesores()
     {
         $Usuarios = Usuario::where('perfil_id', 3)->get();
+        return $Usuarios->toJson();
+    }
+
+    public function allAsesores()
+    {
+        $Usuarios = Usuario::whereIn('perfil_id', [1, 3])->get();
         return $Usuarios->toJson();
     }
 
@@ -122,7 +129,16 @@ class UsuarioController extends Controller
      */
     public function destroy($id)
     {
-
+        $Usuario = Usuario::find($id);
+        $Planes_Usuario = PlanEstudioUsuario::where('usuario_id', $id)->get();
+        if(sizeof($Planes_Usuario) == 0 && ($Usuario->perfil_id == 4 || $Usuario->perfil_id == 5))
+        {
+            $Usuario->delete();
+        }
+        else
+        {
+            return response()->json(['error' => 'Acceso no permitido.'],202);
+        }
     }
 
 
@@ -217,7 +233,7 @@ class UsuarioController extends Controller
         {
             if(JWTAuth::toUser(JWTAuth::attempt($credentials))->validado == 1)
             {
-                return response()->json(['status'=>'success'])->withCookie('token', compact('token')['token'], 120);
+                return response()->json(['status'=>'success'])->withCookie('token', compact('token')['token']);
                 // return redirect('/home')->withCookie('token', compact('token')['token'], 120);
             }
         }

@@ -54,21 +54,6 @@
 	<script src="/assets/plugins/sweetalert/sweetalert.min.js"></script>
 	<script src="/assets/js/Router.js"></script>
 	<script>
-		function pad2(number) {   
-			return (number < 10 ? '0' : '') + number;
-		}
-			var restante = {{ $restante }};
-			var l = document.getElementById("restante");
-			
-				window.setInterval(function(){
-					if(restante >= 0)
-					{
-						l.innerHTML = 'Tiempo Restante: ' + pad2(Math.trunc(restante/60)) + ':' + pad2(restante%60);;
-						restante--;
-					}
-				},1000);
-	</script>
-	<script>
 		function logout()
 		{
 			fetch(`/api/auth/logout`, {

@@ -58,16 +58,13 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/AsignarPerfil', function () {
             return view('/pages/welcome');
         });
-        Route::get('/AsignarPlan', function () {
+        Route::get('/CrearPlan', function () {
+            return view('/pages/welcome');
+        });
+        Route::get('/EditarInfoBasica/{id}', function () {
             return view('/pages/welcome');
         });
         Route::get('/Listado', function () {
-            return view('/pages/welcome');
-        });
-        Route::get('/Pendientes', function () {
-            return view('/pages/welcome');
-        });
-        Route::get('/InformacionBasica/{id}', function () {
             return view('/pages/welcome');
         });
         Route::get('/MisPlanes', function () {

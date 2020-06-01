@@ -15,7 +15,7 @@ class AddForeignKeysUsuarioVerificacionesTable extends Migration
     {
         Schema::table('usuario_verificaciones', function (Blueprint $table) {
             $table->unsignedInteger('usuario_id')->nullable(); 
-            $table->foreign('usuario_id')->references('id')->on('usuarios');
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 

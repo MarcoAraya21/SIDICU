@@ -20,16 +20,20 @@ return [
 				'url' => 'javascript:;',
 				'sub_menu' => [
 					[
+						'url' => '/CrearPlanAdm',
+						'title' => 'Crear Plan/Administrador'
+					],
+					[
+						'url' => '/CrearPlan',
+						'title' => 'Crear Plan'
+					],
+					[
 						'url' => '/Listado',
 						'title' => 'Listado'
 					],
 					[
 						'url' => '/MisPlanes',
 						'title' => 'Mis Planes'
-					],
-					[
-						'url' => '/Pendientes',
-						'title' => 'Planes Pendientes'
 					],
 					[
 						'url' => '/AsignarPlan',
@@ -41,23 +45,41 @@ return [
 					]
 				]
 			],
-			[
-				'icon' => 'fa fa-chart-line',
-				'title' => 'Indicadores',
-				'url' => 'javascript:;',
-			],
+			// [
+			// 	'icon' => 'fa fa-chart-line',
+			// 	'title' => 'Indicadores',
+			// 	'url' => 'javascript:;',
+			// ],
 			[
 				'icon' => 'fa fa-user-secret',
 				'title' => 'Administrador',
 				'url' => 'javascript:;',
 				'sub_menu' => [
 					[
-						'url' => '/Administrador',
-						'title' => 'Editar Tablas'
+						'url' => 'javascript:;',
+						'title' => 'Editar Tablas',
+						'sub_menu' => [
+							[
+								'url' => '/Carreras',
+								'title' => 'Carreras'
+							],
+							[
+								'url' => '/Escuelas',
+								'title' => 'Escuelas'
+							],
+							[
+								'url' => '/Facultades',
+								'title' => 'Facultades'
+							],
+							[
+								'url' => '/Grados',
+								'title' => 'Grados'
+							]
+						]
 					],
 					[
 						'url' => 'AsignarPerfil',
-						'title' => 'Asignar Perfil'
+						'title' => 'Usuarios'
 					]
 				]
 			]
@@ -71,6 +93,10 @@ return [
 				'url' => 'javascript:;',
 				'sub_menu' => [
 					[
+						'url' => '/CrearPlan',
+						'title' => 'Crear Plan'
+					],
+					[
 						'url' => '/Listado',
 						'title' => 'Listado'
 					],
@@ -84,11 +110,11 @@ return [
 					]
 				]
 			],
-			[
-				'icon' => 'fa fa-chart-line',
-				'title' => 'Indicadores',
-				'url' => 'javascript:;',
-			]
+			// [
+			// 	'icon' => 'fa fa-chart-line',
+			// 	'title' => 'Indicadores',
+			// 	'url' => 'javascript:;',
+			// ]
 		],
 
 		'menu_asesor' => 
@@ -101,10 +127,6 @@ return [
 					[
 						'url' => '/MisPlanes',
 						'title' => 'Mis Planes'
-					],
-					[
-						'url' => '/Pendientes',
-						'title' => 'Planes Pendientes'
 					],
 					[
 						'url' => '/home',
