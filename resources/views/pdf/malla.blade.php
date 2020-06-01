@@ -11,5 +11,9 @@
 
 @section('content')
 <div class="news-feed">
-
+	<div className="table-responsive">
+    	<table className="table table-bordered">
+		
+		</table>
+	</div>
 </div>

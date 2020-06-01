@@ -530,7 +530,9 @@
 			
 			<?php
 			for ($i=1; $i < 3; $i++) { 
-				echo '<p><b>D.1. PROGRAMAS DE ACTIVIDADES CURRICULARES NIVEL ';
+				echo '<p><b>D.';
+				echo $i;
+				echo '. PROGRAMAS DE ACTIVIDADES CURRICULARES NIVEL ';
 				echo $i;
 				echo '</b></p>';
 
@@ -570,14 +572,13 @@
 				echo '</td>
 				<th colspan="2">Tipo de asignatura</th>
 				<td colspan="3">';
-				echo $asignatura->tipo_asignatura->nombre;
+				echo $asignatura->tipo_asignatura ? $asignatura->tipo_asignatura->nombre : "";
 				echo '</td>
 			</tr>
 			<tr>
 				<td>1.3</td>
 				<td>Requisito</td>
 				<th colspan="6">';
-				
 				echo '</th>
 			</tr>
 			<tr>
@@ -612,14 +613,14 @@
 				<td>1.6</td>
 				<td>Ciclo o programa de Formación</td>
 				<td colspan="6">';
-				echo $asignatura->ciclo->nombre;
+				echo $asignatura->ciclo ? $asignatura->ciclo->nombre : "";
 				echo '</td>
 			</tr>
 			<tr>
 				<td>1.7</td>
 				<td>Departamento</td>
 				<td colspan="6">';
-				echo $asignatura->departamento->nombre;
+				echo $asignatura->departamento ? $asignatura->departamento->nombre : "";
 				echo '</td>
 			</tr>
 			<tr>
@@ -627,7 +628,7 @@
 				<td>Vigencia desde</td>
 				<td colspan="2"></td>
 				<td colspan="2">Código Plan de Estudio</td>
-				<td colspan="2"></td>
+				<td colspan="2"> </td>
 			</tr>
 		</table>
 	
@@ -655,9 +656,32 @@
 				<td>Tipo de Competencia</td>
 				<td>Logros de Aprendizaje</td>
 				<td>Procedimientos y/o Herramientas de Evaluación</td>
-			</tr>
-			<tr>
-				<td></td>
+			</tr>';
+		echo '<tr>
+				<td>';
+		$competencias_id = [];
+		$competencias_genericas_id = [];
+		$m = 0;
+		$n = 0;
+		foreach ($asignatura->nivel_competencia_asignaturas as $key => $nca){
+			$competencias_id[$m] = $nca->nc->competencia_id;
+			$m++;
+		}
+		foreach ($asignatura->nivel_generica_asignaturas as $key => $nga){
+			$competencias_genericas_id[$n] = $nca->ng->nc->competencia_id;
+			$n++;
+		}
+		$competencias_id = array_unique($competencias_id);
+		$competencias_genericas_id = array_unique($competencias_genericas_id);
+		foreach ($competencias_id as $key => $comp_id){
+			$llave = array_search($comp_id, array_column($competencias,'id'));
+			echo $competencias[$llave]->descripcion;
+		}
+		foreach ($competencias_genericas_id as $key => $comp_generica_id){
+			$llave = array_search($comp_generica_id, array_column($competencias,'id'));
+			echo $competencias[$llave]->descripcion;
+		}
+		echo '</td>
 				<td></td>
 				<td></td>
 			</tr>

@@ -73,14 +73,19 @@ export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignat
         <DialogContent>
           <div>
             <table className="table table-bordered">
+            
+            
             {aux.length > 0 && aux.map((nivel,i) => 
-              {asignaturas.filter(asignatura => asignatura.nivel.nombre === i+1).map((asignatura, j) =>
+              asignaturas.filter(asignatura => asignatura.nivel.nombre === i+1).map((asignatura, j) =>
               <td key={j}>
                 <p>{i+1}{j+1}</p>
                 <p>{asignatura.nombre}</p>
                 <p>SCT: {Math.round((((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)*18)/27 || 0)}</p>
+              
               </td>
-              )}
+              ),
+
+              
             )}
            </table>
           </div>

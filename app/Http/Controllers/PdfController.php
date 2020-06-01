@@ -122,4 +122,19 @@ class PdfController extends Controller
         return $pdf->download('asinatura.pdf');
     }
 
+    public function pdfdiseño($id)
+    {
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
+        $pdf = PDF::loadView('diseño.invoice',compact('PlanEstudio'));
+        return $pdf->download('diseño.pdf');
+    }
+
+    public function pdfmalla($id)
+    {
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
+        $pdf = PDF::loadView('malla.invoice',compact('PlanEstudio'));
+        return $pdf->download('malla.pdf');
+    }
+    
+
 }

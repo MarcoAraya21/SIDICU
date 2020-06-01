@@ -14,7 +14,7 @@
 			font-family: 'San Francisco', sans-serif;
 		}
 		@page { margin: 140px 70px; } 
-		#header { position: fixed; left: 0px; top: -180px; right: 0px; height: 90px;} 
+		#header { position: fixed; left: 0px; top: -140px; right: 0px; height: 90px;} 
 		#footer { position: fixed; left: 0px; bottom: -180px; right: 0px; height: 150px; text-align: center; font-size: 12px;} 
 		#footer .page:after { content: counter(page, upper-roman); } 
 		.m-3{ margin: 15px, 10px;}
@@ -73,12 +73,10 @@
 <body>
 	<div id='header'>
 		<img src="assets/img/logo/logo_utem.png" alt="Logo" height="70px" class="m-3">
-		<!-- <div>
-			<p>Universidad Tecnológica Metropolitana</p>
+		<div style="position:absolute;left:30%;margin-top:60px">
+			<p style="float:left;width:33.33%;white-space:nowrap;font-family:'Times New Roman';font-size:15px;font-weight:bold;">Universidad Tecnológica Metropolitana</p>
+			<p style="float:right;width:33.33%;white-space:nowrap;font-family:'Times New Roman';font-size:15px;font-weight:bold;">Vicerrectoría Académica</p>
 		</div>
-		<div >
-			<p>Vicerrectoría Académica</p>
-		</div> -->
     </div>
 	<div id="content">
 		@yield('content')

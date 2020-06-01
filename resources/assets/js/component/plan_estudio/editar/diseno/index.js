@@ -94,6 +94,21 @@ export default class index extends Component {
                 />
                 </div>
 
+
+                <div className="col-12 text-right t-2">
+                    <div className="btn-group">
+                        <a href="#" className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
+                        <a href="#" className="btn btn-primary dropdown-toggle"
+                            data-toggle="dropdown"></a>
+                        <ul className="dropdown-menu pull-right">
+                            <li><a>Diseño en PDF</a></li>
+                            <li><a>Diseño en Word</a></li>
+                            <li><a>Malla en PDF</a></li>
+                            <li><a>Malla en Word</a></li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
         );
     }
