@@ -99,7 +99,8 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     
     Route::get('plan_estudios/{plan_id}/datos', 'PlanEstudioController@datos');
     Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
-
+    
+    Route::get('indicadores', 'PlanEstudioController@indicadores');
 });
 
 

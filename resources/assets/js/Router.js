@@ -18,6 +18,7 @@ import Carreras from './component/admin/carreras'
 import Escuelas from './component/admin/escuelas'
 import Facultades from './component/admin/facultades'
 import Grados from './component/admin/grados'
+import Indicadores from './pages/indicadores'
 
 const Router = () => {
     return (
@@ -40,6 +41,7 @@ const Router = () => {
                     <Route path='/Escuelas' component={Escuelas} />
                     <Route path='/Facultades' component={Facultades} />
                     <Route path='/Grados' component={Grados} />
+                    <Route exact path='/Indicadores' component={Indicadores} />
                     <Route exact path='/home' component={Finalizados} />
                 </Switch>
             </div>
