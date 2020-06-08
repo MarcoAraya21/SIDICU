@@ -2,7 +2,7 @@
   "_args": [
     [
       "moment@2.20.1",
-      "C:\\Users\\kroan\\desktop\\sidecu2"
+      "C:\\Users\\MASTE\\desktop\\sidicu"
     ]
   ],
   "_from": "moment@2.20.1",
@@ -31,7 +31,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/moment/-/moment-2.20.1.tgz",
   "_spec": "2.20.1",
-  "_where": "C:\\Users\\kroan\\desktop\\sidecu2",
+  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
   "author": {
     "name": "Iskren Ivov Chernev",
     "email": "iskren.chernev@gmail.com",
