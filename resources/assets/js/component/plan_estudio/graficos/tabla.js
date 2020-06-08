@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios'
 import { makeStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
@@ -50,18 +51,20 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominios, competencias_genericas}) {
   const classes = useStyles();
+  const [datos, setdatos] = useState([]);
 
   function getdata(variable) {
     axios.get(`/api/plan_estudios/${variable}/datos`).then((
         response // console.log(response.data.tasks)
     ) =>{
-            this.setState({
-                datos: response.data.id,
-            })
+      console.log(response.data)
+      setdatos(response.data);
         }            
     );
-}
 
+    
+    
+}
 
   let aux = [];
   let aux2 = [];
@@ -84,10 +87,13 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
     aux.map((elemento,i) => 
       elemento == 0 ? aux3[i] = 1 : aux3[i] = elemento
     )
+    console.log('datos', datos)
+    console.log('datos[0]', datos[0])
+    
 
   return (
     <div>
-      <Dialog fullScreen open={openTabla} onClose={handleCloseTabla} TransitionComponent={Transition} disableEscapeKeyDown>
+      <Dialog fullScreen open={openTabla} onClose={handleCloseTabla} TransitionComponent={Transition} onEnter={() => getdata(id)} disableEscapeKeyDown>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleCloseTabla} aria-label="close">
@@ -101,6 +107,7 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
         </AppBar>
         <DialogContent>
         <div className="table-responsive">
+          
         
         <table className="table table-bordered">
             <thead>
@@ -114,7 +121,97 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
             </thead>
         <tbody>
         
-        <tr>
+        {dominios.map((dominio,i) =>
+        <React.Fragment key={i}>
+          <tr>
+            <td rowSpan={datos.length > 0 && datos[i].casilla_logros || 1}>{dominio.nombre}</td>
+            <td rowSpan={datos.length > 0 && datos[i].competencias.length && datos[i].competencias[0].casilla_logros || 1}>{dominio.competencias.length > 0 && dominio.competencias[0].descripcion}</td>
+            <td rowSpan={dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length || 1}>{dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].descripcion}</td>
+            <td>{dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes[0].descripcion}</td>
+            <td rowSpan={dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length || 1}>
+              <ul>
+                {dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].nivel_competencia_asignaturas.length > 0 && dominio.competencias[0].nivel_competencias[0].nivel_competencia_asignaturas.map((nivel_asignatura,p) =>
+                  <li key={p}>{nivel_asignatura.asignatura.nombre}</li>
+                )}
+              </ul>
+            </td>
+          </tr>
+
+          {dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.slice(1,dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length).map((logro,j) =>
+          <tr key={j}>
+            <td>{logro.descripcion}</td>
+          </tr>
+          )}
+          {dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias.slice(1,dominio.competencias[0].nivel_competencias.length).map((nivel,k) =>
+          <React.Fragment key={k}>
+          <tr>
+              <td rowSpan={nivel.logro_aprendizajes.length || 1}>{nivel.descripcion}</td>
+              <td>{nivel.logro_aprendizajes.length > 0 && nivel.logro_aprendizajes[0].descripcion}</td>
+              <td rowSpan={nivel.logro_aprendizajes.length || 1}>
+              <ul>
+                {nivel.nivel_competencia_asignaturas.length > 0 && nivel.nivel_competencia_asignaturas.map((nivel_asignatura,p) =>
+                  <li>{nivel_asignatura.asignatura.nombre}</li>
+                )}
+              </ul>
+              
+              </td>
+            </tr>
+            {nivel.logro_aprendizajes.slice(1,nivel.logro_aprendizajes.length).map((logro,i) =>
+            <tr key={i}>
+              <td>{logro.descripcion}</td>
+            </tr>
+            )}
+          </React.Fragment>
+          )}
+
+          {dominio.competencias.length > 0 && dominio.competencias.slice(1,dominio.competencias.length).map((competencia,l) =>
+          <React.Fragment>
+          <tr key={l}>
+            <td rowSpan={datos.length > 0 && datos[0].competencias.length && datos[0].competencias[l+1].casilla_logros || 1}>{datos.length > 0 && datos[0].competencias.length && datos[0].competencias[l+1].casilla_logros} {competencia.descripcion}</td>
+            <td rowSpan={competencia.nivel_competencias[0].logro_aprendizajes.length || 1}>{competencia.nivel_competencias[0].descripcion}</td>
+            <td>{competencia.nivel_competencias[0].logro_aprendizajes.length > 0 && competencia.nivel_competencias[0].logro_aprendizajes[0].descripcion}</td>
+            <td rowSpan={competencia.nivel_competencias[0].logro_aprendizajes.length || 1}>
+            <ul>
+                {competencia.nivel_competencias[0].nivel_competencia_asignaturas.length > 0 && competencia.nivel_competencias[0].nivel_competencia_asignaturas.map((nivel_asignatura,p) =>
+                  <li key={p}>{nivel_asignatura.asignatura.nombre}</li>
+                )}
+              </ul>
+              </td>
+          </tr>
+            {competencia.nivel_competencias[0].logro_aprendizajes.slice(1,competencia.nivel_competencias[0].logro_aprendizajes.length).map((logro,j) =>
+            <tr key={j}>
+              <td>{logro.descripcion}</td>
+            </tr>
+            )}
+          {competencia.nivel_competencias.length > 0 && competencia.nivel_competencias.slice(1,3).map((nivel, z) =>
+          <React.Fragment key={z}>
+            <tr>
+              <td rowSpan={nivel.logro_aprendizajes.length || 1}>{nivel.descripcion}</td>
+              <td>{nivel.logro_aprendizajes.length > 0 && nivel.logro_aprendizajes[0].descripcion}</td>
+              <td rowSpan={nivel.logro_aprendizajes.length || 1}>
+              
+              <ul>
+                {nivel.nivel_competencia_asignaturas.length > 0 && nivel.nivel_competencia_asignaturas.map((nivel_asignatura,p) =>
+                  <li key={p}>{nivel_asignatura.asignatura.nombre}</li>
+                )}
+              </ul>
+              
+              </td>
+            </tr>
+            {nivel.logro_aprendizajes.slice(1,nivel.logro_aprendizajes.length).map((logro,i) =>
+            <tr key={i}>
+              <td>{logro.descripcion}</td>
+            </tr>
+            )}
+          </React.Fragment>
+        )}
+            </React.Fragment>
+          
+          )}
+        </React.Fragment>
+        )}
+
+<tr>
           <td rowSpan={totalgen}>Generico</td>
           <td rowSpan={aux2[0]}>{competencias_genericas.length > 0 && competencias_genericas[0].descripcion}</td>
           <td rowSpan={competencias_genericas.length > 0 && competencias_genericas[0].nivel_competencias[0].logro_aprendizajes.length}>{competencias_genericas.length > 0 && competencias_genericas[0].nivel_competencias[0].descripcion}</td>
@@ -172,33 +269,8 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
         )}
         </React.Fragment>
         )}
-        
 
-        {dominios.map((dominio,i) =>
-        <React.Fragment key={i}>
-          <tr>
-            <td rowSpan={aux3[i]}>{dominio.nombre}</td>
-            <td rowSpan="3">{dominio.competencias.length > 0 && dominio.competencias[0].descripcion}</td>
-            <td>{dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].descripcion}</td>
-            <td>{dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes[0].descripcion}</td>
-            <td>Asignatura</td>
-          </tr>
 
-          {dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.slice(1,dominio.competencias[0].nivel_competencias[0].logro_aprendizajes.length).map((logro,i) =>
-          <tr key={i}>
-            <td>prueba</td>
-          </tr>
-          )}
-          {dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias.slice(1,dominio.competencias[0].nivel_competencias.length).map((nivel,i) =>
-          <tr key={i}>
-              <td>{nivel.descripcion}</td>
-              <td>{nivel.logro_aprendizajes.length > 0 && nivel.logro_aprendizajes[0].descripcion}</td>
-              <td>Asignatura</td>
-            </tr>
-          )}
-          
-        </React.Fragment>
-        )}
 
         </tbody>
       </table>

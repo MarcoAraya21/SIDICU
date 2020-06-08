@@ -2,7 +2,7 @@
   "_args": [
     [
       "gritter@1.7.4",
-      "C:\\Users\\MASTE\\desktop\\sidicu"
+      "C:\\Users\\kroan\\desktop\\sidecu2"
     ]
   ],
   "_from": "gritter@1.7.4",
@@ -26,7 +26,7 @@
   ],
   "_resolved": "https://registry.npmjs.org/gritter/-/gritter-1.7.4.tgz",
   "_spec": "1.7.4",
-  "_where": "C:\\Users\\MASTE\\desktop\\sidicu",
+  "_where": "C:\\Users\\kroan\\desktop\\sidecu2",
   "bugs": {
     "url": "https://github.com/jboesch/Gritter/issues"
   },

@@ -50,6 +50,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignaturas}) {
   const classes = useStyles();
 
+  let cantidad = [1,2,3,4,5,6];
+  let aux = []
+  asignaturas.forEach(element => {
+    aux.push(element)    
+  });
+
   return (
     <div>
       <Dialog fullScreen open={openMalla} onClose={handleCloseMalla} TransitionComponent={Transition} disableEscapeKeyDown>
@@ -66,30 +72,21 @@ export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignat
         </AppBar>
         <DialogContent>
           <div>
-            <table>
-          {asignaturas.filter(asignatura => asignatura.nivel.nombre === 1).map((asignatura, i) =>
-           <td key={i}>
-             <p>1{i+1}</p>
-             <p>{asignatura.nombre}</p>
-             <p>SCT:</p>
-           </td>
-          )}
-          {asignaturas.filter(asignatura => asignatura.nivel.nombre === 2).map((asignatura, i) =>
-           <td key={i}>
-             <p>1{i+1}</p>
-             <p>{asignatura.nombre}</p>
-             <p>SCT:</p>
-           </td>
-          )}
-           {asignaturas.filter(asignatura => asignatura.nivel.nombre === 3).map((asignatura, i) =>
-           <td key={i}>
-             <p>1{i+1}</p>
-             <p>{asignatura.nombre}</p>
-             <p>SCT:</p>
-           </td>
-          )}            
+            <table className="table table-bordered">
+            
+            
+            {aux.length > 0 && aux.map((nivel,i) => 
+              asignaturas.filter(asignatura => asignatura.nivel.nombre === i+1).map((asignatura, j) =>
+              <td key={j}>
+                <p>{i+1}{j+1}</p>
+                <p>{asignatura.nombre}</p>
+                <p>SCT: {Math.round((((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)*18)/27 || 0)}</p>
+              
+              </td>
+              ),
 
-
+              
+            )}
            </table>
           </div>
         </DialogContent>

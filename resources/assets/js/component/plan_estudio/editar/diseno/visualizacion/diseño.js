@@ -50,6 +50,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Diseño({ openDiseño, handleCloseDiseño, id, nombre, asignaturas}) {
   const classes = useStyles();
 
+  let aux = []
+  asignaturas.forEach(element => {
+    aux.push(element)    
+  });
+
   return (
     <div>
       <Dialog fullScreen open={openDiseño} onClose={handleCloseDiseño} TransitionComponent={Transition} disableEscapeKeyDown>
@@ -97,31 +102,35 @@ export default function Diseño({ openDiseño, handleCloseDiseño, id, nombre, a
 					<th class="txt-ver">REQUISITO</th>
 				</tr>
 
+        {aux.length > 0 && aux.map((nivel,i) =>
 
+          asignaturas.length > 0 && asignaturas.filter(asignatura => asignatura.nivel.nombre === i+1).map((asignatura,j) =>
+           
+            <tr key={j}>
+                <td>{i+1}{j+1}</td>
+                <td></td>
+                <td>{asignatura.codigo}</td>
+                <td>{asignatura.nombre}</td>
+                <td>18</td>
+                <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)}</td>
+                <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)}</td>
+                <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)}</td>
+                <td>{Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad))}</td>
+                <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)}</td>
+                <td>{Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad))}</td>
+                <td>{Math.round((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)}</td>
+                <td>{Math.round((((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)*18)/27 || 0)}</td>
+                <td></td>
+            </tr>
+          )
 
-                {asignaturas.length > 0 && asignaturas.map((asignatura,i) => 
-                    <tr key={i}>
-                        <td>1{i+1}</td>
-                        <td></td>
-                        <td>{asignatura.codigo}</td>
-                        <td>{asignatura.nombre}</td>
-                        <td></td>
-                        <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, i) => asignatura_hora.cantidad)}</td>
-                        <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, i) => asignatura_hora.cantidad)}</td>
-                        <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, i) => asignatura_hora.cantidad)}</td>
-                        <td></td>                        
-                        <td>{asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, i) => asignatura_hora.cantidad)}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-				    </tr>
+        )}
+        
 
-                )}
+                
 			</table>
             
           </div>
-
           
         </DialogContent>
       </Dialog>
