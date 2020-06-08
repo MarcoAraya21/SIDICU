@@ -303,7 +303,7 @@ class PlanEstudioController extends Controller
     }
 
     // FINALIZADOS
-    Public function show($id)
+    Public function show($id, $pdf = false)
     {
         $PlanEstudio = PlanEstudio::
             with(['dominios' => function ($query) {
@@ -321,7 +321,10 @@ class PlanEstudioController extends Controller
                     }]);
                 }]);
             }])
-            ->with('carrera')
+            ->with(['carrera' => function ($query){
+                $query
+                ->with('grado');
+            }])
             ->with('tipo_plan')
             ->with('tipo_ingreso')
             ->with(['plan_estudio_usuarios' => function ($query) {
@@ -332,7 +335,13 @@ class PlanEstudioController extends Controller
             ->with('nivel_genericas')
             ->with('tipo_formacion')
             ->findOrFail($id);
-        return response()->json($PlanEstudio, 200);
+        if ($pdf)
+        {
+            return $PlanEstudio;
+        }
+        else{
+            return response()->json($PlanEstudio, 200);
+        }
     }
 
     public function store(Request $request)

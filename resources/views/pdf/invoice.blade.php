@@ -102,7 +102,7 @@
 				</tr>
 				<tr>
 					<td>GRADO</td>
-					<td>{{$PlanEstudio->grado->nombre}}</td>
+					<td>{{$PlanEstudio->carrera->grado ? $PlanEstudio->carrera->grado->nombre : ''}}</td>
 				</tr>
 				<tr>
 					<td>TÍTULOS INTERMEDIOS</td>
@@ -552,7 +552,29 @@
 			?>
 		<div class="page-break"></div>
 
+		<!--{{json_encode($PlanEstudio->asignaturas[0])}}-->
+
+
 		<?php
+		/*$competencias_id = [];
+		$competencias_genericas_id = [];
+		$m = 0;
+		$n = 0;
+		foreach ($PlanEstudio->asignaturas as $key => $asignatura)
+		{
+		foreach ($asignatura->nivel_competencia_asignaturas as $key => $nivel_competencia_asignatura){
+			echo 'holi';
+			$competencias_id[$m] = $nivel_competencia_asignatura->nivel_competencia->competencia_id;
+			$m++;
+		}
+
+		foreach ($asignatura->nivel_generica_asignaturas as $key => $nivel_generica_asignatura){
+			echo 'generica';
+			$competencias_genericas_id[$n] = $nivel_generica_asignatura->nivel_generica->nivel_competencia->competencia_id;
+			$n++;
+		}
+	}*/
+
 			foreach ($PlanEstudio->asignaturas as $key => $asignatura)
 			{
 				echo '<h4 class="center">PROGRAMA DE ASIGNATURA</h4>
@@ -663,24 +685,37 @@
 		$competencias_genericas_id = [];
 		$m = 0;
 		$n = 0;
-		foreach ($asignatura->nivel_competencia_asignaturas as $key => $nca){
-			$competencias_id[$m] = $nca->nc->competencia_id;
+		foreach ($asignatura->nivel_competencia_asignaturas as $key => $nivel_competencia_asignatura){
+			$competencias_id[$m] = $nivel_competencia_asignatura->nivel_competencia->competencia_id;
 			$m++;
 		}
-		foreach ($asignatura->nivel_generica_asignaturas as $key => $nga){
-			$competencias_genericas_id[$n] = $nca->ng->nc->competencia_id;
+		echo $m;
+		echo 'json comptencias';
+		json_encode($competencias_id);
+
+		foreach ($asignatura->nivel_generica_asignaturas as $key => $nivel_generica_asignatura){
+			$competencias_genericas_id[$n] = $nivel_generica_asignatura->nivel_generica->nivel_competencia->competencia_id;
 			$n++;
 		}
+		/*echo 'json antes';
+
+		json_encode($competencias_id);*/
+
 		$competencias_id = array_unique($competencias_id);
 		$competencias_genericas_id = array_unique($competencias_genericas_id);
+
+		/*echo 'json';
+
+		json_encode($competencias_id);*/
 		foreach ($competencias_id as $key => $comp_id){
-			$llave = array_search($comp_id, array_column($competencias,'id'));
-			echo $competencias[$llave]->descripcion;
+			/*$llave = array_search($comp_id, array_column($competencias,'id'));
+			echo $competencias[$llave]->descripcion;*/
 		}
+/*
 		foreach ($competencias_genericas_id as $key => $comp_generica_id){
 			$llave = array_search($comp_generica_id, array_column($competencias,'id'));
 			echo $competencias[$llave]->descripcion;
-		}
+		}*/
 		echo '</td>
 				<td></td>
 				<td></td>

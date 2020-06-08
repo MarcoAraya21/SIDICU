@@ -94,7 +94,7 @@ class PdfController extends Controller
     	//PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         // pass view file
         //$PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
-        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id));
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id,true));
 
 
 
