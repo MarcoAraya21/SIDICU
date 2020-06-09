@@ -552,29 +552,7 @@
 			?>
 		<div class="page-break"></div>
 
-		<!--{{json_encode($PlanEstudio->asignaturas[0])}}-->
-
-
 		<?php
-		/*$competencias_id = [];
-		$competencias_genericas_id = [];
-		$m = 0;
-		$n = 0;
-		foreach ($PlanEstudio->asignaturas as $key => $asignatura)
-		{
-		foreach ($asignatura->nivel_competencia_asignaturas as $key => $nivel_competencia_asignatura){
-			echo 'holi';
-			$competencias_id[$m] = $nivel_competencia_asignatura->nivel_competencia->competencia_id;
-			$m++;
-		}
-
-		foreach ($asignatura->nivel_generica_asignaturas as $key => $nivel_generica_asignatura){
-			echo 'generica';
-			$competencias_genericas_id[$n] = $nivel_generica_asignatura->nivel_generica->nivel_competencia->competencia_id;
-			$n++;
-		}
-	}*/
-
 			foreach ($PlanEstudio->asignaturas as $key => $asignatura)
 			{
 				echo '<h4 class="center">PROGRAMA DE ASIGNATURA</h4>
@@ -689,33 +667,40 @@
 			$competencias_id[$m] = $nivel_competencia_asignatura->nivel_competencia->competencia_id;
 			$m++;
 		}
-		echo $m;
-		echo 'json comptencias';
-		json_encode($competencias_id);
 
 		foreach ($asignatura->nivel_generica_asignaturas as $key => $nivel_generica_asignatura){
 			$competencias_genericas_id[$n] = $nivel_generica_asignatura->nivel_generica->nivel_competencia->competencia_id;
 			$n++;
 		}
-		/*echo 'json antes';
-
-		json_encode($competencias_id);*/
-
 		$competencias_id = array_unique($competencias_id);
 		$competencias_genericas_id = array_unique($competencias_genericas_id);
 
-		/*echo 'json';
-
-		json_encode($competencias_id);*/
-		foreach ($competencias_id as $key => $comp_id){
-			/*$llave = array_search($comp_id, array_column($competencias,'id'));
-			echo $competencias[$llave]->descripcion;*/
+		// GUARDA LAS COMPETENCIAS Y COMPETENCIAS GENERICAS EN LA VARIABLE ALL_COMPETENCIAS
+		$contador_competencias = 0;
+		$all_competencias = [];
+		foreach ($PlanEstudio->dominios as $key => $dominio) {
+			foreach ($dominio->competencias as $key => $competencia) {
+				$all_competencias[$contador_competencias] = (object) ['id' => $competencia->id, 'descripcion' => $competencia->descripcion];
+				$contador_competencias++;
+			}
 		}
-/*
+		foreach ($PlanEstudio->competencias_genericas as $key => $competencias_generica) {
+			$all_competencias[$contador_competencias] = (object) ['id' => $competencias_generica->id, 'descripcion' => $competencias_generica->descripcion];
+			$contador_competencias++;
+		}
+		// HASTA ACA
+
+		foreach ($competencias_id as $key => $comp_id){
+			$llave = array_search($comp_id, array_column($all_competencias,'id'));
+			echo $all_competencias[$llave]->descripcion;
+			echo ', ';
+		}
+
 		foreach ($competencias_genericas_id as $key => $comp_generica_id){
-			$llave = array_search($comp_generica_id, array_column($competencias,'id'));
-			echo $competencias[$llave]->descripcion;
-		}*/
+			$llave = array_search($comp_generica_id, array_column($all_competencias,'id'));
+			echo $all_competencias[$llave]->descripcion;
+			echo ', ';
+		}
 		echo '</td>
 				<td></td>
 				<td></td>
@@ -732,26 +717,77 @@
 				<td>Horas aula</td>
 				<td>Horas extra aula</td>
 			</tr>
-			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-			</tr>
+			<tr>';
+		$conteo = 1;
+		foreach ($asignatura->unidades as $key => $unidad)
+		{
+			echo '<td>';
+			echo $conteo;
+			echo '</td>';
+			echo '<td>';
+			echo $unidad->nombre;
+			echo '</td>';
+			echo '<td> <dl>';
+			foreach ($unidad->contenidos as $key => $contenido) {
+				echo '<dt>';
+				echo $contenido->nombre;
+				echo '</dt>';
+			}
+			echo '</dl></td>';
+			echo '<td>';
+			echo $unidad->horas_aula;
+			echo '</td>';
+			echo '<td>';
+			echo $unidad->horas_extra_aula;
+			echo '</td>';
+			$conteo++;
+		}
+
+		echo '</tr>
 		</table>
 	
 		<p><b>VI.	METODOLOGÍA DE ENSEÑANZA Y DE APRENDIZAJE</b></p>
 		<table>
 			<tr>
-				<td></td>
+				<td>
+				<p>Se privilegiará una metodología activo participativa en la que el estudiante desarrollará su aprendizaje a partir de actividades como:</p>
+				
+				<ul>
+					<li>Conociendo mi curso.</li>
+					<li>Aprendizaje basado en problemas (ABP)</li>
+					<li>Aprendizaje basado en equipos *</li>
+					<li>Clase expositivas que favorecen la comprensión.</li>
+					<li>Trabajo colaborativo*</li>
+				</ul>
+
+				<p>(*) Durante la implementación de estas metodologías se deberá evaluar de manera integrada el nivel de logro de las competencias disciplinares y genéricas de esta asignatura.</p>
+				</td>
 			</tr>
 		</table>
 	
 		<p><b>VII.	BIBLIOGRAFÍA</b></p>
 		<table>
 			<tr>
-				<td></td>
+				<td>
+				<b>Básica</b>
+				<ul>';
+		
+		foreach ($asignatura->bibliografias as $key => $bibliografia)
+		{
+			if ($bibliografia->tipo_bibliografia_id == 1){
+				echo '<li>' .$bibliografia->apellido_autor. ' ' .$bibliografia->nombre_autor. ', (' .$bibliografia->año. '), ' .$bibliografia->titulo. ', ' .$bibliografia->pais. ', ' .$bibliografia->editorial. '. </li>';
+			}
+		}	
+		echo '</ul>
+		<b>Complementaria</b> <ul>';
+		foreach ($asignatura->bibliografias as $key => $bibliografia)
+		{
+			if ($bibliografia->tipo_bibliografia_id == 2){
+				echo '<li>' .$bibliografia->apellido_autor. ' ' .$bibliografia->nombre_autor. ', (' .$bibliografia->año. '), ' .$bibliografia->titulo. ', ' .$bibliografia->pais. ', ' .$bibliografia->editorial. '. </li>';
+			}
+		}					
+		echo '</ul>
+				</td>
 			</tr>
 		</table>
 		

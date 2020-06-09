@@ -95,7 +95,7 @@ class PdfController extends Controller
         // pass view file
         //$PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
         $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id,true));
-
+        $Ciclos = json_decode(app('App\Http\Controllers\CicloController')->index());
 
 
         // $PlanEstudio = PlanEstudio::
@@ -109,7 +109,7 @@ class PdfController extends Controller
         // ->findOrFail($id);
 
 
-        $pdf = PDF::loadView('pdf.invoice',compact('PlanEstudio'));
+        $pdf = PDF::loadView('pdf.invoice',compact('PlanEstudio','Ciclos'));
         // download pdf
         return $pdf->download('plan.pdf');
         //return $pdf->stream('datos-iniciales');

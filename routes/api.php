@@ -96,6 +96,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('competencias_genericas', 'CompetenciaController@genericas');
     Route::resource('metodologias', 'MetodologiaController', ['only' => ['index']]);    
     Route::resource('evaluaciones', 'EvaluacionController', ['only' => ['index']]);
+    Route::resource('ciclos', 'CicloController', ['only' => ['index']]);
     
     Route::get('plan_estudios/{plan_id}/datos', 'PlanEstudioController@datos');
     Route::get('asignaturas/plan/{plan_id}', 'AsignaturaController@planAsignaturas');
