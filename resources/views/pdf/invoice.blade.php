@@ -17,7 +17,7 @@
 			<table>
 			 	<tr>
 				 	<td>Nombre del Plan</td>
-					<td colspan="5">{{ $PlanEstudio->nombre }}</td>
+					<td colspan="5">{{ $PlanEstudio ? $PlanEstudio->nombre : ''}}</td>
 				</tr>
 				<tr>
 					<td>Unidad Responsable</td>
@@ -87,14 +87,14 @@
 					<td colspan="2">NOMBRE DEL PLAN DE ESTUDIO</td>
 				</tr>
 				<tr class="center">
-					<td colspan="2">{{$PlanEstudio->nombre}}</td>
+					<td colspan="2">{{$PlanEstudio ? $PlanEstudio->nombre : ''}}</td>
 				</tr>
 				<tr class="center">
-					<td colspan="2">{{$PlanEstudio->tipo_plan->nombre}}</td>
+					<td colspan="2">{{$PlanEstudio->tipo_plan ? $PlanEstudio->tipo_plan->nombre : ''}}</td>
 				</tr>
 				<tr>
 					<td>TIPO DE FORMACIÓN</td>
-					<td>{{$PlanEstudio->tipo_formacion->nombre}}</td>
+					<td>{{$PlanEstudio->tipo_formacion ? $PlanEstudio->tipo_formacion->nombre : ''}}</td>
 				</tr>
 				<tr>
 					<td>MENCIÓN</td>
@@ -117,7 +117,7 @@
 				</tr>
 				<tr>
 					<td>OBSERVACIÓN</td>
-					<td>{{$PlanEstudio->observacion}}</td>
+					<td>{{$PlanEstudio ? $PlanEstudio->observacion : ''}}</td>
 				</tr>
 			</table>
 
@@ -130,7 +130,7 @@
 					<td>NOMBRE DEL PLAN DE ESTUDIO</td>
 				</tr>
 				<tr>
-					<td class="center">{{$PlanEstudio->nombre}}</td>
+					<td class="center">{{$PlanEstudio ? $PlanEstudio->nombre : ''}}</td>
 				</tr>
 				<tr>
 					<td>FACULTAD QUE PRESENTA EL PLAN DE ESTUDIO</td>	
@@ -148,7 +148,7 @@
 					<td>TIPO DE PLAN</td>
 				</tr>
 				<tr>
-					<td class="center">{{$PlanEstudio->tipo_plan->nombre}}</td>
+					<td class="center">{{$PlanEstudio->tipo_plan ? $PlanEstudio->tipo_plan->nombre : ''}}</td>
 				</tr>
 				<tr>
 					<td>
@@ -221,14 +221,14 @@
 			<p><b>B.1 PROPÓSITO DEL PLAN DE ESTUDIO</b></p>
 			<table>
 				<tr>
-					<td>{{$PlanEstudio->proposito}}</td>
+					<td>{{$PlanEstudio ? $PlanEstudio->proposito : ''}}</td>
 				</tr>
 			</table>
 
 			<p><b>B.2 OBJETIVOS DEL PLAN DE ESTUDIO</b></p>
 			<table>
 				<tr>
-					<td>{{$PlanEstudio->objetivo}}</td>
+					<td>{{$PlanEstudio ? $PlanEstudio->objetivo : ''}}</td>
 				</tr>
 			</table>
 
@@ -315,7 +315,7 @@
 
 			<table>
 				<tr>
-					<td>{{$PlanEstudio->requisito_admision}}</td>
+					<td>{{$PlanEstudio ? $PlanEstudio->requisito_admision : ''}}</td>
 				</tr>
 			</table>
 
@@ -325,7 +325,7 @@
 
 			<table>
 				<tr>
-					<td>{{$PlanEstudio->mecanismo_retencion}}</td>
+					<td>{{$PlanEstudio ? $PlanEstudio->mecanismo_retencion : ''}}</td>
 				</tr>
 			</table>
 
@@ -335,7 +335,7 @@
 
 			<table>
 				<tr>
-					<td>{{$PlanEstudio->requisito_obtencion}}</td>
+					<td>{{$PlanEstudio ? $PlanEstudio->requisito_obtencion : ''}}</td>
 				</tr>
 			</table>
 
@@ -343,7 +343,7 @@
 
 			<table>
 				<tr>
-					<td>{{$PlanEstudio->campo_desarrollo}}</td>
+					<td>{{$PlanEstudio ? $PlanEstudio->campo_desarrollo : ''}}</td>
 				</tr>
 			</table>
 
@@ -353,61 +353,68 @@
 
 			<p><b>C.1 PLANES DE FORMACIÓN</b></p>
 
-			<table class="center">
-				<tr>
-					<th colspan="4">PLAN DE FORMACIÓN I</th>
-				</tr>
-				<tr>
-					<th colspan="4">{{$PlanEstudio->nombre}}</th>
-				</tr>
-				<tr>
-					<th>CICLO</th>
-					<th>CANTIDAD DE ASIGNATURAS</th>
-					<th>SCT</th>
-					<th>PORCENTAJE</th>
-				</tr>
-				<tr>
-					<td>CICLO CIENTÍFICO TECNOLÓGICO</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>PROGRAMA DE DESARROLLO PERSONAL Y SOCIAL </td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>PROGRAMA DE INGLÉS</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>PROGRAMA DE BIENESTAR FÍSICO Y DEPORTES</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>CICLO DE ESPECIALIZACIÓN</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<td>CICLO DE TITULACIÓN</td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
-				<tr>
-					<th colspan="2">TOTAL</th>
-					<td></td>
-					<td></td>
-				</tr>
-			</table>
+			<?php
+    $TotalSCT = 0;
+    foreach ($Ciclos as $key => $ciclo) {
+        $Ciclos[$key]->cant_asignaturas = 0;
+        $Ciclos[$key]->sct = 0;
+    }
+
+    foreach ($Ciclos as $key => $ciclo) {
+        foreach ($PlanEstudio->asignaturas as $key2 => $asignatura) {
+            if($asignatura->ciclo_id && $asignatura->ciclo_id == $ciclo->id)
+            {
+                $sct = 0;
+                foreach ($asignatura->asignatura_horas as $key2 => $asignatura_hora) {
+                    $sct = $sct + $asignatura_hora->cantidad;
+                }
+
+                $sct = $sct/2;
+
+                $Ciclos[$key]->cant_asignaturas++;
+                $Ciclos[$key]->sct = $Ciclos[$key]->sct + $sct;
+                $TotalSCT = $TotalSCT + $sct;
+            }
+        }
+    }
+
+        echo '<table>
+                <thead>
+                    <tr>
+                        <th colspan="4">Plan de Formación I</th>
+                    </tr>
+                    <tr>
+						<th colspan="4">';
+						echo $PlanEstudio->nombre;
+						echo '</th>
+                    </tr>
+                    <tr>
+                        <th>Ciclo</th>
+                        <th>Cantidad de Asignaturas</th>
+                        <th>SCT</th>
+                        <th>Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody>';
+            foreach ($Ciclos as $key => $ciclo) {
+                echo '<tr>
+                        <td>'.$ciclo->nombre.'</td>
+                        <td>'.$ciclo->cant_asignaturas.'</td>
+                        <td>'.$ciclo->sct.'</td>
+                        <td>'.round(100*$ciclo->sct/$TotalSCT).'%</td>
+                    </tr>';
+            }
+            echo '</tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">Total</td>
+                        <td>'.$TotalSCT.'</td>
+                        <td>100%</td>
+                    </tr>
+                </tfoot>
+            </table>';
+
+?>
 
 			<div class="page-break"></div>
 
@@ -419,13 +426,13 @@
 				</tr>
 				<tr>
 					<td>Plan de Estudios</td>
-					<td>{{$PlanEstudio->nombre}}</td>
+					<td>{{$PlanEstudio ? $PlanEstudio->nombre : ''}}</td>
 					<td>Código DEMRE o interno</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>Tipo de Plan de Estudios</td>
-					<td colspan="3">{{$PlanEstudio->tipo_plan->nombre}}</td>
+					<td colspan="3">{{$PlanEstudio->tipo_plan ? $PlanEstudio->tipo_plan->nombre : ''}}</td>
 				</tr>
 				<tr>
 					<td rowspan="3">Título que Otorga</td>
@@ -506,7 +513,7 @@
 
 			<p><b>C.3.1  MALLA CURRICULAR </b></p>
 
-			<p><b>TITULO {{$PlanEstudio->nombre}}</b></p>
+			<p><b>TITULO {{$PlanEstudio ? $PlanEstudio->nombre : ''}}</b></p>
 
 			<p>Puedes descargar esta hoja desde <u>Diseño de Plan de Estudio</u></p>
 
@@ -514,13 +521,13 @@
 
 			<p><b>C. 3. 2. MALLA CURRICULAR</b></p>
 
-			<p><b>LICENCIADO EN {{$PlanEstudio->nombre}}</b></p>
+			<p><b>LICENCIADO EN {{$PlanEstudio ? $PlanEstudio->nombre : ''}}</b></p>
 
 			<p>Puedes descargar esta hoja desde <u>Diseño de Plan de Estudio</u></p>
 
 			<div class="page-break"></div>
 
-			<p><b>C.4 DISEÑO PLAN DE ESTUDIO {{$PlanEstudio->nombre}}</b></p>
+			<p><b>C.4 DISEÑO PLAN DE ESTUDIO {{$PlanEstudio ? $PlanEstudio->nombre : ''}}</b></p>
 
 			<p>Puedes descargar esta hoja desde <u>Diseño de Plan de Estudio</u></p>
 
@@ -579,12 +586,31 @@
 				<td>1.3</td>
 				<td>Requisito</td>
 				<th colspan="6">';
+				{if ($asignatura->requisitos){
+					foreach ($asignatura->requisitos as $key => $requisito)
+					echo $requisito->requisito->nombre;
+					echo ' ';
+				}
+				else{
+					echo 'Ingreso';
+				}}
 				echo '</th>
 			</tr>
 			<tr>
 				<td>1.4</td>
 				<td>SCT</td>
-				<td></td>
+				<td>';
+				$p = 0;
+				{foreach ($asignatura->asignatura_horas as $key => $horas){
+						$p = $p + $horas->cantidad;
+					}
+				}
+				$o = 0;
+				$p = $p *0.75;
+				$p = $p*18;
+				$o = $p/27;
+				echo round($o);
+				echo '</td>
 				<th colspan="2">Modalidad</th>
 				<td colspan="3"></td>
 			</tr>
@@ -602,12 +628,45 @@
 				<td>Laboratorio</td>
 			</tr>
 			<tr>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
-				<td></td>
+				<td>';
+				{foreach ($asignatura->asignatura_horas as $key => $horas){
+					if ($horas->tipo_hora_id === 1){
+						echo $horas->cantidad;
+						}
+					}
+				}
+			echo '</td>
+				<td>';
+				{foreach ($asignatura->asignatura_horas as $key => $horas){
+					if ($horas->tipo_hora_id === 2){
+						echo $horas->cantidad;
+						}
+					}
+				}
+				echo '</td>
+				<td>';
+				{foreach ($asignatura->asignatura_horas as $key => $horas){
+					if ($horas->tipo_hora_id === 3){
+						echo $horas->cantidad;
+						}
+					}
+				}
+				echo '</td>
+				<td>';
+				{foreach ($asignatura->asignatura_horas as $key => $horas){
+					if ($horas->tipo_hora_id === 4){
+						echo $horas->cantidad;
+						}
+					}
+				}
+				echo '</td><td>';
+				$k = 0;
+				{foreach ($asignatura->asignatura_horas as $key => $horas){
+						$k = $k + $horas->cantidad;
+					}
+				}
+				echo $k;
+				echo '<td></td>
 			</tr>
 			<tr>
 				<td>1.6</td>

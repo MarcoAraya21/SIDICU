@@ -73,6 +73,7 @@ export default class index extends Component {
                 <Diseño  id={this.props.id}
                                 nombre={this.props.nombre}
                                 asignaturas={this.props.asignaturas}
+                                niveles={this.props.niveles}
                                 openDiseño = {this.state.openDiseño}
                                 handleCloseDiseño = {this.handleCloseDiseño}
                 />
@@ -90,6 +91,7 @@ export default class index extends Component {
                 <Malla  id={this.props.id}
                                 nombre={this.props.nombre}
                                 asignaturas={this.props.asignaturas}
+                                niveles={this.props.niveles}
                                 openMalla = {this.state.openMalla}
                                 handleCloseMalla = {this.handleCloseMalla}
                 />

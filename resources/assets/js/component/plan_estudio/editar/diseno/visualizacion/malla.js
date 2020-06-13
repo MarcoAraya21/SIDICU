@@ -47,7 +47,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignaturas}) {
+export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignaturas, niveles}) {
   const classes = useStyles();
 
   let cantidades = [1,2,3,4,5,6];
@@ -74,24 +74,22 @@ export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignat
         <DialogContent>
           <div>
             <table className="table table-bordered">
-            
-            
-            {aux.length > 0 && aux.map((nivel,i) => 
-              asignaturas.filter(asignatura => asignatura.nivel.nombre === i+1).map((asignatura, j) =>
-              <td key={j}>
-                <p>{i+1}{j+1}</p>
-                <p>{asignatura.nombre}</p>
-                <p>SCT: {Math.round((((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)*18)/27 || 0)}</p>
-              </td>,
-              ),
-              cantidades.map((cantidad,k) =>
-              <td key={k}>
-                <p>{cantidad}</p>
-                <p></p>
-                <p></p>
-              </td>
-              ),
-            )}
+              <tbody>
+              {niveles.length > 0 && niveles.map((nivel,i) => 
+                <tr key={i}>
+                  {asignaturas.length && asignaturas.filter(asignaturas => asignaturas.nivel.nombre === nivel.nombre).slice(0,6).map((el, k) => 
+                    aux.fill(el, k, k+1)
+                  )}
+                  {aux.map((asignatura,j) =>
+                    <td key={j}>
+                      <p>{nivel.nombre}{j+1}</p>
+                      <p>{asignaturas.nombre ? asignatura.nombre : ''}</p>
+                      <p>SCT: {asignatura.horas ? Math.round((((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)*18)/27 || 0) : ''}</p>
+                    </td>
+                  )}
+                </tr>
+              )}
+              </tbody>
            </table>
           </div>
         </DialogContent>
