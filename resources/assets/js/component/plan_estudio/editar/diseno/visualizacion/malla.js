@@ -50,10 +50,11 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignaturas}) {
   const classes = useStyles();
 
-  let cantidad = [1,2,3,4,5,6];
+  let cantidades = [1,2,3,4,5,6];
   let aux = []
+  let l = 0;
   asignaturas.forEach(element => {
-    aux.push(element)    
+    aux.push(element)
   });
 
   return (
@@ -81,11 +82,15 @@ export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignat
                 <p>{i+1}{j+1}</p>
                 <p>{asignatura.nombre}</p>
                 <p>SCT: {Math.round((((Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 1).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 3).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 2).map((asignatura_hora, j) => asignatura_hora.cantidad)) + Number(asignatura.asignatura_horas.filter(asignatura_hora => asignatura_hora.tipo_hora_id === 4).map((asignatura_hora, j) => asignatura_hora.cantidad)))*0.75)*18)/27 || 0)}</p>
-              
+              </td>,
+              ),
+              cantidades.map((cantidad,k) =>
+              <td key={k}>
+                <p>{cantidad}</p>
+                <p></p>
+                <p></p>
               </td>
               ),
-
-              
             )}
            </table>
           </div>

@@ -94,8 +94,8 @@ class PdfController extends Controller
     	//PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif']);
         // pass view file
         //$PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
-        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id));
-
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id,true));
+        $Ciclos = json_decode(app('App\Http\Controllers\CicloController')->index());
 
 
         // $PlanEstudio = PlanEstudio::
@@ -109,7 +109,7 @@ class PdfController extends Controller
         // ->findOrFail($id);
 
 
-        $pdf = PDF::loadView('pdf.invoice',compact('PlanEstudio'));
+        $pdf = PDF::loadView('pdf.invoice',compact('PlanEstudio','Ciclos'));
         // download pdf
         return $pdf->download('plan.pdf');
         //return $pdf->stream('datos-iniciales');
@@ -118,22 +118,22 @@ class PdfController extends Controller
 
     public function pdfasignatura($id)
     {
-        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
-        $pdf = PDF::loadView('asignatura.invoice',compact('PlanEstudio'));
-        return $pdf->download('asinatura.pdf');
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id,true));
+        $pdf = PDF::loadView('pdf.asignatura',compact('PlanEstudio'));
+        return $pdf->download('asignatura.pdf');
     }
 
     public function pdfdiseño($id)
     {
-        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
-        $pdf = PDF::loadView('diseño.invoice',compact('PlanEstudio'));
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id,true));
+        $pdf = PDF::loadView('pdf.diseño',compact('PlanEstudio'))->setPaper('a4', 'landscape');
         return $pdf->download('diseño.pdf');
     }
 
     public function pdfmalla($id)
     {
-        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id)->original[0]);
-        $pdf = PDF::loadView('malla.invoice',compact('PlanEstudio'));
+        $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id,true));
+        $pdf = PDF::loadView('pdf.diseño',compact('PlanEstudio'));
         return $pdf->download('malla.pdf');
     }
     

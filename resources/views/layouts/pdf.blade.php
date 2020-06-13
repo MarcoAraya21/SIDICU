@@ -12,6 +12,7 @@
 		} */
 		body {
 			font-family: 'San Francisco', sans-serif;
+			width: 100%
 		}
 		@page { margin: 140px 70px; } 
 		#header { position: fixed; left: 0px; top: -140px; right: 0px; height: 90px;} 
@@ -66,6 +67,36 @@
  			
 		}
 
+		#tabla-diseno {
+  width: 100% !important;
+  border: 1px solid; width: 100%; border-collapse: collapse; margin-top: 5px;
+}
+
+#tabla-diseno th{
+	max-width: 20cm !important;
+	font-size: 12px !important;
+
+}
+
+#tabla-diseno td{
+	max-width: 20cm !important;
+	font-size: 12px !important;
+
+}
+.texto-random{
+	color: green;
+}
+.contenedortabladis{
+	width: 500px !important;
+	border: 2px solid red;
+	display: block;
+	font-size: 8px !important;
+}
+
+.contenedortabladis > table{
+	display: flex;
+	border: 10px solid blue !important;
+}
 		
 	</style>
 	<title>Plan de Estudio</title>

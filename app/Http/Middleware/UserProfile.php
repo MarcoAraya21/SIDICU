@@ -31,6 +31,8 @@ class UserProfile
             $path_ver = '/^\b(Plan\/Ver\/)+([1-9][0-9]{0,3})$/';
             $path_finalizado = '/^\b(Plan\/Finalizado\/)+([1-9][0-9]{0,3})$/';
             $path_editar_info_basica = '/^\b(EditarInfoBasica\/)+([1-9][0-9]{0,3})$/';
+            $path_pdf_diseño = '/^\b(pdf_diseño\/)+([1-9][0-9]{0,3})$/';
+
             if($path == "Administrador" || 
             $path == "AsignarPerfil" || 
             $path == "Carreras" || 
