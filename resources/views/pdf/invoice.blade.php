@@ -397,11 +397,19 @@
                 </thead>
                 <tbody>';
             foreach ($Ciclos as $key => $ciclo) {
+			if ($TotalSCT == 0)
+			{
+				$porcentaje_ciclo = 0;
+			}
+			else
+			{
+				$porcentaje_ciclo = round(100*$ciclo->sct/$TotalSCT);
+			}
                 echo '<tr>
                         <td>'.$ciclo->nombre.'</td>
                         <td>'.$ciclo->cant_asignaturas.'</td>
                         <td>'.$ciclo->sct.'</td>
-                        <td>'.round(100*$ciclo->sct/$TotalSCT).'%</td>
+                        <td>'.$porcentaje_ciclo.'%</td>
                     </tr>';
             }
             echo '</tbody>
@@ -716,8 +724,6 @@
 				<td>Logros de Aprendizaje</td>
 				<td>Procedimientos y/o Herramientas de Evaluación</td>
 			</tr>';
-		echo '<tr>
-				<td>';
 		$competencias_id = [];
 		$competencias_genericas_id = [];
 		$m = 0;
@@ -744,27 +750,88 @@
 			}
 		}
 		foreach ($PlanEstudio->competencias_genericas as $key => $competencias_generica) {
-			$all_competencias[$contador_competencias] = (object) ['id' => $competencias_generica->id, 'descripcion' => $competencias_generica->descripcion];
+			$all_competencias[$contador_competencias] = (object) ['id' => $competencias_generica->id, 'descripcion' => $competencias_generica->descripcion, 'sigla' => $competencias_generica->sigla];
 			$contador_competencias++;
 		}
 		// HASTA ACA
 
-		foreach ($competencias_id as $key => $comp_id){
-			$llave = array_search($comp_id, array_column($all_competencias,'id'));
-			echo $all_competencias[$llave]->descripcion;
-			echo ', ';
+		$niveles_id = [];
+		$nivel_genericas_id = [];
+		$s = 0;
+		$t = 0;
+		foreach ($asignatura->nivel_competencia_asignaturas as $key => $nivel_competencia_asignatura){
+			$competencias_id[$s] = $nivel_competencia_asignatura->nivel_competencia->id;
+			$s++;
 		}
 
+		foreach ($asignatura->nivel_generica_asignaturas as $key => $nivel_generica_asignatura){
+			$competencias_genericas_id[$t] = $nivel_generica_asignatura->nivel_generica->nivel_competencia->id;
+			$t++;
+		}
+
+		$niveles_id = array_unique($niveles_id);
+		$nivel_genericas_id = array_unique($nivel_genericas_id);
+
+		
+		$contador_niveles = 0;
+		$all_niveles = [];
+		foreach ($PlanEstudio->dominios as $key => $dominio) {
+			foreach ($dominio->competencias as $key => $competencia) {
+				foreach ($competencia->nivel_competencias as $key => $nivel_competencia){
+					$all_niveles[$contador_niveles] = (object) ['id' => $nivel_competencia->id, 'descripcion' => $nivel_competencia->descripcion, 'competencia_id' => $nivel_competencia->competencia_id, 'logros_aprendizaje' => $nivel_competencia->logro_aprendizajes, 'nivel'=>$nivel_competencia->nivel];
+					$contador_niveles++;
+				}
+			}
+		}
+
+		
+		foreach ($competencias_id as $key => $comp_id){
+			$llave = array_search($comp_id, array_column($all_competencias,'id'));
+			foreach ($niveles_id as $key => $nivel_id){	
+				$llave2 = array_search($nivel_id, array_column($all_niveles,'id'));
+				if ($all_competencias[$llave]->id == $all_niveles[$llave2]->competencia_id)
+				{
+					echo '<tr>';
+					echo '<td><p><b>CP, nivel ';
+					echo $all_niveles[$llave2]->nivel;
+					echo '</b></p><p>';
+					echo $all_competencias[$llave]->descripcion;
+					echo '</p></td>';
+					echo '<td><ol>';
+					foreach ($all_niveles[$llave2]->logro_aprendizajes as $key => $logro_aprendizaje)
+					{
+						echo '<li>';
+						echo $logro_aprendizaje->descripcion;
+						echo '</li>';
+					}
+					echo '</ol></td>';
+					echo '<td><ul>';
+					foreach ($asignatura->asignatura_evaluaciones as $key => $evaluaciones)
+					{
+						echo '<li>';
+						echo $evaluaciones->evaluacion->nombre;
+						echo '</li>';
+					}
+					echo '</ul></td>';
+				echo '</tr>';
+				}
+			}
+		}
+		
 		foreach ($competencias_genericas_id as $key => $comp_generica_id){
+		echo '<tr>';
+			$llave = array_search($comp_generica_id, array_column($all_competencias,'id'));
+			echo '<td><p><b>';
+			echo $all_competencias[$llave]->sigla;
+			echo ', nivel</b></p><p>';
 			$llave = array_search($comp_generica_id, array_column($all_competencias,'id'));
 			echo $all_competencias[$llave]->descripcion;
-			echo ', ';
+			echo '</p></td>';
+			echo '<td></td>';
+			echo '<td>A través de rúbrica para prueba final de nivel, se evaluarán los logros de aprendizaje de la competencia genérica, con una ponderación del 30%.</td>';
+			echo '</tr>';
 		}
-		echo '</td>
-				<td></td>
-				<td></td>
-			</tr>
-		</table>
+		echo '</table>
 	
 		<p><b>V.	UNIDADES DE APRENDIZAJE</b></p>
 	
