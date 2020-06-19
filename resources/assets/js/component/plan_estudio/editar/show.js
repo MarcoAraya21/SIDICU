@@ -89,44 +89,9 @@ export default class show extends Component {
     }
     
     render() {
-        var arreglo = ['1','2','3','4'];
-        var arreglo2 = [
-            {id: "a", nv: "1"},
-            {id: "b", nv: "4"},
-            {id: "c", nv: "2"},
-            {id: "d", nv: "3"},
-            {id: "e", nv: "2"},
-            {id: "f", nv: "1"},
-            {id: "g", nv: "2"},
-            {id: "h", nv: "1"},
-            {id: "i", nv: "4"},
-            {id: "j", nv: "1"},
-        ];
-        var elemento_nivel = 3;
-        var arreglo_aux = ["a","a","a","a","a","a"];
         return (
             <div className="container py-4">
                 <div className={"col-12 " + ((!this.props.habilitadogeneral && this.state.deshabilitado) ? "deshabilitado" : "")}>
-                    <table>
-                        <tbody>
-                    {
-                        arreglo.length > 0 && arreglo.map((elemento, i) => 
-                        <tr key={i}>
-                            {
-                                
-                                arreglo2.length > 0 && arreglo2.filter(el => el.nv == elemento).slice(0,6).map( (el,j) =>
-                                    arreglo_aux.fill(el, j, j+1)
-                                ),
-                                arreglo_aux.map(elem =>
-                                    <td>{(elem.id && elem.nv == elemento) ? elem.id+"-"+elem.nv : "relleno"}</td>
-                                )
-
-                            }
-                        </tr>
-                        )
-                    }
-                    </tbody>
-                    </table> 
                     <legend>Datos Iniciales del Plan</legend>
                     <div className="col row">
                         <p className="col-6"><b>Nombre</b></p>

@@ -47,7 +47,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function Diseño({ openDiseño, handleCloseDiseño, id, nombre, asignaturas}) {
+export default function Diseño({ openDiseño, handleCloseDiseño, id, nombre, asignaturas, niveles}) {
   const classes = useStyles();
 
   let aux = []
@@ -108,7 +108,7 @@ export default function Diseño({ openDiseño, handleCloseDiseño, id, nombre, a
            
             <tr key={j}>
                 <td>{i+1}{j+1}</td>
-                <td></td>
+                <td>{asignatura.ciclo ? asignatura.ciclo.sigla : ''}</td>
                 <td>{asignatura.codigo}</td>
                 <td>{asignatura.nombre}</td>
                 <td>18</td>
