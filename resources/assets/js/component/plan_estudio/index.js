@@ -432,6 +432,7 @@ export default class index extends Component {
                                     {
                                         this.state.acceso == 1 ?
                                         <EditarDiseno
+                                            id={this.state.id}
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
                                             handleUpdate={this.handleUpdate}
@@ -447,6 +448,7 @@ export default class index extends Component {
                                         />
                                         :
                                         <VerDiseno
+                                            id={this.state.id}
                                             asignaturas={this.state.asignaturas}
                                             niveles={this.state.niveles}
                                         />

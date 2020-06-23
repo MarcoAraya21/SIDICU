@@ -104,10 +104,10 @@ export default class index extends Component {
                         <a href="#" className="btn btn-primary dropdown-toggle"
                             data-toggle="dropdown"></a>
                         <ul className="dropdown-menu pull-right">
-                            <li><a>Diseño en PDF</a></li>
-                            <li><a>Diseño en Word</a></li>
-                            <li><a>Malla en PDF</a></li>
-                            <li><a>Malla en Word</a></li>
+                            <li><a href={`/pdf_diseño/${this.props.id}`} download>Diseño en PDF</a></li>
+                            <li><a href={`/word_diseño/${this.props.id}`} download>Diseño en Word</a></li>
+                            <li><a href={`/pdf_malla/${this.props.id}`} download>Malla en PDF</a></li>
+                            <li><a href={`/word_malla/${this.props.id}`} download>Malla en Word</a></li>
                         </ul>
                     </div>
                 </div>

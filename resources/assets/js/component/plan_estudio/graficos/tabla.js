@@ -87,9 +87,6 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
     aux.map((elemento,i) => 
       elemento == 0 ? aux3[i] = 1 : aux3[i] = elemento
     )
-    console.log('datos', datos)
-    console.log('datos[0]', datos[0])
-    
 
   return (
     <div>
@@ -150,7 +147,7 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
               <td rowSpan={nivel.logro_aprendizajes.length || 1}>
               <ul>
                 {nivel.nivel_competencia_asignaturas.length > 0 && nivel.nivel_competencia_asignaturas.map((nivel_asignatura,p) =>
-                  <li>{nivel_asignatura.asignatura.nombre}</li>
+                  <li key={p}>{nivel_asignatura.asignatura.nombre}</li>
                 )}
               </ul>
               

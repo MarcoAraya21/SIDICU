@@ -10,7 +10,7 @@
 
 
 @section('content')
-    <div class="news-feed">
+<div class="news-feed">
 		<div class="news-caption">
 			<h1 class="center">Plan de Estudios</h1>
 
@@ -377,6 +377,7 @@
             }
         }
     }
+
         echo '<table>
                 <thead>
                     <tr>
@@ -396,14 +397,14 @@
                 </thead>
                 <tbody>';
             foreach ($Ciclos as $key => $ciclo) {
-				if($TotalSCT == 0)
-				{
-					$porcentaje_ciclo = 0;
-				}
-				else
-				{
-					$porcentaje_ciclo = round(100*$ciclo->sct/$TotalSCT);
-				}
+			if ($TotalSCT == 0)
+			{
+				$porcentaje_ciclo = 0;
+			}
+			else
+			{
+				$porcentaje_ciclo = round(100*$ciclo->sct/$TotalSCT);
+			}
                 echo '<tr>
                         <td>'.$ciclo->nombre.'</td>
                         <td>'.$ciclo->cant_asignaturas.'</td>
@@ -443,7 +444,7 @@
 				</tr>
 				<tr>
 					<td rowspan="3">Título que Otorga</td>
-					<td rowspan="3"></td>
+					<td rowspan="3">{{$PlanEstudio ? $PlanEstudio->carrera->titulo : ''}}</td>
 					<td>Duración</td>
 					<td></td>
 				</tr>
@@ -457,7 +458,7 @@
 				</tr>
 				<tr>
 					<td rowspan="3">Grado académico</td>
-					<td rowspan="3"></td>
+					<td rowspan="3">{{$PlanEstudio ? $PlanEstudio->carrera->grado->nombre : ''}}</td>
 					<td>Duración</td>
 					<td></td>
 				</tr>
@@ -471,7 +472,7 @@
 				</tr>
 				<tr>
 					<td rowspan="3">Título Intermedio 1</td>
-					<td rowspan="3"></td>
+					<td rowspan="3">{{$PlanEstudio ? $PlanEstudio->titulo_intermedio : ''}}</td>
 					<td>Duración</td>
 					<td></td>
 				</tr>
@@ -485,7 +486,7 @@
 				</tr>
 				<tr>
 					<td rowspan="3">Diploma</td>
-					<td rowspan="3"></td>
+					<td rowspan="3">{{$PlanEstudio ? $PlanEstudio->diploma : ''}}</td>
 					<td>Duración</td>
 					<td></td>
 				</tr>
@@ -499,19 +500,19 @@
 				</tr>
 				<tr>
 					<td>Régimen</td>
-					<td></td>
+					<td>Semestral</td>
 					<td>Resolución</td>
 					<td></td>
 				</tr>
 				<tr>
 					<td>Jornada</td>
-					<td></td>
+					<td>{{$PlanEstudio ? $PlanEstudio->jornada->nombre : ''}}</td>
 					<td rowspan="2">Fecha</td>
 					<td rowspan="2"></td>
 				</tr>
 				<tr>
 					<td>Modalidad</td>
-					<td></td>
+					<td>{{$PlanEstudio ? $PlanEstudio->modalidad->nombre : ''}}</td>
 				</tr>
 			</table>
 			<p>Las horas se expresan en Horas Pedagógicas</p>
@@ -544,7 +545,9 @@
 			
 			<?php
 			for ($i=1; $i < 3; $i++) { 
-				echo '<p><b>D.1. PROGRAMAS DE ACTIVIDADES CURRICULARES NIVEL ';
+				echo '<p><b>D.';
+				echo $i;
+				echo '. PROGRAMAS DE ACTIVIDADES CURRICULARES NIVEL ';
 				echo $i;
 				echo '</b></p>';
 
@@ -562,15 +565,20 @@
 			}
 			
 			?>
-
-			<div class="page-break"></div>
+		<div class="page-break"></div>
 
 		<?php
 			foreach ($PlanEstudio->asignaturas as $key => $asignatura)
 			{
-			echo '<h4 class="center">PROGRAMA DE ASIGNATURA</h3>
-			<p><b>I.	IDENTIFICACIÓN</b></p>
-			<table>
+				echo '<h4 class="center">PROGRAMA DE ASIGNATURA</h4>
+				<p><b>I.	IDENTIFICACIÓN</b></p>
+				<table>
+					<tr>
+						<td>1.1</td>
+						<td>Nombre</td>
+						<th colspan="6">';
+				echo $asignatura->nombre;
+				echo '</th>
 				<tr>
 					<td>1.2</td>
 					<td>Código</td>
@@ -703,8 +711,6 @@
 		<p><b>III.	RELACIÓN DE LA ASIGNATURA CON EL PERFIL DE EGRESO</b></p>
 		<table>
 			<tr>
-				<td>1.2</td>
-				<td>Código</td>
 				<td>';
 				echo $asignatura->relacion_egreso;
 				echo '</td>
@@ -718,8 +724,6 @@
 				<td>Logros de Aprendizaje</td>
 				<td>Procedimientos y/o Herramientas de Evaluación</td>
 			</tr>';
-		echo '<tr>
-				<td>';
 		$competencias_id = [];
 		$competencias_genericas_id = [];
 		$m = 0;
@@ -746,27 +750,140 @@
 			}
 		}
 		foreach ($PlanEstudio->competencias_genericas as $key => $competencias_generica) {
-			$all_competencias[$contador_competencias] = (object) ['id' => $competencias_generica->id, 'descripcion' => $competencias_generica->descripcion];
+			$all_competencias[$contador_competencias] = (object) ['id' => $competencias_generica->id, 'descripcion' => $competencias_generica->descripcion, 'sigla' => $competencias_generica->sigla];
 			$contador_competencias++;
 		}
 		// HASTA ACA
 
-		foreach ($competencias_id as $key => $comp_id){
-			$llave = array_search($comp_id, array_column($all_competencias,'id'));
-			echo $all_competencias[$llave]->descripcion;
-			echo ', ';
+		$niveles_id = [];
+		$nivel_genericas_id = [];
+		$s = 0;
+		$t = 0;
+		foreach ($asignatura->nivel_competencia_asignaturas as $key => $nivel_competencia_asignatura){
+			$niveles_id[$s] = $nivel_competencia_asignatura->nivel_competencia_id;
+			$s++;
 		}
 
+		foreach ($asignatura->nivel_generica_asignaturas as $key => $nivel_generica_asignatura){
+			$nivel_genericas_id[$t] = $nivel_generica_asignatura->nivel_generica->nivel_competencia_id;
+			$t++;
+		}
+
+		$niveles_id = array_unique($niveles_id);
+		$nivel_genericas_id = array_unique($nivel_genericas_id);
+
+		
+		$contador_niveles = 0;
+		$all_niveles = [];
+		foreach ($PlanEstudio->dominios as $key => $dominio) {
+			foreach ($dominio->competencias as $key => $competencia) {
+				foreach ($competencia->nivel_competencias as $key => $nivel_competencia){
+					$all_niveles[$contador_niveles] = (object) ['id' => $nivel_competencia->id, 'descripcion' => $nivel_competencia->descripcion, 'competencia_id' => $nivel_competencia->competencia_id, 'logro_aprendizajes' => $nivel_competencia->logro_aprendizajes, 'nivel'=>$nivel_competencia->nivel];
+					$contador_niveles++;
+				}
+			}
+		}
+
+		foreach ($PlanEstudio->competencias_genericas as $key => $competencias_generica) {
+			foreach ($competencias_generica->nivel_competencias as $key => $nivel_competencia){
+				$all_niveles[$contador_niveles] = (object) ['id' => $nivel_competencia->id, 'descripcion' => $nivel_competencia->descripcion, 'competencia_id' => $nivel_competencia->competencia_id, 'logro_aprendizajes' => $nivel_competencia->logro_aprendizajes, 'nivel'=>$nivel_competencia->nivel];
+				$contador_niveles++;
+			}
+
+		}
+
+		$contador_rowspan = 0 ;
+
+		// Recorre para saber cuantas competencias hay y hacer rowspan
+		foreach ($competencias_id as $key => $comp_id){
+			$llave = array_search($comp_id, array_column($all_competencias,'id'));
+			foreach ($niveles_id as $key => $nivel_id){	
+				$llave2 = array_search($nivel_id, array_column($all_niveles,'id'));
+				if ($all_competencias[$llave]->id == $all_niveles[$llave2]->competencia_id)
+				{
+					$contador_rowspan++;
+				}
+			}
+		}
+		// Cierre Recorrido
+
+		$esPrimero = true;
+		foreach ($competencias_id as $key => $comp_id){
+			$llave = array_search($comp_id, array_column($all_competencias,'id'));
+			foreach ($niveles_id as $key => $nivel_id){	
+				$llave2 = array_search($nivel_id, array_column($all_niveles,'id'));
+				if ($all_competencias[$llave]->id == $all_niveles[$llave2]->competencia_id)
+				{
+					echo '<tr>';
+					echo '<td><p><b>CP, nivel ';
+					echo $all_niveles[$llave2]->nivel;
+					echo '</b></p><p>';
+					echo $all_competencias[$llave]->descripcion;
+					echo '</p></td>';
+					echo '<td>';
+					$contador_indice_logros = 1;
+					foreach ($all_niveles[$llave2]->logro_aprendizajes as $key => $logro_aprendizaje)
+					{
+						echo $contador_indice_logros.'-'.$logro_aprendizaje->descripcion;
+						if($contador_competencias != count($all_niveles[$llave2]->logro_aprendizajes))
+						{
+							echo "<br>";
+						}
+						$contador_indice_logros++;
+					}
+					echo '</td>';
+					if($esPrimero)
+					{
+						echo '<td rowspan="'.$contador_rowspan.'"><ul>';
+						foreach ($asignatura->asignatura_evaluaciones as $key => $evaluaciones)
+						{
+							echo '<li>';
+							echo $evaluaciones->evaluacion->nombre;
+							echo '</li>';
+						}
+						echo '</ul></td>';
+						$esPrimero = false;
+					}
+					
+				echo '</tr>';
+				}
+			}
+		}
+
+			
 		foreach ($competencias_genericas_id as $key => $comp_generica_id){
 			$llave = array_search($comp_generica_id, array_column($all_competencias,'id'));
-			echo $all_competencias[$llave]->descripcion;
-			echo ', ';
+			foreach ($nivel_genericas_id as $key => $nivel_generica_id){	
+				$llave2 = array_search($nivel_generica_id, array_column($all_niveles,'id'));
+				if ($all_competencias[$llave]->id == $all_niveles[$llave2]->competencia_id)
+				{
+					echo '<tr>';
+					echo '<td><p><b>';
+					echo $all_competencias[$llave]->sigla;
+					echo ', nivel ';
+					echo $all_niveles[$llave2]->nivel;
+					echo '</b></p><p>';
+					echo $all_competencias[$llave]->descripcion;
+					echo '</p></td>';
+					echo '<td>';
+					$contador_indice_logros = 1;
+					foreach ($all_niveles[$llave2]->logro_aprendizajes as $key => $logro_aprendizaje)
+					{
+						echo $contador_indice_logros.'-'.$logro_aprendizaje->descripcion;
+						if($contador_competencias != count($all_niveles[$llave2]->logro_aprendizajes))
+						{
+							echo "<br>";
+						}
+						$contador_indice_logros++;
+					}
+					echo '</td>';
+					echo '<td>A través de rúbrica para prueba final de nivel, se evaluarán los logros de aprendizaje de la competencia genérica, con una ponderación del 30%.</td>';
+					echo '</tr>';
+				}
+			}
 		}
-		echo '</td>
-				<td></td>
-				<td></td>
-			</tr>
-		</table>
+		
+		echo '</table>
 	
 		<p><b>V.	UNIDADES DE APRENDIZAJE</b></p>
 	
@@ -853,28 +970,14 @@
 		</table>
 		
 		<div class="page-break"></div>';
-	}
+				}
 	?>
 	
-
 			<p><b>Anexo E:</b> REGLAMENTO PLAN DE ESTUDIOS</p>
 
 			<div class="page-break"></div>
 			<div class="page-break"></div>
 			<div class="page-break"></div>
-
-
-
-
-
-
-			
-
-
-
-
-
-
 
 
 

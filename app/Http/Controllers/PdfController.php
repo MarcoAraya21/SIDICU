@@ -111,6 +111,7 @@ class PdfController extends Controller
 
         $pdf = PDF::loadView('pdf.invoice',compact('PlanEstudio','Ciclos'));
         // download pdf
+        // return $pdf->stream("dompdf_out.pdf", array("Attachment" => false));
         return $pdf->download('plan.pdf');
         //return $pdf->stream('datos-iniciales');
     }
@@ -133,7 +134,7 @@ class PdfController extends Controller
     public function pdfmalla($id)
     {
         $PlanEstudio = json_decode(app('App\Http\Controllers\PlanEstudioController')->show($id,true));
-        $pdf = PDF::loadView('pdf.diseño',compact('PlanEstudio'));
+        $pdf = PDF::loadView('pdf.malla',compact('PlanEstudio'))->setPaper('a4', 'landscape');
         return $pdf->download('malla.pdf');
     }
     

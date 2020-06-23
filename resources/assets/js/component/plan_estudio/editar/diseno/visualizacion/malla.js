@@ -74,17 +74,31 @@ export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignat
                 {niveles.length > 0 && niveles.map((nivel,i) => 
                   <tr key={i}>
                     {
-                      cantidades.map(elemento =>
+                      cantidades.map((elemento, ind) =>
                         asignaturas && 
                         (        
                           asignaturas.filter(asignaturas => asignaturas.nivel.nombre == nivel.nombre).slice(0,6).length == cantidades.length ?
-                        <td>{asignaturas.filter(asignaturas => asignaturas.nivel.nombre == nivel.nombre).slice(0,6)[elemento-1].nombre}</td>
+                        <td key={ind} style={{width: '135px'}}>
+                          <p>{nivel.nombre}{elemento}</p>
+                          <p>{asignaturas.filter(asignaturas => asignaturas.nivel.nombre == nivel.nombre).slice(0,6)[elemento-1].nombre}</p>
+                          <p>SCT: {(asignaturas.filter(asignaturas => asignaturas.nivel.nombre == nivel.nombre).slice(0,6)[elemento-1].asignatura_horas.reduce((previous, current) => {
+                              return Number(previous) + Number(current.cantidad);
+                              }, 0)) / 2}
+                          </p>
+                        </td>
                         :
                           (
                             elemento <= asignaturas.filter(asignaturas => asignaturas.nivel.nombre == nivel.nombre).length ?
-                              <td>{asignaturas.filter(asignaturas => asignaturas.nivel.nombre == nivel.nombre)[elemento-1].nombre}</td>
+                            <td key={ind} style={{width: '135px'}}>
+                              <p>{nivel.nombre}{elemento}</p>
+                              <p>{asignaturas.filter(asignaturas => asignaturas.nivel.nombre == nivel.nombre).slice(0,6)[elemento-1].nombre}</p>
+                              <p>SCT: {(asignaturas.filter(asignaturas => asignaturas.nivel.nombre == nivel.nombre).slice(0,6)[elemento-1].asignatura_horas.reduce((previous, current) => {
+                                  return Number(previous) + Number(current.cantidad);
+                                  }, 0)) / 2}
+                              </p>
+                            </td>
                             :
-                              <td></td>
+                              <td key={ind} style={{width: '135px'}}></td>
                           )
                           
                         )

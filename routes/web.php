@@ -47,6 +47,12 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::get('pdf_diseño/{id}', 'PdfController@pdfdiseño');
     Route::get('pdf_malla/{id}', 'PdfController@pdfmalla');
 
+    Route::get('word_descargar/{id}', 'WordController@wordview');
+    Route::get('word_asignatura/{id}', 'WordController@wordasignatura');
+    Route::get('word_diseño/{id}', 'WordController@worddiseño');
+    Route::get('word_malla/{id}', 'WordController@wordmalla');
+
+
     Route::get('/cambiar-password', function () {
         return view('/pages/changepass');    
     });

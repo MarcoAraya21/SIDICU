@@ -334,6 +334,8 @@ class PlanEstudioController extends Controller
             ->with('niveles')
             ->with('nivel_genericas')
             ->with('tipo_formacion')
+            ->with('jornada')
+            ->with('modalidad')
             ->findOrFail($id);
         if ($pdf)
         {
