@@ -1,7 +1,9 @@
 /node_modules
 /public/hot
 /public/storage
-/resources/views
+/resources/views/email
+/resources/views/includes
+/resources/views/pages
 /storage/*.key
 /storage/app
 /storage/logs
