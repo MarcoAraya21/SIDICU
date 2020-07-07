@@ -6,9 +6,6 @@ export function validaciones(plan, carrera, otros){
     if (!plan.nombre) {
         errores.plan.nombre = campo_mensaje;
     }
-    if (!plan.observacion) {
-        errores.plan.observacion = campo_mensaje;
-    }
     if (!plan.tipo_formacion_id) {
         errores.plan.tipo_formacion_id = campo_mensaje;
     }

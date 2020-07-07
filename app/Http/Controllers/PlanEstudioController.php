@@ -138,7 +138,6 @@ class PlanEstudioController extends Controller
         {
             $this->validate($request, [
                 'nombre' => 'required',
-                'observacion' => 'required',
                 'tipo_formacion_id' => 'required|numeric|min:1',  
                 'carrera_id' => 'required|numeric|min:1',
                 'tipo_plan_id' => 'required|numeric|min:1',
@@ -362,7 +361,6 @@ class PlanEstudioController extends Controller
         {
             $this->validate($request, [
                 'nombre' => 'required',
-                'observacion' => 'required',
                 'tipo_formacion_id' => 'required|numeric|min:1',  
                 'carrera_id' => 'required|numeric|min:1',
                 'tipo_plan_id' => 'required|numeric|min:1',
