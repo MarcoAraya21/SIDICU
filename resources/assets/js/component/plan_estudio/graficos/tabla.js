@@ -49,7 +49,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominios, competencias_genericas}) {
+export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominios, competencias_genericas, asignaturas}) {
   const classes = useStyles();
   const [datos, setdatos] = useState([]);
 
@@ -112,7 +112,7 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
                 <th>Dominios</th>
                 <th>Competencia</th>
                 <th>Nivel de Competencia</th>
-                <th>Logro de Aprendizaje</th>
+                <th>Logros de Aprendizaje</th>
                 <th>Asignatura</th>
             </tr>
             </thead>
@@ -213,7 +213,20 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
           <td rowSpan={aux2[0]}>{competencias_genericas.length > 0 && competencias_genericas[0].descripcion}</td>
           <td rowSpan={competencias_genericas.length > 0 && competencias_genericas[0].nivel_competencias[0].logro_aprendizajes.length}>{competencias_genericas.length > 0 && competencias_genericas[0].nivel_competencias[0].descripcion}</td>
           <td>{competencias_genericas.length > 0 && competencias_genericas[0].nivel_competencias[0].logro_aprendizajes[0].descripcion}</td>
-          <td rowSpan={competencias_genericas.length > 0 && competencias_genericas[0].nivel_competencias[0].logro_aprendizajes.length}>Asignatura</td>
+          <td rowSpan={competencias_genericas.length > 0 && competencias_genericas[0].nivel_competencias[0].logro_aprendizajes.length}>
+            <ul>
+            {
+              asignaturas.filter(asignatura => 
+                asignatura.nivel_generica_asignaturas.length > 0 
+                && asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura => 
+                  nivel_generica_asignatura.nivel_generica.nivel_competencia_id == competencias_genericas[0].nivel_competencias[0].id
+                )
+              ).map((asignatura, j) => 
+                <li key={j}>{asignatura.nombre}</li>
+              )
+            }
+            </ul>
+          </td>
         </tr>
 
         {competencias_genericas.length > 0 && competencias_genericas[0].nivel_competencias[0].logro_aprendizajes.slice(1,competencias_genericas[0].nivel_competencias[0].logro_aprendizajes.length).map((logro, i) => 
@@ -227,7 +240,20 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
             <tr>
               <td rowSpan={nivel.logro_aprendizajes.length}>{nivel.descripcion}</td>
               <td>{nivel.logro_aprendizajes[0].descripcion}</td>
-              <td rowSpan={nivel.logro_aprendizajes.length}>Asignatura</td>
+              <td rowSpan={nivel.logro_aprendizajes.length}>
+                <ul>
+                {
+                  asignaturas.filter(asignatura => 
+                    asignatura.nivel_generica_asignaturas.length > 0 
+                    && asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura => 
+                      nivel_generica_asignatura.nivel_generica.nivel_competencia_id == nivel.id
+                    )
+                  ).map((asignatura, j) => 
+                    <li key={j}>{asignatura.nombre}</li>
+                  )
+                }
+                </ul>
+              </td>
             </tr>
             {nivel.logro_aprendizajes.slice(1,nivel.logro_aprendizajes.length).map((logro,i) =>
             <tr key={i}>
@@ -243,7 +269,20 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
             <td rowSpan={aux2[i+1]}>{generica.descripcion}</td>
             <td rowSpan={generica.nivel_competencias[0].logro_aprendizajes.length}>{generica.nivel_competencias[0].descripcion}</td>
             <td>{generica.nivel_competencias[0].logro_aprendizajes[0].descripcion}</td>
-            <td rowSpan={generica.nivel_competencias[0].logro_aprendizajes.length}>Asignaturas</td>
+            <td rowSpan={generica.nivel_competencias[0].logro_aprendizajes.length}>
+              <ul>
+              {
+                asignaturas.filter(asignatura => 
+                  asignatura.nivel_generica_asignaturas.length > 0 
+                  && asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura => 
+                    nivel_generica_asignatura.nivel_generica.nivel_competencia_id == generica.nivel_competencias[0].id
+                  )
+                ).map((asignatura, j) => 
+                  <li key={j}>{asignatura.nombre}</li>
+                )
+              }
+              </ul>
+            </td>
         </tr>
         {generica.nivel_competencias[0].logro_aprendizajes.slice(1,generica.nivel_competencias[0].logro_aprendizajes.length).map((logro,i) => 
           <tr key={i}>
@@ -255,7 +294,20 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
           <tr>
               <td rowSpan={nivel.logro_aprendizajes.length}>{nivel.descripcion}</td>
               <td>{nivel.logro_aprendizajes[0].descripcion}</td>
-              <td rowSpan={nivel.logro_aprendizajes.length}>Asignatura</td>
+              <td rowSpan={nivel.logro_aprendizajes.length}>
+                <ul>
+                {
+                  asignaturas.filter(asignatura => 
+                    asignatura.nivel_generica_asignaturas.length > 0 
+                    && asignatura.nivel_generica_asignaturas.some(nivel_generica_asignatura => 
+                      nivel_generica_asignatura.nivel_generica.nivel_competencia_id == nivel.id
+                    )
+                  ).map((asignatura, j) => 
+                    <li key={j}>{asignatura.nombre}</li>
+                  )
+                }
+                </ul>
+              </td>
             </tr>
             {nivel.logro_aprendizajes.slice(1,nivel.logro_aprendizajes.length).map((logro,i) =>
             <tr key={i}>

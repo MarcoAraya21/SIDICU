@@ -1174,7 +1174,16 @@ export function handleUpdate(data, objeto, indice)
                         nivel.id == data.nivel_id
                     )
                 }
-                return {...asignatura, ...data};
+                var ciclos = [
+                                {nombre: "Ciclo Cientifico Tecnológico", sigla: "CCT"},
+                                {nombre: "Ciclo de Especialización", sigla: "CE"},
+                                {nombre: "Ciclo de Titulación", sigla: "CT"},
+                                {nombre: "Programa de Desarrollo Personal y Social", sigla: "PPS"},
+                                {nombre: "Programa de Bienestar Físico y Deportes", sigla: "PBFS"},
+                                {nombre: "Programa de Inglés", sigla: "PI"}
+                            ]
+                
+                return {...asignatura, ...data, ciclo: {...asignatura.ciclo, ...ciclos[data.ciclo_id]}};
             }
             else
             {

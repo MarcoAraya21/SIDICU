@@ -62,7 +62,7 @@ export default function Malla({ openMalla, handleCloseMalla, id, nombre, asignat
               <CloseIcon />
             </IconButton>
             <Typography variant="h6" className={classes.title}>
-              {nombre || "Sin Nombre"}
+              {nombre || "Malla Curricular"}
             </Typography>
 
           </Toolbar>

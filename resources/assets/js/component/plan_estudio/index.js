@@ -541,6 +541,7 @@ export default class index extends Component {
                                 nombre={this.state.nombre}
                                 dominios={this.state.dominios}
                                 competencias_genericas={this.state.competencias_genericas}
+                                asignaturas={this.state.asignaturas}
                                 openTabla = {this.state.openTabla}
                                 handleCloseTabla = {this.handleCloseTabla}
                 />
