@@ -248,7 +248,7 @@ class UsuarioController extends Controller
         $usuario = Usuario::where(['rut' => $rut])->first();    
         if($usuario)
         {
-            $usuario = $usuario->where(['fec_nac' => $fecha_nacimiento])->first();
+            $usuario = $usuario->where(['rut' => $rut, 'fec_nac' => $fecha_nacimiento])->first();
             if($usuario)
             {
                 $str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";

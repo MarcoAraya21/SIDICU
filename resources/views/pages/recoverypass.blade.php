@@ -250,7 +250,7 @@
 				$('.g-recaptcha').removeClass("is-invalid");
 				$('div[name="captcha"]').html("");
 			}
-			console.log(errores)
+			// console.log(errores)
 			// console.log(errores.length > 0)
 
 			return(!(errores.length > 0))
