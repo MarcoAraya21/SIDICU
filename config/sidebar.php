@@ -36,10 +36,6 @@ return [
 						'title' => 'Mis Planes'
 					],
 					[
-						'url' => '/AsignarPlan',
-						'title' => 'Asignar Plan'
-					],
-					[
 						'url' => '/home',
 						'title' => 'Finalizados'
 					]
@@ -99,10 +95,6 @@ return [
 					[
 						'url' => '/Listado',
 						'title' => 'Listado'
-					],
-					[
-						'url' => '/AsignarPlan',
-						'title' => 'Asignar Plan'
 					],
 					[
 						'url' => '/home',

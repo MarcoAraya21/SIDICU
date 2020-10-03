@@ -69,7 +69,7 @@
 						</div>
 					</div>
 					<div class="m-b-10">
-						<div class="g-recaptcha" data-sitekey="6Lf-htoUAAAAAAFXTHj0QP-V_OQrfPe5hRMXewPa"></div>
+						<div class="g-recaptcha" data-sitekey="6Lfkn_QUAAAAAIyhFv4ikMacZ-BmycjqZETGTdUX"></div>
 						<div class="text-danger" name="captcha"></div>
 					</div>
 					<div class="login-buttons">
