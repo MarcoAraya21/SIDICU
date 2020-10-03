@@ -56,7 +56,7 @@ class Index extends Component {
                     <td>{plan_estudio.asesor_uic.nombre || "Sin Nombre"}</td>
                     <td>{plan_estudio.coordinador && plan_estudio.coordinador.nombre || "Sin Nombre"}</td>
                     <td>
-                        <Link to={`/Plan/Ver/${plan_estudio.id}`} className='btn btn-primary'>
+                        <Link to={`/Plan/Finalizado/${plan_estudio.id}`} className='btn btn-primary'>
                             <i className="fas fa-search p-r-10"></i>Ver
                         </Link>
                     </td>

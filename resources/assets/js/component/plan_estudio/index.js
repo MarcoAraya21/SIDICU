@@ -524,36 +524,34 @@ export default class index extends Component {
                         </div>
                     </div>
 
-
                     <div className="col-12 text-right t-2">
-                    <div className="btn-group">
-                        <a href="#" onClick={()=> this.handleOpenTabla(this.setState({openTabla:true}))} className="btn btn-primary"><i className="fas fa-eye fa-fw"></i> Ver Plan</a>
-                        <a href="#" className="btn btn-primary dropdown-toggle"
-                            data-toggle="dropdown"></a>
-                        <ul className="dropdown-menu pull-right">
-                            <li><a onClick={()=> this.handleOpenTabla(this.setState({openTabla:true}))}>Tabla</a></li>
-                            <li><a onClick={()=> this.handleOpenGrafico(this.setState({openGrafico:true}))}>Gráfico</a></li>
-                        </ul>
-                    </div>
+                        <div className="btn-group">
+                            <a href="#" onClick={()=> this.handleOpenTabla(this.setState({openTabla:true}))} className="btn btn-primary"><i className="fas fa-eye fa-fw"></i> Ver Plan</a>
+                            <a href="#" className="btn btn-primary dropdown-toggle"
+                                data-toggle="dropdown"></a>
+                            <ul className="dropdown-menu pull-right">
+                                <li><a onClick={()=> this.handleOpenTabla(this.setState({openTabla:true}))}>Tabla</a></li>
+                                <li><a onClick={()=> this.handleOpenGrafico(this.setState({openGrafico:true}))}>Gráfico</a></li>
+                            </ul>
+                        </div>
                 
-
-                <Tabla id={this.state.id}
-                                nombre={this.state.nombre}
-                                dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}
-                                asignaturas={this.state.asignaturas}
-                                openTabla = {this.state.openTabla}
-                                handleCloseTabla = {this.handleCloseTabla}
-                />
-                <Grafico id={this.state.id}
-                                nombre={this.state.nombre}
-                                dominios={this.state.dominios}
-                                competencias_genericas={this.state.competencias_genericas}
-                                openGrafico = {this.state.openGrafico}
-                                handleCloseGrafico = {this.handleCloseGrafico}
-                />
-                        {/* <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
-                        <a href={`/pdf_descargar/${this.state.id}`} download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
+                        <Tabla id={this.state.id}
+                                        nombre={this.state.nombre}
+                                        dominios={this.state.dominios}
+                                        competencias_genericas={this.state.competencias_genericas}
+                                        asignaturas={this.state.asignaturas}
+                                        openTabla = {this.state.openTabla}
+                                        handleCloseTabla = {this.handleCloseTabla}
+                        />
+                        <Grafico id={this.state.id}
+                                        nombre={this.state.nombre}
+                                        dominios={this.state.dominios}
+                                        competencias_genericas={this.state.competencias_genericas}
+                                        openGrafico = {this.state.openGrafico}
+                                        handleCloseGrafico = {this.handleCloseGrafico}
+                        />
+                            {/* <a href= "/pdf" target="_blank" download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a> */}
+                            <a href={`/pdf_descargar/${this.state.id}`} download className="btn btn-primary"><i className="fas fa-download fa-fw"></i> Descargar</a>
                     </div>
 
 

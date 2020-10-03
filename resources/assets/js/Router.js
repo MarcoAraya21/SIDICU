@@ -9,6 +9,7 @@ import PlanFinalizado from './component/plan_estudio/indexfinalizado'
 import AsignarPerfil from './pages/asignar_perfil'
 import Admin from './component/admin/index'
 import Listado from './pages/listado'
+import ListadoPlanes from './component/admin/listado'
 import Finalizados from './pages/finalizados'
 import CrearPlan from './pages/crear_plan/index'
 import EditarInfoBasica from './pages/editar_plan/index'
@@ -29,6 +30,7 @@ const Router = () => {
                     {/* <Route path='/ListAsignaturas' component={IndexAsignaturas} /> */}
                     <Route path='/AsignarPerfil' component={AsignarPerfil} />
                     <Route path='/Listado' component={Listado} />
+                    <Route path='/ListadoPlanes' component={ListadoPlanes} />
                     {/* <Route path='/NuevoPlan' component={CrearPlan} /> */}
                     <Route path='/CrearPlan' component={CrearPlan} />
                     <Route path='/EditarInfoBasica/:id' component={EditarInfoBasica} />

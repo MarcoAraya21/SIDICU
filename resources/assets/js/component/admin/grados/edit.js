@@ -55,7 +55,7 @@ export default function edit({ openGrado, handleCloseGrado, grado, handleInputAr
     const [grado2, setgrado2] = useState({
         id: grado.id,
         nombre: grado.nombre,
-        estado_id: grado.estado_id,
+        // estado_id: grado.estado_id,
         escuela_id: grado.escuela_id,
     });
     const [guardando, setguardando] =  useState(false);
@@ -131,7 +131,7 @@ export default function edit({ openGrado, handleCloseGrado, grado, handleInputAr
                                         </input>
                                     </div>
                                 </div>
-                                <div className="col row mb-2">
+                                {/* <div className="col row mb-2">
                                     <div className="col-4">
                                         <label>Estado</label>
                                         <select value={grado2.estado_id || ""}
@@ -142,7 +142,7 @@ export default function edit({ openGrado, handleCloseGrado, grado, handleInputAr
                                             <option value='4'>Aprobada</option>
                                         </select>
                                     </div>
-                                </div>
+                                </div> */}
                             </div>
                             <div align="right" className="mt-2 mb-1">
                             {

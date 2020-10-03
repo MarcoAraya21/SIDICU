@@ -27,7 +27,7 @@ Route::group(['middleware' => 'jwt.auth'], function () {
     Route::post('auth/change', 'UsuarioController@change');
     Route::get('auth/logout', 'UsuarioController@logout');
 
-    Route::get('plan_estudios/finalizado/{plan_id}', 'PlanEstudioController@finalizado');
+    Route::get('finalizado/{plan_id}', 'PlanEstudioController@finalizado');
     Route::get('finalizados', 'PlanEstudioController@finalizados');
     
 

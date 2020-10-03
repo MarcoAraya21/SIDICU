@@ -90,6 +90,9 @@ Route::group(['middleware' => 'jwt.auth'], function () {
         Route::get('/Listado', function () {
             return view('/pages/welcome');
         });
+        Route::get('/ListadoPlanes', function () {
+            return view('/pages/welcome');
+        });
         Route::get('/MisPlanes', function () {
             return view('/pages/welcome');
         });

@@ -70,6 +70,7 @@ class PlanEstudioController extends Controller
                     }])
                     ->with('niveles')
                     ->with('nivel_genericas')
+                    ->with('tipo_formacion')
                     ->findOrFail($id);
                 return $PlanEstudio->toJson();
             }

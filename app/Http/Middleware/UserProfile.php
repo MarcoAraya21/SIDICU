@@ -61,6 +61,14 @@ class UserProfile
                 }
 
             }
+            if($path == "ListadoPlanes")
+            {
+                if($perfil == 1)
+                {
+                    return $next($request);
+                }
+
+            }
             if($path == "MisPlanes" || preg_match($path_editar, $path))
             {
                 if($perfil == 1 || $perfil == 3 || $perfil == 4)
@@ -349,7 +357,7 @@ class UserProfile
             {
                 if($metodo == "GET")
                 {
-                    if($perfil == 1 || $perfil == 3)
+                    if($perfil == 1 || $perfil == 2 || $perfil == 3)
                     {
                         return $next($request);
                     }

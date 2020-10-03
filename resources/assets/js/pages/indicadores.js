@@ -140,7 +140,7 @@ class Index extends Component {
                                         {
                                             this.state.indicadores.sinGenericas.map( (plan, i) => 
                                                 <tr key={i}>
-                                                    <td>{i}</td>
+                                                    <td>{i+1}</td>
                                                     <td>{plan.id}</td>
                                                     <td>{plan.nombre}</td>
                                                     <td>{plan.asesor}</td>

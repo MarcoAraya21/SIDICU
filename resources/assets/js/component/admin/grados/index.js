@@ -117,7 +117,7 @@ export default class grados extends Component {
                     <tr>
                         <td>{i + 1}</td>
                         <td>{grado.nombre || 'No Asignado'}</td>
-                        <td>{grado.estado_id == 1 ? 'Pendiente' :  grado.estado_id == 4 ? 'Aprobada' : 'Indefinido'}</td>
+                        {/* <td>{grado.estado_id == 1 ? 'Pendiente' :  grado.estado_id == 4 ? 'Aprobada' : 'Indefinido'}</td> */}
                         <td>
                             <button type="button" className="btn btn-primary" onClick={() => { this.handleOpenGrado(grado.id) }}>
                                 <i className="fas fa-edit p-r-5" ></i>Editar
@@ -145,7 +145,7 @@ export default class grados extends Component {
                                 <tr>
                                     <th>#</th>
                                     <th>Nombre</th>
-                                    <th>Estado</th>
+                                    {/* <th>Estado</th> */}
                                     <th>Editar</th>
                                     <th>Eliminar</th>
                                 </tr>

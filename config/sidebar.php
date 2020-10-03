@@ -28,7 +28,7 @@ return [
 						'title' => 'Crear Plan'
 					],
 					[
-						'url' => '/Listado',
+						'url' => '/ListadoPlanes',
 						'title' => 'Listado'
 					],
 					[
