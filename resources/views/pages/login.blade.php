@@ -44,6 +44,10 @@
 							<div class="invalid-feedback" name="password"></div>
 						</div>
 					</div>
+					<div class="m-b-10">
+						<div class="g-recaptcha" data-sitekey="6Lfkn_QUAAAAAIyhFv4ikMacZ-BmycjqZETGTdUX"></div>
+						<div class="text-danger" name="captcha"></div>
+					</div>
 					<div class="login-buttons">
 						<button type="button" onClick="enviar();" value="submit" id="button-send" class="btn btn-success btn-block btn-lg">Iniciar Sesión</button>
 					</div>
