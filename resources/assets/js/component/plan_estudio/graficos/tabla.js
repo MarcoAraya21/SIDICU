@@ -139,6 +139,7 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
             <td>{logro.descripcion}</td>
           </tr>
           )}
+
           {dominio.competencias.length > 0 && dominio.competencias[0].nivel_competencias.slice(1,dominio.competencias[0].nivel_competencias.length).map((nivel,k) =>
           <React.Fragment key={k}>
           <tr>
@@ -162,9 +163,9 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
           )}
 
           {dominio.competencias.length > 0 && dominio.competencias.slice(1,dominio.competencias.length).map((competencia,l) =>
-          <React.Fragment>
-          <tr key={l}>
-            <td rowSpan={datos.length > 0 && datos[0].competencias.length && datos[0].competencias[l+1].casilla_logros || 1}>{datos.length > 0 && datos[0].competencias.length && datos[0].competencias[l+1].casilla_logros} {competencia.descripcion}</td>
+          <React.Fragment key={l}>
+          <tr>
+            <td rowSpan={datos.length > 0 && datos[i].competencias.length && datos[i].competencias[l+1] && datos[i].competencias[l+1].casilla_logros || 1}>{competencia.descripcion}</td>
             <td rowSpan={competencia.nivel_competencias[0].logro_aprendizajes.length || 1}>{competencia.nivel_competencias[0].descripcion}</td>
             <td>{competencia.nivel_competencias[0].logro_aprendizajes.length > 0 && competencia.nivel_competencias[0].logro_aprendizajes[0].descripcion}</td>
             <td rowSpan={competencia.nivel_competencias[0].logro_aprendizajes.length || 1}>
