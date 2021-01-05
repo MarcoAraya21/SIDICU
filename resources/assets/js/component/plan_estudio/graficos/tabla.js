@@ -61,10 +61,7 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
       setdatos(response.data);
         }            
     );
-
-    
-    
-}
+  }
 
   let aux = [];
   let aux2 = [];
@@ -90,7 +87,7 @@ export default function Tabla({ openTabla, handleCloseTabla, id, nombre, dominio
 
   return (
     <div>
-      <Dialog fullScreen open={openTabla} onClose={handleCloseTabla} TransitionComponent={Transition} onEnter={() => getdata(id)} disableEscapeKeyDown>
+      <Dialog fullScreen open={openTabla} onClose={handleCloseTabla} TransitionComponent={Transition} onEnter={() => getdata(id)} onExit={() => setdatos([])} disableEscapeKeyDown>
         <AppBar className={classes.appBar}>
           <Toolbar>
             <IconButton edge="start" color="inherit" onClick={handleCloseTabla} aria-label="close">

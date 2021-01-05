@@ -76,7 +76,7 @@ export default function Tabla({ openGrafico, handleCloseGrafico, id, nombre, dom
           </Toolbar>
         </AppBar>
         <DialogContent>
-          <div>
+          <div style={{display: 'flex'}}>
           <Tree
         lineWidth={"1px"}
         lineColor={"gray"}
@@ -87,23 +87,23 @@ export default function Tabla({ openGrafico, handleCloseGrafico, id, nombre, dom
        
        {dominios.map((dominio,i) =>
           <TreeNode key={i} label={<StyledNode><h6>Dominio {i+1}</h6>{dominio.nombre}</StyledNode>}>
-            {dominio.competencias.map((competencia,i) =>
-                <TreeNode key={i} label={<StyledNode><h6>Competencia {i+1}</h6>{competencia.descripcion}</StyledNode>}>
-                    {competencia.nivel_competencias.map((nivel_competencia,i) =>
-                        <TreeNode key={i} label={<StyledNode>
+            {dominio.competencias.map((competencia,j) =>
+                <TreeNode key={j} label={<StyledNode><h6>Competencia {j+1}</h6>{competencia.descripcion}</StyledNode>}>
+                    {competencia.nivel_competencias.map((nivel_competencia,k) =>
+                        <TreeNode key={k} label={<StyledNode>
                             <h6 data-toggle="collapse" className="pointer-cursor" data-target={`#nivel${nivel_competencia.id}`}>
-                              Nivel {i+1}
+                              Nivel {k+1}
                             </h6>
                             <p id={`nivel${nivel_competencia.id}`} className="collapse">
                               
                                 {nivel_competencia.descripcion}
                             </p>
                         </StyledNode>}>
-                            {nivel_competencia.logro_aprendizajes.map((logro_aprendizaje,i) =>
-                                <TreeNode key={i} label={<StyledNode>
+                            {nivel_competencia.logro_aprendizajes.map((logro_aprendizaje,l) =>
+                                <TreeNode key={l} label={<StyledNode>
                                 				
                                           <h6 data-toggle="collapse" className="pointer-cursor" data-target={`#logro${logro_aprendizaje.id}`}>
-                                            Logro de Aprendizaje {i+1}
+                                            Logro de Aprendizaje {l+1}
                                           </h6>
                                           <div id={`logro${logro_aprendizaje.id}`} className="collapse">
                                             
@@ -121,12 +121,12 @@ export default function Tabla({ openGrafico, handleCloseGrafico, id, nombre, dom
         </TreeNode>
     )}
         <TreeNode label={<StyledNode><h6>Dominio Generico</h6></StyledNode>}>
-          {competencias_genericas.map((generica,i) =>
-            <TreeNode key={i} label={<StyledNode><h6>Competencia Generica {i+1}</h6> {generica.descripcion}</StyledNode>}> 
-            {generica.nivel_competencias.map((nivel_competencia,i) =>
-              <TreeNode key={i} label={<StyledNode><h6>Nivel {i+1}</h6> {nivel_competencia.descripcion}</StyledNode>}>
-                  {nivel_competencia.logro_aprendizajes.map((logro_aprendizaje,i) =>
-                      <TreeNode key={i} label={<StyledNode><h6>Logro de aprendizaje {i+1}</h6> {logro_aprendizaje.descripcion}</StyledNode>}>
+          {competencias_genericas.map((generica,a) =>
+            <TreeNode key={a} label={<StyledNode><h6>Competencia Generica {a+1}</h6> {generica.descripcion}</StyledNode>}> 
+            {generica.nivel_competencias.map((nivel_competencia,b) =>
+              <TreeNode key={b} label={<StyledNode><h6>Nivel {b+1}</h6> {nivel_competencia.descripcion}</StyledNode>}>
+                  {nivel_competencia.logro_aprendizajes.map((logro_aprendizaje,c) =>
+                      <TreeNode key={c} label={<StyledNode><h6>Logro de aprendizaje {c+1}</h6> {logro_aprendizaje.descripcion}</StyledNode>}>
                       </TreeNode>
                   )}
               </TreeNode>
