@@ -31,6 +31,11 @@ Route::group(['middleware' => 'inversejwt.auth'], function () {
     
     Route::get('verificacion/{verification_code}', 'UsuarioController@verifyUser');
 
+    // SSO
+    Route::get('/sso', 'Auth\Portada_Sso@pre_login')->name('sso');
+    Route::get('/login-sso', 'Auth\Portada_Sso@login')->name('login-sso');
+    Route::post('/post-sso', 'Auth\Portada_Sso@post_login')->name('post-sso');
+
 });
 
 
