@@ -10,9 +10,9 @@ class Usuario extends Model implements AuthenticatableContract
 {
     use Authenticatable;
 
-    protected $fillable = ['nombre','apellido_paterno', 'apellido_materno', 'correo', 'rut', 'password', 'fec_nac', 'fono_fijo', 'fono_celular', 'validado',
+    protected $fillable = ['primer_nombre', 'segundo_nombre', 'apellido_paterno', 'apellido_materno', 'correo', 'rut', 'fec_nac', 'fono_fijo', 'fono_celular',
                             'perfil_id', 'carrera_id', 'estado_id'];
-    protected $hidden = ['fec_nac', 'password', 'remember_token', 'validado', 'perfil_id', 'estado_id', ];
+    protected $hidden = ['fec_nac', 'remember_token', 'perfil_id', 'estado_id', ];
     public function perfil()
     {
         return $this->belongsTo('App\Perfil');
@@ -29,11 +29,6 @@ class Usuario extends Model implements AuthenticatableContract
     public function plan_estudio_usuarios()
     {
         return $this->hasMany('App\PlanEstudioUsuario');
-    }
-
-    public function usuario_verificaciones()
-    {
-        return $this->hasMany('App\UsuarioVerificacion');
     }
 
     public function plan_estudios()

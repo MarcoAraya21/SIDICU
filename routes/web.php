@@ -28,7 +28,14 @@ Route::group(['middleware' => 'inversejwt.auth'], function () {
     Route::get('/', function () {
         return view('/pages/login');    
     });
-    
+    Route::get('/login2', function () {
+        return view('/pages/login2');    
+    });
+    Route::get('/login3', function () {
+        return view('/pages/login3');    
+    });
+    Route::post('pasaporteSinRegistro', 'Auth\LoginUtemController@pasaporteSinRegistro');
+
     Route::get('verificacion/{verification_code}', 'UsuarioController@verifyUser');
 
     // SSO
