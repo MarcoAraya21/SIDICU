@@ -1,0 +1,68 @@
+<head>
+    <script src="assets/plugins/jquery/jquery-3.2.1.min.js"></script>
+    <script src="https://sso.utem.cl/auth/js/keycloak.js"></script>
+</head>
+<main role="main" class="container">
+    <script>
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var keycloak = Keycloak(
+            {
+                "realm": "utem",
+                "url": "https://sso.utem.cl/auth",
+                "ssl-required": "external",
+                "clientId": "vtteClient",
+                "credentials": {
+                    "secret": "99763646-c509-44a9-b375-e1a5ac7b10f1"
+                },
+                "confidential-port": 0
+            }
+        );
+
+        function loadUserInfo() {
+            keycloak.loadUserInfo().success(function(userInfo) {
+            console.log(userInfo);
+            }).error(function() {
+            console.log('Failed to load user info');
+            });
+        }
+
+        var initOptions = {
+            responseMode: 'fragment',
+            flow: 'standard',
+            onLoad: 'login-required'
+        };
+        keycloak.init(initOptions).success(function(authenticated) {
+                $.ajax({
+                    data: {"token" : keycloak.token},
+                    type: "POST",
+                    dataType: "json",
+                    url: "/post-sso",
+                    credentials: 'include',
+                    success: function(textStatus, status){
+                       window.location = '/login-sso';
+                    },
+                    error: function(e){
+                        console.log(e);
+                        // window.location = '/usuario/portada/error';
+                    }
+                })
+        }).error(function(e) {
+            console.log('Init Error: '+e);
+        });
+    </script> 
+</main> 
